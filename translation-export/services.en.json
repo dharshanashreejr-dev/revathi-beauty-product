@@ -1,0 +1,100 @@
+{
+  "services": {
+    "aroma-massage": {
+      "name": "Signature Aromatherapy Massage",
+      "description": "Long, flowing strokes with a warm blend of essential oils to melt tension."
+    },
+    "deep-tissue": {
+      "name": "Deep Tissue Release",
+      "description": "Firm, focused work on knots and tight muscle groups for lasting relief."
+    },
+    "hot-stone": {
+      "name": "Hot Stone Therapy",
+      "description": "Heated basalt stones loosen the body from the inside out."
+    },
+    "four-hand": {
+      "name": "Four-Hand Harmony",
+      "description": "Two therapists, one rhythm. Deeply synchronised and unforgettable."
+    },
+    "neck-shoulder": {
+      "name": "Head, Neck & Shoulder Relief",
+      "description": "A quick reset for desk-bound shoulders and tired minds."
+    },
+    "rose-facial": {
+      "name": "Radiance Rose Facial",
+      "description": "Rose-infused cleansing, gentle exfoliation and a glow-boosting mask."
+    },
+    "clay-facial": {
+      "name": "Hydra Clay Mask Facial",
+      "description": "Purifying clay and deep hydration to calm and refine the skin."
+    },
+    "antiage-facial": {
+      "name": "Anti-Age Glow Facial",
+      "description": "Lifting massage with peptide serums for firmer, brighter skin."
+    },
+    "salt-scrub": {
+      "name": "Himalayan Salt Scrub",
+      "description": "Mineral-rich polish that leaves skin silky and renewed."
+    },
+    "abhyanga": {
+      "name": "Ayurvedic Abhyanga",
+      "description": "Warm herbal oil massage rooted in tradition, followed by steam."
+    },
+    "foot-soak": {
+      "name": "Petal Foot Soak & Massage",
+      "description": "A rose-petal soak, then reflexology to ground the whole body."
+    },
+    "mani-pedi": {
+      "name": "Manicure & Pedicure Ritual",
+      "description": "Shaping, soothing and polish, finished with a hand and foot massage."
+    },
+    "haircut": {
+      "name": "Haircut & Styling",
+      "description": "Consultation, precision cut, wash and blow-dry with a senior stylist."
+    },
+    "hair-colour": {
+      "name": "Global Hair Colour",
+      "description": "Ammonia-free colour with a gloss finish and bond-protecting care."
+    },
+    "keratin": {
+      "name": "Keratin Smoothening",
+      "description": "Frizz-free, glossy hair that lasts for months."
+    },
+    "bridal-makeup": {
+      "name": "Bridal Makeup",
+      "description": "Long-wear HD makeup with a trial look and hair styling."
+    },
+    "waxing": {
+      "name": "Waxing & Threading",
+      "description": "Gentle, hygienic hair removal using single-use strips."
+    },
+    "derm": {
+      "name": "Dermatology Consultation",
+      "description": "Skin and hair assessment with a clear treatment plan."
+    },
+    "acne": {
+      "name": "Acne Clinical Treatment",
+      "description": "Medical-grade peel and extraction supervised by our doctor."
+    },
+    "physio": {
+      "name": "Physiotherapy Session",
+      "description": "Posture, mobility and pain relief with guided exercises."
+    },
+    "checkup": {
+      "name": "Wellness Check-up",
+      "description": "Vitals, lifestyle review and personalised wellness advice."
+    },
+    "couples": {
+      "name": "Couple's Serenity",
+      "description": "Side-by-side massage, foot soak and tea in our private suite."
+    },
+    "full-day": {
+      "name": "Full Day Reset",
+      "description": "Massage, facial, scrub and lunch. A complete day of restoration."
+    },
+    "bridal": {
+      "name": "Bridal Glow Prep",
+      "description": "Facial, body polish and hand and foot care before the big day."
+    }
+  }
+}

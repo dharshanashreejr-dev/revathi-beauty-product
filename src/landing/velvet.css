@@ -1,0 +1,816 @@
+/* ───────────── THE VELVET TOUCH — additions layered on the existing design ─────────────
+   Everything below extends the original stylesheet (globals.css / refresh.css).
+   Nothing from the original layout, motion or palette is removed. */
+
+:root {
+  --serif: Editorial, "Cormorant Garamond", Georgia, serif;
+  --sans: Maison, "Jost", Arial, sans-serif;
+  --plum: #5a2f4e;
+  --plum-soft: #e9d6e6;
+}
+
+/* ── Brand lock-up: REVATHI HERBAL BEAUTY CARE ── */
+.brand-mark {
+  width: auto;
+  max-width: 100%;
+}
+.brand-word {
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  margin: 6px 0 0 0.12em;
+  white-space: nowrap;
+}
+.brand-sub {
+  font-size: 7px;
+  letter-spacing: 0.28em;
+}
+.header {
+  grid-template-columns: 1fr minmax(200px, 320px) 1fr;
+}
+.intro-inner .brand-word {
+  font-size: clamp(16px, 3.2vw, 36px);
+  letter-spacing: 0.14em;
+  margin: 18px 0 0 0.14em;
+  white-space: normal;
+  text-align: center;
+}
+.intro-inner .brand-sub {
+  font-size: 11px;
+  margin-top: 16px;
+}
+@media (max-width: 1300px) {
+  .header {
+    grid-template-columns: 1fr minmax(180px, 280px) 1fr;
+  }
+}
+@media (max-width: 799px) {
+  .header {
+    grid-template-columns: 1fr minmax(140px, 200px) 1fr;
+  }
+  .brand-word {
+    font-size: 9px;
+    letter-spacing: 0.08em;
+  }
+  .brand-sub {
+    font-size: 6px;
+  }
+}
+
+/* ── Hero: an automatic, cinematic image slideshow ── */
+.hero-slides {
+  position: relative;
+  overflow: hidden;
+  background: #3a2230;
+}
+.hero-slide {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  opacity: 0;
+  transform: scale(1.02);
+  transition:
+    opacity 1.7s ease,
+    transform 8s linear;
+}
+.hero-slide.is-active {
+  opacity: 1;
+  transform: scale(1.12);
+}
+.hero-shade {
+  background:
+    linear-gradient(90deg, #2a1020b5, #2a102058 46%, transparent 72%),
+    linear-gradient(0deg, #2a102088, transparent 46%),
+    linear-gradient(180deg, #2a102060, transparent 22%);
+}
+.hero-copy h1,
+.hero-copy p {
+  text-shadow: 0 2px 24px #1e0b1860;
+}
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+.pill.ghost {
+  background: #ffffff1a;
+  backdrop-filter: blur(8px);
+}
+.pill.ghost:hover {
+  background: var(--cream);
+  color: var(--ink);
+  border-color: var(--cream);
+}
+.hero-slider-ui {
+  position: absolute;
+  right: 4%;
+  bottom: 26px;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--cream);
+  text-shadow: none;
+}
+.hero-dots {
+  display: flex;
+  gap: 8px;
+}
+.hero-dots button {
+  width: 38px;
+  padding: 10px 0;
+}
+.hero-dots button span {
+  display: block;
+  position: relative;
+  overflow: hidden;
+  height: 2px;
+  background: #fdfcfb55;
+}
+.hero-dots button.is-active span::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--cream);
+  transform-origin: left;
+  animation: slideFill 5.6s linear both;
+}
+.hero-dots button.is-active span.is-paused::after {
+  animation-play-state: paused;
+}
+@keyframes slideFill {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+.hero-caption {
+  text-shadow: 0 1px 14px #1e0b1870;
+}
+@media (max-width: 799px) {
+  .hero-actions {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  .hero-slider-ui {
+    right: 50%;
+    transform: translateX(50%);
+    bottom: 64px;
+  }
+  .hero-slider-ui .icon-button {
+    display: none;
+  }
+  .hero-slide {
+    object-position: 50% center;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-slide {
+    transition: opacity 0.4s;
+    transform: none !important;
+  }
+}
+
+/* ── Vector product art in the existing card / modal / bag layouts ── */
+.scent-card > svg.card-art {
+  width: 100%;
+  height: 85%;
+  padding: 40px 28px 36px;
+  filter: drop-shadow(10px 18px 10px #4c220d4d);
+  transform: rotate(-9deg);
+  transition: transform 1s cubic-bezier(0.2, 0.65, 0.2, 1);
+}
+.bottle-card:hover > svg.card-art {
+  transform: rotate(0) scale(1.06);
+}
+.product-modal-picture > svg.product-modal-art {
+  position: relative;
+  width: 76%;
+  height: 80%;
+  max-height: 480px;
+  transform: rotate(-7deg);
+  filter: drop-shadow(16px 22px 14px #63331e33);
+}
+.bag-image svg {
+  width: 100%;
+  height: 180px;
+}
+.search-results .search-art {
+  flex: none !important;
+  width: 65px;
+  height: 80px;
+  display: grid;
+  place-items: center;
+  padding: 4px;
+  background: var(--peach);
+}
+.search-art svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* ── Shop: the boutique ── */
+.shop {
+  padding: 125px 6% 130px;
+  background: var(--cream);
+}
+.shop-heading,
+.rituals-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 45px;
+  margin-bottom: 48px;
+}
+.shop-heading .eyebrow,
+.rituals-heading .eyebrow {
+  display: block;
+  margin-bottom: 25px;
+}
+.shop h2,
+.rituals h2 {
+  font-size: clamp(38px, 4.4vw, 70px);
+  letter-spacing: -0.035em;
+  line-height: 1.02;
+  max-width: 640px;
+}
+.shop-side {
+  max-width: 340px;
+}
+.shop-side p,
+.rituals-heading > p {
+  font-size: 15px;
+  color: var(--muted);
+}
+.rituals-heading > p {
+  max-width: 340px;
+}
+.shop-ship {
+  display: inline-block;
+  margin-top: 16px;
+  font-size: 11px;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--amber);
+}
+.shop-filters,
+.salon-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.shop-filters {
+  margin-bottom: 38px;
+}
+.shop-filters button,
+.salon-tabs button {
+  border: 1px solid #422c2030;
+  border-radius: 100px;
+  padding: 11px 20px;
+  font-size: 13px;
+  transition:
+    background 0.3s,
+    color 0.3s,
+    border-color 0.3s;
+}
+.shop-filters button:hover,
+.salon-tabs button:hover {
+  border-color: var(--ink);
+}
+.shop-filters button.is-active,
+.salon-tabs button.is-active {
+  background: var(--ink);
+  color: var(--cream);
+  border-color: var(--ink);
+}
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 44px 22px;
+}
+.product-card {
+  display: flex;
+  flex-direction: column;
+}
+.product-picture {
+  position: relative;
+  aspect-ratio: 4 / 4.7;
+  border-radius: 10px;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(160deg, #ffffff, #f4f1ee 60%, #e9e2dc);
+  transition: box-shadow 0.4s;
+}
+.product-card:nth-child(3n + 2) .product-picture {
+  background: linear-gradient(160deg, #f8d9cf, #eab49f 60%, #d99a86);
+}
+.product-card:nth-child(3n) .product-picture {
+  background: linear-gradient(160deg, #f1e4f0, #dcc3da 60%, #b995b6);
+}
+.product-picture:hover {
+  box-shadow: 0 30px 60px -25px #4a25124d;
+}
+.product-art {
+  width: 62%;
+  height: 82%;
+  filter: drop-shadow(8px 14px 10px #743b252b);
+  transition: transform 1s cubic-bezier(0.2, 0.65, 0.2, 1);
+}
+.product-picture:hover .product-art {
+  transform: scale(1.07) rotate(-3deg);
+}
+.product-badge {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  z-index: 2;
+  padding: 7px 12px;
+  border-radius: 100px;
+  background: #fdfcfbdb;
+  font-size: 11px;
+  line-height: 1;
+}
+.product-card-info {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px 2px 0;
+}
+.product-card-info h3 {
+  font-size: 27px;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+.product-card-info span {
+  display: block;
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 7px;
+}
+.product-card-info strong {
+  font-weight: 400;
+  font-size: 16px;
+  white-space: nowrap;
+  padding-top: 6px;
+}
+.product-add {
+  margin-top: 16px;
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid currentColor;
+  font-size: 14px;
+  transition: gap 0.3s;
+}
+.product-add:hover {
+  gap: 24px;
+}
+
+/* ── Rituals: luxury in daily use ── */
+.rituals {
+  padding: 125px 6% 140px;
+  background: #f4f1ee;
+}
+.ritual-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  align-items: start;
+}
+.ritual-card {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-height: 560px;
+  padding: 26px 24px 28px;
+  border-radius: 10px;
+}
+.ritual-0 {
+  background: linear-gradient(160deg, #ffffff, #f4f1ee 60%, #e5dcd4);
+}
+.ritual-1 {
+  margin-top: 50px;
+  background: linear-gradient(160deg, #f8d9cf, #eab49f 55%, #b8705a);
+}
+.ritual-2 {
+  background: linear-gradient(160deg, #a77fa4, #7a4b72 50%, #4a2540);
+  color: var(--cream);
+}
+.ritual-3 {
+  margin-top: 50px;
+  background: linear-gradient(160deg, #dc925d, #bf6a3d 55%, #7a3f22);
+  color: var(--cream);
+}
+.ritual-when {
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.ritual-card h3 {
+  font-size: 34px;
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+}
+.ritual-card p {
+  font-size: 14px;
+  line-height: 1.5;
+  opacity: 0.88;
+}
+.ritual-items {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  height: 210px;
+  margin: 6px 0;
+}
+.ritual-items button {
+  width: 34%;
+  height: 100%;
+  transition: transform 0.5s;
+}
+.ritual-items button:hover {
+  transform: translateY(-8px);
+}
+.ritual-items svg {
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(5px 9px 6px #4c220d40);
+}
+.ritual-card small {
+  font-size: 11px;
+  line-height: 1.5;
+  opacity: 0.82;
+}
+.ritual-card .pill {
+  margin-top: auto;
+  align-self: stretch;
+}
+.ritual-2 .pill.dark .pill-dot,
+.ritual-3 .pill.dark .pill-dot {
+  border-color: #fdfcfb55;
+}
+.ritual-2 .pill.dark:hover,
+.ritual-3 .pill.dark:hover {
+  background: var(--cream);
+  color: var(--ink);
+}
+
+/* ── Salon: treatments and appointment booking ── */
+.salon {
+  display: grid;
+  grid-template-columns: 1fr 1.15fr;
+  gap: 7%;
+  align-items: start;
+  padding: 125px 6% 130px;
+  background: var(--cream);
+}
+.salon-copy .eyebrow {
+  display: block;
+  margin-bottom: 25px;
+}
+.salon h2 {
+  font-size: clamp(44px, 5.2vw, 86px);
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+.salon-copy > p {
+  font-size: 17px;
+  max-width: 430px;
+  margin: 30px 0 24px;
+}
+.salon-perks {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 22px;
+  display: grid;
+  gap: 10px;
+  font-size: 14px;
+}
+.salon-perks li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.salon-hours {
+  display: block;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 28px;
+}
+.salon-photo {
+  margin-top: 46px;
+  border-radius: 10px;
+  overflow: hidden;
+  aspect-ratio: 16 / 10;
+}
+.salon-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.salon-tabs {
+  padding-bottom: 18px;
+  border-bottom: 1px solid #422c2030;
+}
+.salon-intro {
+  font-family: var(--serif);
+  font-size: 27px;
+  line-height: 1.2;
+  margin: 28px 0 6px;
+  animation: noteIn 0.5s both;
+}
+.service-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  animation: noteIn 0.5s both;
+}
+.service-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 30px;
+  padding: 24px 0;
+  border-bottom: 1px solid #422c2025;
+}
+.service-row h3 {
+  font-size: 28px;
+  letter-spacing: -0.02em;
+}
+.service-row p {
+  font-size: 14px;
+  color: var(--muted);
+  margin: 8px 0 6px;
+  max-width: 380px;
+}
+.service-row small {
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--amber);
+}
+.service-end {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 12px;
+  flex-shrink: 0;
+}
+.service-end strong {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: 23px;
+}
+.service-book {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid var(--ink);
+  border-radius: 100px;
+  padding: 9px 16px;
+  font-size: 13px;
+  transition:
+    background 0.3s,
+    color 0.3s;
+}
+.service-book:hover {
+  background: var(--ink);
+  color: var(--cream);
+}
+
+/* ── Booking, checkout and bag extras ── */
+.modal.modal-wide {
+  width: min(1080px, 94vw);
+}
+.booking-panel {
+  padding: 64px 60px 56px;
+}
+.booking-grid {
+  display: grid;
+  grid-template-columns: 0.9fr 1.1fr;
+  gap: 56px;
+}
+.booking-intro h2,
+.booking-done h2 {
+  font-size: clamp(36px, 3.6vw, 56px);
+  line-height: 1.02;
+  letter-spacing: -0.03em;
+  margin: 18px 0 16px;
+}
+.booking-intro > p,
+.booking-done > p {
+  font-size: 15px;
+  color: var(--muted);
+  margin-bottom: 26px;
+}
+.booking-form,
+.form-stack {
+  display: grid;
+  gap: 20px;
+}
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.field input,
+.field select {
+  width: 100%;
+  padding: 10px 0;
+  border: 0;
+  border-bottom: 1px solid #422c2040;
+  border-radius: 0;
+  background: transparent;
+  outline: none;
+  font-size: 16px;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--ink);
+}
+.field input:focus,
+.field select:focus {
+  border-color: var(--ink);
+}
+.field-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+.slot-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+}
+.slot-grid button {
+  padding: 10px 0;
+  border: 1px solid #422c2030;
+  border-radius: 6px;
+  font-size: 13px;
+  letter-spacing: 0;
+  transition:
+    background 0.25s,
+    color 0.25s;
+}
+.slot-grid button.is-active {
+  background: var(--ink);
+  color: var(--cream);
+  border-color: var(--ink);
+}
+.slot-grid button.is-taken {
+  text-decoration: line-through;
+}
+.form-error {
+  font-size: 13px;
+  color: #9a3324;
+}
+.booking-summary {
+  margin: 26px 0;
+  border-top: 1px solid #422c2025;
+}
+.booking-summary > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 14px 0;
+  border-bottom: 1px solid #422c2025;
+  font-size: 14px;
+}
+.booking-summary dt {
+  color: var(--muted);
+}
+.booking-summary dd {
+  margin: 0;
+  text-align: right;
+}
+.booking-done {
+  max-width: 560px;
+}
+.booking-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 24px;
+}
+.bag-item + .bag-item {
+  border-top: 0;
+}
+.bag-totals {
+  margin: 26px 0 0;
+}
+.bag-totals > div {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  font-size: 14px;
+}
+.bag-totals dt,
+.bag-totals dd {
+  margin: 0;
+}
+.bag-totals .bag-total {
+  margin-top: 6px;
+  padding-top: 14px;
+  border-top: 1px solid #422c2025;
+  font-family: var(--serif);
+  font-size: 24px;
+}
+.bag-save {
+  display: inline-flex;
+  margin-top: 22px;
+}
+.order-copy {
+  margin: 18px 0 0;
+  color: var(--muted);
+}
+.checkout-panel .form-stack {
+  margin-top: 26px;
+}
+.product-modal-copy .product-price {
+  font-family: var(--serif);
+  font-size: 30px;
+  margin: -4px 0 6px;
+}
+
+/* ── Responsive ── */
+@media (max-width: 1050px) {
+  .product-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .ritual-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .ritual-1,
+  .ritual-3 {
+    margin-top: 0;
+  }
+  .salon {
+    grid-template-columns: 1fr;
+    gap: 60px;
+  }
+}
+@media (max-width: 799px) {
+  .shop,
+  .rituals,
+  .salon {
+    padding: 90px 6% 90px;
+  }
+  .shop-heading,
+  .rituals-heading {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 22px;
+  }
+  .product-grid {
+    gap: 30px 14px;
+  }
+  .product-card-info {
+    flex-direction: column;
+    gap: 6px;
+  }
+  .product-card-info h3 {
+    font-size: 20px;
+  }
+  .ritual-grid {
+    grid-template-columns: 1fr;
+  }
+  .ritual-card {
+    min-height: 0;
+  }
+  .service-row {
+    flex-direction: column;
+    gap: 14px;
+  }
+  .service-end {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .booking-panel {
+    padding: 64px 22px 32px;
+  }
+  .booking-grid {
+    grid-template-columns: 1fr;
+    gap: 34px;
+  }
+  .slot-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+@media (max-width: 440px) {
+  .field-row {
+    grid-template-columns: 1fr;
+  }
+}

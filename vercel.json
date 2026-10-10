@@ -1,0 +1,32 @@
+{
+  "rewrites": [
+    {
+      "source": "/services",
+      "destination": "/site/index.html"
+    },
+    {
+      "source": "/booking",
+      "destination": "/site/index.html"
+    },
+    {
+      "source": "/success",
+      "destination": "/site/index.html"
+    },
+    {
+      "source": "/about",
+      "destination": "/site/index.html"
+    },
+    {
+      "source": "/track",
+      "destination": "/site/index.html"
+    },
+    {
+      "source": "/account",
+      "destination": "/site/index.html"
+    },
+    {
+      "source": "/manager",
+      "destination": "/site/index.html"
+    }
+  ]
+}

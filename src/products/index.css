@@ -1,0 +1,74 @@
+@config "./tailwind.config.js";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html { scroll-behavior: smooth; }
+body { @apply bg-white font-sans text-ink antialiased; }
+
+.btn-primary {
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.btn-primary::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(120deg, transparent 0%, rgba(0, 0, 0, 0.05) 50%, transparent 100%);
+  transform: translateX(-100%);
+  transition: transform 0.5s ease;
+}
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+.btn-primary:hover::before { transform: translateX(100%); }
+.btn-primary:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.preserve-3d { transform-style: preserve-3d; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
+
+.gold-text { background: linear-gradient(100deg,#8a6a2f,#e6c98a 40%,#b8975a 60%,#8a6a2f); background-size: 200% auto; -webkit-background-clip: text; background-clip: text; color: transparent; animation: shimmer 6s linear infinite; }
+@keyframes shimmer { to { background-position: 200% center; } }
+@keyframes marquee { to { transform: translateX(-50%); } }
+.marquee { animation: marquee 30s linear infinite; }
+@keyframes draw { to { stroke-dashoffset: 0; } }
+.draw { stroke-dasharray: 100; stroke-dashoffset: 100; animation: draw .9s .3s ease forwards; }
+@keyframes spark { 0% { transform: translateY(0) scale(0); opacity: 0; } 20% { opacity: 1; } 100% { transform: translateY(-120px) scale(1); opacity: 0; } }
+.spark { position: absolute; width: 6px; height: 6px; background: #d9b774; border-radius: 50%; animation: spark 3s ease-out infinite; }
+.field { width: 100%; height: 3.25rem; border-bottom: 1px solid #d6d3d1; background: transparent; padding: 0 .25rem; outline: none; transition: border-color .3s; }
+.field:focus { border-color: #b8975a; }
+.field.err { border-color: #be123c; }
+.gold-btn { background: linear-gradient(120deg,#8a6a2f,#c9a76a,#8a6a2f); color: #14110f; }
+
+/* Category hero vertical labels — fixed medium size across all languages */
+.cat-hero-label {
+  font-size: 1.75rem; /* ~28px — medium, matches English visual weight */
+  line-height: 1.15;
+  letter-spacing: 0.04em;
+  max-height: 70%;
+  overflow: hidden;
+}
+html:lang(ta) .cat-hero-label,
+html:lang(hi) .cat-hero-label,
+html:lang(ml) .cat-hero-label,
+html:lang(te) .cat-hero-label {
+  font-size: 1.5rem; /* slightly smaller for Indic glyphs */
+  letter-spacing: 0;
+  line-height: 1.25;
+}
+
+/* Global Indic scale for products page */
+html:lang(ta),
+html:lang(hi),
+html:lang(ml),
+html:lang(te) {
+  font-size: 14.5px;
+}

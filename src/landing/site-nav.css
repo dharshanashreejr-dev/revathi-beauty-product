@@ -1,0 +1,90 @@
+/* Links to the other pages of the site (Products, Services, About, Tracking, Admin). */
+.header nav a { white-space: nowrap; }
+.nav-admin {
+  display: inline-flex;
+  align-items: center;
+  padding: 9px 18px;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  transition: background 0.3s, color 0.3s;
+}
+.nav-admin:hover { background: var(--cream); color: var(--ink); text-shadow: none; }
+.mobile-panel nav a {
+  text-align: left;
+  font-family: var(--serif);
+  font-size: 40px;
+  padding: 0;
+}
+@media (max-width: 799px) {
+  .nav-tools .nav-admin { display: none; }
+}
+@media (max-width: 1300px) {
+  .nav-admin { padding: 8px 14px; }
+}
+footer nav a { cursor: pointer; }
+.lang-select select option {
+  color: #1a1210;
+  background: #fff;
+}
+
+/* Indic scripts: wide tracking breaks the letter shapes and 7px is too small to read */
+html:not([lang="en"]) .brand-sub { letter-spacing: 0.08em; margin-left: 0.08em; }
+html:not([lang="en"]) .header-brand .brand-sub { font-size: 9px; }
+@media (max-width: 900px) { html:not([lang="en"]) .header-brand .brand-sub { font-size: 8px; } }
+
+
+/* navbar overflow + Indic size match */
+.header nav { letter-spacing: 0.06em; }
+.nav-tools { z-index: 5; }
+html:not([lang="en"]) .header nav {
+  gap: 18px;
+  font-size: 11px;
+  letter-spacing: 0;
+}
+html:not([lang="en"]) .nav-left { padding-right: 20px; }
+html:not([lang="en"]) .nav-right { padding-left: 20px; }
+.lang-select select {
+  max-width: 110px;
+  font-size: 10px !important;
+  letter-spacing: 0.04em !important;
+  padding: 0.35rem 0.55rem !important;
+}
+@media (max-width: 1200px) {
+  html:not([lang="en"]) .header nav { gap: 12px; font-size: 10px; }
+}
+
+
+/* nav-right padding reserve — Tracking must not touch language select */
+.nav-right {
+  padding-right: 300px !important;
+  gap: 20px !important;
+}
+.nav-tools {
+  z-index: 8 !important;
+  gap: 12px !important;
+}
+.lang-select {
+  margin-left: 8px;
+}
+.lang-select select {
+  max-width: 100px !important;
+  font-size: 10px !important;
+  letter-spacing: 0.02em !important;
+  padding: 0.35rem 0.5rem !important;
+}
+html:not([lang="en"]) .header nav a {
+  letter-spacing: 0;
+  font-size: 11px;
+}
+html:not([lang="en"]) .nav-right {
+  padding-right: 310px !important;
+  gap: 14px !important;
+}
+@media (max-width: 1200px) {
+  .nav-right { padding-right: 260px !important; }
+  html:not([lang="en"]) .nav-right { padding-right: 270px !important; }
+}

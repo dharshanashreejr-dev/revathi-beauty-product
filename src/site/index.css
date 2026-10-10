@@ -1,0 +1,44 @@
+@config "./tailwind.config.js";
+@tailwind base; @tailwind components; @tailwind utilities;
+html { scroll-behavior: smooth; }
+body { @apply bg-sand text-ink font-sans antialiased overflow-x-hidden; }
+.h { font-family: 'Outfit', sans-serif; text-transform: uppercase; letter-spacing: -0.045em; line-height: .95; font-weight: 400; }
+.label { font-size: .62rem; letter-spacing: .07em; text-transform: uppercase; font-weight: 600; }
+.no-scrollbar::-webkit-scrollbar { display: none; } .no-scrollbar { scrollbar-width: none; }
+@keyframes slideIn { from { opacity: 0; transform: translateX(48px); } to { opacity: 1; transform: none; } }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+@keyframes tick { from { transform: scale(0); } to { transform: scale(1); } }
+.slide-in { animation: slideIn .8s cubic-bezier(.2,.7,.2,1) both; }
+.fade-up { animation: fadeUp .6s cubic-bezier(.2,.7,.2,1) both; }
+
+@keyframes marquee { to { transform: translateX(-50%); } }
+
+/* ---------- Velvet Touch: 3D + motion helpers ---------- */
+.marquee { animation: marquee 34s linear infinite; }
+@keyframes kenburns { from { transform: scale(1.04) translate3d(0,0,0); } to { transform: scale(1.2) translate3d(-2%,-2%,0); } }
+.kenburns { animation: kenburns 22s ease-in-out infinite alternate; }
+@keyframes floaty { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
+.floaty { animation: floaty 6s ease-in-out infinite; }
+@keyframes pulseDot { 0% { box-shadow: 0 0 0 0 rgba(201,169,106,.7); } 100% { box-shadow: 0 0 0 16px rgba(201,169,106,0); } }
+.pulse-dot { animation: pulseDot 1.8s ease-out infinite; }
+@keyframes sheen { from { background-position: -200% 0; } to { background-position: 200% 0; } }
+.gold-text { background: linear-gradient(100deg,#8c6d35 10%,#f3dfa8 35%,#c9a96a 50%,#f3dfa8 65%,#8c6d35 90%); background-size: 200% 100%; -webkit-background-clip: text; background-clip: text; color: transparent; animation: sheen 6s linear infinite; }
+@keyframes popIn { from { opacity: 0; transform: translateY(24px) scale(.96); } to { opacity: 1; transform: none; } }
+.pop-in { animation: popIn .5s cubic-bezier(.2,.7,.2,1) both; }
+.flip { perspective: 1200px; }
+.flip-inner { transform-style: preserve-3d; transition: transform .9s cubic-bezier(.2,.7,.2,1); }
+.flip:hover .flip-inner, .flip.on .flip-inner { transform: rotateY(180deg); }
+.flip-face { position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+.flip-back { transform: rotateY(180deg); }
+.glass { background: rgba(21,25,21,.55); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border: 1px solid rgba(246,245,241,.14); }
+@media (prefers-reduced-motion: reduce) { .kenburns, .floaty, .marquee, .gold-text, .pulse-dot { animation: none; } }
+
+
+/* Services hero — Indic lines are longer; keep fully visible */
+html:not([lang="en"]) .svc-hero-title {
+  font-size: clamp(1.35rem, 2.6vw, 2.4rem) !important;
+  line-height: 1.25 !important;
+  letter-spacing: 0 !important;
+  max-width: 90vw;
+  padding-right: 1rem;
+}
