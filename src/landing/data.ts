@@ -1038,3 +1038,123 @@ const VARIANT_PHOTO: Record<string, string> = {
 
 export const productPhoto = (id: string) =>
   VARIANT_PHOTO[id] ?? `/assets/products/${id}.webp`;
+
+/** One selectable colour / shade of a product. `img` is the product photo shown
+ *  in the modal when the swatch is picked; `hex` is the swatch circle colour. */
+export type Shade = { key: string; name: string; hex: string; img: string; sub?: L };
+
+const V = "/assets/products/variants/";
+const S = "/assets/products/shades/";
+const P = "/assets/products/";
+
+/** The first shade of every product is its default photo. The swatches in the product
+ *  modal read from this list, so adding a shade here adds a swatch automatically. */
+export const SHADES: Record<string, Shade[]> = {
+  eclat: [
+    { key: "rose", name: "Rose", hex: "#ef9a9a", img: V + "serum-rose.png" },
+    { key: "aloe", name: "Aloe Vera", hex: "#9fd68c", img: V + "serum-aloe.png" },
+    { key: "orange", name: "Orange", hex: "#f2c230", img: V + "serum-orange.png" },
+  ],
+  lipstick: [
+    { key: "plum", name: "Plum Rose", hex: "#8e4a5a", img: V + "lipstick-nude.png" },
+    {
+      key: "berry",
+      name: "Berry Red",
+      hex: "#a81c3c",
+      img: S + "lipstick-berry.webp",
+      sub: {
+        en: "Shade · Berry Red",
+        ta: "நிழல் · பெர்ரி ரெட்",
+        hi: "शेड · बेरी रेड",
+        ml: "ഷേഡ് · ബെറി റെഡ്",
+        te: "షేడ్ · బెర్రీ రెడ్",
+      },
+    },
+    {
+      key: "coral",
+      name: "Coral",
+      hex: "#cd6958",
+      img: S + "lipstick-coral.webp",
+      sub: {
+        en: "Shade · Coral",
+        ta: "நிழல் · கோரல்",
+        hi: "शेड · कोरल",
+        ml: "ഷേഡ് · കോറൽ",
+        te: "షేడ్ · కోరల్",
+      },
+    },
+    {
+      key: "nude",
+      name: "Soft Nude",
+      hex: "#c48c78",
+      img: S + "lipstick-nude.webp",
+      sub: {
+        en: "Shade · Soft Nude",
+        ta: "நிழல் · சாஃப்ட் நியூட்",
+        hi: "शेड · सॉफ्ट न्यूड",
+        ml: "ഷേഡ് · സോഫ്റ്റ് ന്യൂഡ്",
+        te: "షేడ్ · సాఫ్ట్ న్యూడ్",
+      },
+    },
+  ],
+  "night-cream": [
+    { key: "nourishing", name: "Nourishing", hex: "#f1dcae", img: V + "cream-nourishing.png" },
+    { key: "hydrating", name: "Hydrating", hex: "#bfe0f5", img: V + "cream-hydrating.png" },
+    { key: "brightening", name: "Brightening", hex: "#f6c6d6", img: V + "cream-brightening.png" },
+  ],
+  "skin-tint": [
+    { key: "peach", name: "Peach", hex: "#f08a7a", img: V + "blush-peach.png" },
+    { key: "pink", name: "Pink", hex: "#d9657f", img: V + "blush-pink.png" },
+    { key: "mauve", name: "Mauve", hex: "#b4607a", img: V + "blush-mauve.png" },
+  ],
+  highlighter: [
+    { key: "pink", name: "Pink", hex: "#d9657f", img: V + "blush-pink.png" },
+    { key: "peach", name: "Peach", hex: "#f08a7a", img: V + "blush-peach.png" },
+    { key: "mauve", name: "Mauve", hex: "#b4607a", img: V + "blush-mauve.png" },
+  ],
+  "rose-mist": [
+    { key: "classic", name: "Classic White", hex: "#eef4f2", img: P + "rose-mist.webp" },
+    { key: "blush", name: "Blush", hex: "#ecb0ba", img: S + "rose-mist-blush.webp" },
+    { key: "sage", name: "Sage", hex: "#b0cea8", img: S + "rose-mist-sage.webp" },
+    { key: "sky", name: "Sky", hex: "#b0caea", img: S + "rose-mist-sky.webp" },
+  ],
+  "body-butter": [
+    { key: "amber", name: "Amber", hex: "#a8651e", img: P + "body-butter.webp" },
+    { key: "green", name: "Forest Green", hex: "#46704a", img: S + "body-butter-green.webp" },
+    { key: "rose", name: "Rose", hex: "#96465a", img: S + "body-butter-rose.webp" },
+    { key: "blue", name: "Midnight Blue", hex: "#3c5a8c", img: S + "body-butter-blue.webp" },
+  ],
+  "cleansing-oil": [
+    { key: "gold", name: "Golden", hex: "#e6d27a", img: P + "cleansing-oil.webp" },
+    { key: "rose", name: "Rose", hex: "#eeaab2", img: S + "cleansing-oil-rose.webp" },
+    { key: "green", name: "Mint", hex: "#aad7a0", img: S + "cleansing-oil-green.webp" },
+    { key: "blue", name: "Sky", hex: "#a5c8eb", img: S + "cleansing-oil-blue.webp" },
+  ],
+  "sandal-oil": [
+    { key: "amber", name: "Amber", hex: "#a8651e", img: P + "sandal-oil.webp" },
+    { key: "green", name: "Forest Green", hex: "#46704a", img: S + "sandal-oil-green.webp" },
+    { key: "rose", name: "Rose", hex: "#96465a", img: S + "sandal-oil-rose.webp" },
+    { key: "blue", name: "Midnight Blue", hex: "#3c5a8c", img: S + "sandal-oil-blue.webp" },
+  ],
+  "hair-oil": [
+    { key: "green", name: "Avocado", hex: "#a2b94a", img: P + "hair-oil.webp" },
+    { key: "rose", name: "Rose", hex: "#d96f94", img: S + "hair-oil-rose.webp" },
+    { key: "lilac", name: "Lilac", hex: "#b79ad6", img: S + "hair-oil-lilac.webp" },
+    { key: "periwinkle", name: "Periwinkle", hex: "#8d9fd6", img: S + "hair-oil-periwinkle.webp" },
+  ],
+  perfume: [
+    { key: "amber", name: "Amber", hex: "#e8946a", img: P + "perfume.webp" },
+    { key: "rose", name: "Rose", hex: "#e8969f", img: S + "perfume-rose.webp" },
+    { key: "jade", name: "Jade", hex: "#78be96", img: S + "perfume-jade.webp" },
+    { key: "violet", name: "Violet", hex: "#aa8cd2", img: S + "perfume-violet.webp" },
+  ],
+  "herbal-shampoo": [
+    { key: "white", name: "Pearl White", hex: "#f2f2f0", img: P + "herbal-shampoo.webp" },
+    { key: "blush", name: "Blush", hex: "#ecb0ba", img: S + "herbal-shampoo-blush.webp" },
+    { key: "sage", name: "Sage", hex: "#b0cea8", img: S + "herbal-shampoo-sage.webp" },
+    { key: "lilac", name: "Lilac", hex: "#c8b4e2", img: S + "herbal-shampoo-lilac.webp" },
+  ],
+};
+
+/** Photo for a product in a given shade (index into SHADES[id]); falls back to the default photo. */
+export const shadePhoto = (id: string, shade = 0) => SHADES[id]?.[shade]?.img ?? productPhoto(id);

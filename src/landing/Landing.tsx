@@ -30,6 +30,7 @@ import {
   allServices,
   slots,
   rupees,
+  SHADES,
   type Cat,
   LANG_LABELS,
   LANG_LOCALES,
@@ -224,7 +225,7 @@ export default function Home() {
     [toast, setToast] = useState(""),
     [ready, setReady] = useState(false),
     [sticky, setSticky] = useState(false),
-    [mood, setMood] = useState(0),
+    [shade, setShade] = useState(0),
     [notesPaused, setNotesPaused] = useState(false),
     [notesTouched, setNotesTouched] = useState(false);
   const root = useRef<HTMLDivElement>(null),
@@ -584,6 +585,7 @@ export default function Home() {
   }
   function openProduct(id: string) {
     setProductId(id);
+    setShade(0);
     setPanel("product");
   }
   function openBooking(serviceId = "") {
@@ -1507,7 +1509,7 @@ export default function Home() {
             <div className="product-modal">
               <div
                 className="product-modal-picture"
-                style={{ background: moods[mood].bg }}
+                style={{ background: moods[1].bg }}
                 data-cursor="Zoom"
                 onPointerMove={(e) => {
                   const r = e.currentTarget.getBoundingClientRect();
@@ -1518,24 +1520,28 @@ export default function Home() {
                 onPointerLeave={(e) => e.currentTarget.classList.remove("is-zoomed")}
               >
                 <span className="product-modal-word">{product.name[lang].split(" ")[0]}</span>
-                <ProductPhoto id={product.id} className="product-modal-art" alt={product.name[lang]} />
-                <div className="modal-moods" onClick={(e) => e.stopPropagation()}>
-                  {moods.map((m, i) => (
-                    <button
-                      key={m.key}
-                      aria-label={t.moods[i]}
-                      aria-pressed={mood === i}
-                      className={mood === i ? "is-active" : ""}
-                      style={{ background: m.bg }}
-                      onClick={() => setMood(i)}
-                    />
-                  ))}
-                </div>
+                <ProductPhoto id={product.id} shade={shade} className="product-modal-art" alt={product.name[lang]} />
+                {(SHADES[product.id]?.length ?? 0) > 1 && (
+                  <div className="modal-moods" role="radiogroup" aria-label="Colour" onClick={(e) => e.stopPropagation()}>
+                    {SHADES[product.id].map((sh, i) => (
+                      <button
+                        key={sh.key}
+                        role="radio"
+                        aria-checked={shade === i}
+                        aria-label={sh.name}
+                        title={sh.name}
+                        className={shade === i ? "is-active" : ""}
+                        style={{ background: sh.hex }}
+                        onClick={() => setShade(i)}
+                      />
+                    ))}
+                  </div>
+                )}
               </div>
               <div className="product-modal-copy">
                 <span className="eyebrow">{catLabel(product.cat)}</span>
                 <h2>{product.name[lang]}</h2>
-                <p className="product-scent">{product.sub[lang]}</p>
+                <p className="product-scent">{SHADES[product.id]?.[shade]?.sub?.[lang] ?? product.sub[lang]}</p>
                 <p>{product.copy[lang]}</p>
                 <p className="product-price">{rupees(product.price)}</p>
                 <div className="size-option">

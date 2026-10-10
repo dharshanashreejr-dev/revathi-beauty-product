@@ -1,7 +1,7 @@
 import { Fragment, useEffect, useRef, useState } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import { ArrowLeft, ArrowRight, Plus } from "lucide-react";
-import { products, allServices, productPhoto, rupees, BRAND, type Lang } from "./data";
+import { products, allServices, shadePhoto, rupees, BRAND, type Lang } from "./data";
 import { img, photos, type Photo } from "./photos";
 import { st } from "./i18n-sections";
 import { showcaseT } from "./showcase-i18n";
@@ -13,14 +13,17 @@ const svc = (id: string) => allServices.find((s) => s.id === id)!;
 /* ───────── shared helpers ───────── */
 
 /** Real product photo from /public/assets/products/<id>.webp, with a graceful fallback. */
-export function ProductPhoto({ id, className, alt, lang = "en" }: { id: string; className?: string; alt?: string; lang?: Lang }) {
+export function ProductPhoto({ id, className, alt, lang = "en", shade = 0 }: { id: string; className?: string; alt?: string; lang?: Lang; shade?: number }) {
   const p = byId(id);
   const [failed, setFailed] = useState(false);
   const ref = useRef<HTMLImageElement>(null);
   useEffect(() => {
+    setFailed(false);
+  }, [id, shade]);
+  useEffect(() => {
     const el = ref.current;
     if (el && el.complete && el.naturalWidth === 0) setFailed(true);
-  }, []);
+  }, [id, shade]);
   const label = alt ?? p.name[lang];
   if (failed)
     return (
@@ -36,7 +39,7 @@ export function ProductPhoto({ id, className, alt, lang = "en" }: { id: string; 
     <img
       ref={ref}
       className={className}
-      src={productPhoto(id)}
+      src={shadePhoto(id, shade)}
       alt={label}
       loading="lazy"
       decoding="async"
