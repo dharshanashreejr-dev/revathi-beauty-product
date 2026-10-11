@@ -7,7 +7,6 @@ import {
   Plus,
   Minus,
   Check,
-  MoveDown,
   ArrowLeft,
   ArrowRight,
 } from "lucide-react";
@@ -18,6 +17,8 @@ import { img, photos } from "./photos";
 import { SITE } from "../site-links";
 import { content } from "./content";
 import { st } from "./i18n-sections";
+import { heroSlides, heroTicker } from "./hero-slides";
+import { addOrder } from "../site/account";
 import { NAV_LABELS } from "../shared/i18n-nav";
 import { applyHomeMeta } from "../shared/i18n-meta";
 import { ProductPhoto, HerbalShowcase, VideoBand, NineDays, SpaOfferings, RecommendedPicks, NewArrivals } from "./sections";
@@ -48,13 +49,6 @@ type Panel =
   | "order"
   | null;
 type Language = "en" | "ta" | "hi" | "ml" | "te";
-const heroSlides = [
-  "/assets/hero-1.webp",
-  "/assets/hero-2.webp",
-  "/assets/hero-3.webp",
-  "/assets/hero-4.webp",
-];
-const heroAltKeys = ["heroAlt1", "heroAlt2", "heroAlt3", "heroAlt4"] as const;
 const FREE_SHIP = 1999;
 const SHIP_FEE = 99;
 const byId = (id: string) => products.find((p) => p.id === id)!;
@@ -323,38 +317,6 @@ export default function Home() {
     const tick = (time: number) => smooth.raf(time * 1000);
     gsap.ticker.add(tick);
     const ctx = gsap.context(() => {
-      gsap.to(".hero-photo", {
-        yPercent: 15,
-        scale: 1.13,
-        ease: "none",
-        scrollTrigger: {
-          trigger: ".hero",
-          start: "top top",
-          end: "bottom top",
-          scrub: 1.2,
-        },
-      });
-      gsap.to(".hero-copy", {
-        y: -110,
-        opacity: 0,
-        ease: "none",
-        scrollTrigger: {
-          trigger: ".hero",
-          start: "15% top",
-          end: "85% top",
-          scrub: 0.6,
-        },
-      });
-      gsap.to(".hero-wordmark", {
-        yPercent: -28,
-        ease: "none",
-        scrollTrigger: {
-          trigger: ".hero",
-          start: "top top",
-          end: "bottom top",
-          scrub: 0.8,
-        },
-      });
       gsap.fromTo(
         ".statement-word",
         { opacity: 0.2 },
@@ -588,11 +550,9 @@ export default function Home() {
     setShade(0);
     setPanel("product");
   }
-  function openBooking(serviceId = "") {
-    setBooked(null);
-    setBookError("");
-    setBooking((b) => ({ ...b, service: serviceId || b.service }));
-    setPanel("booking");
+  // Every "Book" button opens the appointment booking page of the site (it feeds the Tracking page).
+  function openBooking(_serviceId = "") {
+    window.location.href = SITE.booking;
   }
   function bookBundle(serviceId: string, productId: string) {
     update((c) => ({ ...c, [productId]: Math.min(10, (c[productId] || 0) + 1) }));
@@ -691,6 +651,18 @@ export default function Home() {
       localStorage.setItem(
         "velvet-orders",
         JSON.stringify([...(Array.isArray(prev) ? prev : []), { id, total, lines: summary, at: Date.now() }]),
+      );
+    } catch {}
+    try {
+      addOrder(
+        lines.map((l) => ({
+          pid: l.p.id,
+          name: l.p.name.en,
+          img: "facial",
+          qty: l.qty,
+          price: l.p.price,
+          size: l.p.size,
+        })),
       );
     } catch {}
     setOrder({ id, total, lines: summary });
@@ -862,116 +834,78 @@ export default function Home() {
         </div>
       </header>
       <main id="main">
-        <section id="top" className="hero" aria-labelledby="hero-title">
+        <section id="top" className="hb" aria-roledescription="carousel" aria-label="REVATHI HERBAL BEAUTY CARE">
           <div
-            className="hero-scene"
-            onPointerMove={(e) => {
-              if (
-                e.pointerType === "mouse" &&
-                !matchMedia("(prefers-reduced-motion: reduce)").matches
-              ) {
-                const rect = e.currentTarget.getBoundingClientRect();
-                gsap.to(e.currentTarget, {
-                  x: (e.clientX / rect.width - 0.5) * -9,
-                  y: (e.clientY / rect.height - 0.5) * -5,
-                  duration: 1.6,
-                });
-              }
-            }}
-            onPointerLeave={(e) =>
-              gsap.to(e.currentTarget, { x: 0, y: 0, duration: 1.6 })
-            }
+            className="hb-stage"
+            onPointerEnter={() => setSlidePaused(true)}
+            onPointerLeave={() => setSlidePaused(false)}
           >
-            <div
-              className="hero-photo hero-slides"
-              role="group"
-              aria-roledescription="carousel"
-              onPointerEnter={() => setSlidePaused(true)}
-              onPointerLeave={() => setSlidePaused(false)}
-            >
-              {heroSlides.map((src, i) => (
-                <img
-                  key={src}
-                  className={`hero-slide ${slide === i ? "is-active" : ""}`}
-                  src={src}
-                  alt={st(heroAltKeys[i], lang)}
-                  aria-hidden={slide !== i}
-                  width="1024"
-                  height="559"
-                  {...(i === 0 ? { fetchpriority: "high" } : { loading: "lazy" as const })}
-                />
+            {heroSlides.map((sl, i) => {
+              const active = slide === i;
+              const runAction = () => {
+                if (sl.action === "book") return openBooking();
+                setFilter(sl.action === "shop-makeup" ? "makeup" : "all");
+                go("#shop");
+              };
+              return (
+                <div
+                  key={sl.id}
+                  data-id={sl.id}
+                  className={`hb-slide ${active ? "is-active" : ""}`}
+                  style={{ "--hb-tone": sl.tone } as React.CSSProperties}
+                  role="group"
+                  aria-roledescription="slide"
+                  aria-label={`${i + 1} / ${heroSlides.length}`}
+                  aria-hidden={!active}
+                >
+                  <div className="hb-copy">
+                    <span className="hb-eyebrow">{sl.eyebrow[lang]}</span>
+                    {i === 0 ? <h1 id="hero-title">{sl.title[lang]}</h1> : <h2>{sl.title[lang]}</h2>}
+                    <p>{sl.copy[lang]}</p>
+                    <div className="hb-actions">
+                      <button className="hb-btn" tabIndex={active ? 0 : -1} onClick={runAction}>
+                        {sl.cta[lang]}
+                      </button>
+                      {sl.action !== "book" && (
+                        <button className="hb-btn ghost" tabIndex={active ? 0 : -1} onClick={() => openBooking()}>
+                          {t.heroBook}
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                  <figure className="hb-media" style={{ "--hb-img": `url(${sl.image})` } as React.CSSProperties}>
+                    <img
+                      src={sl.image}
+                      alt={sl.alt[lang]}
+                      width={sl.width}
+                      height={sl.height}
+                      {...(i === 0 ? { fetchpriority: "high" } : { loading: "lazy" as const })}
+                    />
+                  </figure>
+                </div>
+              );
+            })}
+          </div>
+          <div className="hb-ticker" aria-hidden="true">
+            <div className="hb-ticker-track">
+              {[0, 1].map((k) => (
+                <div className="hb-ticker-row" key={k}>
+                  {[...heroTicker.map((x) => x[lang]), BRAND].map((x) => (
+                    <span key={x + k}>{x}</span>
+                  ))}
+                </div>
               ))}
             </div>
           </div>
-          <div className="hero-shade" />
-          <div className="hero-copy">
-            <h1 id="hero-title">
-              <span className="rise-mask">
-                <span className="rise" style={{ "--d": "0.35s" } as React.CSSProperties}>
-                  {t.heroOne}
-                </span>
-              </span>
-              <strong className="rise-mask">
-                <span className="rise" style={{ "--d": "0.6s" } as React.CSSProperties}>
-                  {t.heroTwo}
-                </span>
-              </strong>
-            </h1>
-            <span className="rise-mask">
-              <p className="rise" style={{ "--d": "0.95s" } as React.CSSProperties}>
-                {t.heroCopy}
-              </p>
-            </span>
-            <div className="hero-actions">
-              <a
-                className="pill light hero-pill"
-                onPointerMove={magnet}
-                onPointerLeave={unmagnet}
-                href="#shop"
-                onClick={(e) => {
-                  e.preventDefault();
-                  go("#shop");
-                }}
-              >
-                {t.explore}
-                <span className="pill-dot">
-                  <Plus size={20} />
-                </span>
-              </a>
-              <button
-                className="pill ghost hero-pill hero-pill-2"
-                onPointerMove={magnet}
-                onPointerLeave={unmagnet}
-                onClick={() => openBooking()}
-              >
-                {t.heroBook}
-                <span className="pill-dot">
-                  <Plus size={20} />
-                </span>
-              </button>
-            </div>
-          </div>
-          <div className="hero-caption">
-            <span>{t.slides[slide].tag.toUpperCase()}</span>
-            <span>{t.slides[slide].line}</span>
-          </div>
-          <span className="hero-wordmark" aria-hidden="true">
-  <span>REVATHI HERBAL!</span>
-  <span>{st("heroTagline", lang)}</span>
-</span>
-          <button className="scroll-cue" onClick={() => go("#notes")}>
-            <span>{t.scroll}</span>
-            <MoveDown size={15} />
-          </button>
-          <div className="hero-slider-ui">
+          <div className="hb-controls">
             <button
-              className="icon-button"
+              className="hb-arrow"
               aria-label={t.slidePrev}
               onClick={() => setSlide((n) => (n + heroSlides.length - 1) % heroSlides.length)}
             >
-              <ArrowLeft size={18} />
+              <ArrowLeft size={16} />
             </button>
-            <div className="hero-dots">
+            <div className="hb-dots">
               {heroSlides.map((_, i) => (
                 <button
                   key={i}
@@ -985,11 +919,11 @@ export default function Home() {
               ))}
             </div>
             <button
-              className="icon-button"
+              className="hb-arrow"
               aria-label={t.slideNext}
               onClick={() => setSlide((n) => (n + 1) % heroSlides.length)}
             >
-              <ArrowRight size={18} />
+              <ArrowRight size={16} />
             </button>
           </div>
         </section>
@@ -1002,12 +936,13 @@ export default function Home() {
               playsInline
               autoPlay
               preload="metadata"
+              poster="/assets/video/herbal-film.jpg"
             >
-              <source src="/assets/video/makeup-studio.mp4" type="video/mp4" />
+              <source src="/assets/video/herbal-film.mp4" type="video/mp4" />
             </video>
             <div className="collection-hero-shade" />
             <div className="collection-hero-copy">
-              <span className="eyebrow">01 / {t.label}</span>
+              <span className="eyebrow">{t.label}</span>
               <h2 className="statement">
                 {t.statement.split(" ").map((word, i) => (
                   <span className="statement-word" key={i}>
@@ -1061,7 +996,7 @@ export default function Home() {
         <section className="shop" id="shop">
           <div className="shop-heading">
             <div>
-              <span className="eyebrow">03 / {t.shopLabel}</span>
+              <span className="eyebrow">{t.shopLabel}</span>
               <h2>
                 <Lines text={t.shopTitle} />
               </h2>
@@ -1190,7 +1125,7 @@ export default function Home() {
         <section className="rituals" id="rituals">
           <div className="rituals-heading">
             <div>
-              <span className="eyebrow">04 / {t.ritualsLabel}</span>
+              <span className="eyebrow">{t.ritualsLabel}</span>
               <h2>
                 <Lines text={t.ritualsTitle} />
               </h2>
@@ -1246,7 +1181,7 @@ export default function Home() {
             </video>
             <div className="salon-banner-shade" />
             <div className="salon-banner-copy">
-              <span className="eyebrow">05 / {t.salonLabel}</span>
+              <span className="eyebrow">{t.salonLabel}</span>
               <strong>{st("salonBanner", lang)}</strong>
             </div>
           </div>
@@ -1319,74 +1254,29 @@ export default function Home() {
         </section>
         <SpaOfferings onBook={(id) => openBooking(id)} lang={lang} />
         <RecommendedPicks onBundle={bookBundle} lang={lang} />
-        <NewArrivals onOpen={openProduct} onAdd={(id) => addMany([id])} onJournal={() => go("#journal")} lang={lang} />
-        <section className="journal" id="journal">
-          <div className="journal-heading">
-            <span className="eyebrow">08 / {t.journalLabel}</span>
-            <h2>{t.journalTitle}</h2>
-          </div>
-          <div className="journal-grid">
-            {[0, 1].map((i) => (
-              <button
-                key={i}
-                className="journal-card"
-                data-cursor={t.read2}
-                onClick={() => {
-                  setArticle(i);
-                  setPanel("journal");
-                }}
-              >
-                <div className={`journal-picture ${i === 1 ? "second" : ""}`}>
-                  <img
-                    {...img(i === 0 ? photos.journalOne : photos.journalTwo, "(max-width: 799px) 100vw, 50vw")}
-                    width="1600"
-                    height="2400"
-                    loading="lazy"
-                  />
-                  <span className="journal-circle">
-                    <Plus size={24} />
-                  </span>
-                </div>
-                <div className="journal-card-info">
-                  <span className="eyebrow">
-                    0{i + 1} /{" "}
-                    {i === 0
-                      ? ({ en: "Inspiration", ta: "உத்வேகம்", hi: "प्रेरणा", ml: "പ്രചോദനം", te: "ప్రేరణ" } as const)[lang]
-                      : ({ en: "Rituals", ta: "சடங்குகள்", hi: "रिचुअल", ml: "റിച്വലുകൾ", te: "రిచువల్స్" } as const)[lang]}
-                  </span>
-                  <h3>{i === 0 ? t.articleOne : t.articleTwo}</h3>
-                  <span className="text-link">{t.read}</span>
-                </div>
-              </button>
-            ))}
-          </div>
-        </section>
+        <NewArrivals onOpen={openProduct} onAdd={(id) => addMany([id])} onJournal={() => go("#shop")} lang={lang} />
         <section className="closing">
-          <img
-            className="closing-image"
-            {...img(photos.closing)}
-            width="2400"
-            height="3600"
-            loading="lazy"
-          />
-          <div className="closing-shade" />
-          <div className="closing-content">
-            <span className="eyebrow">{BRAND}</span>
-            <h2>
-              {t.closing.split("\n").map((line, i) => (
-                <span key={i}>{line}</span>
-              ))}
-            </h2>
-            <button
-              className="pill light"
-              onPointerMove={magnet}
-              onPointerLeave={unmagnet}
-              onClick={() => openBooking()}
-            >
+          <div className="closing-banner">
+            <img
+              className="closing-image"
+              src="/assets/hero/spa.webp"
+              alt=""
+              width="1024"
+              height="559"
+              loading="lazy"
+            />
+            <div className="closing-shade" />
+            <div className="closing-content">
+              <span className="eyebrow">{BRAND}</span>
+              <h2>
+                {t.closing.split("\n").map((line, i) => (
+                  <span key={i}>{line}</span>
+                ))}
+              </h2>
+            </div>
+            <button className="closing-cta" onClick={() => openBooking()}>
               {t.closingCta}
-              <span className="pill-dot">
-                <Plus size={20} />
-              </span>
+              <ArrowRight size={18} />
             </button>
           </div>
         </section>
@@ -1896,16 +1786,17 @@ export default function Home() {
           {panel === "journal" && (
             <article className="article-panel">
               <img
-                {...img(article === 0 ? photos.journalOne : photos.journalTwo, "(max-width: 799px) 100vw, 900px")}
-                width="1600"
-                height="2400"
+                src={article === 0 ? "/assets/hero/products.webp" : "/assets/hero/spa.webp"}
+                alt={article === 0 ? t.articleOne : t.articleTwo}
+                width="1024"
+                height="559"
               />
               <span className="eyebrow">{t.journalLabel}</span>
               <h2>{article === 0 ? t.articleOne : t.articleTwo}</h2>
               {(({
                 en: article === 0
-                  ? ["There is a moment just before the sun slips away when the world seems to soften. Skin looks warmer. Colour looks richer. Everything feels a little closer.", "That is the glow we chase at REVATHI HERBAL BEAUTY CARE: a drop of Éclat serum, a touch of golden highlighter on the cheekbones, and a velvet lip. Simple steps, done slowly.", "Some days pass. Others glow."]
-                  : ["A salon day is a pause. Begin with a facial while the day is still quiet, move on to your hair, and finish with makeup if there is an evening ahead.", "Tell us what you need and we will plan the order of your treatments so nothing feels rushed. Your consultation is on us.", "Come as you are. Leave as your most polished self."],
+                  ? ["Healthy skin starts with a simple routine: cleanse gently, moisturise daily and protect your skin from the sun.", "Herbal ingredients such as neem, aloe vera, turmeric and sandalwood have been used for generations to soothe and nourish the skin. Choose products that suit your skin type, and patch-test anything new.", "Consistency matters more than quantity."]
+                  : ["A herbal spa visit is a calm break in your day. We begin with a consultation so our therapist can understand your skin and hair needs.", "Treatments use herbal oils, packs and products from our own range, planned in an order that never feels rushed.", "Arrive relaxed. Leave refreshed."],
                 ta: article === 0
                   ? ["சூரியன் மறையும் முன் உலகம் மென்மையாகும் ஒரு தருணம் உண்டு. தோல் சூடாகத் தெரியும். நிறம் செறிவாகத் தெரியும்.", "REVATHI HERBAL BEAUTY CARE-இல் நாங்கள் தேடும் பிரகாசம் இதுதான்: எக்லாட் சீரம் துளி, கன்ன எலும்புகளில் தங்க ஹைலைட்டர், வெல்வெட் உதடு. எளிய படிகள், மெதுவாக.", "சில நாட்கள் கடந்து செல்லும். மற்றவை பிரகாசிக்கும்."]
                   : ["சலூன் நாள் ஒரு இடைவேளை. நாள் அமைதியாக இருக்கும்போது ஃபேஷியலுடன் தொடங்கி, முடிக்குச் சென்று, மாலை இருந்தால் மேக்கப்புடன் முடிக்கவும்.", "உங்களுக்குத் தேவையானதைச் சொல்லுங்கள் — சிகிச்சைகளின் வரிசையைத் திட்டமிடுவோம். ஆலோசனை இலவசம்.", "நீங்கள் இருப்பது போல வாருங்கள். மிகவும் பளபளப்பான உங்களாகச் செல்லுங்கள்."],

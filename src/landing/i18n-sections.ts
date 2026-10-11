@@ -19,13 +19,13 @@ const d = {
   slideOf: { en: "of", ta: "/", hi: "में से", ml: "/", te: "/" },
   chooseProduct: { en: "Choose product", ta: "பொருளைத் தேர்வு செய்", hi: "प्रोडक्ट चुनें", ml: "ഉൽപ്പന്നം തിരഞ്ഞെടുക്കുക", te: "ఉత్పత్తిని ఎంచుకోండి" },
   herbalEdit: { en: "The herbal edit", ta: "மூலிகைத் தேர்வு", hi: "हर्बल एडिट", ml: "ഹെർബൽ എഡിറ്റ്", te: "హెర్బల్ ఎడిట్" },
-  offers: { en: "Offers worth a swipe.", ta: "ஸ்வைப் செய்யத் தகுந்த சலுகைகள்.", hi: "स्वाइप करने लायक ऑफ़र।", ml: "സ്വൈപ്പ് ചെയ്യാൻ യോഗ്യമായ ഓഫറുകൾ.", te: "స్వైప్ చేయదగిన ఆఫర్లు." },
+  offers: { en: "Current offers.", ta: "ஸ்வைப் செய்யத் தகுந்த சலுகைகள்.", hi: "स्वाइप करने लायक ऑफ़र।", ml: "സ്വൈപ്പ് ചെയ്യാൻ യോഗ്യമായ ഓഫറുകൾ.", te: "స్వైప్ చేయదగిన ఆఫర్లు." },
   offersLabel: { en: "Offers", ta: "சலுகைகள்", hi: "ऑफ़र", ml: "ഓഫറുകൾ", te: "ఆఫర్లు" },
   shopNow: { en: "Shop Now", ta: "இப்போது வாங்கு", hi: "अभी खरीदें", ml: "ഇപ്പോൾ വാങ്ങൂ", te: "ఇప్పుడే కొనండి" },
 
   // VideoBand
-  filmEyebrow: { en: "The film", ta: "திரைப்படம்", hi: "फ़िल्म", ml: "ഫിലിം", te: "ఫిల్మ్" },
-  filmTitle: { en: "Watch the ritual unfold.", ta: "சடங்கு விரிவதைப் பாருங்கள்.", hi: "रिचुअल को खिलते देखें।", ml: "റിച്വൽ വിരിയുന്നത് കാണൂ.", te: "రిచువల్ విప్పారడం చూడండి." },
+  filmEyebrow: { en: "Brand Video", ta: "திரைப்படம்", hi: "फ़िल्म", ml: "ഫിലിം", te: "ఫిల్మ్" },
+  filmTitle: { en: "Our services in action.", ta: "எங்கள் சேவைகள் செயலில்.", hi: "हमारी सेवाएँ, काम करते हुए।", ml: "ഞങ്ങളുടെ സേവനങ്ങൾ പ്രവർത്തനത്തിൽ.", te: "మా సేవలు ఆచరణలో." },
   filmPara: {
     en: "A few quiet minutes inside REVATHI HERBAL BEAUTY CARE. From the first herbal oil to the final glow.",
     ta: "REVATHI HERBAL BEAUTY CARE-க்குள் சில அமைதியான நிமிடங்கள். முதல் மூலிகை எண்ணெயிலிருந்து இறுதிப் பொலிவு வரை.",
@@ -55,7 +55,7 @@ const d = {
 
   // NineDays
   nineTitle: {
-    en: "9 Shades of you, In our signature products and SPA",
+    en: "Nine festive looks",
     ta: "உங்கள் 9 நிழல்கள் — எங்கள் சிக்னேச்சர் பொருட்கள் & ஸ்பா",
     hi: "आपके 9 शेड्स — हमारे सिग्नेचर प्रोडक्ट्स और स्पा में",
     ml: "നിങ്ങളുടെ 9 ഷേഡുകൾ — ഞങ്ങളുടെ സിഗ്നേച്ചർ ഉൽപ്പന്നങ്ങളും സ്പായും",
@@ -87,8 +87,8 @@ const d = {
   homeAria: { en: "home", ta: "முகப்புப் பக்கம்", hi: "होम", ml: "ഹോം", te: "హోమ్" },
 
   // SpaOfferings
-  spaEyebrow: { en: "05 / The spa", ta: "05 / ஸ்பா", hi: "05 / स्पा", ml: "05 / സ്പാ", te: "05 / స్పా" },
-  spaTitle: { en: "Slow, herbal, restorative.", ta: "நிதானமான, மூலிகை, புத்துணர்ச்சி.", hi: "धीमा, हर्बल, ताज़गी भरा।", ml: "സാവധാനം, ഹെർബൽ, പുനരുജ്ജീവനം.", te: "నెమ్మదిగా, హెర్బల్, పునరుజ్జీవనం." },
+  spaEyebrow: { en: "Spa Treatments", ta: "ஸ்பா", hi: "स्पा", ml: "സ്പാ", te: "స్పా" },
+  spaTitle: { en: "Herbal spa treatments.", ta: "நிதானமான, மூலிகை, புத்துணர்ச்சி.", hi: "धीमा, हर्बल, ताज़गी भरा।", ml: "സാവധാനം, ഹെർബൽ, പുനരുജ്ജീവനം.", te: "నెమ్మదిగా, హెర్బల్, పునరుజ్జీవనం." },
   spaPara: {
     en: "Every spa treatment uses warm herbal oils and is finished with a product from our collection. Scroll or swipe through each ritual and reserve your time.",
     ta: "ஒவ்வொரு ஸ்பா சிகிச்சையிலும் வெதுவெதுப்பான மூலிகை எண்ணெய்கள் பயன்படுத்தப்பட்டு, எங்கள் தொகுப்பிலிருந்து ஒரு பொருளுடன் நிறைவு செய்யப்படும். ஒவ்வொரு சடங்கையும் ஸ்க்ரோல் அல்லது ஸ்வைப் செய்து பார்த்து, உங்கள் நேரத்தைப் பதிவு செய்யுங்கள்.",
@@ -109,8 +109,8 @@ const d = {
   heroAlt4: { en: "Wellness rituals on marble: a journal, bath salts, balms and a gold compact above the mountains", ta: "பளிங்குக் கல்லின் மீது ஆரோக்கிய சடங்குப் பொருட்கள்: ஜர்னல், பாத் சால்ட், தைலங்கள், தங்க காம்பாக்ட்; பின்னணியில் மலைகள்", hi: "संगमरमर पर वेलनेस रिचुअल का सामान: जर्नल, बाथ सॉल्ट, बाम और सुनहरा कॉम्पैक्ट, ऊपर पहाड़", ml: "മാർബിളിൽ വെൽനെസ് റിച്വൽ ഉൽപ്പന്നങ്ങൾ: ജേർണൽ, ബാത്ത് സാൾട്ട്, ബാമുകൾ, സ്വർണ്ണ കോംപാക്റ്റ്; മുകളിൽ മലനിരകൾ", te: "పాలరాతిపై వెల్నెస్ రిచువల్ వస్తువులు: జర్నల్, బాత్ సాల్ట్స్, బామ్‌లు, బంగారు కాంపాక్ట్; పైన పర్వతాలు" },
 
   // RecommendedPicks
-  picksEyebrow: { en: "06 / Our recommended picks", ta: "06 / எங்கள் பரிந்துரைகள்", hi: "06 / हमारी अनुशंसित पसंद", ml: "06 / ഞങ്ങളുടെ ശുപാർശകൾ", te: "06 / మా సిఫార్సులు" },
-  picksTitle: { en: "Treat yourself, then take it home.", ta: "உங்களை உபசரியுங்கள், பிறகு வீட்டுக்கு எடுத்துச் செல்லுங்கள்.", hi: "खुद को सँवारें, फिर उसे घर ले जाएँ।", ml: "സ്വയം ലാളിക്കൂ, എന്നിട്ട് വീട്ടിലേക്ക് കൊണ്ടുപോകൂ.", te: "మిమ్మల్ని మీరు ముద్దు చేసుకోండి, తర్వాత ఇంటికి తీసుకెళ్ళండి." },
+  picksEyebrow: { en: "Service + Product Combos", ta: "எங்கள் பரிந்துரைகள்", hi: "हमारी अनुशंसित पसंद", ml: "ഞങ്ങളുടെ ശുപാർശകൾ", te: "మా సిఫార్సులు" },
+  picksTitle: { en: "Book a service, take the product home.", ta: "உங்களை உபசரியுங்கள், பிறகு வீட்டுக்கு எடுத்துச் செல்லுங்கள்.", hi: "खुद को सँवारें, फिर उसे घर ले जाएँ।", ml: "സ്വയം ലാളിക്കൂ, എന്നിട്ട് വീട്ടിലേക്ക് കൊണ്ടുപോകൂ.", te: "మిమ్మల్ని మీరు ముద్దు చేసుకోండి, తర్వాత ఇంటికి తీసుకెళ్ళండి." },
   picksPara: {
     en: "Pair a spa or salon service with the herbal product we use in it. Book together and save 10%.",
     ta: "ஸ்பா அல்லது சலூன் சேவையுடன், அதில் நாங்கள் பயன்படுத்தும் மூலிகைப் பொருளையும் இணைக்கவும். சேர்த்துப் பதிவு செய்தால் 10% சேமிக்கலாம்.",
@@ -123,8 +123,8 @@ const d = {
   bookAndAdd: { en: "Book & add to bag", ta: "பதிவு செய்து பையில் சேர்", hi: "बुक करें और बैग में डालें", ml: "ബുക്ക് ചെയ്ത് ബാഗിൽ ചേർക്കൂ", te: "బుక్ చేసి బ్యాగ్‌లో చేర్చండి" },
 
   // NewArrivals
-  arrivalsEyebrow: { en: "07 / The world of", ta: "07 / உலகம்:", hi: "07 / दुनिया:", ml: "07 / ലോകം:", te: "07 / ప్రపంచం:" },
-  arrivalsTitle: { en: "Beauty that stays with you.", ta: "உங்களுடன் தங்கும் அழகு.", hi: "सुंदरता जो आपके साथ रहे।", ml: "നിങ്ങളോടൊപ്പം നിൽക്കുന്ന സൗന്ദര്യം.", te: "మీతో నిలిచే అందం." },
+  arrivalsEyebrow: { en: "New arrivals at", ta: "உலகம்:", hi: "दुनिया:", ml: "ലോകം:", te: "ప్రపంచం:" },
+  arrivalsTitle: { en: "Fresh from our herbal range.", ta: "உங்களுடன் தங்கும் அழகு.", hi: "सुंदरता जो आपके साथ रहे।", ml: "നിങ്ങളോടൊപ്പം നിൽക്കുന്ന സൗന്ദര്യം.", te: "మీతో నిలిచే అందం." },
   arrivalsLine: {
     en: "Latest herbal arrivals you’ll want to own.",
     ta: "நீங்கள் சொந்தமாக்க விரும்பும் புதிய மூலிகை வரவுகள்.",

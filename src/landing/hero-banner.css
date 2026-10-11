@@ -1,0 +1,350 @@
+/* ── Hero banner: flat colour panel, copy on the left, image as a small card on the right ── */
+.hb {
+  position: relative;
+  padding: 106px 0 0;
+  background: var(--cream);
+  --hb-pad: max(6vw, calc((100vw - 1240px) / 2 + 24px));
+}
+.hb-stage {
+  display: grid;
+}
+.hb-slide {
+  grid-area: 1 / 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  align-items: stretch;
+  gap: 0;
+  min-height: 640px;
+  background: var(--hb-tone, #f4ebe5);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.7s ease, visibility 0.7s;
+}
+.hb-slide.is-active {
+  opacity: 1;
+  visibility: visible;
+}
+.hb-copy {
+  align-self: center;
+  padding: 56px 48px 96px var(--hb-pad);
+}
+.hb-eyebrow {
+  display: block;
+  margin-bottom: 14px;
+  font-size: 11px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--amber);
+}
+.hb-copy h1,
+.hb-copy h2 {
+  margin: 0 0 14px;
+  font-family: var(--serif);
+  font-size: clamp(32px, 3.6vw, 52px);
+  font-weight: 500;
+  line-height: 1.08;
+  color: var(--ink);
+  text-shadow: none;
+}
+.hb-copy p {
+  max-width: 440px;
+  margin: 0 0 28px;
+  font-size: 15px;
+  line-height: 1.65;
+  color: var(--muted);
+  text-shadow: none;
+}
+.hb-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.hb-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 13px 26px;
+  border-radius: 999px;
+  border: 1px solid var(--ink);
+  background: var(--ink);
+  color: var(--cream);
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.3s, color 0.3s;
+}
+.hb-btn:hover {
+  background: transparent;
+  color: var(--ink);
+}
+.hb-btn.ghost {
+  background: transparent;
+  color: var(--ink);
+}
+.hb-btn.ghost:hover {
+  background: var(--ink);
+  color: var(--cream);
+}
+/* The image is a component: the right half of the banner, no frame, no border. */
+.hb-media {
+  position: relative;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background: none;
+  border-radius: 0;
+  box-shadow: none;
+}
+.hb-media img {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 0;
+}
+.hb-controls {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  position: absolute;
+  left: var(--hb-pad);
+  bottom: 32px;
+  justify-content: flex-start;
+  color: var(--ink);
+}
+.hb-arrow {
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border: 1px solid #422c2040;
+  border-radius: 50%;
+  background: #fff;
+  cursor: pointer;
+  transition: background 0.3s, color 0.3s;
+}
+.hb-arrow:hover {
+  background: var(--ink);
+  color: var(--cream);
+}
+.hb-dots {
+  display: flex;
+  gap: 6px;
+}
+.hb-dots button {
+  width: 30px;
+  padding: 10px 0;
+  cursor: pointer;
+}
+.hb-dots button span {
+  display: block;
+  height: 2px;
+  background: #422c2033;
+  position: relative;
+  overflow: hidden;
+}
+.hb-dots button.is-active span::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--ink);
+  transform-origin: left;
+  animation: hb-fill 5.6s linear forwards;
+}
+.hb-dots button.is-active span.is-paused::after {
+  animation-play-state: paused;
+}
+@keyframes hb-fill {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+/* The header sits on a light panel now, so it uses dark ink until it turns solid on scroll. */
+.header:not(.is-scrolled) {
+  color: var(--ink);
+  text-shadow: none;
+}
+.header:not(.is-scrolled) .nav-admin:hover {
+  background: var(--ink);
+  color: var(--cream);
+}
+@media (max-width: 900px) {
+  .hb { padding-top: 92px; --hb-pad: 22px; }
+  .hb-slide { grid-template-columns: 1fr; min-height: 0; }
+  .hb-media { order: -1; height: 230px; }
+  .hb-copy { padding: 28px 22px 84px; }
+  .hb-copy p { margin-bottom: 20px; }
+  .hb-controls { bottom: 24px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hb-slide { transition: none; }
+  .hb-dots button.is-active span::after { animation: none; transform: scaleX(1); }
+}
+
+/* Header over the light hero: dark logo, dark tools. (Turns light again once it goes solid on scroll.) */
+.header:not(.is-scrolled) .header-brand .brand-crop img {
+  filter: none;
+}
+.header:not(.is-scrolled) .header-brand .brand-mark {
+  color: var(--ink);
+  filter: none;
+}
+.header:not(.is-scrolled) .nav-tools {
+  color: var(--ink);
+}
+.header:not(.is-scrolled) .nav-tools select {
+  border-color: #422c2066 !important;
+}
+
+/* ═══════════ Hero — dark storefront style (copy left, product right, offer ticker) ═══════════ */
+.hb { background: #15100e !important; padding-top: 112px; }
+.header:not(.is-scrolled) { background: #fff; box-shadow: 0 1px 0 #422c2014; }
+.hb-slide { background: #15100e !important; min-height: 680px; grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr); }
+.hb-copy { display: flex; flex-direction: column; align-items: flex-start; padding: 56px 32px 120px var(--hb-pad); position: relative; z-index: 2; }
+.hb-copy h1, .hb-copy h2 {
+  order: 1;
+  font-family: var(--sans, inherit);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  font-size: clamp(30px, 3.6vw, 56px);
+  line-height: 1.04;
+  color: #f6dfd6 !important;
+  margin: 0 0 18px;
+}
+.hb-eyebrow { order: 2; color: #e9d7c8 !important; letter-spacing: 0.32em; font-size: 11px; margin: 0 0 22px; }
+.hb-copy p { order: 3; color: #cdbdb2 !important; margin-bottom: 30px; }
+.hb-actions { order: 4; }
+.hb-btn { background: transparent !important; color: #f6dfd6 !important; border: 1px solid #f6dfd6 !important; padding: 11px 24px; font-size: 11px; }
+.hb-btn:hover { background: #f6dfd6 !important; color: #15100e !important; }
+.hb-media::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(90deg, #15100e 0%, rgba(21, 16, 14, 0) 32%);
+}
+.hb-controls { bottom: 72px; color: #f6dfd6; }
+.hb-arrow { background: transparent; color: #f6dfd6; border-color: #f6dfd666; }
+.hb-arrow:hover { background: #f6dfd6; color: #15100e; }
+.hb-dots button span { background: #f6dfd64d; }
+.hb-dots button.is-active span::after { background: #f6dfd6; }
+.hb-ticker { position: absolute; left: 0; right: 0; bottom: 0; z-index: 3; overflow: hidden; background: #f6ece6; color: #422c20; padding: 14px 0; }
+.hb-ticker-track { display: flex; width: max-content; animation: hb-tick 32s linear infinite; }
+.hb-ticker-row { display: flex; flex-shrink: 0; }
+.hb-ticker-row span { padding: 0 44px; font-size: 11px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; white-space: nowrap; }
+@keyframes hb-tick { to { transform: translateX(-50%); } }
+@media (max-width: 900px) {
+  .hb-slide { grid-template-columns: 1fr; min-height: 0; }
+  .hb-media::before { background: linear-gradient(180deg, rgba(21,16,14,0) 60%, #15100e 100%); }
+  .hb-copy { padding: 28px 22px 120px; }
+  .hb-controls { bottom: 64px; }
+}
+@media (prefers-reduced-motion: reduce) { .hb-ticker-track { animation: none; } }
+
+/* ═══════════ Hero v3 — image full width, text + buttons at the bottom of each image ═══════════ */
+.hb-slide { grid-template-columns: 1fr !important; grid-template-rows: 1fr; min-height: clamp(560px, 82vh, 760px); position: relative; }
+.hb-slide > .hb-media { grid-area: 1 / 1; position: absolute; inset: 0; z-index: 0; }
+.hb-slide > .hb-copy { grid-area: 1 / 1; align-self: end; z-index: 2; max-width: 760px; padding: 0 var(--hb-pad) 112px !important; }
+.hb-media::before { background: linear-gradient(180deg, rgba(21,16,14,0) 30%, rgba(21,16,14,0.88) 100%) !important; }
+.hb-copy h1, .hb-copy h2 { font-size: clamp(28px, 3.2vw, 48px); }
+.hb-copy p { margin-bottom: 22px; }
+.hb-controls { left: auto; right: var(--hb-pad); bottom: 72px; }
+@media (max-width: 900px) {
+  .hb-slide { min-height: 520px; }
+  .hb-slide > .hb-copy { padding: 0 22px 112px !important; }
+  .hb-controls { left: 22px; right: auto; bottom: 64px; }
+}
+
+/* ═══════════ Hero v4 — clean image first, copy + buttons in their own block beneath ═══════════ */
+.hb-slide { display: flex !important; flex-direction: column; min-height: 0 !important; background: #15100e !important; }
+.hb-slide > .hb-media { position: relative !important; inset: auto !important; order: 1; height: clamp(380px, 56vh, 560px); width: 100%; }
+.hb-media::before { display: none !important; }
+.hb-slide > .hb-copy {
+  order: 2;
+  max-width: none !important;
+  width: 100%;
+  display: grid !important;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  column-gap: 56px;
+  align-items: start;
+  padding: 36px var(--hb-pad) 124px !important;
+  background: #15100e;
+}
+.hb-copy .hb-eyebrow { grid-column: 1; grid-row: 1; margin: 0 0 12px; }
+.hb-copy h1, .hb-copy h2 { grid-column: 1; grid-row: 2; margin: 0 !important; font-size: clamp(26px, 2.8vw, 42px); }
+.hb-copy p { grid-column: 2; grid-row: 1 / 2; align-self: end; margin: 0 0 18px !important; max-width: 480px; }
+.hb-copy .hb-actions { grid-column: 2; grid-row: 2; align-self: start; }
+.hb-controls { left: var(--hb-pad) !important; right: auto !important; bottom: 66px !important; }
+@media (max-width: 900px) {
+  .hb-slide > .hb-media { height: 300px; }
+  .hb-slide > .hb-copy { grid-template-columns: 1fr; padding: 24px 22px 120px !important; }
+  .hb-copy .hb-eyebrow, .hb-copy h1, .hb-copy h2, .hb-copy p, .hb-copy .hb-actions { grid-column: 1; grid-row: auto; }
+  .hb-copy h1, .hb-copy h2 { margin-bottom: 14px !important; }
+  .hb-copy p { margin-bottom: 18px !important; }
+}
+
+/* ═══════════ Hero v5 — light theme: image fills the width, text + buttons in a light block beneath ═══════════ */
+.hb { background: #faf6f1 !important; padding-top: 112px; }
+.hb-slide { background: #faf6f1 !important; }
+.hb-slide > .hb-media { height: clamp(440px, 64vh, 660px); background: #efe5dc; }
+.hb-media img { object-fit: cover; object-position: center 35%; }
+.hb-slide > .hb-copy { background: #faf6f1; padding: 40px var(--hb-pad) 128px !important; }
+.hb-copy .hb-eyebrow { color: var(--amber) !important; }
+.hb-copy h1, .hb-copy h2 { color: #3a2619 !important; }
+.hb-copy p { color: #6b5547 !important; }
+.hb-btn { background: #3a2619 !important; color: #faf6f1 !important; border: 1px solid #3a2619 !important; }
+.hb-btn:hover { background: transparent !important; color: #3a2619 !important; }
+.hb-btn.ghost { background: transparent !important; color: #3a2619 !important; }
+.hb-btn.ghost:hover { background: #3a2619 !important; color: #faf6f1 !important; }
+.hb-controls { color: #3a2619; }
+.hb-arrow { background: #fff; color: #3a2619; border-color: #3a261933; }
+.hb-arrow:hover { background: #3a2619; color: #faf6f1; }
+.hb-dots button span { background: #3a261933; }
+.hb-dots button.is-active span::after { background: #3a2619; }
+.hb-ticker { background: #efe3d8; color: #3a2619; border-top: 1px solid #3a261914; }
+
+/* ═══════════ Hero v6 — whole image visible (no crop), blurred copy of it fills the sides ═══════════ */
+.hb-slide > .hb-media { height: clamp(360px, 56vh, 580px); overflow: hidden; background: #efe5dc; }
+.hb-media::before {
+  display: block !important;
+  content: "";
+  position: absolute;
+  inset: -40px;
+  z-index: 0;
+  background: var(--hb-img) center / cover no-repeat;
+  filter: blur(30px) saturate(1.05);
+  transform: scale(1.1);
+  opacity: 0.9;
+}
+.hb-media img { z-index: 1; object-fit: contain !important; object-position: center !important; }
+/* neat copy row */
+.hb-slide > .hb-copy { align-items: center; column-gap: 64px; padding: 36px var(--hb-pad) 120px !important; }
+.hb-copy h1, .hb-copy h2 { font-size: clamp(24px, 2.5vw, 38px); line-height: 1.1; }
+.hb-copy .hb-eyebrow { grid-row: 1; }
+.hb-copy p { grid-row: 1; align-self: end; font-size: 16px; }
+.hb-copy .hb-actions { gap: 14px; flex-wrap: nowrap; }
+.hb-btn { min-width: 220px; height: 48px; padding: 0 24px !important; white-space: nowrap; }
+@media (max-width: 900px) {
+  .hb-slide > .hb-media { height: 280px; }
+  .hb-copy .hb-actions { flex-wrap: wrap; }
+  .hb-btn { min-width: 0; flex: 1 1 200px; }
+}
+
+/* ═══════════ Hero v7 — image covers the whole width edge to edge (no side strips) ═══════════ */
+.hb-media::before { display: none !important; }
+.hb-slide > .hb-media { height: clamp(420px, 42vw, 76vh) !important; background: #efe5dc; }
+.hb-media img { object-fit: cover !important; object-position: center 40% !important; }
+@media (max-width: 900px) { .hb-slide > .hb-media { height: 300px !important; } }
+
+/* ═══════════ Hero v8 — shorter image so the text + buttons sit higher on screen ═══════════ */
+.hb-slide > .hb-media { height: clamp(300px, 34vw, 48vh) !important; }
+.hb-slide > .hb-copy { padding: 28px var(--hb-pad) 112px !important; }
+.hb-media img { object-fit: cover !important; object-position: center center !important; }
+@media (max-width: 900px) { .hb-slide > .hb-media { height: 240px !important; } }
