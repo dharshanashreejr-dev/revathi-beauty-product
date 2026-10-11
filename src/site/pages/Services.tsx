@@ -61,7 +61,7 @@ function Motion() {
 
 function Moments() {
   const { t } = useI18n()
-  const m = [['Morning', 'facial', 'Morning. Bright, awakening rituals: facials, petal soaks and a cup of ginger tea.'], ['Afternoon', 'back', 'Afternoon. Deep tissue and salt scrubs to release the weight of a long day.'], ['Evening', 'wide', 'Evening. Slow aromatherapy and hot stone to close the day softly.']]
+  const m = [['Morning', 'facial', 'Morning. Bright, awakening facials and a cup of ginger tea.'], ['Afternoon', 'back', 'Afternoon. A full-body massage to release the weight of a long day.'], ['Evening', 'wide', 'Evening. Slow aromatherapy massage to close the day softly.']]
   const [i, setI] = useState(0)
   return (
     <section className="bg-[#151915] text-sand min-h-[100svh] grid md:grid-cols-2 items-center gap-10 px-5 md:px-10 py-28 border-t border-sand/10">
@@ -154,10 +154,10 @@ function Visit() {
   const { t } = useI18n()
   return (
     <section id="visit" className="bg-ink text-sand px-5 md:px-10 py-28">
-      <span className="label block mb-4">{t('Visit the spa')}</span>
+      <span className="label block mb-4">{t('Visit our salon')}</span>
       <h2 className="h text-[clamp(2.2rem,5vw,4.6rem)] max-w-3xl">{t('A sanctuary in the middle of the day.')}</h2>
       <div className="grid md:grid-cols-4 gap-10 mt-16 text-xs leading-relaxed">
-        <div><h4 className="label mb-4">{t('About')}</h4><p className="opacity-80">{t('Revathi Herbal brings a day spa, a hair and beauty salon and a small clinic under one roof. Certified specialists, organic products and private suites.')}</p></div>
+        <div><h4 className="label mb-4">{t('About')}</h4><p className="opacity-80">{t('Revathi Herbal is a women\'s luxury salon offering body massage, facials and beauty consultations. Certified specialists, organic products and private suites.')}</p></div>
         <div><h4 className="label mb-4">{t('Opening hours')}</h4>{spa.hours.map(([d, hrs]) => <p key={d} className="flex justify-between gap-4 border-b border-sand/15 py-2"><span>{t(d)}</span><span className="opacity-70">{t(hrs)}</span></p>)}</div>
         <div><h4 className="label mb-4">{t('Amenities')}</h4><ul className="space-y-2 opacity-80">{amenities.map((a) => <li key={a}>— {t(a)}</li>)}</ul></div>
         <div><h4 className="label mb-4">{t('Good to know')}</h4><ul className="space-y-2 opacity-80">{policies.map((a) => <li key={a}>— {t(a)}</li>)}</ul>
@@ -171,12 +171,12 @@ function Visit() {
 
 function Intro() {
   const { t } = useI18n()
-  const p = [['Release', 'Spa', 'close'], ['Style', 'Salon', 'facial2'], ['Heal', 'Clinic', 'foot']]
+  const p = [['Release', 'Body Massage', 'close'], ['Style', 'Facial', 'facial2'], ['Heal', 'Consultation', 'foot']]
   return (
     <section className="pt-28 pb-24 px-5 md:px-10">
       <div className="grid md:grid-cols-[1fr_2fr] gap-8 items-end">
         <Reveal><span className="label">{t('A point of view')}</span></Reveal>
-        <Reveal><h2 className="h text-[clamp(2rem,4.4vw,4.2rem)]">{t('Rest, done properly.')}</h2><p className="text-sm mt-5 max-w-sm opacity-75">{t('A boutique spa, salon and clinic for slow, unhurried care.')}</p></Reveal>
+        <Reveal><h2 className="h text-[clamp(2rem,4.4vw,4.2rem)]">{t('Rest, done properly.')}</h2><p className="text-sm mt-5 max-w-sm opacity-75">{t('A women\'s luxury salon for slow, unhurried care.')}</p></Reveal>
       </div>
       <div className="grid md:grid-cols-3 gap-5 mt-14">
         {p.map(([title, c, k], n) => (
@@ -191,7 +191,7 @@ function Intro() {
 
 function Marquee() {
   const { t } = useI18n()
-  const w = ['Massage', 'Facials', 'Hair & styling', 'Skin clinic', 'Physiotherapy', 'Couple suites', 'Bridal']
+  const w = ['Body Massage', 'Facials', 'Beauty Consultation', 'Women\'s luxury salon']
   return (
     <div className="bg-ink text-sand overflow-hidden py-5 border-y border-sand/10">
       <div className="flex w-max" style={{ animation: 'marquee 30s linear infinite' }}>
@@ -220,7 +220,7 @@ function Team() {
 
 function Reviews() {
   const { t } = useI18n()
-  const q = [['The best hour of my month. I walked out lighter.', 'Priya S.', 'Aromatherapy Massage'], ['Quiet, spotless and genuinely caring. That rose facial glows for days.', 'Karthik R.', 'Radiance Rose Facial'], ['We booked the couple suite for our anniversary. Perfect.', 'Meena & Arun', 'Couple\'s Serenity'], ['They actually listen. My shoulders thank them.', 'Divya L.', 'Deep Tissue Release']]
+  const q = [['The best hour of my month. I walked out lighter.', 'Priya S.', 'Body Massage'], ['Quiet, spotless and genuinely caring. That facial glows for days.', 'Karthika R.', 'Normal Facial'], ['They actually listen. My shoulders thank them.', 'Divya L.', 'Body Massage']]
   const [i, setI] = useState(0)
   useEffect(() => { const t = setInterval(() => setI((x) => (x + 1) % q.length), 5000); return () => clearInterval(t) }, [q.length])
   return (

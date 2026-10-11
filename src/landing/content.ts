@@ -9,7 +9,7 @@ export const content = {
     heroOne: "Beauty that feels",
     heroTwo: "like velvet",
     heroCopy:
-      "Luxury skincare, makeup and salon rituals. Shop the collection, or book your appointment.",
+      "Luxury skincare, makeup and rituals from a women's luxury salon. Shop the collection, or book your appointment.",
     explore: "Shop the collection",
     heroBook: "Book an appointment",
     scroll: "A world of quiet luxury",
@@ -18,7 +18,7 @@ export const content = {
     slideGo: "Show image",
     slides: [
       { tag: "The collection", line: "Skincare · Makeup · Rituals" },
-      { tag: "The salon", line: "Spa · Facials · Hair" },
+      { tag: "The salon", line: "Massage · Facials · Consultation" },
       { tag: "The makeup", line: "Velvet lips · Golden finish" },
       { tag: "The rituals", line: "Calm · Focus · Glow" },
     ],
@@ -26,7 +26,11 @@ export const content = {
     statement:
       "Herbal skincare and makeup, made with natural ingredients for an everyday glow.",
     storySmall:
+<<<<<<< HEAD
       "Shop skincare, makeup and body care, and book salon and spa treatments, all in one place.",
+=======
+      "Shop skincare, makeup and body care, and book body massage, facials and beauty consultations at our women's luxury salon.",
+>>>>>>> 60da8c4 (updated service page)
     notesLabel: "Key ingredients",
     notesTitle: "Three ingredients for a natural glow.",
     peach: "Peach nectar",
@@ -66,7 +70,7 @@ export const content = {
     salonLabel: "Salon Services",
     salonTitle: "Book your\nappointment.",
     salonCopy:
-      "Hair, skin, makeup, nails and body treatments, all under one roof. Choose a treatment, pick a time, and we will take care of the rest.",
+      "A women's luxury salon. Body massage, normal and hydra facials, and beauty consultations, all under one roof. Choose a treatment, pick a time, and we will take care of the rest.",
     salonHours: "Open daily · 10:00 to 20:00",
     perks: [
       "Complimentary consultation",
@@ -97,7 +101,7 @@ export const content = {
     worldLabel: "The world of REVATHI HERBAL BEAUTY CARE",
     worldTitle: "Beauty that\nstays with you.",
     worldCopy:
-      "REVATHI HERBAL BEAUTY CARE is a beauty boutique and salon in one: a place to shop luxurious skincare and makeup, and to sit back while our artists care for your hair, skin and glow.",
+      "REVATHI HERBAL BEAUTY CARE is a women's luxury beauty boutique and salon in one: a place to shop luxurious skincare and makeup, and to sit back while our experts care for your skin and glow.",
     worldCta: "Enter our world",
     journalLabel: "Beauty Journal",
     journalTitle: "Tips and stories from our studio.",
@@ -106,13 +110,13 @@ export const content = {
     read: "Read the guide",
     closing: "Ready for your\nherbal glow?",
     closingCta: "Book your appointment",
-    footerLine: "Luxury beauty. Shop and salon.",
+    footerLine: "Luxury beauty salon for women. Shop and salon.",
     back: "Back to the beginning",
     care: "Product care",
     privacy: "Privacy & your bag",
     searchTitle: "What speaks to you?",
     searchPlaceholder: "Search serum, lipstick, facial…",
-    searchEmpty: "No matches. Try serum, lipstick, facial, hair or bridal.",
+    searchEmpty: "No matches. Try serum, lipstick, facial, massage or consultation.",
     bagTitle: "Your bag",
     bagEmpty: "A little beauty awaits.",
     bagEmptyCopy: "Add something lovely from the collection.",
@@ -152,7 +156,7 @@ export const content = {
     view: "View",
     read2: "Read",
     open: "Open",
-    marquee: ["Luxury skincare", "Signature makeup", "Hair & spa", "Bridal artistry", "Book your glow"],
+    marquee: ["Luxury skincare", "Signature makeup", "Women's luxury salon", "Body massage & facials", "Book your glow"],
     photoCredit: "Photography",
   },
   ta: {
@@ -165,7 +169,7 @@ export const content = {
     heroOne: "வெல்வெட் போல் உணரும்",
     heroTwo: "அழகு",
     heroCopy:
-      "ஆடம்பர சருமப் பராமரிப்பு, ஒப்பனை மற்றும் சலூன் சடங்குகள். தொகுப்பை வாங்குங்கள், அல்லது அப்பாயின்ட்மென்ட் பதிவு செய்யுங்கள்.",
+      "ஆடம்பர சரும பராமரிப்பு, மேக்கப் மற்றும் பெண்களுக்கான ஆடம்பர சலூனின் சிகிச்சைகள். தொகுப்பை வாங்குங்கள் அல்லது அப்பாயின்ட்மென்ட் பதிவு செய்யுங்கள்.",
     explore: "தொகுப்பை வாங்குங்கள்",
     heroBook: "அப்பாயின்ட்மென்ட் பதிவு செய்",
     scroll: "அமைதியான ஆடம்பர உலகம்",
@@ -174,7 +178,7 @@ export const content = {
     slideGo: "படத்தைக் காட்டு",
     slides: [
       { tag: "தொகுப்பு", line: "சருமம் · ஒப்பனை · சடங்குகள்" },
-      { tag: "சலூன்", line: "ஸ்பா · ஃபேஷியல் · முடி" },
+      { tag: "சலூன்", line: "மசாஜ் · ஃபேஷியல் · ஆலோசனை" },
       { tag: "ஒப்பனை", line: "வெல்வெட் உதடுகள் · தங்க முடிவு" },
       { tag: "சடங்குகள்", line: "அமைதி · கவனம் · ஒளிர்வு" },
     ],
@@ -182,7 +186,7 @@ export const content = {
     statement:
       "பீச்ச் சாறு ஒரு தொடுதல். மல்லிகையின் கிசுகிசுப்பு. சந்தனத்தின் வெப்பம். எக்லாட் என்பது தோலுக்கு நெருக்கமாக வைக்கப்பட்ட சிறிய தங்க ஒளி.",
     storySmall:
-      "சருமப் பராமரிப்பு, ஒப்பனை மற்றும் சலூன் சடங்குகள் — ஒவ்வொரு நாளையும் சற்று அதிக ஆடம்பரமாக மாற்ற.",
+      "சரும பராமரிப்பு, மேக்கப், உடல் பராமரிப்பு பொருட்களை வாங்குங்கள்; எங்கள் பெண்களுக்கான ஆடம்பர சலூனில் உடல் மசாஜ், ஃபேஷியல், அழகு ஆலோசனையை பதிவு செய்யுங்கள்.",
     notesLabel: "முக்கிய பொருட்கள்",
     notesTitle: "மூன்று பொருட்களில் ஒரு ஒளிர்வு.",
     peach: "பீச்ச் நெக்டர்",
@@ -222,7 +226,7 @@ export const content = {
     salonLabel: "சலூன்",
     salonTitle: "உங்கள்\nஅப்பாயின்ட்மென்ட்டைப் பதிவு செய்யுங்கள்.",
     salonCopy:
-      "முடி, சருமம், ஒப்பனை, நகம் மற்றும் உடல் சிகிச்சைகள் — அனைத்தும் ஒரே கூரையின் கீழ். சிகிச்சையைத் தேர்ந்தெடுங்கள், நேரத்தைத் தேர்ந்தெடுங்கள், மீதியை நாங்கள் பார்த்துக் கொள்கிறோம்.",
+      "பெண்களுக்கான ஆடம்பர சலூன். உடல் மசாஜ், சாதாரண மற்றும் ஹைட்ரா ஃபேஷியல், அழகு ஆலோசனை - அனைத்தும் ஒரே இடத்தில். சிகிச்சையைத் தேர்ந்தெடுங்கள், நேரத்தைத் தேர்வு செய்யுங்கள், மற்றவற்றை நாங்கள் பார்த்துக் கொள்கிறோம்.",
     salonHours: "தினமும் திறந்திருக்கும் · 10:00 முதல் 20:00 வரை",
     perks: [
       "Complimentary consultation",
@@ -253,7 +257,7 @@ export const content = {
     worldLabel: "REVATHI HERBAL BEAUTY CARE உலகம்",
     worldTitle: "உங்களுடன்\nநிற்கும் அழகு.",
     worldCopy:
-      "REVATHI HERBAL BEAUTY CARE என்பது அழகுப் பட்டிக் மற்றும் சலூன் ஒன்றாக: ஆடம்பர சருமப் பராமரிப்பு மற்றும் ஒப்பனையை வாங்கவும், எங்கள் கலைஞர்கள் உங்கள் முடி, சருமம், பிரகாசத்தைப் பராமரிக்கும்போது அமரவும்.",
+      "REVATHI HERBAL BEAUTY CARE என்பது பெண்களுக்கான ஆடம்பர அழகு பூட்டிக் மற்றும் சலூன் ஒரே இடத்தில்: ஆடம்பர சரும பராமரிப்பு, மேக்கப் வாங்கவும், எங்கள் நிபுணர்கள் உங்கள் சருமத்தையும் ஒளியையும் பராமரிக்கும் போது ஓய்வெடுக்கவும்.",
     worldCta: "எங்கள் உலகில் நுழையுங்கள்",
     journalLabel: "ஸ்டுடியோவிலிருந்து குறிப்புகள்",
     journalTitle: "தினசரி அழகு.",
@@ -262,13 +266,13 @@ export const content = {
     read: "கதையைப் படியுங்கள்",
     closing: "இன்னும் கொஞ்சம்\nபிரகாசியுங்கள்.",
     closingCta: "அப்பாயின்ட்மென்ட் பதிவு செய்",
-    footerLine: "ஆடம்பர அழகு. ஷாப் மற்றும் சலூன்.",
+    footerLine: "பெண்களுக்கான ஆடம்பர அழகு சலூன். ஷாப்பிங் மற்றும் சலூன்.",
     back: "தொடக்கத்திற்குத் திரும்பு",
     care: "பொருள் பராமரிப்பு",
     privacy: "தனியுரிமை & உங்கள் பை",
     searchTitle: "உங்களை எது ஈர்க்கிறது?",
     searchPlaceholder: "சீரம், லிப்ஸ்டிக், ஃபேஷியல் தேடுங்கள்…",
-    searchEmpty: "பொருத்தங்கள் இல்லை. சீரம், லிப்ஸ்டிக், ஃபேஷியல், முடி அல்லது பிரைடல் முயற்சிக்கவும்.",
+    searchEmpty: "பொருத்தம் இல்லை. சீரம், லிப்ஸ்டிக், ஃபேஷியல், மசாஜ் அல்லது ஆலோசனை என்று தேடிப் பாருங்கள்.",
     bagTitle: "உங்கள் பை",
     bagEmpty: "சிறிது அழகு காத்திருக்கிறது.",
     bagEmptyCopy: "தொகுப்பிலிருந்து ஏதேனும் அழகானதைச் சேருங்கள்.",
@@ -308,7 +312,7 @@ export const content = {
     view: "பார்",
     read2: "படி",
     open: "திற",
-    marquee: ["ஆடம்பர சருமப் பராமரிப்பு", "சிக்னேச்சர் ஒப்பனை", "முடி & ஸ்பா", "பிரைடல் கலை", "உங்கள் ஒளிர்வைப் பதிவு செய்யுங்கள்"],
+    marquee: ["ஆடம்பர சரும பராமரிப்பு", "சிக்னேச்சர் மேக்கப்", "பெண்களுக்கான ஆடம்பர சலூன்", "உடல் மசாஜ் & ஃபேஷியல்", "உங்கள் ஒளியை பதிவு செய்யுங்கள்"],
     photoCredit: "புகைப்படம்",
   },
   hi: {
@@ -321,7 +325,7 @@ export const content = {
     heroOne: "मखमली एहसास वाली",
     heroTwo: "सुंदरता",
     heroCopy:
-      "लक्ज़री स्किनकेयर, मेकअप और सैलून रिचुअल। कलेक्शन खरीदें, या अपॉइंटमेंट बुक करें।",
+      "महिलाओं के लग्ज़री सैलून से लग्ज़री स्किनकेयर, मेकअप और रिचुअल। कलेक्शन खरीदें या अपॉइंटमेंट बुक करें।",
     explore: "कलेक्शन देखें",
     heroBook: "अपॉइंटमेंट बुक करें",
     scroll: "शांत विलासिता की दुनिया",
@@ -330,7 +334,7 @@ export const content = {
     slideGo: "छवि दिखाएँ",
     slides: [
       { tag: "कलेक्शन", line: "स्किनकेयर · मेकअप · रिचुअल" },
-      { tag: "सैलून", line: "स्पा · फेशियल · हेयर" },
+      { tag: "सैलून", line: "मसाज · फेशियल · कंसल्टेशन" },
       { tag: "मेकअप", line: "मखमली होंठ · सुनहरा फ़िनिश" },
       { tag: "रिचुअल", line: "शांति · फोकस · ग्लो" },
     ],
@@ -338,7 +342,7 @@ export const content = {
     statement:
       "आड़ू का स्पर्श। चमेली की फुसफुसाहट। चंदन की गर्माहट। एक्ला त्वचा के पास रखा एक छोटा सुनहरा प्रकाश है।",
     storySmall:
-      "स्किनकेयर, मेकअप और सैलून रिचुअल — हर दिन को थोड़ा और शाही बनाने के लिए।",
+      "स्किनकेयर, मेकअप और बॉडी केयर खरीदें, और हमारे महिलाओं के लग्ज़री सैलून में बॉडी मसाज, फेशियल और ब्यूटी कंसल्टेशन बुक करें।",
     notesLabel: "मुख्य सामग्री",
     notesTitle: "तीन सामग्री में एक चमक।",
     peach: "आड़ू का रस",
@@ -378,7 +382,7 @@ export const content = {
     salonLabel: "सैलून",
     salonTitle: "अपना\nअपॉइंटमेंट बुक करें।",
     salonCopy:
-      "बाल, त्वचा, मेकअप, नेल और बॉडी ट्रीटमेंट — सब एक छत के नीचे। ट्रीटमेंट चुनें, समय चुनें, बाकी हम संभालेंगे।",
+      "महिलाओं का लग्ज़री सैलून। बॉडी मसाज, नॉर्मल और हाइड्रा फेशियल, और ब्यूटी कंसल्टेशन, सब एक ही छत के नीचे। ट्रीटमेंट चुनें, समय तय करें, बाकी हम संभाल लेंगे।",
     salonHours: "रोज़ खुला · 10:00 से 20:00 तक",
     perks: [
       "Complimentary consultation",
@@ -409,7 +413,7 @@ export const content = {
     worldLabel: "REVATHI HERBAL BEAUTY CARE की दुनिया",
     worldTitle: "सुंदरता जो\nआपके साथ रहती है।",
     worldCopy:
-      "REVATHI HERBAL BEAUTY CARE एक ब्यूटी बुटीक और सैलून है: लक्ज़री स्किनकेयर-मेकअप खरीदें, और हमारे कलाकार आपके बाल, त्वचा और चमक की देखभाल करें।",
+      "REVATHI HERBAL BEAUTY CARE महिलाओं का लग्ज़री ब्यूटी बुटीक और सैलून एक साथ है: यहाँ आप लग्ज़री स्किनकेयर और मेकअप खरीद सकती हैं, और हमारी एक्सपर्ट आपकी त्वचा और ग्लो की देखभाल करती हैं।",
     worldCta: "हमारी दुनिया में आएँ",
     journalLabel: "स्टूडियो से नोट्स",
     journalTitle: "रोज़मर्रा की सुंदरता।",
@@ -418,13 +422,13 @@ export const content = {
     read: "कहानी पढ़ें",
     closing: "थोड़ा और\nचमकें।",
     closingCta: "अपॉइंटमेंट बुक करें",
-    footerLine: "लक्ज़री ब्यूटी। शॉप और सैलून।",
+    footerLine: "महिलाओं के लिए लग्ज़री ब्यूटी सैलून। शॉप और सैलून।",
     back: "शुरुआत पर वापस जाएँ",
     care: "प्रोडक्ट केयर",
     privacy: "गोपनीयता और आपका बैग",
     searchTitle: "आपसे क्या बात करता है?",
     searchPlaceholder: "सीरम, लिपस्टिक, फेशियल खोजें…",
-    searchEmpty: "कोई मेल नहीं। सीरम, लिपस्टिक, फेशियल, हेयर या ब्राइडल आज़माएँ।",
+    searchEmpty: "कोई मिलान नहीं। सीरम, लिपस्टिक, फेशियल, मसाज या कंसल्टेशन आज़माएँ।",
     bagTitle: "आपका बैग",
     bagEmpty: "थोड़ी सुंदरता इंतज़ार कर रही है।",
     bagEmptyCopy: "कलेक्शन से कुछ प्यारा जोड़ें।",
@@ -464,7 +468,7 @@ export const content = {
     view: "देखें",
     read2: "पढ़ें",
     open: "खोलें",
-    marquee: ["लक्ज़री स्किनकेयर", "सिग्नेचर मेकअप", "हेयर और स्पा", "ब्राइडल आर्टिस्ट्री", "अपनी चमक बुक करें"],
+    marquee: ["लग्ज़री स्किनकेयर", "सिग्नेचर मेकअप", "महिलाओं का लग्ज़री सैलून", "बॉडी मसाज और फेशियल", "अपना ग्लो बुक करें"],
     photoCredit: "फ़ोटोग्राफ़ी",
   },
   ml: {
@@ -477,7 +481,7 @@ export const content = {
     heroOne: "വെൽവെറ്റ് പോലെ തോന്നുന്ന",
     heroTwo: "സൗന്ദര്യം",
     heroCopy:
-      "ലക്ഷ്വറി സ്കിൻകെയർ, മേക്കപ്പ്, സലൂൺ റിച്വലുകൾ. ശേഖരം വാങ്ങുക, അല്ലെങ്കിൽ അപ്പോയിന്റ്മെന്റ് ബുക്ക് ചെയ്യുക.",
+      "സ്ത്രീകൾക്കായുള്ള ലക്ഷ്വറി സലൂണിൽ നിന്നുള്ള ലക്ഷ്വറി സ്കിൻകെയർ, മേക്കപ്പ്, റിച്വലുകൾ. കളക്ഷൻ വാങ്ങൂ, അല്ലെങ്കിൽ അപ്പോയിന്റ്മെന്റ് ബുക്ക് ചെയ്യൂ.",
     explore: "ശേഖരം വാങ്ങുക",
     heroBook: "അപ്പോയിന്റ്മെന്റ് ബുക്ക് ചെയ്യൂ",
     scroll: "ശാന്തമായ ആഡംബര ലോകം",
@@ -486,7 +490,7 @@ export const content = {
     slideGo: "ചിത്രം കാണിക്കുക",
     slides: [
       { tag: "ശേഖരം", line: "സ്കിൻകെയർ · മേക്കപ്പ് · റിച്വലുകൾ" },
-      { tag: "സലൂൺ", line: "സ്പാ · ഫേഷ്യൽ · മുടി" },
+      { tag: "സലൂൺ", line: "മസാജ് · ഫേഷ്യൽ · കൺസൾട്ടേഷൻ" },
       { tag: "മേക്കപ്പ്", line: "വെൽവെറ്റ് ചുണ്ടുകൾ · സ്വർണ്ണ ഫിനിഷ്" },
       { tag: "റിച്വലുകൾ", line: "ശാന്തി · ഫോക്കസ് · ഗ്ലോ" },
     ],
@@ -494,7 +498,7 @@ export const content = {
     statement:
       "പീച്ച് നെക്ടറിന്റെ സ്പർശം. മുല്ലയുടെ മന്ത്രണം. ചന്ദനത്തിന്റെ ചൂട്. എക്ലാറ്റ് ചർമ്മത്തോട് ചേർന്ന് വയ്ക്കുന്ന ഒരു ചെറിയ സ്വർണ്ണ പ്രകാശമാണ്.",
     storySmall:
-      "സ്കിൻകെയർ, മേക്കപ്പ്, സലൂൺ റിച്വലുകൾ — ഓരോ ദിവസവും അല്പം കൂടി ആഡംബരമാക്കാൻ.",
+      "സ്കിൻകെയർ, മേക്കപ്പ്, ബോഡി കെയർ വാങ്ങൂ; ഞങ്ങളുടെ സ്ത്രീകൾക്കായുള്ള ലക്ഷ്വറി സലൂണിൽ ബോഡി മസാജ്, ഫേഷ്യൽ, ബ്യൂട്ടി കൺസൾട്ടേഷൻ ബുക്ക് ചെയ്യൂ.",
     notesLabel: "പ്രധാന ഘടകങ്ങൾ",
     notesTitle: "മൂന്ന് ഘടകങ്ങളിലെ ഒരു തിളക്കം.",
     peach: "പീച്ച് നെക്ടർ",
@@ -534,7 +538,7 @@ export const content = {
     salonLabel: "സലൂൺ",
     salonTitle: "നിങ്ങളുടെ\nഅപ്പോയിന്റ്മെന്റ് ബുക്ക് ചെയ്യുക.",
     salonCopy:
-      "മുടി, ചർമ്മം, മേക്കപ്പ്, നഖം, ബോഡി ട്രീറ്റ്മെന്റുകൾ — എല്ലാം ഒരു കുടക്കീഴിൽ. ട്രീറ്റ്മെന്റ് തിരഞ്ഞെടുക്കുക, സമയം തിരഞ്ഞെടുക്കുക, ബാക്കി ഞങ്ങൾ നോക്കാം.",
+      "സ്ത്രീകൾക്കായുള്ള ലക്ഷ്വറി സലൂൺ. ബോഡി മസാജ്, നോർമൽ, ഹൈഡ്ര ഫേഷ്യലുകൾ, ബ്യൂട്ടി കൺസൾട്ടേഷൻ എന്നിവയെല്ലാം ഒരു കുടക്കീഴിൽ. ഒരു ട്രീറ്റ്മെന്റ് തിരഞ്ഞെടുക്കൂ, സമയം തിരഞ്ഞെടുക്കൂ, ബാക്കി ഞങ്ങൾ നോക്കിക്കൊള്ളാം.",
     salonHours: "ദിവസേന തുറന്നിരിക്കും · 10:00 മുതൽ 20:00 വരെ",
     perks: [
       "Complimentary consultation",
@@ -565,7 +569,7 @@ export const content = {
     worldLabel: "REVATHI HERBAL BEAUTY CARE ലോകം",
     worldTitle: "നിങ്ങളോടൊപ്പം\nനിൽക്കുന്ന സൗന്ദര്യം.",
     worldCopy:
-      "REVATHI HERBAL BEAUTY CARE ഒരു ബ്യൂട്ടി ബൂട്ടീക്കും സലൂണും ഒന്നിച്ച്: ലക്ഷ്വറി സ്കിൻകെയർ-മേക്കപ്പ് വാങ്ങുക, ഞങ്ങളുടെ ആർട്ടിസ്റ്റുകൾ മുടി, ചർമ്മം, തിളക്കം പരിപാലിക്കുമ്പോൾ ഇരിക്കുക.",
+      "REVATHI HERBAL BEAUTY CARE സ്ത്രീകൾക്കായുള്ള ലക്ഷ്വറി ബ്യൂട്ടി ബൂട്ടിക്കും സലൂണും ഒരുമിച്ചാണ്: ലക്ഷ്വറി സ്കിൻകെയറും മേക്കപ്പും വാങ്ങാം, ഞങ്ങളുടെ വിദഗ്ധർ നിങ്ങളുടെ ചർമ്മത്തെയും തിളക്കത്തെയും പരിചരിക്കുമ്പോൾ വിശ്രമിക്കാം.",
     worldCta: "ഞങ്ങളുടെ ലോകത്തേക്ക് പ്രവേശിക്കുക",
     journalLabel: "സ്റ്റുഡിയോയിൽ നിന്നുള്ള കുറിപ്പുകൾ",
     journalTitle: "ദൈനംദിന സൗന്ദര്യം.",
@@ -574,13 +578,13 @@ export const content = {
     read: "കഥ വായിക്കുക",
     closing: "അല്പം കൂടി\nതിളങ്ങൂ.",
     closingCta: "അപ്പോയിന്റ്മെന്റ് ബുക്ക് ചെയ്യൂ",
-    footerLine: "ലക്ഷ്വറി ബ്യൂട്ടി. ഷോപ്പും സലൂണും.",
+    footerLine: "സ്ത്രീകൾക്കായുള്ള ലക്ഷ്വറി ബ്യൂട്ടി സലൂൺ. ഷോപ്പും സലൂണും.",
     back: "ആരംഭത്തിലേക്ക് മടങ്ങുക",
     care: "ഉൽപ്പന്ന പരിചരണം",
     privacy: "സ്വകാര്യതയും നിങ്ങളുടെ ബാഗും",
     searchTitle: "നിങ്ങളോട് എന്ത് സംസാരിക്കുന്നു?",
     searchPlaceholder: "സീറം, ലിപ്സ്റ്റിക്, ഫേഷ്യൽ തിരയുക…",
-    searchEmpty: "പൊരുത്തങ്ങളില്ല. സീറം, ലിപ്സ്റ്റിക്, ഫേഷ്യൽ, മുടി അല്ലെങ്കിൽ ബ്രൈഡൽ ശ്രമിക്കുക.",
+    searchEmpty: "പൊരുത്തമില്ല. സീറം, ലിപ്സ്റ്റിക്, ഫേഷ്യൽ, മസാജ് അല്ലെങ്കിൽ കൺസൾട്ടേഷൻ തിരയൂ.",
     bagTitle: "നിങ്ങളുടെ ബാഗ്",
     bagEmpty: "കുറച്ച് സൗന്ദര്യം കാത്തിരിക്കുന്നു.",
     bagEmptyCopy: "ശേഖരത്തിൽ നിന്ന് എന്തെങ്കിലും മനോഹരമായത് ചേർക്കുക.",
@@ -620,7 +624,7 @@ export const content = {
     view: "കാണുക",
     read2: "വായിക്കുക",
     open: "തുറക്കുക",
-    marquee: ["ലക്ഷ്വറി സ്കിൻകെയർ", "സിഗ്നേച്ചർ മേക്കപ്പ്", "മുടിയും സ്പായും", "ബ്രൈഡൽ ആർട്ടിസ്ട്രി", "നിങ്ങളുടെ ഗ്ലോ ബുക്ക് ചെയ്യുക"],
+    marquee: ["ലക്ഷ്വറി സ്കിൻകെയർ", "സിഗ്നേച്ചർ മേക്കപ്പ്", "സ്ത്രീകൾക്കായുള്ള ലക്ഷ്വറി സലൂൺ", "ബോഡി മസാജ് & ഫേഷ്യൽ", "നിങ്ങളുടെ തിളക്കം ബുക്ക് ചെയ്യൂ"],
     photoCredit: "ഫോട്ടോഗ്രഫി",
   },
   te: {
@@ -633,7 +637,7 @@ export const content = {
     heroOne: "వెల్వెట్‌లా అనిపించే",
     heroTwo: "అందం",
     heroCopy:
-      "లగ్జరీ స్కిన్‌కేర్, మేకప్ మరియు సెలూన్ రిచువల్స్. సేకరణను కొనండి, లేదా అపాయింట్‌మెంట్ బుక్ చేయండి.",
+      "మహిళల లగ్జరీ సెలూన్ నుండి లగ్జరీ స్కిన్‌కేర్, మేకప్, రిచ్యువల్స్. కలెక్షన్ షాపింగ్ చేయండి లేదా అపాయింట్‌మెంట్ బుక్ చేయండి.",
     explore: "సేకరణను చూడండి",
     heroBook: "అపాయింట్‌మెంట్ బుక్ చేయండి",
     scroll: "ప్రశాంతమైన విలాస ప్రపంచం",
@@ -642,7 +646,7 @@ export const content = {
     slideGo: "చిత్రాన్ని చూపించు",
     slides: [
       { tag: "సేకరణ", line: "స్కిన్‌కేర్ · మేకప్ · రిచువల్స్" },
-      { tag: "సెలూన్", line: "స్పా · ఫేషియల్ · జుట్టు" },
+      { tag: "సెలూన్", line: "మసాజ్ · ఫేషియల్స్ · కన్సల్టేషన్" },
       { tag: "మేకప్", line: "వెల్వెట్ పెదవులు · బంగారు ఫినిష్" },
       { tag: "రిచువల్స్", line: "ప్రశాంతత · ఫోకస్ · గ్లో" },
     ],
@@ -650,7 +654,7 @@ export const content = {
     statement:
       "పీచ్ నెక్టార్ స్పర్శ. మల్లె మెల్లని మాట. సందనం వెచ్చదనం. ఎక్లా చర్మానికి దగ్గరగా ఉంచిన చిన్న బంగారు కాంతి.",
     storySmall:
-      "స్కిన్‌కేర్, మేకప్, సెలూన్ రిచువల్స్ — ప్రతి రోజును కొంచెం మరింత విలాసవంతం చేయడానికి.",
+      "స్కిన్‌కేర్, మేకప్, బాడీ కేర్ షాపింగ్ చేయండి; మా మహిళల లగ్జరీ సెలూన్‌లో బాడీ మసాజ్, ఫేషియల్, బ్యూటీ కన్సల్టేషన్ బుక్ చేయండి.",
     notesLabel: "ప్రధాన పదార్థాలు",
     notesTitle: "మూడు పదార్థాల్లో ఒక మెరుపు.",
     peach: "పీచ్ నెక్టార్",
@@ -690,7 +694,7 @@ export const content = {
     salonLabel: "సెలూన్",
     salonTitle: "మీ\nఅపాయింట్‌మెంట్ బుక్ చేయండి.",
     salonCopy:
-      "జుట్టు, చర్మం, మేకప్, గోర్లు, బాడీ ట్రీట్‌మెంట్లు — అన్నీ ఒకే కప్పు కింద. ట్రీట్‌మెంట్ ఎంచుకోండి, సమయం ఎంచుకోండి, మిగతాది మేము చూసుకుంటాము.",
+      "మహిళల కోసం లగ్జరీ సెలూన్. బాడీ మసాజ్, నార్మల్ మరియు హైడ్రా ఫేషియల్స్, బ్యూటీ కన్సల్టేషన్ - అన్నీ ఒకే చోట. ట్రీట్‌మెంట్ ఎంచుకోండి, సమయం ఎంచుకోండి, మిగతాది మేము చూసుకుంటాం.",
     salonHours: "రోజువారీ తెరిచి ఉంటుంది · 10:00 నుండి 20:00 వరకు",
     perks: [
       "Complimentary consultation",
@@ -721,7 +725,7 @@ export const content = {
     worldLabel: "REVATHI HERBAL BEAUTY CARE ప్రపంచం",
     worldTitle: "మీతో\nఉండే అందం.",
     worldCopy:
-      "REVATHI HERBAL BEAUTY CARE ఒక బ్యూటీ బొటీక్ మరియు సెలూన్: లగ్జరీ స్కిన్‌కేర్-మేకప్ కొనండి, మా ఆర్టిస్టులు మీ జుట్టు, చర్మం, మెరుపును చూసుకునేటప్పుడు కూర్చోండి.",
+      "REVATHI HERBAL BEAUTY CARE మహిళల లగ్జరీ బ్యూటీ బొటీక్ మరియు సెలూన్ రెండూ ఒకేచోట: లగ్జరీ స్కిన్‌కేర్, మేకప్ షాపింగ్ చేయండి, మా నిపుణులు మీ చర్మం, గ్లోను చూసుకుంటుండగా విశ్రాంతి తీసుకోండి.",
     worldCta: "మా ప్రపంచంలోకి ప్రవేశించండి",
     journalLabel: "స్టూడియో నుండి నోట్స్",
     journalTitle: "రోజువారీ అందం.",
@@ -730,13 +734,13 @@ export const content = {
     read: "కథ చదవండి",
     closing: "కొంచెం ఎక్కువ\nమెరవండి.",
     closingCta: "అపాయింట్‌మెంట్ బుక్ చేయండి",
-    footerLine: "లగ్జరీ బ్యూటీ. షాప్ మరియు సెలూన్.",
+    footerLine: "మహిళల కోసం లగ్జరీ బ్యూటీ సెలూన్. షాప్ మరియు సెలూన్.",
     back: "ప్రారంభానికి తిరిగి వెళ్ళండి",
     care: "ఉత్పత్తి సంరక్షణ",
     privacy: "గోప్యత & మీ బ్యాగ్",
     searchTitle: "మీతో ఏమి మాట్లాడుతుంది?",
     searchPlaceholder: "సీరం, లిప్‌స్టిక్, ఫేషియల్ వెతకండి…",
-    searchEmpty: "సరిపోలికలు లేవు. సీరం, లిప్‌స్టిక్, ఫేషియల్, జుట్టు లేదా బ్రైడల్ ప్రయత్నించండి.",
+    searchEmpty: "సరిపోలలేదు. సీరం, లిప్‌స్టిక్, ఫేషియల్, మసాజ్ లేదా కన్సల్టేషన్ ప్రయత్నించండి.",
     bagTitle: "మీ బ్యాగ్",
     bagEmpty: "కొంత అందం వేచి ఉంది.",
     bagEmptyCopy: "సేకరణ నుండి ఏదైనా అందమైనది జోడించండి.",
@@ -776,7 +780,7 @@ export const content = {
     view: "చూడు",
     read2: "చదువు",
     open: "తెరువు",
-    marquee: ["లగ్జరీ స్కిన్‌కేర్", "సిగ్నేచర్ మేకప్", "జుట్టు & స్పా", "బ్రైడల్ ఆర్టిస్ట్రీ", "మీ గ్లోను బుక్ చేయండి"],
+    marquee: ["లగ్జరీ స్కిన్‌కేర్", "సిగ్నేచర్ మేకప్", "మహిళల లగ్జరీ సెలూన్", "బాడీ మసాజ్ & ఫేషియల్స్", "మీ గ్లోను బుక్ చేయండి"],
     photoCredit: "ఫోటోగ్రఫీ",
   },
 } as const;

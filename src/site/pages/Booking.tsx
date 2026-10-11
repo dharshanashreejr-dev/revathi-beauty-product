@@ -51,7 +51,7 @@ export default function Booking() {
 
   return (
     <main className="pt-28 px-5 md:px-10 pb-20 min-h-screen">
-      <span className="label block mb-4">{t('Spa · Salon · Clinic')}</span>
+      <span className="label block mb-4">{t('Women\'s luxury salon')}</span>
       <h1 className="h text-[clamp(2.2rem,5vw,4.6rem)]">{t('Book your appointment.')}</h1>
       <form onSubmit={submit} noValidate className="grid lg:grid-cols-[1fr_380px] gap-12 mt-12">
         <div className="space-y-10">

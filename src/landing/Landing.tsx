@@ -1165,7 +1165,7 @@ export default function Home() {
             ))}
           </div>
         </section>
-        <NineDays onBook={() => openBooking("m1")} lang={lang} />
+        <NineDays onBook={() => openBooking("b1")} lang={lang} />
         <section className="salon salon-stack" id="salon">
           <div className="salon-banner">
             <video

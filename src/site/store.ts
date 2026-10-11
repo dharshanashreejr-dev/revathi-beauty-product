@@ -25,9 +25,9 @@ function seed(): Booking[] {
   const mk = (day: number, time: string, spec: string, name: string, svc: string, dur: number, cat: string): Booking => ({
     ref: `SRN-${name.slice(0, 3).toUpperCase()}${day}${time.slice(0, 2)}`, serviceId: '', serviceName: svc, category: cat, duration: dur, date: addDays(day), time,
     specialists: [spec], guests: 1, name, phone: '+91 98000 00000', email: 'demo@example.com', notes: '', channel: 'WhatsApp', remind: false, reminders: [], status: 'Confirmed', total: 0 })
-  return [mk(0, '16:00', 'Anika', 'Priya', 'Aromatherapy Massage', 60, 'Massage'), mk(1, '10:00', 'Anika', 'Latha', 'Hot Stone Therapy', 90, 'Massage'),
-    mk(1, '11:00', 'Dev', 'Karthik', 'Radiance Rose Facial', 60, 'Facial'), mk(1, '14:00', 'Dr. Nisha', 'Divya', 'Dermatology Consultation', 30, 'Clinic'),
-    mk(2, '12:00', 'Kabir', 'Arun', 'Haircut & Styling', 45, 'Salon'), mk(2, '15:00', 'Isha', 'Meena', 'Global Hair Colour', 120, 'Salon')]
+  return [mk(0, '16:00', 'Anika', 'Priya', 'Body Massage', 60, 'Body Massage'), mk(1, '10:00', 'Meera', 'Latha', 'Body Massage', 60, 'Body Massage'),
+    mk(1, '11:00', 'Isha', 'Karthika', 'Hydra Facial', 75, 'Facial'), mk(1, '14:00', 'Nisha', 'Divya', 'Beauty Consultation', 30, 'Consultation'),
+    mk(2, '12:00', 'Isha', 'Meena', 'Normal Facial', 60, 'Facial'), mk(2, '15:00', 'Nisha', 'Revathi', 'Beauty Consultation', 30, 'Consultation')]
 }
 export function getBookings(): Booking[] { const v = read<Booking[] | null>(BK, null); if (v) return v; const s = seed(); write(BK, s); return s }
 export const saveBookings = (b: Booking[]) => write(BK, b)

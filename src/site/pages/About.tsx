@@ -9,7 +9,7 @@ import { rich } from '../rich'
 const journey: [string, string, string, string][] = [
   ['2018', 'The first treatment room', 'A single suite in Coimbatore, four therapists and one belief: rest should be done properly.', 'close'],
   ['2020', 'Our first formula', 'A body oil blended for the Abhyanga ritual. Guests kept asking where to buy it.', 'back'],
-  ['2022', 'Salon & skin clinic', 'Stylists and a resident dermatologist join, so one visit can cover hair, skin and recovery.', 'facial2'],
+  ['2022', 'Facials & consultations', 'Beauty experts join, so one visit can cover massage, facials and a personal skin plan.', 'facial2'],
   ['2024', 'The Velvet collection', 'Twelve small-batch products, tested on our treatment tables before they reach a shelf.', 'facial'],
   ['2026', 'Ships across India', 'Orders tracked end to end, with the same care as a booking at our front desk.', 'reception'],
 ]
@@ -20,8 +20,8 @@ const values: [string, string, string, string][] = [
   ['Genuine care', 'Certified specialists who remember your name, your allergies and your favourite tea.', 'reception', '04'],
 ]
 const worlds: [string, string, string, string, string][] = [
-  ['The Spa', 'Massage, facials, body rituals, couple suites.', 'wide', 'Book a ritual', '/booking'],
-  ['The Salon', 'Cut, colour, bridal and keratin with senior stylists.', 'facial2', 'Meet the stylists', '/booking'],
+  ['The Spa', 'Body massage and facials in a calm, women-only space.', 'wide', 'Book a ritual', '/booking'],
+  ['Consultation', 'A one-to-one beauty consultation with senior beauticians.', 'facial2', 'Book a consultation', '/booking'],
   ['The Products', 'The exclusive Velvet collection, delivered to your door.', 'facial', 'Shop the collection', '/products'],
 ]
 
@@ -35,7 +35,7 @@ function Hero() {
       <div className="absolute bottom-10 left-5 md:left-10 right-5">
         <span className="label text-gold block fade-up">{t('About · {name}', { name: spa.name })}</span>
         <h1 className="h text-[clamp(2.6rem,8vw,8rem)] mt-4 fade-up">{rich(t('Where beauty\nmeets *care.*'))}</h1>
-        <p className="text-xs md:text-sm max-w-md mt-5 opacity-85 fade-up">{sub}. {t('A spa, a salon, a skin clinic and a product studio under one quiet roof.')}</p>
+        <p className="text-xs md:text-sm max-w-md mt-5 opacity-85 fade-up">{sub}. {t('A women\'s luxury salon and a product studio under one quiet roof.')}</p>
         <a href="#story" className="inline-block mt-8 bg-gold text-ink rounded-full px-7 py-4 label hover:bg-sand transition fade-up">{t('Our story ↓')}</a>
       </div>
     </section>
@@ -61,7 +61,7 @@ function Story() {
 
 function Strip() {
   const { t } = useI18n()
-  const w = ['Spa', 'Salon', 'Skin clinic', 'Beauty products', 'Bridal', 'Wellness']
+  const w = ['Body Massage', 'Facial', 'Consultation', 'Beauty products', 'Women\'s luxury salon']
   return <div className="bg-ink text-sand overflow-hidden py-5 border-y border-sand/10"><div className="flex w-max marquee">{[...w, ...w, ...w, ...w].map((x, i) => <span key={i} className="h text-3xl md:text-5xl px-6 flex items-center gap-12 whitespace-nowrap">{t(x)}<i className="h-1.5 w-1.5 rounded-full bg-gold" /></span>)}</div></div>
 }
 
@@ -147,7 +147,7 @@ function Team() {
 
 function Gallery() {
   const { t } = useI18n()
-  const g = [['wide', 'The lounge'], ['close', 'Treatment suite'], ['facial', 'Facial studio'], ['foot2', 'Hand & foot bar'], ['back', 'Body ritual'], ['reception', 'Reception']]
+  const g = [['wide', 'The lounge'], ['close', 'Treatment suite'], ['facial', 'Facial studio'], ['foot2', 'Consultation room'], ['back', 'Body ritual'], ['reception', 'Reception']]
   const [i, setI] = useState(0)
   return (
     <section className="py-24 bg-[#151915] text-sand overflow-hidden">

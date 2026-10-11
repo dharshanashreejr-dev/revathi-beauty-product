@@ -71,10 +71,10 @@ function seedAppts(): Appt[] {
     const v = s(id); return { ref, service: v.name, category: v.category, img: v.img, date: day(d), time, duration: v.duration, specialist: spec, room, price: v.price, status, stage, notes: n }
   }
   return [
-    mk('VT-APT-7731', 'hot-stone', 2, '16:00', 'Anika', 'Suite 3 · Lotus', 'Upcoming', 1, 'Lower back sensitivity, medium pressure please.'),
-    mk('VT-APT-7742', 'rose-facial', 9, '11:00', 'Dev', 'Suite 1 · Rose', 'Upcoming', 0),
-    mk('VT-APT-7690', 'couples', -12, '17:00', 'Anika, Meera', 'Couple\'s Suite', 'Completed', 4, 'Anniversary visit.'),
-    mk('VT-APT-7611', 'abhyanga', -30, '10:00', 'Meera', 'Suite 2 · Sandal', 'Completed', 4),
+    mk('VT-APT-7731', 'body-massage', 2, '16:00', 'Anika', 'Suite 3 · Lotus', 'Upcoming', 1, 'Lower back sensitivity, medium pressure please.'),
+    mk('VT-APT-7742', 'hydra-facial', 9, '11:00', 'Isha', 'Suite 1 · Rose', 'Upcoming', 0),
+    mk('VT-APT-7690', 'beauty-consultation', -12, '17:00', 'Nisha', 'Consultation room', 'Completed', 4, 'Skin routine planning.'),
+    mk('VT-APT-7611', 'normal-facial', -30, '10:00', 'Isha', 'Suite 2 · Sandal', 'Completed', 4),
   ]
 }
 export function getAppts(): Appt[] {

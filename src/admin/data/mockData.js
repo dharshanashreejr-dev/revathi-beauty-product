@@ -45,11 +45,10 @@ export const INITIAL_ORDERS = [
 ];
 
 export const SERVICES = [
-  { name: 'Signature Glow Facial', duration: 60, price: 3500 },
-  { name: 'Botanical Hair Spa', duration: 90, price: 2800 },
-  { name: 'Bridal Skin Consultation', duration: 45, price: 1500 },
-  { name: 'Relaxing Aromatherapy', duration: 75, price: 3200 },
-  { name: 'Deep Cleansing Facial', duration: 60, price: 2400 }
+  { name: 'Body Massage', duration: 60, price: 2800 },
+  { name: 'Normal Facial', duration: 60, price: 2200 },
+  { name: 'Hydra Facial', duration: 75, price: 3200 },
+  { name: 'Beauty Consultation', duration: 30, price: 500 }
 ];
 export const APPOINTMENT_STATUSES = ['Pending', 'Confirmed', 'Checked In', 'Completed', 'Cancelled'];
 export const TIME_SLOTS = ['09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00'];
@@ -57,16 +56,16 @@ export const TIME_SLOTS = ['09:00', '10:00', '11:00', '12:00', '13:00', '14:00',
 export const TODAY = '2026-10-09';
 
 export const INITIAL_APPOINTMENTS = [
-  { id: 'APT-3001', customerId: 'C-001', customer: 'Priya Venkatesh', service: 'Signature Glow Facial', date: '2026-10-09', time: '10:00', specialistId: 'S-002', status: 'Confirmed', notes: 'Sensitive skin, avoid strong acids.' },
-  { id: 'APT-3002', customerId: 'C-005', customer: 'Divya Subramanian', service: 'Bridal Skin Consultation', date: '2026-10-09', time: '11:00', specialistId: 'S-002', status: 'Checked In', notes: 'Wedding in December.' },
-  { id: 'APT-3003', customerId: 'C-003', customer: 'Sneha Kulkarni', service: 'Botanical Hair Spa', date: '2026-10-09', time: '13:00', specialistId: 'S-003', status: 'Pending', notes: '' },
-  { id: 'APT-3004', customerId: 'C-007', customer: 'Lakshmi Narayanan', service: 'Relaxing Aromatherapy', date: '2026-10-09', time: '15:00', specialistId: 'S-005', status: 'Confirmed', notes: 'Prefers lavender oil.' },
-  { id: 'APT-3005', customerId: 'C-009', customer: 'Nandini Rao', service: 'Deep Cleansing Facial', date: '2026-10-10', time: '10:00', specialistId: 'S-002', status: 'Confirmed', notes: '' },
-  { id: 'APT-3006', customerId: 'C-002', customer: 'Rahul Menon', service: 'Deep Cleansing Facial', date: '2026-10-10', time: '12:00', specialistId: 'S-004', status: 'Pending', notes: 'First visit.' },
-  { id: 'APT-3007', customerId: 'C-008', customer: 'Vikram Shah', service: 'Relaxing Aromatherapy', date: '2026-10-11', time: '16:00', specialistId: 'S-005', status: 'Confirmed', notes: '' },
-  { id: 'APT-3008', customerId: 'C-004', customer: 'Arjun Reddy', service: 'Signature Glow Facial', date: '2026-10-08', time: '14:00', specialistId: 'S-004', status: 'Completed', notes: '' },
-  { id: 'APT-3009', customerId: 'C-006', customer: 'Karthik Raman', service: 'Botanical Hair Spa', date: '2026-10-07', time: '11:00', specialistId: 'S-003', status: 'Cancelled', notes: 'Customer rescheduled.' },
-  { id: 'APT-3010', customerId: 'C-010', customer: 'Harish Gupta', service: 'Bridal Skin Consultation', date: '2026-10-12', time: '09:00', specialistId: 'S-002', status: 'Pending', notes: '' }
+  { id: 'APT-3001', customerId: 'C-001', customer: 'Priya Venkatesh', service: 'Normal Facial', date: '2026-10-09', time: '10:00', specialistId: 'S-002', status: 'Confirmed', notes: 'Sensitive skin, avoid strong acids.' },
+  { id: 'APT-3002', customerId: 'C-005', customer: 'Divya Subramanian', service: 'Beauty Consultation', date: '2026-10-09', time: '11:00', specialistId: 'S-002', status: 'Checked In', notes: 'Wedding in December.' },
+  { id: 'APT-3003', customerId: 'C-003', customer: 'Sneha Kulkarni', service: 'Body Massage', date: '2026-10-09', time: '13:00', specialistId: 'S-003', status: 'Pending', notes: '' },
+  { id: 'APT-3004', customerId: 'C-007', customer: 'Lakshmi Narayanan', service: 'Body Massage', date: '2026-10-09', time: '15:00', specialistId: 'S-005', status: 'Confirmed', notes: 'Prefers lavender oil.' },
+  { id: 'APT-3005', customerId: 'C-009', customer: 'Nandini Rao', service: 'Hydra Facial', date: '2026-10-10', time: '10:00', specialistId: 'S-002', status: 'Confirmed', notes: '' },
+  { id: 'APT-3006', customerId: 'C-002', customer: 'Rahul Menon', service: 'Hydra Facial', date: '2026-10-10', time: '12:00', specialistId: 'S-004', status: 'Pending', notes: 'First visit.' },
+  { id: 'APT-3007', customerId: 'C-008', customer: 'Vikram Shah', service: 'Body Massage', date: '2026-10-11', time: '16:00', specialistId: 'S-005', status: 'Confirmed', notes: '' },
+  { id: 'APT-3008', customerId: 'C-004', customer: 'Arjun Reddy', service: 'Normal Facial', date: '2026-10-08', time: '14:00', specialistId: 'S-004', status: 'Completed', notes: '' },
+  { id: 'APT-3009', customerId: 'C-006', customer: 'Karthik Raman', service: 'Body Massage', date: '2026-10-07', time: '11:00', specialistId: 'S-003', status: 'Cancelled', notes: 'Customer rescheduled.' },
+  { id: 'APT-3010', customerId: 'C-010', customer: 'Harish Gupta', service: 'Beauty Consultation', date: '2026-10-12', time: '09:00', specialistId: 'S-002', status: 'Pending', notes: '' }
 ];
 
 export const STAFF_ROLES = ['Administrator', 'Skin Specialist', 'Hair Therapist', 'Beauty Specialist', 'Receptionist', 'Wellness Specialist'];
@@ -108,9 +107,9 @@ export const MONTHLY_REVENUE = [
 ];
 
 export const ACTIVITY = [
-  { who: 'Divya Subramanian', what: 'checked in for {service}', vars: { service: 'Bridal Skin Consultation' }, when: '10 min ago' },
+  { who: 'Divya Subramanian', what: 'checked in for {service}', vars: { service: 'Beauty Consultation' }, when: '10 min ago' },
   { who: 'Priya Venkatesh', what: 'placed order {id}', vars: { id: 'ORD-5001' }, when: '1 hr ago' },
-  { who: 'Rahul Menon', what: 'booked {service}', vars: { service: 'Deep Cleansing Facial' }, when: '3 hrs ago' },
+  { who: 'Rahul Menon', what: 'booked {service}', vars: { service: 'Hydra Facial' }, when: '3 hrs ago' },
   { who: 'Arjun Reddy', what: 'received order {id}', vars: { id: 'ORD-5004' }, when: 'Yesterday' },
   { who: 'Nandini Rao', what: 'placed order {id}', vars: { id: 'ORD-5009' }, when: '2 days ago' }
 ];
