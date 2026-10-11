@@ -26,11 +26,7 @@ export const content = {
     statement:
       "Herbal skincare and makeup, made with natural ingredients for an everyday glow.",
     storySmall:
-<<<<<<< HEAD
-      "Shop skincare, makeup and body care, and book salon and spa treatments, all in one place.",
-=======
       "Shop skincare, makeup and body care, and book body massage, facials and beauty consultations at our women's luxury salon.",
->>>>>>> 60da8c4 (updated service page)
     notesLabel: "Key ingredients",
     notesTitle: "Three ingredients for a natural glow.",
     peach: "Peach nectar",
