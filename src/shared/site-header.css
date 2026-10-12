@@ -119,7 +119,7 @@ html:not([lang="en"]) .vt-right { padding: 0 0 0 20px !important; gap: 14px !imp
 @media (max-width: 1499px) { .vt-admin-link { display: none; } }
 
 /* below 1360px switch to the burger layout (menu has every link, Login and Admin) */
-@media (max-width: 1359px) {
+ @media (max-width: 1199px) {
   .vt-header { grid-template-columns: 1fr minmax(160px, 240px) 1fr; height: 80px; }
   .vt-nav { display: none; }
   .vt-burger { display: grid; grid-column: 1; grid-row: 1; margin: 14px 0 0 12px; }
@@ -130,4 +130,9 @@ html:not([lang="en"]) .vt-right { padding: 0 0 0 20px !important; gap: 14px !imp
   .vt-admin { display: none; }
   .vt-rightwrap { gap: 8px; }
   .vt-tools { gap: 8px !important; }
+}
+/* below 1360px switch to the burger layout */
+@media (max-width: 1359px) {
+  .vt-nav { display: none; }          /* hides Products / Services / About / Tracking */
+  .vt-burger { display: grid;  }   /* shows ☰ */
 }
