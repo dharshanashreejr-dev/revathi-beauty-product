@@ -24,7 +24,7 @@ export const PERKS: Tr[] = [
   { en: 'Secure payments', ta: 'பாதுகாப்பான பணம் செலுத்தல்', hi: 'सुरक्षित भुगतान', ml: 'സുരക്ഷിത പേയ്മെന്റുകൾ', te: 'సురక్షిత చెల్లింపులు' },
 ]
 
-import { tr } from '../shared/i18n'
+import { tr, trx } from '../shared/i18n'
 export const SUB: Record<string, Tr> = {
  "All": {
   "ta": "அனைத்தும்",
@@ -636,11 +636,11 @@ export const sub = (s: string, lang: Lang) => (SUB[s] ? tr(SUB[s], lang) : s)
 export const badge = (s: string, lang: Lang) => (BADGE[s] ? tr(BADGE[s], lang) : s)
 export const colour = (s: string, lang: Lang) => (COLOUR[s] ? tr(COLOUR[s], lang) : s)
 export const ui = (k: string, lang: Lang) => tr(UI[k], lang)
-export const sizesLabel = (n: number, lang: Lang) => ({ en: `${n} sizes`, ta: `${n} அளவுகள்`, hi: `${n} साइज़`, ml: `${n} വലുപ്പങ്ങൾ`, te: `${n} సైజులు` })[lang]
-export const offLabel = (n: number, lang: Lang) => ({ en: `${n}% off`, ta: `${n}% தள்ளுபடி`, hi: `${n}% की छूट`, ml: `${n}% കിഴിവ്`, te: `${n}% తగ్గింపు` })[lang]
+export const sizesLabel = (n: number, lang: Lang) => trx({ en: `${n} sizes`, ta: `${n} அளவுகள்`, hi: `${n} साइज़`, ml: `${n} വലുപ്പങ്ങൾ`, te: `${n} సైజులు` }, lang)
+export const offLabel = (n: number, lang: Lang) => trx({ en: `${n}% off`, ta: `${n}% தள்ளுபடி`, hi: `${n}% की छूट`, ml: `${n}% കിഴിവ്`, te: `${n}% తగ్గింపు` }, lang)
 export const stockLabel = (n: number, lang: Lang) => n === 0 ? ui('out', lang) : n <= 10
-  ? ({ en: `Only ${n} left`, ta: `${n} மட்டுமே உள்ளன`, hi: `सिर्फ़ ${n} बचे`, ml: `${n} മാത്രം ബാക്കി`, te: `${n} మాత్రమే ఉన్నాయి` })[lang]
-  : ({ en: `In stock · ${n} units`, ta: `இருப்பில் · ${n} எண்ணிக்கை`, hi: `स्टॉक में · ${n} यूनिट`, ml: `സ്റ്റോക്കിൽ · ${n} എണ്ണം`, te: `స్టాక్‌లో · ${n} యూనిట్లు` })[lang]
+  ? trx({ en: `Only ${n} left`, ta: `${n} மட்டுமே உள்ளன`, hi: `सिर्फ़ ${n} बचे`, ml: `${n} മാത്രം ബാക്കി`, te: `${n} మాత్రమే ఉన్నాయి` }, lang)
+  : trx({ en: `In stock · ${n} units`, ta: `இருப்பில் · ${n} எண்ணிக்கை`, hi: `स्टॉक में · ${n} यूनिट`, ml: `സ്റ്റോക്കിൽ · ${n} എണ്ണം`, te: `స్టాక్‌లో · ${n} యూనిట్లు` }, lang)
 
 export const MODAL: Record<string, Tr> = {
  "m_close": {

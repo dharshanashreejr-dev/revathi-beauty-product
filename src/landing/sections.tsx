@@ -213,7 +213,7 @@ export function HerbalShowcase({ onOpen, onAdd, lang = "en" }: { onOpen: (id: st
                     </div>
                     <div className="herbal-cta">
                       <button className="pill dark herbal-pill" onClick={() => onOpen(s.id)}>
-                        {st("discover", lang)} {p.name[lang].split(" ")[0]}
+                        {st("discover", lang)} {(p.name[lang] ?? p.name.en).split(" ")[0]}
                         <span className="pill-dot">
                           <Plus size={20} />
                         </span>

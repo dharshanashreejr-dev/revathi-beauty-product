@@ -1,6 +1,6 @@
 import type { Lang } from "./data";
 
-type L = Record<Lang, string>;
+type L = Partial<Record<Lang, string>> & { en: string }; // kn/mr/bn fall back to English
 
 export type HeroSlide = {
   id: "lipstick" | "herbal" | "spa";

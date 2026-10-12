@@ -67,3 +67,5 @@ export function useUiLang(): [UiLang, (l: UiLang) => void] {
 /** Text in every language; falls back to English if one is missing. */
 export type Tr = { en: string } & Partial<Record<Lang, string>>
 export const tr = (d: Tr, lang: Lang) => d[lang] ?? d.en
+/** Same as tr() but for any value type (arrays etc.). Falls back to English when a language has no entry. */
+export const trx = <T extends { en: unknown }>(d: T, lang: Lang): T[keyof T] => ((d as Record<string, unknown>)[lang] ?? d.en) as T[keyof T]

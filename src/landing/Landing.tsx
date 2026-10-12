@@ -17,6 +17,7 @@ import Lenis from "lenis";
 import { img, photos } from "./photos";
 import { SITE } from "../site-links";
 import { content } from "./content";
+import { tr, trx } from "../shared/i18n";
 import { st } from "./i18n-sections";
 import { heroSlides, heroTicker } from "./hero-slides";
 import { addOrder } from "../site/account";
@@ -240,7 +241,7 @@ export default function Home() {
   const root = useRef<HTMLDivElement>(null),
     dialog = useRef<HTMLDialogElement>(null),
     lenis = useRef<Lenis | null>(null);
-  const t = content[lang];
+  const t = content[lang as keyof typeof content] ?? content.en;
   const NL = NAV_LABELS[lang];
   const product = byId(productId);
   const lines = products.filter((p) => cart[p.id] > 0).map((p) => ({ p, qty: cart[p.id] }));
@@ -773,7 +774,7 @@ export default function Home() {
         </defs>
       </svg>
       <a className="skip-link" href="#main">
-        {({ en: "Skip to content", ta: "உள்ளடக்கத்திற்குச் செல்", hi: "सामग्री पर जाएँ", ml: "ഉള്ളടക്കത്തിലേക്ക് പോകുക", te: "కంటెంట్‌కు వెళ్ళండి" } as const)[lang]}
+        {trx({ en: "Skip to content", ta: "உள்ளடக்கத்திற்குச் செல்", hi: "सामग्री पर जाएँ", ml: "ഉള്ളടക്കത്തിലേക്ക് പോകുക", te: "కంటెంట్‌కు వెళ్ళండి" }, lang)}
       </a>
       <Cursor />
       <div className="intro-curtain" aria-hidden="true">
@@ -799,7 +800,7 @@ export default function Home() {
         </nav>
         <button
           className="mobile-menu icon-button"
-          aria-label={({ en: "Open menu", ta: "மெனுவைத் திற", hi: "मेनू खोलें", ml: "മെനു തുറക്കുക", te: "మెనూ తెరవండి" } as const)[lang]}
+          aria-label={trx({ en: "Open menu", ta: "மெனுவைத் திற", hi: "मेनू खोलें", ml: "മെനു തുറക്കുക", te: "మెనూ తెరవండి" }, lang)}
           onClick={() => setPanel("menu")}
         >
           <Menu size={22} />
@@ -848,7 +849,7 @@ export default function Home() {
           <button
             className="icon-button"
             onClick={() => setPanel("search")}
-            aria-label={({ en: "Search", ta: "தேடு", hi: "खोजें", ml: "തിരയുക", te: "వెతకండి" } as const)[lang]}
+            aria-label={trx({ en: "Search", ta: "தேடு", hi: "खोजें", ml: "തിരയുക", te: "వెతకండి" }, lang)}
           >
             <Search size={21} />
           </button>
@@ -891,12 +892,12 @@ export default function Home() {
                   aria-hidden={!active}
                 >
                   <div className="hb-copy">
-                    <span className="hb-eyebrow">{sl.eyebrow[lang]}</span>
-                    {i === 0 ? <h1 id="hero-title">{sl.title[lang]}</h1> : <h2>{sl.title[lang]}</h2>}
-                    <p>{sl.copy[lang]}</p>
+                    <span className="hb-eyebrow">{tr(sl.eyebrow, lang)}</span>
+                    {i === 0 ? <h1 id="hero-title">{tr(sl.title, lang)}</h1> : <h2>{tr(sl.title, lang)}</h2>}
+                    <p>{tr(sl.copy, lang)}</p>
                     <div className="hb-actions">
                       <button className="hb-btn" tabIndex={active ? 0 : -1} onClick={runAction}>
-                        {sl.cta[lang]}
+                        {tr(sl.cta, lang)}
                       </button>
                       {sl.action !== "book" && (
                         <button className="hb-btn ghost" tabIndex={active ? 0 : -1} onClick={() => openBooking()}>
@@ -908,7 +909,7 @@ export default function Home() {
                   <figure className="hb-media" style={{ "--hb-img": `url(${sl.image})` } as React.CSSProperties}>
                     <img
                       src={sl.image}
-                      alt={sl.alt[lang]}
+                      alt={tr(sl.alt, lang)}
                       width={sl.width}
                       height={sl.height}
                       {...(i === 0 ? { fetchpriority: "high" } : { loading: "lazy" as const })}
@@ -922,7 +923,7 @@ export default function Home() {
             <div className="hb-ticker-track">
               {[0, 1].map((k) => (
                 <div className="hb-ticker-row" key={k}>
-                  {[...heroTicker.map((x) => x[lang]), BRAND].map((x) => (
+                  {[...heroTicker.map((x) => tr(x, lang)), BRAND].map((x) => (
                     <span key={x + k}>{x}</span>
                   ))}
                 </div>
@@ -1352,8 +1353,8 @@ export default function Home() {
 </div>
         <div className="footer-bottom">
           <span>© {new Date().getFullYear()} {BRAND}</span>
-          <span>{({ en: "THE ESSENCE OF BEAUTIFUL MOMENTS", ta: "அழகான தருணங்களின் சாரம்", hi: "सुंदर पलों का सार", ml: "സുന്ദര നിമിഷങ്ങളുടെ സാരം", te: "అందమైన క్షణాల సారం" } as const)[lang]}</span>
-          <span>{({ en: "SHOP · SALON · SPA", ta: "ஷாப் · சலூன் · ஸ்பா", hi: "शॉप · सैलून · स्पा", ml: "ഷോപ്പ് · സലൂൺ · സ്പാ", te: "షాప్ · సెలూన్ · స్పా" } as const)[lang]}</span>
+          <span>{trx({ en: "THE ESSENCE OF BEAUTIFUL MOMENTS", ta: "அழகான தருணங்களின் சாரம்", hi: "सुंदर पलों का सार", ml: "സുന്ദര നിമിഷങ്ങളുടെ സാരം", te: "అందమైన క్షణాల సారం" }, lang)}</span>
+          <span>{trx({ en: "SHOP · SALON · SPA", ta: "ஷாப் · சலூன் · ஸ்பா", hi: "शॉप · सैलून · स्पा", ml: "ഷോപ്പ് · സലൂൺ · സ്പാ", te: "షాప్ · సెలూన్ · స్పా" }, lang)}</span>
         </div>
       </footer>
       <dialog
@@ -1385,7 +1386,7 @@ export default function Home() {
           <button
             className="modal-close icon-button"
             onClick={() => setPanel(null)}
-            aria-label={({ en: "Close", ta: "மூடு", hi: "बंद करें", ml: "അടയ്ക്കുക", te: "మూసివేయండి" } as const)[lang]}
+            aria-label={trx({ en: "Close", ta: "மூடு", hi: "बंद करें", ml: "അടയ്ക്കുക", te: "మూసివేయండి" }, lang)}
           >
             <X size={24} />
           </button>
@@ -1441,7 +1442,7 @@ export default function Home() {
                 onClick={(e) => e.currentTarget.classList.toggle("is-zoomed")}
                 onPointerLeave={(e) => e.currentTarget.classList.remove("is-zoomed")}
               >
-                <span className="product-modal-word">{product.name[lang].split(" ")[0]}</span>
+                <span className="product-modal-word">{tr(product.name, lang).split(" ")[0]}</span>
                 <ProductPhoto id={product.id} shade={shade} className="product-modal-art" alt={product.name[lang]} />
               </div>
               <div className="product-modal-copy">
@@ -1515,7 +1516,7 @@ export default function Home() {
                         </p>
                         <div className="quantity">
                           <button
-                            aria-label={({ en: "Decrease quantity", ta: "அளவைக் குறை", hi: "मात्रा घटाएँ", ml: "അളവ് കുറയ്ക്കുക", te: "పరిమాణం తగ్గించు" } as const)[lang]}
+                            aria-label={trx({ en: "Decrease quantity", ta: "அளவைக் குறை", hi: "मात्रा घटाएँ", ml: "അളവ് കുറയ്ക്കുക", te: "పరిమాణం తగ్గించు" }, lang)}
                             onClick={() => setQty(p.id, qty - 1)}
                           >
                             <Minus size={16} />
@@ -1523,7 +1524,7 @@ export default function Home() {
                           <output>{qty}</output>
                           <button
                             disabled={qty >= 10}
-                            aria-label={({ en: "Increase quantity", ta: "அளவை அதிகரி", hi: "मात्रा बढ़ाएँ", ml: "അളവ് കൂട്ടുക", te: "పరిమాణం పెంచు" } as const)[lang]}
+                            aria-label={trx({ en: "Increase quantity", ta: "அளவை அதிகரி", hi: "मात्रा बढ़ाएँ", ml: "അളവ് കൂട്ടുക", te: "పరిమాణం పెంచు" }, lang)}
                             onClick={() => setQty(p.id, qty + 1)}
                           >
                             <Plus size={16} />
@@ -1707,7 +1708,7 @@ export default function Home() {
                     <div>
                       <dt>{t.date}</dt>
                       <dd>
-                        {new Date(booked.date + "T00:00").toLocaleDateString(({ en: "en-IN", ta: "ta-IN", hi: "hi-IN", ml: "ml-IN", te: "te-IN" } as const)[lang], {
+                        {new Date(booked.date + "T00:00").toLocaleDateString(trx({ en: "en-IN", ta: "ta-IN", hi: "hi-IN", ml: "ml-IN", te: "te-IN" }, lang), {
                           weekday: "long",
                           day: "numeric",
                           month: "long",
@@ -1863,7 +1864,7 @@ export default function Home() {
               />
               <span className="eyebrow">{t.journalLabel}</span>
               <h2>{article === 0 ? t.articleOne : t.articleTwo}</h2>
-              {(({
+              {(trx({
                 en: article === 0
                   ? ["Healthy skin starts with a simple routine: cleanse gently, moisturise daily and protect your skin from the sun.", "Herbal ingredients such as neem, aloe vera, turmeric and sandalwood have been used for generations to soothe and nourish the skin. Choose products that suit your skin type, and patch-test anything new.", "Consistency matters more than quantity."]
                   : ["A herbal spa visit is a calm break in your day. We begin with a consultation so our therapist can understand your skin and hair needs.", "Treatments use herbal oils, packs and products from our own range, planned in an order that never feels rushed.", "Arrive relaxed. Leave refreshed."],
@@ -1879,7 +1880,7 @@ export default function Home() {
                 te: article === 0
                   ? ["సూర్యుడు అస్తమించే ముందు ప్రపంచం మృదువుగా అనిపించే క్షణం ఉంది. చర్మం వెచ్చగా కనిపిస్తుంది. రంగు సమృద్ధంగా కనిపిస్తుంది.", "REVATHI HERBAL BEAUTY CARE వద్ద మేము వెతికే గ్లో: ఎక్లా సీరం చుక్క, బుగ్గ ఎముకలపై గోల్డెన్ హైలైటర్, వెల్వెట్ లిప్. సాధారణ అడుగులు, నెమ్మదిగా.", "కొన్ని రోజులు గడిచిపోతాయి. మరికొన్ని ప్రకాశిస్తాయి."]
                   : ["సెలూన్ రోజు ఒక విరామం. రోజు ప్రశాంతంగా ఉన్నప్పుడు ఫేషియల్‌తో ప్రారంభించి, జుట్టుకు వెళ్లి, సాయంత్రం ఉంటే మేకప్‌తో ముగించండి.", "మీకు ఏమి కావాలో చెప్పండి — ట్రీట్‌మెంట్ల క్రమాన్ని మేము ప్లాన్ చేస్తాము. కన్సల్టేషన్ ఉచితం.", "మీరు ఉన్నట్టుగా రండి. అత్యంత పాలిష్డ్ మీగా వెళ్లండి."],
-              } as const)[lang]).map((p) => (
+              }, lang)).map((p) => (
                 <p key={p}>{p}</p>
               ))}
               <button className="text-link" onClick={() => (article === 0 ? go("#shop") : openBooking())}>
@@ -1894,30 +1895,30 @@ export default function Home() {
               <h2>{article === 0 ? t.care : t.privacy}</h2>
               <p>
                 {article === 0
-                  ? ({
+                  ? trx({
                       en: "Keep skincare and makeup away from direct sunlight and heat, with caps closed tightly. Use clean hands or a clean spatula for jars, and store products in a cool, dry place. Check each product's label for its recommended use period.",
                       ta: "தோல் பராமரிப்பு மற்றும் மேக்கப்பை நேரடி சூரிய ஒளி மற்றும் வெப்பத்திலிருந்து விலக்கி, மூடிகளை இறுக்கமாக மூடி வைக்கவும். ஜார்களுக்கு சுத்தமான கைகள் அல்லது ஸ்பேட்டூலா பயன்படுத்தவும். குளிர்ந்த, உலர்ந்த இடத்தில் சேமிக்கவும்.",
                       hi: "स्किनकेयर और मेकअप को सीधी धूप और गर्मी से दूर रखें, ढक्कन कसकर बंद करें। जार के लिए साफ हाथ या स्पैचुला उपयोग करें। ठंडी, सूखी जगह पर रखें।",
                       ml: "സ്കിൻകെയറും മേക്കപ്പും നേരിട്ടുള്ള സൂര്യപ്രകാശത്തിൽ നിന്നും ചൂടിൽ നിന്നും അകറ്റി, ക്യാപ്പുകൾ ദൃഢമായി അടച്ച് വയ്ക്കുക. ജാറുകൾക്ക് വൃത്തിയുള്ള കൈകളോ സ്പാറ്റുലയോ ഉപയോഗിക്കുക. തണുത്ത, ഉണങ്ങിയ സ്ഥലത്ത് സൂക്ഷിക്കുക.",
                       te: "స్కిన్‌కేర్ మరియు మేకప్‌ను నేరుగా సూర్యకాంతి మరియు వేడి నుండి దూరంగా ఉంచి, క్యాప్‌లను గట్టిగా మూసివేయండి. జార్‌లకు శుభ్రమైన చేతులు లేదా స్పాచులా ఉపయోగించండి. చల్లని, పొడి ప్రదేశంలో నిల్వ చేయండి.",
-                    } as const)[lang]
-                  : ({
+                    }, lang)
+                  : trx({
                       en: "Your bag, appointments and language preference are saved only in this browser. Search is performed on this page. Clearing your browser's site data removes them.",
                       ta: "உங்கள் பை, நேரங்கள் மற்றும் மொழி விருப்பம் இந்த உலாவியில் மட்டுமே சேமிக்கப்படும். தேடல் இந்தப் பக்கத்தில் செய்யப்படுகிறது. உலாவி தரவை அழித்தால் அவை நீக்கப்படும்.",
                       hi: "आपका बैग, अपॉइंटमेंट और भाषा वरीयता केवल इस ब्राउज़र में सेव होती है। खोज इसी पेज पर होती है। ब्राउज़र डेटा साफ़ करने पर वे हट जाती हैं।",
                       ml: "നിങ്ങളുടെ ബാഗ്, അപ്പോയിന്റ്മെന്റുകൾ, ഭാഷാ മുൻഗണന ഈ ബ്രൗസറിൽ മാത്രം സേവ് ചെയ്യപ്പെടും. തിരയൽ ഈ പേജിൽ നടക്കും. ബ്രൗസർ ഡാറ്റ മായ്ച്ചാൽ അവ നീക്കം ചെയ്യപ്പെടും.",
                       te: "మీ బ్యాగ్, అపాయింట్‌మెంట్లు మరియు భాషా ప్రాధాన్యత ఈ బ్రౌజర్‌లో మాత్రమే సేవ్ అవుతాయి. శోధన ఈ పేజీలో జరుగుతుంది. బ్రౌజర్ డేటా క్లియర్ చేస్తే అవి తొలగించబడతాయి.",
-                    } as const)[lang]}
+                    }, lang)}
               </p>
               {article === 1 && (
                 <button
                   className="pill dark"
                   onClick={() => {
                     update(() => ({}));
-                    setToast(({ en: "Your bag has been cleared.", ta: "உங்கள் பை காலி செய்யப்பட்டது.", hi: "आपका बैग खाली कर दिया गया।", ml: "നിങ്ങളുടെ ബാഗ് ക്ലിയർ ചെയ്തു.", te: "మీ బ్యాగ్ క్లియర్ చేయబడింది." } as const)[lang]);
+                    setToast(trx({ en: "Your bag has been cleared.", ta: "உங்கள் பை காலி செய்யப்பட்டது.", hi: "आपका बैग खाली कर दिया गया।", ml: "നിങ്ങളുടെ ബാഗ് ക്ലിയർ ചെയ്തു.", te: "మీ బ్యాగ్ క్లియర్ చేయబడింది." }, lang));
                   }}
                 >
-                  {({ en: "Clear my bag", ta: "பையை காலி செய்", hi: "बैग खाली करें", ml: "ബാഗ് ക്ലിയർ ചെയ്യുക", te: "బ్యాగ్ క్లియర్ చేయండి" } as const)[lang]}
+                  {trx({ en: "Clear my bag", ta: "பையை காலி செய்", hi: "बैग खाली करें", ml: "ബാഗ് ക്ലിയർ ചെയ്യുക", te: "బ్యాగ్ క్లియర్ చేయండి" }, lang)}
                   <X size={16} />
                 </button>
               )}

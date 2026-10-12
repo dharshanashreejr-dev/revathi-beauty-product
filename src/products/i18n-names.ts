@@ -10,7 +10,7 @@ type Entry = { ta: string; hi: string; ml: string; te: string; kn: string; mr: s
 const e = (ta: string, hi: string, ml: string, te: string, kn: string, mr: string, bn: string): Entry => ({ ta, hi, ml, te, kn, mr, bn })
 
 const BRAND: Record<string, Entry> = {
-  'REVATHI HERBAL': e('ரேவதி ஹெர்பல்', 'रेवती हर्बल', 'രേവതി ഹെർബൽ', 'రేవతి హెర్బల్'),
+  'REVATHI HERBAL': e('ரேவதி ஹெர்பல்', 'रेवती हर्बल', 'രേവതി ഹെർബൽ', 'రేవతి హెర్బల్', 'ರೇವತಿ ಹರ್ಬಲ್', 'रेवती हर्बल', 'রেবতী হার্বাল'),
 }
 
 const WORDS: Record<string, Entry> = {

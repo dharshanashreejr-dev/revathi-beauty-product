@@ -8,7 +8,7 @@ import Payment from './components/Payment';
 import Confirmation from './components/Confirmation';
 import SiteHeader from '../shared/SiteHeader';
 import { requireLogin, useUser } from '../shared/LoginModal';
-import { useLang, tr } from '../shared/i18n';
+import { useLang, tr, trx } from '../shared/i18n';
 import { PERKS } from './i18n';
 import { productsTitle } from '../shared/i18n-meta';
 import type { ArtType, Address, CartItem,CategoryKey, Colour, Order, Product } from './types';
@@ -111,7 +111,7 @@ export default function App() {
       {page === 'payment' && address && <Payment items={liveCart} address={address} onBack={() => go('checkout')} onPlace={o => { saveToTracking(o); deductStockForOrder(o.items); try { localStorage.removeItem('velvet-bag'); } catch {} setOrder(o); setCart([]); go('confirmed'); }}/>}
       {page === 'confirmed' && order && <Confirmation order={order} onShop={() => go('')} />}
 
-      <footer className="bg-night px-5 py-12 text-center text-sm text-stone-400"><p className="gold-text font-serif text-3xl italic">REVATHI HERBAL</p><p className="mt-2 tracking-widest">{({ en: "FACE · WELLNESS · BODY", ta: "முகம் · ஆரோக்கியம் · உடல்", hi: "चेहरा · वेलनेस · शरीर", ml: "മുഖം · വെൽനെസ് · ശരീരം", te: "ముఖం · వెల్నెస్ · శరీరం" } as const)[lang]}</p></footer>
+      <footer className="bg-night px-5 py-12 text-center text-sm text-stone-400"><p className="gold-text font-serif text-3xl italic">REVATHI HERBAL</p><p className="mt-2 tracking-widest">{trx({ en: "FACE · WELLNESS · BODY", ta: "முகம் · ஆரோக்கியம் · உடல்", hi: "चेहरा · वेलनेस · शरीर", ml: "മുഖം · വെൽനെസ് · ശരീരം", te: "ముఖం · వెల్నెస్ · శరీరం" }, lang)}</p></footer>
 
       <CartDrawer open={drawer} items={liveCart} onClose={() => setDrawer(false)} onQty={changeQty} onRemove={remove} onCheckout={() => { setDrawer(false); requireLogin(() => go('checkout')); }} />
       {open && <ProductModal key={open.product.id} product={open.product} initialColour={open.colour} onClose={close} onAdd={(c, s, q) => add(open.product, c, s, q)} />}
