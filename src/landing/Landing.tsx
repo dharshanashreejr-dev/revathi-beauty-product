@@ -633,7 +633,7 @@ export default function Home() {
       localStorage.setItem("velvet-appointments", JSON.stringify(next));
     } catch {}
     setBookError("");
-    setBooked({ service: svc.name[lang], date: booking.date, time: booking.time, mins: svc.mins });
+    setBooked({ service: tr(svc.name, lang), date: booking.date, time: booking.time, mins: svc.mins });
     setBooking((b) => ({ ...b, time: "", notes: "" }));
   }
   function downloadIcs() {
