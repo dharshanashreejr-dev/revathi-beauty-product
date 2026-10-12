@@ -1,4 +1,3 @@
-// All figures are sample / demo data. No real customers, payments or accounting.
 
 export const USERS = [
   { email: 'admin@revathiherbal.demo', password: 'Admin@123', role: 'Admin', name: 'Ananya Iyer', title: 'Operations Head' },
@@ -10,9 +9,14 @@ export const PRODUCT_STATUSES = ['Active', 'Draft', 'Out of Stock'];
 export const LOW_STOCK = 10;
 
 const palette = [
-  ['#e8c9c1', '#c98f84'], ['#d9e2d4', '#7f9a7b'], ['#efe2cf', '#c9a24a'],
-  ['#e2d6e0', '#9a7a95'], ['#d6e4e3', '#6f9694'], ['#f1d9cf', '#c27a63']
+  ['#e8c9c1', '#c98f84'],
+  ['#d9e2d4', '#7f9a7b'],
+  ['#efe2cf', '#c9a24a'],
+  ['#e2d6e0', '#9a7a95'],
+  ['#d6e4e3', '#6f9694'],
+  ['#f1d9cf', '#c27a63']
 ];
+
 export const swatch = (i) => palette[i % palette.length];
 
 export const INITIAL_PRODUCTS = [
@@ -52,10 +56,26 @@ export const SERVICES = [
   { name: 'Hydra Facial', duration: 75, price: 3200 },
   { name: 'Beauty Consultation', duration: 30, price: 500 },
   // Bridal makeup packages are edited in Services & Pricing.
-  ...getSiteConfig().bridalPackages.map((b) => ({ name: `Bridal Makeup – ${b.name}`, duration: b.duration, price: b.price }))
+  ...getSiteConfig().bridalPackages.map((b) => ({
+    name: `Bridal Makeup – ${b.name}`,
+    duration: b.duration,
+    price: b.price
+  }))
 ];
-export const APPOINTMENT_STATUSES = ['Scheduled', 'Checked-In', 'Completed', 'Rescheduled', 'No-Show', 'Cancelled'];
-export const TIME_SLOTS = ['09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00'];
+
+export const APPOINTMENT_STATUSES = [
+  'Scheduled',
+  'Checked-In',
+  'Completed',
+  'Rescheduled',
+  'No-Show',
+  'Cancelled'
+];
+
+export const TIME_SLOTS = [
+  '09:00', '10:00', '11:00', '12:00', '13:00',
+  '14:00', '15:00', '16:00', '17:00', '18:00'
+];
 
 export const TODAY = '2026-10-09';
 
@@ -72,7 +92,15 @@ export const INITIAL_APPOINTMENTS = [
   { id: 'APT-3010', customerId: 'C-010', customer: 'Harish Gupta', service: 'Beauty Consultation', date: '2026-10-12', time: '09:00', specialistId: 'S-002', status: 'Scheduled', notes: '' }
 ];
 
-export const STAFF_ROLES = ['Administrator', 'Skin Specialist', 'Hair Therapist', 'Beauty Specialist', 'Receptionist', 'Wellness Specialist'];
+export const STAFF_ROLES = [
+  'Administrator',
+  'Skin Specialist',
+  'Hair Therapist',
+  'Beauty Specialist',
+  'Receptionist',
+  'Wellness Specialist'
+];
+
 export const AVAILABILITY = ['Available', 'With Client', 'Off Duty'];
 
 export const INITIAL_STAFF = [
@@ -119,6 +147,20 @@ export const ACTIVITY = [
 ];
 
 export const inr = (n) => '₹' + Number(n || 0).toLocaleString('en-IN');
-export const initials = (name) => name.replace(/^Dr\.\s*/, '').split(' ').map((p) => p[0]).slice(0, 2).join('').toUpperCase();
-const DATE_LOCALES = { en: 'en-IN', ta: 'ta-IN', hi: 'hi-IN', ml: 'ml-IN', te: 'te-IN' };
-export const fmtDate = (iso, lang = 'en') => new Date(iso + 'T00:00:00').toLocaleDateString(DATE_LOCALES[lang] || 'en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
+
+export const initials = (name) =>
+  name.replace(/^Dr\.\s*/, '').split(' ').map((p) => p[0]).slice(0, 2).join('').toUpperCase();
+
+const DATE_LOCALES = {
+  en: 'en-IN',
+  ta: 'ta-IN',
+  hi: 'hi-IN',
+  ml: 'ml-IN',
+  te: 'te-IN'
+};
+
+export const fmtDate = (iso, lang = 'en') =>
+  new Date(iso + 'T00:00:00').toLocaleDateString(
+    DATE_LOCALES[lang] || 'en-IN',
+    { day: '2-digit', month: 'short', year: 'numeric' }
+  );

@@ -50,7 +50,11 @@ type Panel =
   | "checkout"
   | "order"
   | null;
+<<<<<<< HEAD
 type Language = "en" | "ta" | "hi" | "ml" | "te" | "kn" | "mr" | "bn";
+=======
+type Language = "en" | "ta" | "hi" | "ml" | "te";
+>>>>>>> origin/main
 const FREE_SHIP = 1999;
 const SHIP_FEE = 99;
 const byId = (id: string) => products.find((p) => p.id === id)!;

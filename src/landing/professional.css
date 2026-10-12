@@ -137,7 +137,11 @@ html:not([lang="zz"]) .promo-foot button { font-size: 12px !important; padding: 
 .pick-stage { height: 240px !important; }
 .picks { padding-top: 64px !important; padding-bottom: 64px !important; }
 .arrivals-ghost { display: none !important; }
+<<<<<<< HEAD
 .arrival-photo { height: 180px !important; overflow: hidden !important; }
+=======
+.arrival-photo { height: 190px !important; }
+>>>>>>> origin/main
 .arrivals { padding-top: 64px !important; padding-bottom: 64px !important; }
 .arrivals-head h2 { font-size: clamp(30px, 3.6vw, 48px) !important; }
 .journal-grid { grid-template-columns: 1fr 1fr !important; gap: 28px !important; max-width: 900px; }

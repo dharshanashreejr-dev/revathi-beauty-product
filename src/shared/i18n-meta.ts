@@ -10,9 +10,12 @@ export const HOME_TITLE: Record<Lang, string> = {
   hi: 'REVATHI HERBAL BEAUTY CARE — महिलाओं का लग्ज़री ब्यूटी सैलून और शॉप',
   ml: 'REVATHI HERBAL BEAUTY CARE — സ്ത്രീകൾക്കായുള്ള ലക്ഷ്വറി ബ്യൂട്ടി സലൂൺ & ഷോപ്പ്',
   te: 'REVATHI HERBAL BEAUTY CARE — మహిళల లగ్జరీ బ్యూటీ సెలూన్ & షాప్',
+<<<<<<< HEAD
   kn: 'REVATHI HERBAL BEAUTY CARE — ಮಹಿಳೆಯರ ಲಗ್ಜರಿ ಬ್ಯೂಟಿ ಸಲೂನ್ & ಶಾಪ್',
   mr: 'REVATHI HERBAL BEAUTY CARE — महिलांचे लक्झरी ब्युटी सलून आणि शॉप',
   bn: 'REVATHI HERBAL BEAUTY CARE — মহিলাদের লাক্সারি বিউটি স্যালুন ও শপ',
+=======
+>>>>>>> origin/main
 }
 
 export const HOME_DESC: Record<Lang, string> = {
@@ -21,9 +24,12 @@ export const HOME_DESC: Record<Lang, string> = {
   hi: 'REVATHI HERBAL BEAUTY CARE: महिलाओं का लग्ज़री सैलून - बॉडी मसाज, नॉर्मल और हाइड्रा फेशियल, ब्यूटी कंसल्टेशन, साथ ही ऑनलाइन खरीदने के लिए लग्ज़री स्किनकेयर और मेकअप।',
   ml: 'REVATHI HERBAL BEAUTY CARE: സ്ത്രീകൾക്കായുള്ള ലക്ഷ്വറി സലൂൺ - ബോഡി മസാജ്, നോർമൽ, ഹൈഡ്ര ഫേഷ്യൽ, ബ്യൂട്ടി കൺസൾട്ടേഷൻ, കൂടാതെ ഓൺലൈനിൽ വാങ്ങാൻ ലക്ഷ്വറി സ്കിൻകെയറും മേക്കപ്പും.',
   te: 'REVATHI HERBAL BEAUTY CARE: మహిళల లగ్జరీ సెలూన్ - బాడీ మసాజ్, నార్మల్, హైడ్రా ఫేషియల్స్, బ్యూటీ కన్సల్టేషన్, అలాగే ఆన్‌లైన్‌లో కొనడానికి లగ్జరీ స్కిన్‌కేర్, మేకప్.',
+<<<<<<< HEAD
   kn: 'REVATHI HERBAL BEAUTY CARE: ಮಹಿಳೆಯರ ಲಗ್ಜರಿ ಸಲೂನ್ - ಬಾಡಿ ಮಸಾಜ್, ನಾರ್ಮಲ್ ಮತ್ತು ಹೈಡ್ರಾ ಫೇಶಿಯಲ್, ಬ್ಯೂಟಿ ಕನ್ಸಲ್ಟೇಶನ್, ಹಾಗೂ ಆನ್‌ಲೈನ್‌ನಲ್ಲಿ ಖರೀದಿಸಲು ಲಗ್ಜರಿ ಸ್ಕಿನ್‌ಕೇರ್ ಮತ್ತು ಮೇಕಪ್.',
   mr: 'REVATHI HERBAL BEAUTY CARE: महिलांचे लक्झरी सलून - बॉडी मसाज, नॉर्मल आणि हायड्रा फेशियल, ब्युटी कन्सल्टेशन, तसेच ऑनलाइन खरेदीसाठी लक्झरी स्किनकेअर आणि मेकअप.',
   bn: 'REVATHI HERBAL BEAUTY CARE: মহিলাদের লাক্সারি স্যালুন - বডি ম্যাসাজ, নরমাল ও হাইড্রা ফেসিয়াল, বিউটি কনসালটেশন, এবং অনলাইনে কেনার জন্য লাক্সারি স্কিনকেয়ার ও মেকআপ।',
+=======
+>>>>>>> origin/main
 }
 
 export const productsTitle = (lang: Lang) => `${(NAV_LABELS[lang] ?? NAV_LABELS.en).Products} — REVATHI HERBAL · Revathi Herbal Beauty Care`
