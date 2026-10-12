@@ -1,7 +1,7 @@
 import { useT } from '../i18n.js';
 
 const TONE = {
-  Active: 'green', Draft: 'sand', 'Out of Stock': 'red',
+  Active: 'green', Draft: 'sand', Archived: 'slate', Packed: 'blue', Dispatched: 'violet', 'Out of Stock': 'red',
   Pending: 'amber', Processing: 'blue', Shipped: 'violet', Delivered: 'green', Cancelled: 'red',
   Paid: 'green', Failed: 'red',
   Confirmed: 'blue', 'Checked In': 'violet', Completed: 'green',

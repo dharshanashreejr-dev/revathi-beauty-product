@@ -1,7 +1,7 @@
 // Manager-view sample data (localStorage). Replace with real API calls.
 import { products } from './shop'
-import { ORDER_STAGES } from './account'
-export { ORDER_STAGES }
+import { ORDER_STAGES, ORDER_LAST } from './account'
+export { ORDER_STAGES, ORDER_LAST }
 export interface MOrder { id: string; customer: string; phone: string; city: string; items: string; qty: number; total: number; stage: number; cancelled: boolean; payment: string; placed: string }
 export interface Customer { name: string; phone: string; city: string; tier: 'Velvet Platinum' | 'Velvet Gold' | 'Velvet Silver' | 'New'; orders: number; visits: number; spent: number; last: string }
 const OK = 'VELVET TOUCH-m-orders', SK = 'VELVET TOUCH-m-stock'
@@ -28,12 +28,12 @@ function seed(): MOrder[] {
   ]
   return rows.map(([pid, q, cust, stage, h, pay, _c], i) => {
     const c = customers.find((x) => x.name === cust) ?? customers[0], p = products.find((x) => x.id === pid) ?? products[0]
-    return { id: `VT-ORD-${10520 - i}`, customer: c.name, phone: c.phone, city: c.city, items: `${p.name}${q > 1 ? ` ×${q}` : ''}`, qty: q, total: pr(pid) * q, stage, cancelled: false, payment: pay, placed: ago(h) }
+    return { id: `VT-ORD-${10520 - i}`, customer: c.name, phone: c.phone, city: c.city, items: `${p.name}${q > 1 ? ` ×${q}` : ''}`, qty: q, total: pr(pid) * q, stage: Math.min(stage, ORDER_LAST), cancelled: false, payment: pay, placed: ago(h) }
   })
 }
 export const getMOrders = (): MOrder[] => { const v = read<MOrder[] | null>(OK, null); if (v) return v; const s = seed(); write(OK, s); return s }
-export const advanceMOrder = (id: string) => write(OK, getMOrders().map((o) => (o.id === id && !o.cancelled && o.stage < 4 ? { ...o, stage: o.stage + 1 } : o)))
-export const cancelMOrder = (id: string) => write(OK, getMOrders().map((o) => (o.id === id && o.stage < 4 ? { ...o, cancelled: true } : o)))
+export const advanceMOrder = (id: string) => write(OK, getMOrders().map((o) => (o.id === id && !o.cancelled && o.stage < ORDER_LAST ? { ...o, stage: o.stage + 1 } : o)))
+export const cancelMOrder = (id: string) => write(OK, getMOrders().map((o) => (o.id === id && o.stage < 2 ? { ...o, cancelled: true } : o)))
 
 const defStock: Record<string, number> = { 'rose-serum': 64, 'gold-cream': 12, 'clay-mask': 48, 'cleansing-balm': 8, 'body-oil': 71, 'salt-scrub': 35, 'hand-cream': 90, 'hair-elixir': 6, 'scalp-ritual': 29, candle: 18, 'pillow-mist': 52, 'gift-ritual': 15 }
 export const getStock = (): Record<string, number> => ({ ...defStock, ...read<Record<string, number>>(SK, {}) })

@@ -1,7 +1,10 @@
 import { useEffect, useState, type ComponentType, type ReactNode } from 'react'
 import { SITE } from '../site-links'
-import { LANGS, useLang, type Lang } from './i18n'
+import { LANGS, useLang, useUiLang, type UiLang } from './i18n'
+import { NAV_EXTRA } from './i18n-nav-extra'
 import { NAV_LABELS as LABELS } from './i18n-nav'
+import { openLogin, useUser } from './LoginModal'
+import { authT } from './auth-text'
 import './site-header.css'
 
 // ONE navbar for the whole website (same look as the landing page).
@@ -60,7 +63,10 @@ export default function SiteHeader({ Link = PlainLink, current, cartCount, onCar
   const [open, setOpen] = useState(false)
   const [saved, setSaved] = useState(0)
   const [lang, setLang] = useLang()
-  const L = LABELS[lang]
+  const [ui] = useUiLang()
+  const L = { ...LABELS[lang], ...(NAV_EXTRA[ui] ?? {}) }
+  const user = useUser()
+  const who = user ? authT('Hi, {name}', ui, { name: user.name.split(' ')[0] || user.phone.slice(-4) }) : ''
   useEffect(() => {
     const on = () => setScrolled(window.scrollY > 40)
     on()
@@ -83,24 +89,31 @@ export default function SiteHeader({ Link = PlainLink, current, cartCount, onCar
         <Link to={SITE.home} className="vt-brand" aria-label={L.HomeLink}>
           <Lotus />
           <span className="vt-word">REVATHI HERBAL BEAUTY CARE</span>
-          <span className="vt-sub">{L.BrandSub}</span>
+<span className="vt-sub">{L.BrandSub}</span>
+<span className="vt-tagline">{L.BrandTagline ?? 'Where Nature meets beauty'}</span>
         </Link>
+        <div className="vt-rightwrap">
         <nav className="vt-nav vt-right" aria-label={L.SitePages}>{RIGHT.map(item)}</nav>
         <div className="vt-tools">
-          <select className="vt-lang" value={lang} onChange={(e) => setLang(e.target.value as Lang)} aria-label={L.Language}>
+          <select className="vt-lang" value={ui} onChange={(e) => setLang(e.target.value as UiLang)} aria-label={L.Language}>
             {LANGS.map((l) => <option key={l.code} value={l.code}>{l.label}</option>)}
           </select>
           {onCart
             ? <button className="vt-bag" onClick={onCart} aria-label={`${L.Cart} (${count})`}><BagIcon /><span>({count})</span></button>
             : <Link to={SITE.products} className="vt-bag" aria-label={`${L.Cart} (${count})`}><BagIcon /><span>({count})</span></Link>}
-          <Link to={SITE.admin} className="vt-admin">{L.Admin}</Link>
+          {user
+            ? <Link to={SITE.tracking + '?tab=profile'} className="vt-admin">{who}</Link>
+            : <button type="button" className="vt-admin" onClick={() => openLogin()}>{authT('Login', ui)}</button>}
+          <Link to={SITE.admin} className="vt-admin vt-admin-link">{L.Admin}</Link>
+        </div>
         </div>
       </header>
       <div className={`vt-panel ${open ? 'is-open' : ''}`} aria-hidden={!open}>
         <button className="vt-close" onClick={() => setOpen(false)} aria-label={L.Close}>✕</button>
         <nav aria-label={L.MenuNav}>
           {MENU.map(([t, to]) => <Link key={t} to={to} onClick={() => setOpen(false)}>{L[t] ?? t}</Link>)}
-          <select className="vt-lang vt-lang-menu" value={lang} onChange={(e) => setLang(e.target.value as Lang)} aria-label={L.Language}>
+          {user ? <Link to={SITE.tracking + '?tab=profile'} onClick={() => setOpen(false)}>{who}</Link> : <a href="#" onClick={(e) => { e.preventDefault(); setOpen(false); openLogin() }}>{authT('Login', ui)}</a>}
+          <select className="vt-lang vt-lang-menu" value={ui} onChange={(e) => setLang(e.target.value as UiLang)} aria-label={L.Language}>
             {LANGS.map((l) => <option key={l.code} value={l.code}>{l.label}</option>)}
           </select>
         </nav>

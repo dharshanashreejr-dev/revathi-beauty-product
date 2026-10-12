@@ -26,7 +26,7 @@ export default function Confirmation({ order, onShop }: { order: Order; onShop: 
         <ul className="space-y-4">
           {order.items.map(i => (
             <li key={i.key} className="flex items-center gap-4">
-              <div className="h-16 w-14 shrink-0 rounded-xl" style={{ background: `${i.colour.hex}33` }}><ProductArt art={i.product.art} colour={i.colour.hex} colourName={i.colour.name} alt="" className="h-full w-full p-1" /></div>
+              <div className="h-16 w-14 shrink-0 rounded-xl" style={{ background: `${i.colour.hex}33` }}><ProductArt art={i.product.art} colour={i.colour.hex} colourName={i.colour.name} photo={i.colour.photo} alt="" className="h-full w-full p-1" /></div>
               <div className="flex-1 text-sm"><p className="text-white">{pname(i.product.name, lang)}</p><p className="text-xs text-stone-400">{colL(i.colour.name, lang)} · {sizeText(i.size, lang)} · {ck('Qty', lang)} {i.qty}</p></div>
               <span className="text-sm">{formatPrice(i.product.price * i.qty)}</span>
             </li>

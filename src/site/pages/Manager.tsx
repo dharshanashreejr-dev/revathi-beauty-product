@@ -1,20 +1,22 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { Link } from '../SmartLink'
 import { Tilt, Counter, Photo } from '../components/three'
 import Admin from './Admin'
 import { products } from '../shop'
 import { money, spa } from '../data'
 import { getBookings, iso } from '../store'
-import { ORDER_STAGES, REORDER, advanceMOrder, cancelMOrder, customers, getMOrders, getStock, setStock, topSold, week } from '../manager'
+import { ORDER_STAGES, ORDER_LAST, REORDER, advanceMOrder, cancelMOrder, customers, getMOrders, getStock, setStock, topSold, week } from '../manager'
 import { fmtWhen } from '../account'
-import { useI18n } from '../i18n-site'
+import { useI18n, fmtDate } from '../i18n-site'
+import { api } from '../../api'
+import type { Category } from '../data'
 import { rich } from '../rich'
 import { orderStages } from '../stages'
 
-type Tab = 'overview' | 'orders' | 'inventory' | 'customers' | 'schedule'
-const TABS: [Tab, string][] = [['overview', 'Overview'], ['orders', 'Orders'], ['inventory', 'Inventory'], ['customers', 'Customers'], ['schedule', 'Schedule']]
+type Tab = 'overview' | 'orders' | 'inventory' | 'customers' | 'schedule' | 'requests'
+const TABS: [Tab, string][] = [['overview', 'Overview'], ['orders', 'Orders'], ['inventory', 'Inventory'], ['customers', 'Customers'], ['requests', 'Booking requests'], ['schedule', 'Schedule']]
 const PIN = '1234'
-const stageTone = (s: number, c: boolean) => (c ? 'bg-red-600/15 text-red-700' : s === 4 ? 'bg-green-600/15 text-green-700' : 'bg-gold/25 text-[#8c6d35]')
+const stageTone = (s: number, c: boolean) => (c ? 'bg-red-600/15 text-red-700' : s === ORDER_LAST ? 'bg-green-600/15 text-green-700' : 'bg-gold/25 text-[#8c6d35]')
 
 function Gate({ onOk }: { onOk: () => void }) {
   const { t } = useI18n()
@@ -39,7 +41,7 @@ function Overview({ go }: { go: (t: Tab) => void }) {
   const stages = orderStages(lang)
   const orders = getMOrders(), stock = getStock(), today = iso(new Date())
   const rev = orders.filter((o) => !o.cancelled).reduce((s, o) => s + o.total, 0)
-  const pending = orders.filter((o) => !o.cancelled && o.stage < 4).length
+  const pending = orders.filter((o) => !o.cancelled && o.stage < ORDER_LAST).length
   const appts = getBookings().filter((b) => b.date === today && b.status === 'Confirmed').length
   const low = products.filter((p) => stock[p.id] <= REORDER)
   const max = Math.max(...week.map((w) => w[1] + w[2]))
@@ -94,7 +96,7 @@ function Orders() {
             <td className="p-3 whitespace-nowrap">{money(o.total)}</td><td className="p-3">{t(o.payment)}</td><td className="p-3 whitespace-nowrap">{fmtWhen(o.placed)}</td>
             <td className="p-3 w-32"><div className="h-1.5 bg-ink/10 rounded-full overflow-hidden"><div className="h-full bg-gold transition-all duration-700" style={{ width: `${((o.stage + 1) / ORDER_STAGES.length) * 100}%` }} /></div></td>
             <td className="p-3"><span className={`label px-3 py-1 rounded-full whitespace-nowrap ${stageTone(o.stage, o.cancelled)}`}>{o.cancelled ? t('Cancelled') : stages[o.stage]}</span></td>
-            <td className="p-3 whitespace-nowrap">{!o.cancelled && o.stage < 4 && <><button onClick={() => { advanceMOrder(o.id); re() }} className="underline mr-3">{t('Advance →')}</button><button onClick={() => { cancelMOrder(o.id); re() }} className="underline opacity-60">{t('Cancel')}</button></>}</td>
+            <td className="p-3 whitespace-nowrap">{!o.cancelled && o.stage < ORDER_LAST && <><button onClick={() => { advanceMOrder(o.id); re() }} className="underline mr-3">{t('Advance →')}</button><button onClick={() => { cancelMOrder(o.id); re() }} className="underline opacity-60">{t('Cancel')}</button></>}</td>
           </tr>))}</tbody></table>
         {!list.length && <p className="p-6 text-xs opacity-60">{t('No orders match.')}</p>}</div>
     </div>
@@ -137,10 +139,51 @@ function Customers() {
   )
 }
 
+function Requests() {
+  const { t, lang } = useI18n()
+  const [, tick] = useState(0), re = () => tick((n) => n + 1)
+  useEffect(() => api.booking.subscribe(re), [])
+  const [rejecting, setRejecting] = useState<string | null>(null), [note, setNote] = useState(''), [msg, setMsg] = useState('')
+  const [pick, setPick] = useState<Record<string, string>>({})
+  const pend = api.booking.pendingReview().sort((a, b) => a.createdAt.localeCompare(b.createdAt))
+  const done = api.booking.getBookings().filter((b) => b.reviewedAt).sort((a, b) => (b.reviewedAt ?? '').localeCompare(a.reviewedAt ?? '')).slice(0, 8)
+  const approve = (ref: string, phone: string) => { api.booking.approveBooking(ref, pick[ref] ? [pick[ref]] : undefined); setMsg(t('Approved. Confirmation SMS sent to {phone}.', { phone })); re() }
+  const reject = (ref: string) => { if (note.trim().length < 3) return; api.booking.rejectBooking(ref, note.trim()); setRejecting(null); setNote(''); setMsg(t('Rejected. The customer can see your reason.')); re() }
+  return (
+    <div className="space-y-10">
+      {msg && <p role="status" className="text-xs bg-green-600/15 text-green-800 px-4 py-3">{msg}</p>}
+      {!pend.length ? <p className="text-xs opacity-60">{t('No requests waiting for review.')}</p> : <div className="grid lg:grid-cols-2 gap-5">{pend.map((b) => {
+        const opts = Array.from(new Set([b.specialists[0], ...api.booking.freeSpecialists(b.category as Category, b.date, b.time, b.duration, b.ref, b.mode).map((m) => m.name)]))
+        return (
+          <div key={b.ref} className="bg-white/60 border border-ink/10 p-5 text-xs space-y-3">
+            <div className="flex justify-between gap-3"><span className="label">{b.ref}</span><span className="label px-3 py-1 rounded-full bg-gold/25 text-[#8c6d35]">{t(b.mode === 'home' ? 'Home visit' : 'Parlour')}</span></div>
+            <h3 className="h text-xl">{t(b.serviceName)}</h3>
+            <p>{fmtDate(b.date, lang)} · {b.time} · {b.duration} {t('min')} · {b.guests > 1 ? b.specialists.join(', ') : ''}</p>
+            <p>{b.name} · {b.phone}</p>
+            {b.mode === 'home' && b.address && <p className="opacity-80">{t('Address')}: {b.address.line1}, {b.address.city}, {b.address.state} {b.address.pin}</p>}
+            {b.notes && <p className="opacity-70">{t('Note: {note}', { note: b.notes })}</p>}
+            <p className="opacity-50">{t('Requested {when}', { when: fmtWhen(b.createdAt) })}</p>
+            {b.guests === 1 && <label className="flex items-center gap-3"><span className="label">{t('Specialist for this booking')}</span>
+              <select value={pick[b.ref] ?? b.specialists[0]} onChange={(e) => setPick({ ...pick, [b.ref]: e.target.value })} className="bg-transparent border border-ink/25 rounded-full px-3 py-2">{opts.map((n) => <option key={n}>{n}</option>)}</select></label>}
+            {rejecting === b.ref ? (
+              <div className="space-y-3"><input autoFocus value={note} onChange={(e) => setNote(e.target.value)} placeholder={t('Reason for rejection (shown to the customer)')} className="w-full bg-transparent border-b border-ink/40 py-2 outline-none focus:border-ink" />
+                <div className="flex gap-3"><button onClick={() => reject(b.ref)} disabled={note.trim().length < 3} className="bg-ink text-sand rounded-full px-5 py-2 label disabled:opacity-30">{t('Confirm rejection')}</button><button onClick={() => { setRejecting(null); setNote('') }} className="label underline">{t('Cancel')}</button></div></div>
+            ) : (
+              <div className="flex gap-3 pt-1"><button onClick={() => approve(b.ref, b.phone)} className="bg-ink text-sand rounded-full px-5 py-2 label hover:bg-stone transition">{t('Approve')}</button><button onClick={() => { setRejecting(b.ref); setNote('') }} className="border border-ink/30 rounded-full px-5 py-2 label hover:bg-ink hover:text-sand transition">{t('Reject')}</button></div>
+            )}
+          </div>)})}</div>}
+      {done.length > 0 && <div><h3 className="h text-2xl mb-3">{t('Recently reviewed')}</h3>
+        {done.map((b) => <p key={b.ref} className="flex flex-wrap justify-between gap-3 border-t border-ink/10 py-3 text-xs"><span>{b.ref} · {b.name} · {t(b.serviceName)}</span><span className="opacity-70">{t(b.status)}{b.reviewNote ? ` · ${b.reviewNote}` : ''}</span></p>)}</div>}
+    </div>
+  )
+}
+
 export default function Manager() {
   const { t } = useI18n()
   const [ok, setOk] = useState(() => sessionStorage.getItem('VELVET TOUCH-mgr') === '1')
   const [tab, setTab] = useState<Tab>('overview')
+  const [, bump] = useState(0)
+  useEffect(() => api.booking.subscribe(() => bump((n) => n + 1)), [])
   if (!ok) return <Gate onOk={() => setOk(true)} />
   return (
     <main className="bg-[#eeede9] min-h-screen">
@@ -149,9 +192,9 @@ export default function Manager() {
         <div className="relative flex flex-wrap justify-between items-end gap-6"><div><span className="label text-gold block">{t('Manager view · demo data in this browser')}</span><h1 className="h text-[clamp(2.2rem,5.5vw,5rem)] mt-3">{rich(t('Command *centre.*'))}</h1></div>
           <div className="flex gap-3"><Link to="/" className="border border-sand/40 rounded-full px-6 py-3 label hover:bg-sand hover:text-ink transition">{t('Exit')}</Link><button onClick={() => { sessionStorage.removeItem('VELVET TOUCH-mgr'); setOk(false) }} className="border border-sand/40 rounded-full px-6 py-3 label hover:bg-sand hover:text-ink transition">{t('Lock')}</button></div></div>
       </section>
-      <div className="sticky top-0 z-30 bg-sand/85 backdrop-blur border-b border-ink/10 px-5 md:px-10 pt-14 md:pt-16"><div className="flex gap-6 md:gap-8 overflow-x-auto no-scrollbar">{TABS.map(([k, l]) => <button key={k} onClick={() => setTab(k)} className={`label pb-4 border-b-2 whitespace-nowrap transition ${tab === k ? 'border-gold' : 'border-transparent opacity-50 hover:opacity-100'}`}>{t(l)}</button>)}</div></div>
+      <div className="sticky top-0 z-30 bg-sand/85 backdrop-blur border-b border-ink/10 px-5 md:px-10 pt-14 md:pt-16"><div className="flex gap-6 md:gap-8 overflow-x-auto no-scrollbar">{TABS.map(([k, l]) => <button key={k} onClick={() => setTab(k)} className={`label pb-4 border-b-2 whitespace-nowrap transition ${tab === k ? 'border-gold' : 'border-transparent opacity-50 hover:opacity-100'}`}>{t(l)}{k === 'requests' && api.booking.pendingReview().length > 0 && <span className="ml-2 bg-gold text-ink rounded-full px-2 py-0.5 text-[10px]">{api.booking.pendingReview().length}</span>}</button>)}</div></div>
       <section className="px-5 md:px-10 py-12 pb-28">
-        {tab === 'overview' && <Overview go={setTab} />}{tab === 'orders' && <Orders />}{tab === 'inventory' && <Inventory />}{tab === 'customers' && <Customers />}
+        {tab === 'overview' && <Overview go={setTab} />}{tab === 'orders' && <Orders />}{tab === 'inventory' && <Inventory />}{tab === 'customers' && <Customers />}{tab === 'requests' && <Requests />}
         {tab === 'schedule' && <div className="-mx-5 md:-mx-10 -mt-24"><Admin /></div>}
       </section>
     </main>

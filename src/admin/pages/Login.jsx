@@ -10,8 +10,8 @@ import { useT } from '../i18n.js';
 const AeroShards = lazy(() => import('../reactbits/AeroShards.jsx'));
 
 const DEMO = {
-  Admin: { email: 'admin@maisonbloom.demo', password: 'Bloom@123' },
-  Staff: { email: 'staff@maisonbloom.demo', password: 'Staff@123' }
+  Admin: { email: 'admin@revathiherbal.demo', password: 'Admin@123' },
+  Staff: { email: 'staff@revathiherbal.demo', password: 'Staff@123' }
 };
 
 export default function Login({ onSuccess }) {
@@ -143,11 +143,11 @@ export default function Login({ onSuccess }) {
           <div className="demo-box">
             <strong><Info size={15} />{t('Demo credentials')}</strong>
             <div className="demo-row">
-              <span>{t('Admin')}: admin@maisonbloom.demo / Bloom@123</span>
+              <span>{t('Admin')}: admin@revathiherbal.demo / Admin@123</span>
               <button type="button" className="link-btn" onClick={() => fill('Admin')}>{t('Use')}</button>
             </div>
             <div className="demo-row">
-              <span>{t('Staff')}: staff@maisonbloom.demo / Staff@123</span>
+              <span>{t('Staff')}: staff@revathiherbal.demo / Staff@123</span>
               <button type="button" className="link-btn" onClick={() => fill('Staff')}>{t('Use')}</button>
             </div>
           </div>

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import Categories from './components/Categories';
 import ProductsSection from './components/ProductsSection';
 import ProductModal from './components/ProductModal';
@@ -7,11 +7,14 @@ import Checkout from './components/Checkout';
 import Payment from './components/Payment';
 import Confirmation from './components/Confirmation';
 import SiteHeader from '../shared/SiteHeader';
+import { requireLogin, useUser } from '../shared/LoginModal';
 import { useLang, tr } from '../shared/i18n';
 import { PERKS } from './i18n';
 import { productsTitle } from '../shared/i18n-meta';
 import type { ArtType, Address, CartItem,CategoryKey, Colour, Order, Product } from './types';
 import { saveToTracking } from './saveOrder';
+import { findProduct, deductStockForOrder } from './data/products';
+import { api } from '../api';
 
 const getRoute = () => (location.hash.startsWith('#/') ? location.hash.slice(2) : '');
 const go = (r: string) => { location.hash = `#/${r}`; };
@@ -44,6 +47,15 @@ export default function App() {
   useEffect(() => {
     try { localStorage.setItem('velvet-cart', JSON.stringify(cart)); localStorage.removeItem('velvet-handoff'); } catch {}
   }, [cart]);
+  // re-render when stock changes (order placed, staff update, other tab)
+  const [stockTick, setStockTick] = useState(0);
+  useEffect(() => api.stock.subscribe(() => setStockTick(n => n + 1)), []);
+  // cart always shows the latest product / stock, and quantities never go above the stock left
+  const liveCart = useMemo(() => cart.map(i => {
+    const p = findProduct(i.product.id);
+    if (!p) return i;
+    return { ...i, product: p, qty: p.stock > 0 ? Math.min(i.qty, p.stock) : i.qty };
+  }), [cart, stockTick]);
   const [drawer, setDrawer] = useState(false);
   const [address, setAddress] = useState<Address | null>(null);
   const [order, setOrder] = useState<Order | null>(null);
@@ -72,11 +84,13 @@ export default function App() {
     setOpen(null);
     setDrawer(true);
   };
-  const changeQty = (k: string, d: number) => setCart(c => c.map(i => (i.key === k ? { ...i, qty: Math.max(1, Math.min(i.product.stock, i.qty + d)) } : i)));
+  const changeQty = (k: string, d: number) => setCart(c => c.map(i => (i.key === k ? { ...i, qty: Math.max(1, Math.min(findProduct(i.product.id)?.stock ?? i.product.stock, i.qty + d)) } : i)));
   const remove = (k: string) => setCart(c => c.filter(i => i.key !== k));
-  const count = cart.reduce((t, i) => t + i.qty, 0);
+  const count = liveCart.reduce((t, i) => t + i.qty, 0);
 
-  const page = route === 'checkout' && cart.length ? 'checkout' : route === 'payment' && cart.length && address ? 'payment' : route === 'confirmed' && order ? 'confirmed' : 'shop';
+  const user = useUser();
+  const loggedIn = !!user;
+  const page = !loggedIn && (route === 'checkout' || route === 'payment') ? 'shop' : route === 'checkout' && cart.length ? 'checkout' : route === 'payment' && cart.length && address ? 'payment' : route === 'confirmed' && order ? 'confirmed' : 'shop';
 
   return (
     <div className="min-h-screen">
@@ -93,13 +107,13 @@ export default function App() {
           {category && <ProductsSection category={category} onCategory={setCategory} onOpen={(product, colour) => setOpen({ product, colour })} onQuick={(p, c) => add(p, c, p.sizes[0], 1)} />}
         </main>
       )}
-      {page === 'checkout' && <Checkout items={cart} initial={address} onBack={() => go('')} onNext={a => { setAddress(a); go('payment'); }} />}
-      {page === 'payment' && address && <Payment items={cart} address={address} onBack={() => go('checkout')} onPlace={o => { saveToTracking(o); try { localStorage.removeItem('velvet-bag'); } catch {} setOrder(o); setCart([]); go('confirmed'); }}/>}
+      {page === 'checkout' && <Checkout items={liveCart} initial={address} onBack={() => go('')} onNext={a => { setAddress(a); go('payment'); }} />}
+      {page === 'payment' && address && <Payment items={liveCart} address={address} onBack={() => go('checkout')} onPlace={o => { saveToTracking(o); deductStockForOrder(o.items); try { localStorage.removeItem('velvet-bag'); } catch {} setOrder(o); setCart([]); go('confirmed'); }}/>}
       {page === 'confirmed' && order && <Confirmation order={order} onShop={() => go('')} />}
 
       <footer className="bg-night px-5 py-12 text-center text-sm text-stone-400"><p className="gold-text font-serif text-3xl italic">REVATHI HERBAL</p><p className="mt-2 tracking-widest">{({ en: "FACE · WELLNESS · BODY", ta: "முகம் · ஆரோக்கியம் · உடல்", hi: "चेहरा · वेलनेस · शरीर", ml: "മുഖം · വെൽനെസ് · ശരീരം", te: "ముఖం · వెల్నెస్ · శరీరం" } as const)[lang]}</p></footer>
 
-      <CartDrawer open={drawer} items={cart} onClose={() => setDrawer(false)} onQty={changeQty} onRemove={remove} onCheckout={() => { setDrawer(false); go('checkout'); }} />
+      <CartDrawer open={drawer} items={liveCart} onClose={() => setDrawer(false)} onQty={changeQty} onRemove={remove} onCheckout={() => { setDrawer(false); requireLogin(() => go('checkout')); }} />
       {open && <ProductModal key={open.product.id} product={open.product} initialColour={open.colour} onClose={close} onAdd={(c, s, q) => add(open.product, c, s, q)} />}
     </div>
   );

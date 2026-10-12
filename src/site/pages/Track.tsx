@@ -1,12 +1,16 @@
 import { useEffect, useMemo, useState, type FormEvent } from 'react'
 import { Link } from '../SmartLink'
+import { api } from '../../api'
 import { useSearchParams } from 'react-router-dom'
 import { Tilt, Counter, Photo } from '../components/three'
-import { money, spa } from '../data'
+import { money, spa, servicePricesVisible } from '../data'
 import { useI18n } from '../i18n-site'
 import { rich } from '../rich'
 import { orderStages, apptStages } from '../stages'
-import { getOrders, advanceOrder, getAppts, cancelAppt, advanceAppt, getProfile, saveProfile, fmtDay, fmtWhen, type Order, type Appt, type Profile } from '../account'
+import { openLogin, useUser } from '../../shared/LoginModal'
+import { authT } from '../../shared/auth-text'
+import { LANGS, setLang, useUiLang, type UiLang } from '../../shared/i18n'
+import { ORDER_LAST, getOrders, advanceOrder, getAppts, cancelAppt, advanceAppt, getProfile, saveProfile, fmtDay, fmtWhen, type Order, type Appt, type Profile } from '../account'
 
 type Tab = 'orders' | 'appointments' | 'profile'
 const TABS: [Tab, string][] = [['orders', 'Orders'], ['appointments', 'Appointments'], ['profile', 'Profile']]
@@ -72,7 +76,7 @@ function Hero({ pr, onFind, err }: { pr: Profile; onFind: (q: string) => void; e
           {err !== null && <p className="text-xs text-red-300 mt-3">{t('No order or appointment found for “{q}”. Try VT-ORD-10482 or VT-APT-7731.', { q: err })}</p>}
         </div>
         <div className="grid grid-cols-3 gap-3">
-          {[[orders.filter((o) => o.stage < 4).length, 'Active orders'], [ap.filter((a) => a.status === 'Upcoming').length, 'Upcoming visits'], [pr.points, 'Velvet points']].map(([n, l]) => (
+          {[[orders.filter((o) => !o.cancelled && o.stage < ORDER_LAST).length, 'Active orders'], [ap.filter((a) => a.status === 'Upcoming' || a.status === 'Pending Review').length, 'Upcoming visits'], [pr.points, 'Velvet points']].map(([n, l]) => (
             <Tilt key={l} max={14} className="glass p-4"><p className="h text-3xl md:text-4xl text-gold"><Counter to={Number(n)} /></p><p className="label mt-2 !text-[.55rem]">{t(String(l))}</p></Tilt>))}
         </div>
       </div>
@@ -86,7 +90,7 @@ function OrdersTab({ sel, setSel }: { sel: string; setSel: (s: string) => void }
   const [list, setList] = useState<Order[]>(getOrders)
   const cur = list.find((o) => o.id === sel) ?? list[0]
   const adv = () => { advanceOrder(cur.id); setList(getOrders()) }
-  const eta = (o: Order) => (o.stage === 4 ? t('Delivered') : t('Arriving {day}', { day: fmtDay(o.eta) }))
+  const eta = (o: Order) => (o.cancelled ? t('Cancelled') : o.stage === ORDER_LAST ? t('Delivered') : t('Arriving {day}', { day: fmtDay(o.eta) }))
   return (
     <div className="grid lg:grid-cols-[1fr_1.1fr] gap-8">
       <div className="space-y-5">
@@ -96,7 +100,7 @@ function OrdersTab({ sel, setSel }: { sel: string; setSel: (s: string) => void }
               <button onClick={() => setSel(o.id)} className="w-full text-left p-4 flex gap-4">
                 <div className="relative h-24 w-20 shrink-0">{o.items.slice(0, 3).map((it, i) => <Photo key={it.pid + i} k={it.img} className="absolute h-24 w-20 border border-sand shadow-md" />).reverse().map((el, i, a) => <div key={i} className="absolute inset-0" style={{ transform: `translate(${(a.length - 1 - i) * 7}px,${(a.length - 1 - i) * -4}px)`, zIndex: i }}>{el}</div>)}</div>
                 <div className="flex-1 min-w-0">
-                  <div className="flex justify-between gap-2"><span className="label">{o.id}</span><Chip text={stages[o.stage]} tone={o.stage === 4 ? 'green' : 'gold'} /></div>
+                  <div className="flex justify-between gap-2"><span className="label">{o.id}</span><Chip text={o.cancelled ? t('Cancelled') : stages[o.stage]} tone={!o.cancelled && o.stage === ORDER_LAST ? 'green' : 'gold'} /></div>
                   <p className="text-sm mt-2 truncate">{o.items.map((i) => t(i.name)).join(', ')}</p>
                   <p className="text-xs opacity-60 mt-1">{t('{n} item(s)', { n: o.items.reduce((s, i) => s + i.qty, 0) })} · {money(o.total)} · {eta(o)}</p>
                   <div className="mt-3"><Bar v={(o.stage + 1) / stages.length} /></div>
@@ -107,7 +111,7 @@ function OrdersTab({ sel, setSel }: { sel: string; setSel: (s: string) => void }
         <Link to="/products" className="inline-flex bg-ink text-sand rounded-full px-7 py-4 label">{t('Shop more products ↗')}</Link>
       </div>
       <aside key={cur.id} className="pop-in bg-ink text-sand p-6 md:p-8 lg:sticky lg:top-24 self-start">
-        <div className="flex justify-between gap-3 items-start"><div><p className="label text-gold">{t('Tracking')}</p><h3 className="h text-3xl mt-2">{cur.id}</h3></div><Chip text={eta(cur)} tone={cur.stage === 4 ? 'green' : 'gold'} /></div>
+        <div className="flex justify-between gap-3 items-start"><div><p className="label text-gold">{t('Tracking')}</p><h3 className="h text-3xl mt-2">{cur.id}</h3></div><Chip text={eta(cur)} tone={!cur.cancelled && cur.stage === ORDER_LAST ? 'green' : 'gold'} /></div>
         <div className="grid grid-cols-2 gap-4 text-xs mt-6 border-y border-sand/15 py-4">
           <p><span className="label opacity-60 block mb-1">{t('Courier')}</span>{t(cur.courier)}</p><p><span className="label opacity-60 block mb-1">{t('Tracking no.')}</span>{t(cur.awb)}</p>
           <p><span className="label opacity-60 block mb-1">{t('Placed')}</span>{fmtWhen(cur.placed)}</p><p><span className="label opacity-60 block mb-1">{t('Payment')}</span>{t(cur.payment)}</p>
@@ -117,7 +121,7 @@ function OrdersTab({ sel, setSel }: { sel: string; setSel: (s: string) => void }
           <p className="flex justify-between border-t border-sand/15 pt-3 text-sm"><span>{t('Total')}</span><span>{money(cur.total)}</span></p></div>
         <p className="text-xs opacity-70 mt-4">{t('Delivering to: {address}', { address: t(cur.address) })}</p>
         <div className="flex flex-wrap gap-3 mt-6">
-          {cur.stage < 4 && <button onClick={adv} className="bg-gold text-ink rounded-full px-6 py-3 label hover:bg-sand transition">{t('Simulate next update →')}</button>}
+          {!cur.cancelled && cur.stage < ORDER_LAST && <button onClick={adv} className="bg-gold text-ink rounded-full px-6 py-3 label hover:bg-sand transition">{t('Simulate next update →')}</button>}
           <Link to="/products" className="border border-sand/40 rounded-full px-6 py-3 label hover:bg-sand hover:text-ink transition">{t('Reorder')}</Link>
         </div>
       </aside>
@@ -130,7 +134,8 @@ function ApptsTab({ sel, setSel }: { sel: string; setSel: (s: string) => void })
   const [list, setList] = useState<Appt[]>(getAppts)
   const cur = list.find((a) => a.ref === sel) ?? list[0]
   const refresh = () => setList(getAppts())
-  const tone = (s: Appt['status']) => (s === 'Upcoming' ? 'gold' : s === 'Completed' ? 'green' : 'red')
+  useEffect(() => api.booking.subscribe(refresh), []) // the team approving or rejecting shows up here live
+  const tone = (s: Appt['status']) => (s === 'Upcoming' || s === 'Pending Review' ? 'gold' : s === 'Completed' ? 'green' : 'red')
   return (
     <div className="grid lg:grid-cols-[1fr_1.1fr] gap-8">
       <div className="space-y-5">
@@ -155,15 +160,16 @@ function ApptsTab({ sel, setSel }: { sel: string; setSel: (s: string) => void })
         <div className="p-6 md:p-8">
           <div className="grid grid-cols-2 gap-4 text-xs border-b border-sand/15 pb-4">
             <p><span className="label opacity-60 block mb-1">{t('Date & time')}</span>{fmtDay(cur.date)} · {cur.time}</p><p><span className="label opacity-60 block mb-1">{t('Specialist')}</span>{cur.specialist}</p>
-            <p><span className="label opacity-60 block mb-1">{t('Room')}</span>{t(cur.room)}</p><p><span className="label opacity-60 block mb-1">{t('Amount')}</span>{t('{money} · pay at visit', { money: money(cur.price) })}</p>
+            <p><span className="label opacity-60 block mb-1">{cur.mode === 'home' ? t('Address') : t('Room')}</span>{cur.mode === 'home' && cur.address ? cur.address : t(cur.room)}</p><p><span className="label opacity-60 block mb-1">{t('Amount')}</span>{servicePricesVisible() ? t('{money} · pay at visit', { money: money(cur.price) }) : t('Pay at the salon (offline)')}</p>
           </div>
           {cur.notes && <p className="text-xs opacity-70 mt-4">{t('Note: {note}', { note: t(cur.notes) })}</p>}
-          <div className="mt-6 bg-sand text-ink p-5">{cur.status === 'Cancelled' ? <p className="text-sm">{t('This appointment was cancelled. The slot has been released.')}</p> : <Timeline steps={apptStages(lang)} current={cur.stage} />}</div>
+          <div className="mt-6 bg-sand text-ink p-5">{cur.status === 'Cancelled' ? <p className="text-sm">{t('This appointment was cancelled. The slot has been released.')}</p> : cur.status === 'Rejected' ? <div className="text-sm space-y-2"><p>{t('This request was not approved. The slot has been released.')}</p>{cur.reviewNote && <p className="opacity-70">{t('Reason from our team: {note}', { note: cur.reviewNote })}</p>}</div> : cur.status === 'Pending Review' ? <p className="text-sm">{t('Our team is reviewing your request. You will get an SMS once it is confirmed.')}</p> : <Timeline steps={apptStages(lang)} current={cur.stage} />}</div>
           <div className="flex flex-wrap gap-3 mt-6">
             {cur.status === 'Upcoming' && <><button onClick={() => { advanceAppt(cur.ref); refresh() }} className="bg-gold text-ink rounded-full px-6 py-3 label hover:bg-sand transition">{t('Simulate next step →')}</button>
               <Link to="/booking" className="border border-sand/40 rounded-full px-6 py-3 label hover:bg-sand hover:text-ink transition">{t('Reschedule')}</Link>
               <button onClick={() => { cancelAppt(cur.ref); refresh() }} className="border border-sand/40 rounded-full px-6 py-3 label hover:bg-red-900/50 transition">{t('Cancel')}</button></>}
-            {cur.status !== 'Upcoming' && <Link to="/booking" className="bg-gold text-ink rounded-full px-6 py-3 label">{t('Book again ↗')}</Link>}
+            {cur.status === 'Pending Review' && <button onClick={() => { cancelAppt(cur.ref); refresh() }} className="border border-sand/40 rounded-full px-6 py-3 label hover:bg-red-900/50 transition">{t('Cancel request')}</button>}
+            {cur.status !== 'Upcoming' && cur.status !== 'Pending Review' && <Link to="/booking" className="bg-gold text-ink rounded-full px-6 py-3 label">{t('Book again ↗')}</Link>}
           </div>
         </div>
       </aside>
@@ -173,6 +179,7 @@ function ApptsTab({ sel, setSel }: { sel: string; setSel: (s: string) => void })
 
 function ProfileTab() {
   const { t } = useI18n()
+  const [ui] = useUiLang()
   const [p, setP] = useState<Profile>(getProfile)
   const [saved, setSaved] = useState(false)
   const set = <K extends keyof Profile>(k: K, v: Profile[K]) => { setSaved(false); setP((x) => ({ ...x, [k]: v })) }
@@ -196,15 +203,17 @@ function ProfileTab() {
         <h3 className="h text-2xl">{t('Your details')}</h3>
         <div className="grid sm:grid-cols-2 gap-x-8 gap-y-6 mt-6">
           <label><span className="label opacity-60">{t('Full name')}</span><input className={f} value={p.name} onChange={(e) => set('name', e.target.value)} /></label>
-          <label><span className="label opacity-60">{t('Phone')}</span><input className={f} value={p.phone} onChange={(e) => set('phone', e.target.value)} /></label>
+          <label><span className="label opacity-60">{t('Phone')}</span><input className={f + ' opacity-60'} value={p.phone} readOnly /></label>
           <label><span className="label opacity-60">{t('Email')}</span><input className={f} value={p.email} onChange={(e) => set('email', e.target.value)} /></label>
           <label><span className="label opacity-60">{t('Birthday')}</span><input type="date" className={f} value={p.birthday} onChange={(e) => set('birthday', e.target.value)} /></label>
           <label className="sm:col-span-2"><span className="label opacity-60">{t('Delivery address')}</span><input className={f} value={p.address} onChange={(e) => set('address', e.target.value)} /></label>
           <div className="sm:col-span-2"><span className="label opacity-60">{t('Skin type')}</span><div className="flex flex-wrap gap-2 mt-2">{['Dry', 'Oily', 'Combination', 'Sensitive', 'Normal'].map((s) => <button key={s} onClick={() => set('skin', s)} className={`px-4 py-2 rounded-full border text-xs transition ${p.skin === s ? 'bg-ink text-sand border-ink' : 'border-ink/25 hover:border-ink'}`}>{t(s)}</button>)}</div></div>
           <div className="sm:col-span-2"><span className="label opacity-60">{t('Send me updates on')}</span>
-            <div className="flex flex-wrap gap-2 mt-2">{(['whatsapp', 'sms', 'email'] as const).map((k) => <button key={k} onClick={() => set('notify', { ...p.notify, [k]: !p.notify[k] })} className={`px-4 py-2 rounded-full border text-xs capitalize transition ${p.notify[k] ? 'bg-gold/25 border-gold' : 'border-ink/25'}`}>{p.notify[k] ? '✓ ' : ''}{k === 'sms' ? t('SMS') : k === 'whatsapp' ? t('WhatsApp') : t('Email')}</button>)}</div></div>
+            <div className="flex flex-wrap gap-2 mt-2">{(['sms'] as const).map((k) => <button key={k} onClick={() => set('notify', { ...p.notify, [k]: !p.notify[k] })} className={`px-4 py-2 rounded-full border text-xs capitalize transition ${p.notify[k] ? 'bg-gold/25 border-gold' : 'border-ink/25'}`}>{p.notify[k] ? '✓ ' : ''}{k === 'sms' ? t('SMS') : k === 'whatsapp' ? t('WhatsApp') : t('Email')}</button>)}</div></div>
+          <label className="sm:col-span-2"><span className="label opacity-60">{authT('Preferred language', ui)}</span>
+            <select className={f} value={ui} onChange={(e) => { setLang(e.target.value as UiLang); api.auth.updateProfile({ lang: e.target.value }) }}>{LANGS.map((l) => <option key={l.code} value={l.code}>{l.label}</option>)}</select></label>
         </div>
-        <div className="flex items-center gap-4 mt-8"><button onClick={save} className="bg-ink text-sand rounded-full px-7 py-4 label hover:bg-stone transition">{t('Save changes')}</button>{saved && <span className="text-xs text-green-700 fade-up">{t('Saved ✓')}</span>}</div>
+        <div className="flex items-center gap-4 mt-8"><button onClick={save} className="bg-ink text-sand rounded-full px-7 py-4 label hover:bg-stone transition">{t('Save changes')}</button>{saved && <span className="text-xs text-green-700 fade-up">{t('Saved ✓')}</span>}<button onClick={() => api.auth.logout()} className="ml-auto label underline opacity-70 hover:opacity-100">{authT('Logout', ui)}</button></div>
       </div>
     </div>
   )
@@ -212,6 +221,8 @@ function ProfileTab() {
 
 export default function Track() {
   const { t } = useI18n()
+  const [ui] = useUiLang()
+  const user = useUser()
   const [sp, setSp] = useSearchParams()
   const tab = (TABS.find(([t]) => t === sp.get('tab'))?.[0] ?? 'orders') as Tab
   const [err, setErr] = useState<string | null>(null)
@@ -224,6 +235,13 @@ export default function Track() {
     else if (getAppts().some((a) => a.ref === k)) { setErr(null); go('appointments', k); document.getElementById('panel')?.scrollIntoView({ behavior: 'smooth' }) }
     else setErr(q)
   }
+  if (!user) return (
+    <main className="bg-[#eeede9] min-h-screen grid place-items-center px-5 pt-28 pb-20 text-center">
+      <div className="max-w-md"><h1 className="h text-3xl">{authT('Login to continue', ui)}</h1>
+        <p className="text-sm opacity-70 mt-3">{authT('Log in to see your orders, appointments and profile.', ui)}</p>
+        <button onClick={() => openLogin()} className="mt-6 bg-ink text-sand rounded-full px-8 py-4 label hover:bg-stone transition">{authT('Login', ui)}</button></div>
+    </main>
+  )
   return (
     <main className="bg-[#eeede9] min-h-screen">
       <Hero pr={pr} onFind={find} err={err} />

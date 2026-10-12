@@ -8,7 +8,7 @@ import LangSelect from './LangSelect.jsx';
 import { useT } from '../i18n.js';
 
 export default function Topbar({ user, page, onNavigate, onMenu, onLogout }) {
-  const { products, orders, appointments, resetDemo } = useStore();
+  const { products, orders, appointments, resetDemo, messages, markMessageRead, markMessagesRead } = useStore();
   const { t, lang } = useT();
   const [q, setQ] = useState('');
   const [menu, setMenu] = useState(null); // 'notif' | 'profile' | null
@@ -30,13 +30,14 @@ export default function Topbar({ user, page, onNavigate, onMenu, onLogout }) {
   const notifications = useMemo(() => {
     const list = [];
     if (user.role === 'Admin') {
+      messages.filter((m) => !m.read).forEach((m) => list.push({ id: 'm' + m.id, text: m.text, to: m.to || 'inventory', msg: m.id }));
       products.filter((p) => p.stock > 0 && p.stock <= LOW_STOCK).forEach((p) => list.push({ id: p.id, text: t('{name} is low on stock ({n} left)', { name: p.name, n: p.stock }), to: 'inventory' }));
       products.filter((p) => p.stock === 0).forEach((p) => list.push({ id: p.id + 'o', text: t('{name} is out of stock', { name: p.name }), to: 'inventory' }));
       orders.filter((o) => o.status === 'Pending').forEach((o) => list.push({ id: o.id, text: t('Order {id} is awaiting processing', { id: o.id }), to: 'orders' }));
     }
     appointments.filter((a) => a.status === 'Pending').forEach((a) => list.push({ id: a.id, text: t('Appointment {id} needs confirmation', { id: a.id }), to: 'appointments' }));
     return list;
-  }, [products, orders, appointments, user.role, lang]);
+  }, [products, orders, appointments, messages, user.role, lang]);
 
   return (
     <header className="topbar" ref={ref}>
@@ -67,11 +68,11 @@ export default function Topbar({ user, page, onNavigate, onMenu, onLogout }) {
           </button>
           {menu === 'notif' && (
             <div className="popover">
-              <h4>{t('Notifications')}</h4>
+              <h4>{t('Notifications')}{user.role === 'Admin' && messages.some((m) => !m.read) && <button className="link-btn" style={{ float: 'right' }} onClick={markMessagesRead}>{t('Mark messages read')}</button>}</h4>
               {notifications.length === 0 && <p className="muted pad">{t('You are all caught up.')}</p>}
               <ul>
                 {notifications.map((n) => (
-                  <li key={n.id}><button onClick={() => { onNavigate(n.to); setMenu(null); }}>{n.text}</button></li>
+                  <li key={n.id}><button onClick={() => { if (n.msg) markMessageRead(n.msg); onNavigate(n.to); setMenu(null); }}>{n.text}</button></li>
                 ))}
               </ul>
             </div>

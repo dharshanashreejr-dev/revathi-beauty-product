@@ -1,11 +1,12 @@
 import type { ArtType, CategoryKey, Colour, Product } from '../types';
+import { stockOverride, getThreshold, adjustStock } from '../../api/stock';
 
 export const CATEGORIES: { name: CategoryKey; video: string; blurb: string; subs: string[] }[] = [
   {
     name: 'face',
     video: 'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260518_203023_87a26602-2898-4acc-a396-c7a2b5ad84fd.mp4',
     blurb: 'A complete face edit, from everyday cleansing and SPF to treatment serums, eye care and lip colour.',
-    subs: ['Cleansers', 'Toners & Essences', 'Serums', 'Moisturisers', 'Sunscreen', 'Exfoliators', 'Masks', 'Eye Care', 'Lip Care', 'Makeup', 'Acne Care'],
+    subs: ['Cleansers', 'Toners & Essences', 'Serums', 'Moisturisers', 'Sunscreen', 'Exfoliators', 'Masks', 'Eye Care', 'Lip Care', 'Lipstick', 'Makeup', 'Acne Care'],
   },
   {
     name: 'wellness products',
@@ -37,14 +38,35 @@ interface Seed {
 const s = (sub: string, art: ArtType, n: string, price: number, mrp: number, stock: number, colours: Colour[], sizes: string[], rating: number, reviews: number, badge: string | undefined, description: string, details: string[], material: string, weight: string): Seed =>
   ({ n, sub, art, price, mrp, stock, colours, sizes, rating, reviews, badge, description, details, material, weight });
 
+import { getPatch, getAdded, saveAdded, setPatch, type Added } from '../../api/catalogue';
+
+// Admin edits (price, discount, photo, archive) are layered on top of the seed through getters, so the shop is always live.
+const mk = (category: CategoryKey, id: string, sku: string, x: Seed): Product => ({
+  id, sku, category, subcategory: x.sub,
+  get name() { return getPatch(id).name ?? x.n; },
+  get art() { return (getPatch(id).image ?? x.art) as ArtType; },
+  get price() { return getPatch(id).price ?? x.price; },
+  get mrp() { return getPatch(id).mrp ?? x.mrp; },
+  get description() { return getPatch(id).description ?? x.description; },
+  get archived() { return !!getPatch(id).archived; },
+  get status() { return getPatch(id).status ?? 'Active'; },
+  get discountType() { return getPatch(id).discountType ?? 'percent'; },
+  get discountValue() { const q = getPatch(id); return q.discountValue ?? Math.round(((this.mrp - this.price) / this.mrp) * 100); },
+  // LIVE stock: read every time, so an order or a staff update shows on the shop straight away.
+  get stock() { return stockOverride(id) ?? x.stock; },
+  baseStock: x.stock, colours: x.colours, sizes: x.sizes, rating: x.rating, reviews: x.reviews,
+  badge: x.badge, details: x.details, material: x.material, weight: x.weight,
+});
+// Lipstick shade families: one card per family, each card carries its 4 serial-numbered shades (photo + hex change live).
+const sh = (code: string, nm: string, hex: string): Colour => ({ name: `${code} · ${nm}`, hex, code, photo: `/assets/products/lipstick/${code.toLowerCase()}.webp` });
+const LIP_RED = [sh('R1', 'Classic Red', '#B22222'), sh('R2', 'Cherry Red', '#DC143C'), sh('R3', 'Wine Red', '#722F37'), sh('R4', 'Brick Red', '#A0522D')];
+const LIP_NUDE = [sh('N1', 'Light Nude', '#E6C9A8'), sh('N2', 'Peach Nude', '#F4A460'), sh('N3', 'Caramel Nude', '#C68642'), sh('N4', 'Mocha Nude', '#8B5E3C')];
+const LIP_GREEN = [sh('G1', 'Mint Green', '#A7D8A0'), sh('G2', 'Olive Green', '#6B8E23'), sh('G3', 'Forest Green', '#2E7D32'), sh('G4', 'Khaki Green', '#556B2F')];
+const LIP_PINK = [sh('P1', 'Baby Pink', '#FFC0CB'), sh('P2', 'Rose Pink', '#FF6F91'), sh('P3', 'Fuchsia Pink', '#E75480'), sh('P4', 'Mauve Pink', '#B56576')];
+const lipSeed = (fam: string, cols: Colour[], blurb: string, badge?: string) =>
+  s('Lipstick', 'lipstick', `Revathi ${fam} Lipstick`, 1599, 1899, 60, cols, ['3.5 g'], 4.8, 210, badge, blurb, ['4 serial-numbered shades', 'Vitamin E', 'One-swipe colour'], 'Metallic lipstick case', '38 g');
 const build = (category: CategoryKey, code: string, seeds: Seed[]): Product[] =>
-  seeds.map((x, i) => ({
-    id: `LUM-${code}-${String(i + 1).padStart(3, '0')}`,
-    sku: `${code}${x.art.slice(0, 2).toUpperCase()}${1000 + i * 37}`,
-    name: x.n, category, subcategory: x.sub, art: x.art, price: x.price, mrp: x.mrp,
-    stock: x.stock, colours: x.colours, sizes: x.sizes, rating: x.rating, reviews: x.reviews,
-    badge: x.badge, description: x.description, details: x.details, material: x.material, weight: x.weight,
-  }));
+  seeds.map((x, i) => mk(category, `LUM-${code}-${String(i + 1).padStart(3, '0')}`, `${code}${x.art.slice(0, 2).toUpperCase()}${1000 + i * 37}`, x));
 
 const face = build('face', 'FC', [
   s('Cleansers', 'pump', 'Brume Amino Gel Cleanser', 1399, 1699, 120, [SKY, OAT, SAGE], ['100 ml', '200 ml'], 4.7, 701, 'Bestseller', 'A low-foam amino-acid cleanser that removes sunscreen and daily makeup without stripping.', ['pH balanced', 'Fragrance free', 'Suitable for daily use'], 'Recyclable bottle with pump', '220 g'),
@@ -65,23 +87,35 @@ const face = build('face', 'FC', [
   s('Eye Care', 'pump', 'Éclat Caffeine Eye Serum', 2199, 2699, 36, [OAT, SKY], ['15 ml'], 4.5, 207, undefined, 'A cooling caffeine eye serum that refreshes the look of tired eyes.', ['Caffeine and niacinamide', 'Cooling metal tip', 'Ophthalmologist tested'], 'Airless eye pump', '45 g'),
   s('Eye Care', 'jar', 'Nuit Peptide Eye Cream', 2399, 2899, 24, [OAT, BLUSH], ['15 ml'], 4.7, 151, 'New', 'A silky peptide eye cream for the look of fine lines and dryness.', ['Five-peptide complex', 'Ceramides', 'Rich but non-greasy'], 'Mini glass jar', '55 g'),
   s('Lip Care', 'stick', 'Baiser Peptide Lip Balm', 999, 1199, 76, [CLEAR, BLUSH, NUDE], ['4 g'], 4.7, 344, 'Bestseller', 'A nourishing lip balm with a soft sheen for everyday comfort.', ['Shea and jojoba butter', 'Clear finish', 'Easy glide'], 'Aluminium lipstick tube', '28 g'),
-  s('Lip Care', 'stick', 'Rosé Tinted Lip Conditioner', 1199, 1499, 51, [ROSE, PEACH, BERRY], ['4 g'], 4.6, 221, undefined, 'A hydrating tinted balm that leaves a soft veil of colour.', ['Buildable tint', 'Vitamin E', 'Pocket friendly'], 'Twist-up lipstick case', '30 g'),
-  s('Makeup', 'compact', 'REVATHI HERBAL Skin Tint SPF 30', 2499, 2999, 39, [NUDE, PEACH, SAND, COCOA], ['30 ml'], 4.6, 318, 'New', 'A breathable skin tint with natural coverage and a radiant satin finish.', ['12 flexible shades', 'SPF 30', 'Buildable coverage'], 'Glass bottle with pump', '145 g'),
+  lipSeed('Red', LIP_RED, 'Four bold reds from classic to brick, each with its own serial number. Pick a shade to see it on the lips.', 'Bestseller'),
+  s('Makeup', 'compact', 'REVATHI HERBAL Skin Tint SPF 30', 2499, 2999, 39, [NUDE, PEACH, SAND, COCOA], ['30 ml'], 4.6, 318, 'New', 'A breathable skin tint with soft coverage and a radiant satin finish.', ['12 flexible shades', 'SPF 30', 'Buildable coverage'], 'Glass bottle with pump', '145 g'),
   s('Makeup', 'palette', 'Atelier Nude Eyeshadow Palette', 2899, 3499, 42, [NUDE, COCOA, PLUM], ['12 shades'], 4.8, 402, 'Bestseller', 'A curated twelve-pan palette of wearable matte and shimmer neutrals.', ['12 shades', 'Blendable powders', 'Mirror included'], 'Magnetic compact palette', '210 g'),
   s('Makeup', 'compact', 'Velours Soft-Matte Blush', 1599, 1899, 47, [PEACH, ROSE, BERRY], ['6 g'], 4.7, 276, undefined, 'A finely milled blush that builds from a whisper of colour to a full flush.', ['Buildable pigment', 'Soft-matte finish', 'Mirror compact'], 'Pressed powder compact', '55 g'),
   s('Acne Care', 'tube', 'Clarté Blemish Spot Gel', 1299, 1599, 62, [CLEAR, SKY], ['15 ml'], 4.5, 188, undefined, 'A targeted gel with salicylic acid for the appearance of active blemishes.', ['2% salicylic acid', 'Fast-drying gel', 'Use as directed'], 'Precision nozzle tube', '28 g'),
   s('Primer', 'pump', 'Velours Blur Makeup Primer', 1899, 2299, 44, [CLEAR, OAT], ['30 ml'], 4.6, 209, undefined, 'A silky primer that smooths the look of texture and helps makeup sit evenly.', ['Soft-focus finish', 'Silicone-light texture', 'Works under foundation'], 'Airless pump bottle', '125 g'),
-  s('Foundation', 'pump', 'REVATHI HERBAL Silk Foundation', 2499, 2999, 36, [NUDE, PEACH, SAND, COCOA], ['30 ml'], 4.7, 318, 'Bestseller', 'A medium-buildable foundation with a natural satin finish and flexible coverage.', ['18 shades', 'Buildable coverage', 'Long-wear comfort'], 'Glass pump bottle', '145 g'),
-  s('Concealer', 'stick', 'Éclat Cream Concealer', 1699, 1999, 48, [NUDE, PEACH, COCOA], ['6 ml'], 4.6, 244, undefined, 'A creamy concealer for under-eyes and targeted complexion coverage.', ['16 shades', 'Crease-resistant', 'Natural finish'], 'Twist-up applicator', '42 g'),
+  s('Foundation', 'pump', 'REVATHI HERBAL Silk Foundation', 2499, 2999, 36, [NUDE, PEACH, SAND, COCOA], ['30 ml'], 4.7, 318, 'Bestseller', 'A medium-buildable foundation with a satin finish and flexible coverage.', ['18 shades', 'Buildable coverage', 'Long-wear comfort'], 'Glass pump bottle', '145 g'),
+  s('Concealer', 'stick', 'Éclat Cream Concealer', 1699, 1999, 48, [NUDE, PEACH, COCOA], ['6 ml'], 4.6, 244, undefined, 'A creamy concealer for under-eyes and targeted complexion coverage.', ['16 shades', 'Crease-resistant', 'Satin finish'], 'Twist-up applicator', '42 g'),
   s('Blush', 'compact', 'Rose Veil Powder Blush', 1599, 1899, 47, [PEACH, ROSE, BERRY], ['6 g'], 4.7, 276, undefined, 'A finely milled blush that builds from a soft veil to a fresh flush.', ['Buildable pigment', 'Soft satin finish', 'Mirror compact'], 'Pressed powder compact', '55 g'),
-  s('Bronzer', 'compact', 'Soleil Sculpt Bronzer', 1799, 2199, 39, [SAND, COCOA, NUDE], ['8 g'], 4.6, 198, undefined, 'A softly matte bronzer for natural warmth and gentle definition.', ['Buildable colour', 'Fine powder', 'Large mirror pan'], 'Pressed powder compact', '64 g'),
+  s('Bronzer', 'compact', 'Soleil Sculpt Bronzer', 1799, 2199, 39, [SAND, COCOA, NUDE], ['8 g'], 4.6, 198, undefined, 'A softly matte bronzer for warm and gentle definition.', ['Buildable colour', 'Fine powder', 'Large mirror pan'], 'Pressed powder compact', '64 g'),
   s('Highlighter', 'compact', 'Nacre Glow Highlighter', 1699, 1999, 52, [SAND, PEACH, ROSE], ['7 g'], 4.8, 231, 'New', 'A finely milled highlighter that catches light without chunky glitter.', ['Silky shimmer', 'Buildable glow', 'Mirror compact'], 'Pressed powder compact', '60 g'),
   s('Mascara', 'tube', 'Noir Lift Mascara', 1499, 1799, 73, [INK], ['10 ml'], 4.5, 412, 'Bestseller', 'A buildable mascara that lifts and defines lashes without a heavy finish.', ['Smudge resistant', 'Tapered brush', 'Buildable volume'], 'Mascara tube', '42 g'),
   s('Eyeliner', 'stick', 'Graphite Precision Liner', 999, 1199, 81, [INK, COCOA, PLUM], ['1 g'], 4.6, 388, undefined, 'A smooth eye pencil for precise lines and softly smoked looks.', ['Creamy glide', 'Sharpenable tip', 'Transfer resistant'], 'Wood pencil with cap', '8 g'),
-  s('Lipstick', 'lipstick', 'Rouge Atelier Satin Lipstick', 1599, 1899, 66, [NUDE, ROSE, RED, BERRY], ['3.5 g'], 4.8, 503, 'Bestseller', 'A satin lipstick with rich colour and a comfortable, conditioned finish.', ['16 shades', 'Vitamin E', 'One-swipe colour'], 'Metallic lipstick case', '38 g'),
+  lipSeed('Pink', LIP_PINK, 'Four pinks from baby to mauve, each with its own serial number. Pick a shade to see it on the lips.', 'New'),
   s('Lip Gloss', 'gloss', 'Miroir Glass Lip Gloss', 1299, 1599, 71, [CLEAR, PEACH, ROSE, BERRY], ['5.5 ml'], 4.7, 341, undefined, 'A high-shine gloss that smooths the look of lips without sticky drag.', ['Glass-like shine', 'Cushion applicator', 'Layer over lipstick'], 'Gloss tube', '36 g'),
   s('Setting Spray', 'spray', 'Brume Makeup Setting Mist', 1599, 1899, 54, [CLEAR, SKY], ['100 ml'], 4.6, 217, undefined, 'A fine setting mist that helps complexion makeup look fresh throughout the day.', ['Fine continuous mist', 'Hydrating finish', 'Travel friendly'], 'Glass spray bottle', '170 g'),
 ]);
+
+// Nude + Green cards get fresh ids after the existing face products, so no other product's id/stock/reviews change.
+{
+  const next = face.length;
+  const mkLip = (i: number, seed: Seed) => mk('face', `LUM-FC-${String(next + i + 1).padStart(3, '0')}`, `FCLI${1000 + (next + i) * 37}`, seed);
+  const nude = mkLip(0, lipSeed('Nude', LIP_NUDE, 'Four everyday nudes from light to mocha, each with its own serial number. Pick a shade to see it on the lips.'));
+  const green = mkLip(1, lipSeed('Green', LIP_GREEN, 'Four statement greens from mint to khaki, each with its own serial number. Pick a shade to see it on the lips.', 'New'));
+  const isLip = (x: Product) => x.subcategory === 'Lipstick';
+  const red = face.find(x => x.name.includes('Red Lipstick'))!, pink = face.find(x => x.name.includes('Pink Lipstick'))!;
+  const rest = face.filter(x => !isLip(x));
+  face.splice(0, face.length, red, nude, green, pink, ...rest); // lipstick cards go first on the Face page
+}
 
 const wellness = build('wellness products', 'WL', [
   s('Aromatherapy', 'bottle', 'Calme Lavender Essential Oil', 1299, 1599, 74, [PLUM, CLEAR], ['10 ml'], 4.7, 302, 'Bestseller', 'A pure lavender aromatic oil for diffuser and evening rituals.', ['100% lavender oil', 'Amber glass', 'Dropper included'], 'Amber glass bottle', '48 g'),
@@ -120,15 +154,51 @@ const body = build('body', 'BD', [
   s('Deodorants', 'spray', 'Rose Neroli Body Deodorant Mist', 1099, 1299, 39, [ROSE, BLUSH], ['100 ml'], 4.5, 165, 'New', 'A light rose and neroli mist for a fresh, clean feel.', ['Alcohol light', 'Fine mist', 'Travel friendly'], 'Glass spray bottle', '165 g'),
   s('Body Mists', 'spray', 'Étoile Shimmer Body Mist', 1799, 2149, 24, [BLUSH, SAND, PLUM], ['100 ml'], 4.6, 187, undefined, 'A fine fragrance mist with a subtle golden shimmer.', ['Skin-safe shimmer', 'Vanilla amber scent', 'Layerable'], 'Glass spray bottle', '190 g'),
   s('Body Mists', 'spray', 'Rosée Rose Water Body Mist', 1499, 1799, 62, [ROSE, BLUSH], ['100 ml', '200 ml'], 4.5, 164, undefined, 'A fresh rose mist for an instant cooling veil of scent.', ['Alcohol free', 'Cooling feel', 'Travel friendly'], 'Glass spray bottle', '210 g'),
-  s('Self Tan', 'pump', 'Soleil Gradual Tan Lotion', 1899, 2299, 31, [SAND, NUDE], ['150 ml'], 4.4, 93, 'New', 'A gradual tanning lotion that builds a natural-looking golden glow.', ['Buildable colour', 'Hydrating base', 'No instant orange tone'], 'Airless pump bottle', '190 g'),
+  s('Self Tan', 'pump', 'Soleil Gradual Tan Lotion', 1899, 2299, 31, [SAND, NUDE], ['150 ml'], 4.4, 93, 'New', 'A gradual tanning lotion that builds a golden glow.', ['Buildable colour', 'Hydrating base', 'No instant orange tone'], 'Airless pump bottle', '190 g'),
 ]);
 
 export const PRODUCTS: Record<CategoryKey, Product[]> = { face, 'wellness products': wellness, body };
+
+// Products added by admin (Admin > Products > Add product). They join the same catalogue the shop sells.
+const addedSeed = (a: Added): Seed => ({ n: a.name, sub: a.subcategory, art: 'jar', price: a.price, mrp: a.mrp, stock: a.stock, colours: [OAT], sizes: ['Standard'], rating: 0, reviews: 0, badge: 'New', description: a.description, details: [], material: '', weight: '' });
+getAdded().slice().reverse().forEach(a => PRODUCTS[a.category].unshift(mk(a.category, a.id, a.sku, addedSeed(a))));
+
+/** Every product in the catalogue, archived ones included (admin). */
+export const catalogue = (): Product[] => Object.values(PRODUCTS).flat();
+/** Products that can be sold or shown: not archived and not a draft. */
+export const sellable = (): Product[] => catalogue().filter(p => !p.archived && p.status !== 'Draft');
+
+export interface NewProduct { name: string; category: CategoryKey; subcategory: string; mrp: number; price: number; discountType: 'flat' | 'percent'; discountValue: number; stock: number; description: string; status: 'Active' | 'Draft'; image?: string }
+export function createProduct(d: NewProduct): Product {
+  const n = getAdded().reduce((m, a) => Math.max(m, Number(a.id.split('-').pop()) || 0), 0) + 1;
+  const a: Added = { id: `LUM-NEW-${String(n).padStart(3, '0')}`, sku: `NEW${1000 + n}`, category: d.category, subcategory: d.subcategory, name: d.name, description: d.description, mrp: d.mrp, price: d.price, stock: d.stock };
+  saveAdded(a);
+  setPatch(a.id, { discountType: d.discountType, discountValue: d.discountValue, status: d.status, ...(d.image ? { image: d.image } : {}) });
+  const p = mk(a.category, a.id, a.sku, addedSeed(a));
+  PRODUCTS[a.category].unshift(p);
+  return p;
+}
 
 export const formatPrice = (n: number) => `₹${n.toLocaleString('en-IN')}`;
 export const discount = (p: Product) => Math.round(((p.mrp - p.price) / p.mrp) * 100);
 export const stockStatus = (n: number) => n === 0
   ? { label: 'Out of stock', tone: 'text-red-700', bar: 'bg-red-500' }
-  : n <= 10
+  : n <= getThreshold()
     ? { label: `Only ${n} left`, tone: 'text-amber-700', bar: 'bg-amber-500' }
     : { label: `In stock · ${n} units`, tone: 'text-emerald-700', bar: 'bg-emerald-600' };
+
+
+export const findProduct = (id: string): Product | undefined => Object.values(PRODUCTS).flat().find(p => p.id === id);
+
+/** After a paid order: take the ordered quantity off the stock (all colours / sizes of a product share one stock number).
+ *  Reaching 0 means the product turns "Out of stock" on the shop; staff can restock it from the Inventory page.
+ *  BACKEND: done inside the order transaction on the server. */
+export function deductStockForOrder(items: { product: { id: string }; qty: number }[]) {
+  const perProduct = new Map<string, number>();
+  items.forEach(i => perProduct.set(i.product.id, (perProduct.get(i.product.id) ?? 0) + i.qty));
+  perProduct.forEach((qty, id) => {
+    const p = findProduct(id);
+    if (!p) return; // not a catalogue product, nothing to deduct
+    adjustStock({ id: p.id, sku: p.sku, name: p.name }, p.baseStock ?? p.stock, Math.max(0, p.stock - qty));
+  });
+}

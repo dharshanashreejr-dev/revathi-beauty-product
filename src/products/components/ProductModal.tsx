@@ -1,6 +1,10 @@
 import { useEffect, useState } from 'react';
 import type { MouseEvent } from 'react';
 import type { Colour, Product } from '../types';
+import { StockLine, NotifyMe, OutCross } from './StockNotice';
+import { productInfo } from '../data/product-info';
+import { authT } from '../../shared/auth-text';
+import { useUiLang } from '../../shared/i18n';
 import { discount, formatPrice, stockStatus } from '../data/products';
 import ProductArt from './ProductArt';
 import { useLang, tr } from '../../shared/i18n';
@@ -8,6 +12,7 @@ import { ptext } from '../i18n-text';
 import { sizeText } from '../i18n-checkout';
 import { CAT_NAME, sub as subL, colour as colL, ui, mt, viewLabel, stockLabel, offLabel } from '../i18n';
 import { pname } from '../i18n-names';
+import ReviewsSection from '../../shared/ReviewsSection';
 
 interface Props {
   product: Product;
@@ -29,6 +34,8 @@ export default function ProductModal({ product, initialColour, onClose, onAdd }:
   const [rot, setRot] = useState({ x: 0, y: -18 });
     const status = stockStatus(product.stock);
   const out = product.stock === 0;
+  const [ui] = useUiLang();
+  const info = productInfo(product.subcategory);
 
   useEffect(() => {
     const key = (e: KeyboardEvent) => e.key === 'Escape' && onClose();
@@ -82,11 +89,12 @@ export default function ProductModal({ product, initialColour, onClose, onAdd }:
                 <div className="preserve-3d relative h-[360px] w-[280px] sm:h-[440px] sm:w-[340px]" style={{ transform: `rotateX(${angleX}deg) rotateY(${angleY}deg)`, transition: 'transform .45s cubic-bezier(.2,.7,.2,1)' }}>
                   {Array.from({ length: LAYERS }).map((_, i) => (
                     <div key={i} className="absolute inset-0 flex items-center justify-center" style={{ transform: `translateZ(${(i - (LAYERS - 1) / 2) * 5}px)`, filter: i === LAYERS - 1 ? 'none' : `brightness(${0.7 + i * 0.02})` }}>
-                      <ProductArt art={product.art} colour={colour.hex} colourName={colour.name} alt={i === LAYERS - 1 ? pname(product.name, lang) : ''} className={`h-full w-full ${out ? 'opacity-60 grayscale' : ''}`} />
+                      <ProductArt art={product.art} colour={colour.hex} colourName={colour.name} photo={colour.photo} alt={i === LAYERS - 1 ? pname(product.name, lang) : ''} className={`h-full w-full ${out ? 'opacity-60 grayscale' : ''}`} />
                     </div>
                   ))}
                 </div>
               </div>
+              {out && <div className="pointer-events-none absolute inset-0 z-10"><OutCross /></div>}
               <span className="absolute bottom-4 left-4 rounded-full bg-white/80 px-3 py-1 text-xs backdrop-blur">
                 {viewLabel(view, lang)}
               </span>
@@ -98,7 +106,7 @@ export default function ProductModal({ product, initialColour, onClose, onAdd }:
                   className={`flex aspect-square items-center justify-center overflow-hidden rounded-2xl bg-white transition ${view === v ? 'ring-2 ring-ink' : 'opacity-70 hover:opacity-100'}`}
                   style={{ perspective: 400 }}>
                   <div className="h-4/5 w-4/5" style={{ transform: `rotateY(${v === 'live' ? -18 : ANGLES[v]}deg)` }}>
-                    <ProductArt art={product.art} colour={colour.hex} colourName={colour.name} alt="" className="h-full w-full" />
+                    <ProductArt art={product.art} colour={colour.hex} colourName={colour.name} photo={colour.photo} alt="" className="h-full w-full" />
                   </div>
                 </button>
               ))}
@@ -119,25 +127,33 @@ export default function ProductModal({ product, initialColour, onClose, onAdd }:
               <span className="rounded-full bg-emerald-100 px-3 py-1 text-sm text-emerald-800">{mt('m_save', lang)} {discount(product)}%</span>
             </div>
 
-            <p className="max-w-prose leading-relaxed text-stone-700">{ptext(product.description, lang)}</p>
-
-            <div>
-              <div className="mb-2 flex items-center justify-between text-sm">
-                <span className={status.tone}>{stockLabel(product.stock, lang)}</span>
-                <span className="text-stone-500">{product.stock} {mt('m_units', lang)}</span>
-              </div>
-              <div className="h-1.5 overflow-hidden rounded-full bg-stone-200">
-                <div className={`h-full rounded-full transition-all duration-700 ${status.bar}`} style={{ width: `${stockPct}%` }} />
-              </div>
-            </div>
-
             <div>
               <p className="mb-2 text-sm">{mt('m_col', lang)}: <span className="text-stone-500">{colL(colour.name, lang)}</span></p>
               <div className="flex gap-3" role="radiogroup" aria-label={mt('m_col', lang)}>
                 {product.colours.map(col => (
                   <button key={col.name} role="radio" aria-checked={col.name === colour.name} aria-label={colL(col.name, lang)} title={colL(col.name, lang)} onClick={() => setColour(col)}
-                    className={`h-9 w-9 rounded-full border border-black/10 transition ${col.name === colour.name ? 'ring-2 ring-ink ring-offset-2 ring-offset-sand' : 'hover:scale-110'}`} style={{ background: col.hex }} />
+                    className="flex flex-col items-center gap-1">
+                    <span className={`block h-9 w-9 rounded-full border border-black/10 transition ${col.name === colour.name ? 'ring-2 ring-ink ring-offset-2 ring-offset-sand' : 'hover:scale-110'}`} style={{ background: col.hex }} />
+                    {col.code && <span className={`text-xs ${col.name === colour.name ? 'font-semibold text-ink' : 'text-stone-500'}`}>{col.code}</span>}
+                  </button>
                 ))}
+              </div>
+            </div>
+
+            <p className="max-w-prose leading-relaxed text-stone-700">{ptext(product.description, lang)}</p>
+
+            <div className="grid gap-4 rounded-2xl border border-stone-200 bg-white p-5 text-sm sm:grid-cols-2">
+              <div><p className="mb-2 font-medium">{authT('Key ingredients', ui)}</p><div className="flex flex-wrap gap-2">{info.ingredients.map(x => <span key={x} className="rounded-full bg-stone-100 px-3 py-1 text-stone-700">{x}</span>)}</div></div>
+              <div><p className="mb-2 font-medium">{authT('How to use', ui)}</p><p className="leading-relaxed text-stone-600">{info.how}</p></div>
+            </div>
+
+            <div>
+              <div className="mb-2 flex items-center justify-between text-sm">
+                <StockLine stock={product.stock} />
+                {!out && <span className="text-stone-500">{product.stock} {mt('m_units', lang)}</span>}
+              </div>
+              <div className="h-1.5 overflow-hidden rounded-full bg-stone-200">
+                <div className={`h-full rounded-full transition-all duration-700 ${status.bar}`} style={{ width: `${stockPct}%` }} />
               </div>
             </div>
 
@@ -157,10 +173,10 @@ export default function ProductModal({ product, initialColour, onClose, onAdd }:
                 <span className="w-8 text-center">{qty}</span>
                 <button aria-label={mt('m_inc', lang)} onClick={() => setQty(q => Math.min(Math.max(product.stock, 1), q + 1))} className="h-11 w-11 text-lg">+</button>
               </div>
-              <button disabled={out} onClick={add}
+              {out ? <NotifyMe productId={product.id} productName={pname(product.name, 'en')} /> : <button disabled={out} onClick={add}
                 className="btn-primary h-11 flex-1 rounded-full bg-ink px-8 text-sm text-white disabled:cursor-not-allowed disabled:bg-stone-300 disabled:text-stone-500">
-                {out ? ui('out', lang) : `${mt('m_add', lang)} · ${formatPrice(product.price * qty)}`}
-              </button>
+                {`${mt('m_add', lang)} · ${formatPrice(product.price * qty)}`}
+              </button>}
             </div>
 
             <div className="grid grid-cols-2 gap-px overflow-hidden rounded-2xl bg-stone-200 text-sm">
@@ -177,6 +193,8 @@ export default function ProductModal({ product, initialColour, onClose, onAdd }:
                 <li key={d} className="flex gap-3"><span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-clay" />{ptext(d, lang)}</li>
               ))}
             </ul>
+
+            <ReviewsSection kind="product" targetId={product.id} targetName={pname(product.name, 'en')} />
           </div>
         </div>
       </div>

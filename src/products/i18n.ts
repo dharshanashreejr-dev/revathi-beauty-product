@@ -9,9 +9,11 @@ export const CAT_NAME: Record<CategoryKey, Tr> = {
 
 export const SHOP_BTN: Record<Lang, (n: string) => string> = {
   en: (n) => `shop ${n}`, ta: (n) => `${n} வாங்குங்கள்`, hi: (n) => `${n} खरीदें`, ml: (n) => `${n} വാങ്ങുക`, te: (n) => `${n} కొనండి`,
+  kn: (n) => `${n} ಖರೀದಿಸಿ`, mr: (n) => `${n} खरेदी करा`, bn: (n) => `${n} কিনুন`,
 }
 export const VIEWING_BTN: Record<Lang, (n: string) => string> = {
   en: (n) => `viewing ${n}`, ta: (n) => `${n} பார்க்கிறீர்கள்`, hi: (n) => `${n} देख रहे हैं`, ml: (n) => `${n} കാണുന്നു`, te: (n) => `${n} చూస్తున్నారు`,
+  kn: (n) => `${n} ವೀಕ್ಷಿಸುತ್ತಿದ್ದೀರಿ`, mr: (n) => `${n} पाहत आहात`, bn: (n) => `${n} দেখছেন`,
 }
 
 export const PERKS: Tr[] = [

@@ -1,7 +1,7 @@
 import { Fragment, useEffect, useRef, useState } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import { ArrowLeft, ArrowRight, Plus } from "lucide-react";
-import { products, allServices, shadePhoto, rupees, BRAND, type Lang } from "./data";
+import { products, allServices, shadePhoto, rupees, BRAND, servicePricesOn, type Lang } from "./data";
 import { img, photos, type Photo } from "./photos";
 import { st } from "./i18n-sections";
 import { showcaseT } from "./showcase-i18n";
@@ -532,7 +532,7 @@ export function SpaOfferings({ onBook, lang = "en" }: { onBook: (id: string) => 
                     </ul>
                     <small>{st("finishedWith", lang)} {fin.name[lang]}</small>
                     <div className="spa-foot">
-                      <strong>{rupees(svcItem.price)}</strong>
+                      {servicePricesOn() ? <strong>{rupees(svcItem.price)}</strong> : <span />}
                       <button className="service-book" onClick={() => onBook(o.id)}>
                         {st("book", lang)}
                         <Plus size={14} />
@@ -592,8 +592,8 @@ function PickCard({ b, onBundle, lang = "en" }: { b: (typeof bundles)[number]; o
         <h3>{bx?.title ?? b.title}</h3>
         <p>{bx?.copy ?? b.copy}</p>
         <div className="pick-price">
-          <s>{rupees(total)}</s>
-          <strong>{rupees(offer)}</strong>
+          {servicePricesOn() && <s>{rupees(total)}</s>}
+          {servicePricesOn() && <strong>{rupees(offer)}</strong>}
           <span>{st("save10", lang)}</span>
         </div>
         <button className="pill dark pick-cta" onClick={() => onBundle(b.service, b.product)}>

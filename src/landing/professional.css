@@ -1,0 +1,346 @@
+/* ═══════════ Professional layout pass ═══════════
+   Rule for the whole landing page: no photo/video as a section background.
+   Media is a component on the side of the text, on a flat colour. Cards are compact. */
+:root { --pro-bg: #f6f1ec; --pro-radius: 16px; }
+html:not([lang="zz"]) body { overflow-x: hidden; }
+
+/* ── Featured Collection (was a full-width video with text over it) ── */
+.collection-band { padding: 0 0 56px !important; background: #fff !important; }
+.collection-band .collection-hero {
+  display: grid !important;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 56px;
+  align-items: center;
+  aspect-ratio: auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  padding: 64px 6%;
+  overflow: visible;
+  background: #fff !important;
+}
+.collection-band .collection-hero-shade { display: none !important; }
+.collection-band .collection-hero-copy {
+  position: static !important;
+  order: 2;
+  max-width: none !important;
+  color: var(--ink) !important;
+}
+.collection-band .collection-video {
+  order: 1;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 3;
+  max-height: 460px;
+  object-fit: cover;
+  border-radius: var(--pro-radius);
+}
+html:not([lang="zz"]) .collection-hero-copy .eyebrow { color: var(--amber) !important; }
+html:not([lang="zz"]) .collection-hero-copy .statement,
+html:not([lang="zz"]) .collection-hero-copy h2 {
+  color: var(--ink) !important;
+  text-shadow: none !important;
+  font-size: clamp(26px, 3vw, 40px) !important;
+  line-height: 1.2 !important;
+}
+html:not([lang="zz"]) .collection-hero-copy p {
+  color: var(--muted) !important;
+  text-shadow: none !important;
+  opacity: 1 !important;
+}
+.collection-band .collection-products {
+  max-width: 1100px;
+  padding: 36px 5% 0;
+  gap: 14px;
+}
+.collection-band .collection-card-media { aspect-ratio: 1 / 0.82; padding: 10px; }
+.collection-band .collection-card-copy { padding: 10px 12px 12px; }
+
+/* ── Signature product slider (was full-screen) ── */
+.herbal-slide { min-height: 540px !important; padding: 84px 7% 92px !important; }
+.herbal-ghost { display: none !important; }
+.herbal-info h2 { font-size: clamp(34px, 4vw, 54px) !important; margin: 14px 0 14px !important; }
+.herbal-info p { font-size: 15px !important; }
+.herbal-photo { width: min(100%, 290px) !important; }
+
+/* ── Brand video: video is a component, caption sits beside it on flat colour ── */
+.film { padding: 72px 6% 80px !important; }
+.film-head h2 { font-size: clamp(30px, 3.6vw, 48px) !important; }
+.film-main { min-height: 0 !important; background: none !important; overflow: visible !important; display: grid; gap: 14px; align-content: start; }
+.film-main video { position: static !important; height: auto !important; aspect-ratio: 16 / 9; max-height: 380px; border-radius: var(--pro-radius); background: #1c120d; }
+.film-shade { display: none !important; }
+.film-caption { position: static !important; color: var(--ink) !important; }
+.film-caption strong { font-size: clamp(22px, 2.4vw, 32px) !important; }
+.film-toggle { background: #422c20cc !important; }
+/* Brand video: one main video component, the extra reels are small thumbnails */
+.film-grid { grid-template-columns: 2.6fr 1fr !important; gap: 16px !important; align-items: start; }
+.film-reels { grid-template-columns: 1fr !important; grid-template-rows: none !important; gap: 12px !important; }
+.film-reels .reel { aspect-ratio: auto !important; min-height: 0 !important; height: 112px; border-radius: 12px; }
+.film-reels .reel figcaption { font-size: 12px !important; left: 12px !important; bottom: 10px !important; }
+.film-reels .reel figcaption span { font-size: 10px; margin-bottom: 2px; }
+
+/* ── Current offers: compact cards ── */
+.promo { padding: 56px 0 64px 6% !important; }
+.promo-head h3 { font-size: clamp(26px, 3vw, 40px) !important; }
+.promo-track { gap: 16px !important; }
+html:not([lang="zz"]) .promo-card { flex: 0 0 min(290px, 78vw) !important; height: 400px !important; padding: 16px 18px !important; border-radius: 14px; }
+html:not([lang="zz"]) .promo-brand { font-size: 12px !important; padding: 11px 16px 9px !important; margin: -16px 0 0 -18px !important; }
+html:not([lang="zz"]) .promo-chips { margin-top: 14px !important; }
+html:not([lang="zz"]) .promo-chips i { font-size: 9px !important; }
+html:not([lang="zz"]) .promo-card h4 { font-size: clamp(20px, 1.8vw, 26px) !important; margin-top: 10px !important; }
+html:not([lang="zz"]) .promo-photo { inset: 70px 0 84px 0 !important; }
+html:not([lang="zz"]) .promo-card:has(.promo-chips) .promo-photo { inset: 96px 0 84px 0 !important; }
+html:not([lang="zz"]) .promo-foot { margin: auto -18px -16px !important; padding: 40px 18px 16px !important; }
+html:not([lang="zz"]) .promo-foot strong { font-size: 19px !important; }
+html:not([lang="zz"]) .promo-foot span { font-size: 13px !important; }
+html:not([lang="zz"]) .promo-foot button { font-size: 12px !important; padding: 9px 14px !important; }
+
+/* ── Shop grid: compact cards ── */
+.shop .product-grid { grid-template-columns: repeat(auto-fill, minmax(205px, 1fr)) !important; gap: 18px !important; }
+.shop .product-picture { aspect-ratio: 1 / 1 !important; height: auto !important; }
+.shop .product-card-info h3 { font-size: 16px; }
+
+/* ── Key ingredients ── */
+.composition { padding: 80px 6% !important; }
+.composition-image { height: 420px !important; max-width: 420px; }
+
+/* ── Ritual sets ── */
+.rituals { padding-top: 72px !important; padding-bottom: 72px !important; }
+.rituals h2 { font-size: clamp(30px, 3.4vw, 46px) !important; }
+
+/* ── Festive looks ── */
+.nine { padding-top: 64px !important; padding-bottom: 64px !important; }
+
+/* ── Salon services: video is a component on the right, no overlay ── */
+.salon.salon-stack { padding-bottom: 64px !important; }
+.salon.salon-stack .salon-banner {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 56px;
+  align-items: center;
+  aspect-ratio: auto;
+  min-height: 0;
+  max-height: none;
+  padding: 56px 6%;
+  overflow: visible;
+  background: var(--pro-bg);
+  margin-bottom: 56px;
+}
+.salon-banner-shade { display: none !important; }
+.salon-banner-copy { position: static !important; order: 2; color: var(--ink) !important; max-width: none !important; }
+.salon-banner-copy .eyebrow { color: var(--amber) !important; }
+.salon-banner-copy strong { font-size: clamp(26px, 3vw, 40px) !important; line-height: 1.15 !important; }
+.salon-banner-video { order: 1; height: auto !important; aspect-ratio: 4 / 3; max-height: 460px; border-radius: var(--pro-radius); }
+
+/* ── Spa, combos, arrivals, journal: smaller media ── */
+.spa { padding-top: 64px !important; padding-bottom: 72px !important; }
+.spa-media { max-height: 230px; }
+.pick-stage { height: 240px !important; }
+.picks { padding-top: 64px !important; padding-bottom: 64px !important; }
+.arrivals-ghost { display: none !important; }
+.arrival-photo { height: 180px !important; overflow: hidden !important; }
+.arrivals { padding-top: 64px !important; padding-bottom: 64px !important; }
+.arrivals-head h2 { font-size: clamp(30px, 3.6vw, 48px) !important; }
+.journal-grid { grid-template-columns: 1fr 1fr !important; gap: 28px !important; max-width: 900px; }
+.journal-picture, .journal-picture.second { height: 220px !important; }
+.journal-card-info h3 { font-size: 26px !important; }
+
+/* ── Closing call-to-action: image on the side, flat background ── */
+.closing {
+  height: auto !important;
+  display: grid !important;
+  grid-template-columns: 1fr 1fr;
+  gap: 56px;
+  align-items: center;
+  padding: 72px 6%;
+  background: var(--pro-bg);
+  color: var(--ink) !important;
+  isolation: auto;
+  overflow: visible;
+}
+.closing-image {
+  position: static !important;
+  order: 2;
+  width: 100% !important;
+  height: 320px !important;
+  z-index: auto !important;
+  object-fit: cover;
+  border-radius: var(--pro-radius);
+  background: #e9dccf;
+}
+.closing-shade { display: none !important; }
+.closing-content { margin: 0 !important; }
+.closing .eyebrow { color: var(--amber) !important; }
+.closing h2 { font-size: clamp(32px, 4.2vw, 58px) !important; line-height: 1.08 !important; letter-spacing: -0.02em !important; margin: 14px 0 26px !important; }
+.closing .pill.light { background: var(--ink); color: var(--cream); border-color: var(--ink); }
+
+@media (max-width: 900px) {
+  .collection-band .collection-hero,
+  .salon.salon-stack .salon-banner,
+  .closing { grid-template-columns: 1fr; gap: 28px; padding: 40px 6%; }
+  .collection-band .collection-video,
+  .salon-banner-video { order: -1; }
+  .closing-image { order: -1; height: 220px !important; }
+  .film-grid { grid-template-columns: 1fr !important; }
+  .film-reels { grid-template-columns: repeat(3, 1fr) !important; }
+  .film-reels .reel { height: 120px; }
+  .journal-grid { grid-template-columns: 1fr !important; }
+  .collection-band .collection-products { grid-template-columns: 1fr 1fr; }
+  .herbal-slide { min-height: 0 !important; }
+  .composition-image { height: 320px !important; }
+}
+
+/* Journal: both cards on one line */
+.journal-grid { align-items: start !important; }
+.journal-card, .journal-card:nth-child(2), .journal-card:nth-child(even) { margin-top: 0 !important; padding-top: 0 !important; transform: none !important; }
+
+/* ═══════════ Full-bleed split (same pattern as hero banner) ═══════════
+   Video takes ~60% of the section, flush to the viewport edge, full section height.
+   Copy sits in the remaining column on a flat colour. */
+.collection-band .collection-hero,
+.salon.salon-stack .salon-banner {
+  grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr) !important;
+  gap: 0 !important;
+  align-items: stretch !important;
+  padding: 0 !important;
+  min-height: 600px !important;
+  max-height: none !important;
+  overflow: hidden !important;
+}
+.collection-band .collection-video,
+.salon-banner-video {
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 600px;
+  max-height: none !important;
+  aspect-ratio: auto !important;
+  border-radius: 0 !important;
+  object-fit: cover;
+}
+.collection-band .collection-hero-copy,
+.salon-banner-copy {
+  align-self: center;
+  padding: 56px 6% 56px 64px !important;
+}
+.salon.salon-stack .salon-banner { margin-bottom: 0 !important; background: var(--pro-bg) !important; }
+.salon.salon-stack .salon-body { padding-top: 64px; }
+@media (max-width: 900px) {
+  .collection-band .collection-hero,
+  .salon.salon-stack .salon-banner {
+    grid-template-columns: 1fr !important;
+    min-height: 0 !important;
+  }
+  .collection-band .collection-video,
+  .salon-banner-video { min-height: 0; height: auto !important; aspect-ratio: 4 / 3 !important; }
+  .collection-band .collection-hero-copy,
+  .salon-banner-copy { padding: 36px 6% !important; }
+}
+
+/* ═══════════ Closing — big rounded banner + card row ═══════════ */
+.closing { display: block !important; padding: 56px 3% 72px !important; background: #fff !important; }
+.closing-banner { position: relative; width: 100%; min-height: 560px; border-radius: 22px; overflow: hidden; background: #2a1a14; }
+.closing .closing-image { position: absolute !important; inset: 0; width: 100% !important; height: 100% !important; border-radius: 0 !important; object-fit: cover; order: 0; }
+.closing .closing-shade { display: block !important; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(25,14,10,0.72) 0%, rgba(25,14,10,0.15) 62%); }
+.closing .closing-content { position: relative; z-index: 2; max-width: 620px; padding: 0 0 0 64px; min-height: 560px; display: flex; flex-direction: column; justify-content: center; }
+.closing .eyebrow { color: #f1d9c6 !important; }
+.closing h2 { color: #fff !important; }
+.closing h2 span { display: block; }
+.closing-cta { position: absolute; z-index: 3; right: 40px; bottom: 36px; display: inline-flex; align-items: center; gap: 10px; padding: 16px 30px; border: 0; border-radius: 999px; background: #fff; color: var(--ink); font-size: 16px; font-weight: 600; cursor: pointer; box-shadow: 0 8px 28px rgba(0,0,0,0.25); }
+.closing-cta:hover { background: var(--cream); }
+.closing-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; margin-top: 24px; }
+.closing-card { text-align: left; background: none; border: 0; padding: 0; cursor: pointer; color: var(--ink); }
+.closing-card-media { display: block; aspect-ratio: 4 / 3; border-radius: 16px; overflow: hidden; background: #efe5dc; }
+.closing-card-media img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; }
+.closing-card:hover img { transform: scale(1.05); }
+.closing-card-copy { display: block; padding: 14px 4px 0; }
+.closing-card-copy strong { display: block; font-size: 17px; font-weight: 600; line-height: 1.3; }
+.closing-card-copy em { display: block; margin-top: 4px; font-style: normal; font-size: 13px; color: var(--amber); }
+@media (max-width: 900px) {
+  .closing { padding: 32px 4% 48px !important; }
+  .closing-banner, .closing .closing-content { min-height: 420px; }
+  .closing .closing-content { padding: 0 24px; }
+  .closing-cta { right: 20px; bottom: 20px; padding: 12px 22px; font-size: 14px; }
+  .closing-cards { grid-template-columns: 1fr; }
+}
+
+/* Featured Collection: same full-bleed split as Salon Services */
+.collection-band .collection-hero { background: var(--pro-bg) !important; }
+
+/* closing-cards removed */
+.closing { padding-bottom: 56px !important; }
+
+/* ═══════════ Booking section — dark panel for readability ═══════════ */
+.salon.salon-stack .salon-body {
+  background: #2a1a14;
+  color: #f3e7dc;
+  padding: 80px 6% 88px !important;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.3fr);
+  gap: 7%;
+  align-items: start;
+}
+.salon.salon-stack { padding-bottom: 0 !important; }
+.salon-body .salon-copy { position: sticky; top: 110px; }
+.salon-body .salon-copy h2 {
+  background: none !important;
+  -webkit-text-fill-color: #f8ede3;
+  color: #f8ede3 !important;
+  animation: none !important;
+  font-size: clamp(34px, 3.8vw, 54px) !important;
+  line-height: 1.08 !important;
+  margin: 0 0 18px;
+}
+.salon-body .salon-copy > p { color: #d9c8ba !important; font-size: 16px; line-height: 1.7; max-width: 440px; margin: 0 0 24px !important; }
+.salon-body .salon-perks { gap: 14px; margin-bottom: 26px; color: #f3e7dc; font-size: 15px; }
+.salon-body .salon-perks svg { color: #e3b98f; flex-shrink: 0; }
+.salon-body .salon-hours { color: #e3b98f !important; letter-spacing: 0.14em; margin-bottom: 30px; }
+.salon-body .salon-copy .pill.dark { background: #f8ede3 !important; color: #2a1a14 !important; border-color: #f8ede3 !important; }
+.salon-body .salon-copy .pill.dark .pill-dot { border-color: #2a1a1440; color: #2a1a14; }
+.salon-body .salon-tabs { border-bottom: 1px solid #f3e7dc26; padding-bottom: 20px; gap: 10px; }
+.salon-body .salon-tabs button { color: #f3e7dc; border-color: #f3e7dc40; background: transparent; }
+.salon-body .salon-tabs button:hover { border-color: #f3e7dc; }
+.salon-body .salon-tabs button.is-active { background: #f8ede3; color: #2a1a14; border-color: #f8ede3; }
+.salon-body .salon-tabs button::after { display: none; }
+.salon-body .salon-intro { color: #f8ede3; font-size: 24px; margin: 28px 0 8px; }
+.salon-body .service-row { border-bottom: 1px solid #f3e7dc22; padding: 26px 0; align-items: flex-start; }
+.salon-body .service-row::before { display: none; }
+.salon-body .service-row:hover { background: transparent; }
+.salon-body .service-row h3 { color: #f8ede3; font-size: 26px; margin: 0; }
+.salon-body .service-row p { color: #cdbbac; font-size: 14px; line-height: 1.6; margin: 8px 0 8px; }
+.salon-body .service-row small { color: #e3b98f; }
+.salon-body .service-end { display: flex; flex-direction: column; align-items: flex-end; gap: 14px; }
+.salon-body .service-end strong { color: #f8ede3; font-size: 22px; font-weight: 500; }
+.salon-body .service-book { color: #f8ede3; border: 1px solid #f3e7dc66; background: transparent; border-radius: 999px; padding: 9px 20px; display: inline-flex; align-items: center; gap: 8px; }
+.salon-body .service-book:hover { background: #f8ede3; color: #2a1a14; }
+@media (max-width: 900px) {
+  .salon.salon-stack .salon-body { grid-template-columns: 1fr; gap: 40px; padding: 48px 6% 56px !important; }
+  .salon-body .salon-copy { position: static; }
+}
+
+/* ═══════════ Product modal — neat card ═══════════ */
+.modal { border-radius: 18px; }
+.product-modal-picture { min-height: 560px; border-radius: 18px 0 0 18px; }
+.product-modal-word { display: none; }
+.product-modal-copy { padding: 64px 48px 44px 44px; display: flex; flex-direction: column; }
+.product-modal-copy .eyebrow { margin: 0 0 12px; color: var(--amber); }
+.product-modal-copy h2 { font-size: clamp(30px, 3vw, 42px) !important; line-height: 1.12 !important; margin: 0 0 8px !important; letter-spacing: -0.01em; }
+.product-modal-copy .product-scent { font-size: 12px !important; letter-spacing: 0.12em; text-transform: uppercase; color: var(--amber); margin: 0 0 18px !important; }
+.product-modal-copy p { line-height: 1.65; margin-bottom: 18px; }
+.product-modal-copy .product-price { font-family: var(--sans); font-size: 28px; font-weight: 600; margin: 4px 0 6px; color: var(--ink); }
+.product-modal-copy .size-option { border-radius: 10px; padding: 14px 16px; margin: 14px 0 16px; background: #fff; }
+.product-modal-copy .solid { border-radius: 999px; }
+.product-modal-copy .ordering-note { margin: 14px 0 18px; }
+.product-notes { flex-direction: row !important; flex-wrap: wrap; gap: 8px !important; border-top: 1px solid #422c2018; padding-top: 18px !important; }
+.product-notes span { background: #f1e8df; border-radius: 999px; padding: 6px 12px; font-size: 12px !important; }
+.modal-close { background: #fff !important; box-shadow: 0 2px 10px rgba(66,44,32,0.15); }
+@media (max-width: 900px) {
+  .product-modal-picture { min-height: 360px; border-radius: 18px 18px 0 0; }
+  .product-modal-copy { padding: 32px 24px 32px; }
+}
+
+/* Booking section: fill the full width (the flex column was shrinking it), no glow blobs */
+.salon.salon-stack { align-items: stretch !important; background: #2a1a14 !important; overflow: hidden; }
+.salon.salon-stack::before, .salon.salon-stack::after { display: none !important; }
+.salon.salon-stack > .salon-banner, .salon.salon-stack > .salon-body { width: 100% !important; max-width: none !important; box-sizing: border-box; }
+.salon.salon-stack .salon-body { grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.35fr); padding: 80px 6% 96px !important; }
+.salon-body .salon-menu { width: 100%; min-width: 0; }
+.salon-body .service-list, .salon-body .salon-intro { max-width: none; }
+.salon-body .service-row > div:first-child { flex: 1; min-width: 0; }

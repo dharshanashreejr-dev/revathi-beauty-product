@@ -17,10 +17,11 @@
 .vt-nav a::after { content: ''; position: absolute; left: 0; bottom: 4px; width: 100%; height: 1px; background: currentColor; transform: scaleX(0); transform-origin: right; transition: transform .35s; }
 .vt-nav a:hover::after, .vt-nav a.is-current::after { transform: scaleX(1); transform-origin: left; }
 .vt-brand { justify-self: center; display: inline-flex; flex-direction: column; align-items: center; line-height: 1; padding-top: 12px; transition: transform .5s; }
-.vt-header.is-solid .vt-brand { padding-top: 10px; transform: scale(.87); transform-origin: top center; }
+.vt-header.is-solid .vt-brand { padding-top: 8px; transform: none; }
 .vt-lotus { width: 34px; height: auto; display: block; overflow: visible; }
-.vt-word { display: block; font-family: 'Cormorant Garamond', Georgia, serif; font-size: 11px; letter-spacing: .12em; margin: 6px 0 0 .12em; white-space: nowrap; }
-.vt-sub { display: block; font-size: 7px; letter-spacing: .28em; margin: 7px 0 0 .28em; white-space: nowrap; }
+.vt-word { display: block; font-family: 'Cormorant Garamond', Georgia, serif; font-size: 20px; letter-spacing: .14em; margin: 6px 0 0 .12em; white-space: nowrap; font-weight: 600; }
+.vt-sub { display: block; font-size: 13px; letter-spacing: .2em; margin: 6px 0 0 .2em; white-space: nowrap; }
+.vt-tagline { display: block; font-size: 12px; letter-spacing: .14em; margin: 5px 0 0 0; white-space: nowrap; opacity: .9; font-style: italic; }
 .vt-tools { position: absolute; right: 3.5%; top: 18px; display: flex; align-items: center; gap: 21px; font-size: 12px; }
 .vt-header.is-solid .vt-tools { top: 20px; }
 .vt-bag { display: flex; gap: 9px; align-items: center; min-height: 38px; background: none; border: 0; padding: 0; cursor: pointer; font: inherit; }
@@ -42,7 +43,7 @@
   .vt-brand { grid-column: 2; grid-row: 1; }
   .vt-tools { grid-column: 3; right: 12px; gap: 8px; }
   .vt-admin { display: none; }
-  .vt-word { font-size: 9px; letter-spacing: .08em; } .vt-sub { font-size: 6px; }
+  .vt-word { font-size: 14px; letter-spacing: .1em; } .vt-sub { font-size: 11px; } .vt-tagline { font-size: 10px; }
 }
 
 /* language dropdown (same on every page) */
@@ -99,4 +100,34 @@ html:not([lang="en"]) .vt-right {
 }
 @media (max-width: 899px) {
   .vt-right { padding-right: 0 !important; }
+}
+
+
+/* ===== navbar layout fix (final) =====
+   Right side = ONE flex row: [About, Tracking] ... [language, cart, Hi/Login, Admin].
+   Nothing is position:absolute any more, so Tracking can never sit under the buttons. */
+.vt-header { grid-template-columns: 1fr auto 1fr; }
+.vt-rightwrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-width: 0; height: 73px; padding-right: 2%; }
+.vt-header.is-solid .vt-rightwrap { height: 80px; }
+.vt-right { padding: 0 0 0 28px !important; overflow: visible !important; gap: 22px !important; height: auto !important; flex: 0 0 auto; }
+html:not([lang="en"]) .vt-right { padding: 0 0 0 20px !important; gap: 14px !important; }
+.vt-tools { position: static !important; right: auto !important; top: auto !important; flex: 0 0 auto; gap: 12px !important; }
+.vt-admin { padding: 8px 14px; }
+.vt-brand { min-width: 200px; }
+
+/* not enough room for both pills: Admin stays reachable from the menu */
+@media (max-width: 1499px) { .vt-admin-link { display: none; } }
+
+/* below 1360px switch to the burger layout (menu has every link, Login and Admin) */
+@media (max-width: 1359px) {
+  .vt-header { grid-template-columns: 1fr minmax(160px, 240px) 1fr; height: 80px; }
+  .vt-nav { display: none; }
+  .vt-burger { display: grid; grid-column: 1; grid-row: 1; margin: 14px 0 0 12px; }
+  .vt-brand { grid-column: 2; grid-row: 1; min-width: 0; }
+  .vt-rightwrap { grid-column: 3; grid-row: 1; justify-content: flex-end; padding-right: 12px; height: 80px; }
+}
+@media (max-width: 899px) {
+  .vt-admin { display: none; }
+  .vt-rightwrap { gap: 8px; }
+  .vt-tools { gap: 8px !important; }
 }

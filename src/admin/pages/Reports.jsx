@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react';
 import { Download, IndianRupee, Package, CalendarCheck, ShoppingBag, Receipt, FlaskConical } from 'lucide-react';
 import { useStore } from '../store.jsx';
+import { api } from '../../api';
 import { inr, ORDER_STATUSES, SERVICES } from '../data/mockData.js';
 import { revenueSeries, productRevenue, appointmentRevenue, orderTotal, countsAsRevenue, productOf, downloadCsv } from '../utils.js';
 import PageHeader from '../components/PageHeader.jsx';
@@ -42,6 +43,7 @@ export default function Reports() {
 
   const byService = SERVICES.map((s, i) => ({ label: s.name, value: appointments.filter((a) => a.service === s.name && a.status !== 'Cancelled').length, color: chartColor(i) }));
   const byOrderStatus = ORDER_STATUSES.map((s) => ({ label: s, value: orders.filter((o) => o.status === s).length }));
+  const posSummary = api.pos.posRevenueSummary();
 
   const exportCsv = () => {
     const rows = [
@@ -78,6 +80,19 @@ export default function Reports() {
         <StatCard icon={ShoppingBag} label={t('Total orders')} value={orders.length} hint={t('{n} paid', { n: paidOrders.length })} tone="sand" />
         <StatCard icon={Receipt} label={t('Average order value')} value={inr(aov)} hint={t('Paid orders')} tone="amber" />
         <StatCard icon={CalendarCheck} label={t('Completed services')} value={appointments.filter((a) => a.status === 'Completed').length} hint={t('{amount} this month', { amount: inr(appointmentRevenue(appointments)) })} tone="sage" />
+      </div>
+
+      <div className="card" style={{ marginBottom: 22 }}>
+        <div className="card-head">
+          <h3>{t('POS billing (GST)')}</h3>
+          <span className="muted">{t('{n} invoices', { n: posSummary.count })}</span>
+        </div>
+        <div className="stat-grid four" style={{ marginBottom: 0 }}>
+          <StatCard icon={Receipt} label={t('POS total')} value={inr(posSummary.total)} tone="forest" />
+          <StatCard icon={IndianRupee} label="CGST collected" value={inr(posSummary.cgst)} tone="sage" />
+          <StatCard icon={IndianRupee} label="SGST collected" value={inr(posSummary.sgst)} tone="sage" />
+          <StatCard icon={ShoppingBag} label={t('Invoices')} value={posSummary.count} hint={Object.entries(posSummary.byPay).map(([k, v]) => `${k}: ${inr(v)}`).join(' · ') || '—'} tone="sand" />
+        </div>
       </div>
 
       <div className="grid-2">

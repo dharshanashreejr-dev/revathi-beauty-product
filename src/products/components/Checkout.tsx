@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { api } from '../../api';
 import type { Address, CartItem } from '../types';
 import { formatPrice } from '../data/products';
 import { FREE_SHIP, shipFee, subtotalOf } from '../lib';
@@ -9,9 +10,15 @@ import { ck, ck2, ckUp, stdFreeLabel } from '../i18n-checkout';
 interface Props { items: CartItem[]; initial: Address | null; onNext: (a: Address) => void; onBack: () => void }
 const EMPTY: Address = { name: '', email: '', phone: '', line1: '', line2: '', city: '', state: '', pin: '', method: 'standard' };
 
+// Logged-in customer: start the form with their saved profile.
+function prefill(): Address {
+  const u = api.auth.currentUser(), d = u?.addresses[0];
+  return { ...EMPTY, name: u?.name ?? '', email: u?.email ?? '', phone: u?.phone ?? '', line1: d?.line1 ?? '', city: d?.city ?? '', state: d?.state ?? '', pin: d?.pin ?? '' };
+}
+
 export default function Checkout({ items, initial, onNext, onBack }: Props) {
   const [lang] = useLang();
-  const [a, setA] = useState<Address>(initial ?? EMPTY);
+  const [a, setA] = useState<Address>(initial ?? prefill());
   const [errs, setErrs] = useState<Record<string, string>>({});
   const sub = subtotalOf(items);
   const set = (k: keyof Address, v: string) => setA(p => ({ ...p, [k]: v }));

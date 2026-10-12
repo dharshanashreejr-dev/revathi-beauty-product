@@ -2,6 +2,7 @@ import { useRef, useState } from 'react';
 import type { MouseEvent } from 'react';
 import type { Colour, Product } from '../types';
 import { useLang } from '../../shared/i18n';
+import { StockLine, OutCross } from './StockNotice';
 import { sub as subL, badge as badgeL, colour as colL, ui, sizesLabel, offLabel, stockLabel } from '../i18n';
 import { discount, formatPrice, stockStatus } from '../data/products';
 import ProductArt from './ProductArt';
@@ -45,8 +46,9 @@ export default function ProductCard({ product, index, onOpen, onQuick }: Props) 
       >
         <div className="preserve-3d relative h-[310px] shrink-0 overflow-hidden sm:h-[320px]" style={{ background: `linear-gradient(160deg, ${colour.hex}33, ${colour.hex}0d 70%)`, transition: 'background .5s' }}>
           <div className="absolute inset-0 flex items-center justify-center" style={{ transform: 'translateZ(60px)' }}>
-            <ProductArt art={product.art} colour={colour.hex} colourName={colour.name} alt={pname(product.name, lang)} className={`h-[250px] w-[78%] object-contain drop-shadow-xl transition-all duration-500 ${out ? 'opacity-50 grayscale' : ''}`} />
+            <ProductArt art={product.art} colour={colour.hex} colourName={colour.name} photo={colour.photo} alt={pname(product.name, lang)} className={`h-[250px] w-[78%] object-contain drop-shadow-xl transition-all duration-500 ${out ? 'opacity-50 grayscale' : ''}`} />
           </div>
+          {out && <div className="pointer-events-none absolute inset-0" style={{ transform: 'translateZ(70px)' }}><OutCross /></div>}
           <div ref={glare} className="pointer-events-none absolute inset-0 opacity-0 mix-blend-soft-light transition-opacity duration-300" />
           {product.badge && (
             <span className="absolute left-4 top-4 rounded-full bg-ink px-3 py-1 text-xs text-white" style={{ transform: 'translateZ(40px)' }}>
@@ -91,16 +93,19 @@ export default function ProductCard({ product, index, onOpen, onQuick }: Props) 
                   aria-label={colL(col.name, lang)}
                   title={colL(col.name, lang)}
                   onClick={e => { e.stopPropagation(); setColour(col); }}
-                  className={`h-6 w-6 rounded-full border border-black/10 transition ${col.name === colour.name ? 'ring-2 ring-ink ring-offset-2' : 'hover:scale-110'}`}
-                  style={{ background: col.hex }}
-                />
+                  className={`flex flex-col items-center gap-1 ${col.code ? 'pb-0.5' : ''}`}
+                >
+                  <span className={`block h-6 w-6 rounded-full border border-black/10 transition ${col.name === colour.name ? 'ring-2 ring-ink ring-offset-2' : 'hover:scale-110'}`} style={{ background: col.hex }} />
+                  {col.code && <span className={`text-[10px] leading-none ${col.name === colour.name ? 'font-semibold text-ink' : 'text-stone-500'}`}>{col.code}</span>}
+                </button>
               ))}
             </div>
             <span className="text-sm text-stone-500">★ {product.rating} ({product.reviews})</span>
           </div>
+          {colour.code && <p className="-mt-1 text-xs text-stone-600">{colL(colour.name, lang)} <span className="text-stone-400">· {product.colours.length} shades</span></p>}
 
           <div className="flex items-center justify-between border-t border-stone-100 pt-3 text-sm">
-            <span className={status.tone}>{stockLabel(product.stock, lang)}</span>
+            <StockLine stock={product.stock} />
             <span className="text-stone-500">{product.sizes.length > 1 ? sizesLabel(product.sizes.length, lang) : sizeText(product.sizes[0], lang)}</span>
           </div>
         </div>

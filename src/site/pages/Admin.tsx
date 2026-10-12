@@ -10,7 +10,7 @@ export default function Admin() {
   const [, tick] = useState(0); const re = () => tick((n) => n + 1)
   useEffect(() => { processDue(); const t = setInterval(() => { if (processDue()) re() }, 30000); return () => clearInterval(t) }, [])
   const all = getBookings(), blocked = getBlocked()
-  const day = all.filter((b) => b.date === date && b.status === 'Confirmed')
+  const day = all.filter((b) => b.date === date && (b.status === 'Confirmed' || b.status === 'Pending Review'))
   const shift = (n: number) => { const d = new Date(date + 'T00:00'); d.setDate(d.getDate() + n); setDate(iso(d)) }
   const queue = all.flatMap((b) => b.reminders.filter((r) => r.status === 'Scheduled').map((r) => ({ b, r }))).sort((x, y) => x.r.at.localeCompare(y.r.at))
   const sendNow = (ref: string, label: string) => { const b = all.find((x) => x.ref === ref)!; updateBooking(ref, { reminders: b.reminders.map((r) => (r.label === label ? { ...r, status: 'Sent' as const } : r)) }); re() }
@@ -35,7 +35,7 @@ export default function Admin() {
                 const bk = day.find((x) => x.specialists.includes(m.name) && overlap(toMin(s), toMin(s) + 60, toMin(x.time), toMin(x.time) + x.duration))
                 const bl = blocked.includes(`${date}|${m.name}|${s}`)
                 return <td key={s} className="p-1 min-w-[84px]">{bk
-                  ? <div title={`${bk.name} · ${t(bk.serviceName)}`} className="bg-ink text-sand rounded px-2 py-2 truncate max-w-[84px]">{bk.name}</div>
+                  ? <div title={`${bk.name} · ${t(bk.serviceName)}${bk.status === 'Pending Review' ? ' · ' + t('Pending review') : ''}`} className={`rounded px-2 py-2 truncate max-w-[84px] ${bk.status === 'Pending Review' ? 'bg-gold/30 text-ink border border-dashed border-ink/40' : 'bg-ink text-sand'}`}>{bk.name}</div>
                   : <button onClick={() => { toggleBlock(date, m.name, s); re() }} className={`w-full rounded px-2 py-2 border transition ${bl ? 'bg-ink/10 border-ink/30 line-through' : 'border-dashed border-ink/20 hover:bg-ink/5'}`}>{bl ? t('Blocked') : t('Free')}</button>}</td>
               })}
             </tr>))}</tbody>
@@ -49,11 +49,11 @@ export default function Admin() {
           const opts = Array.from(new Set([b.specialists[0], ...freeSpecialists(b.category as Category, b.date, b.time, b.duration, b.ref).map((m) => m.name)]))
           return (
             <tr key={b.ref} className={`border-t border-ink/10 ${b.status === 'Cancelled' ? 'opacity-40' : ''}`}>
-              <td className="py-3 pr-4">{b.ref}</td><td className="pr-4">{b.name}<br /><span className="opacity-60">{b.phone}</span></td><td className="pr-4">{t(b.serviceName)}</td><td className="pr-4 whitespace-nowrap">{fmtDate(b.date, lang)} · {b.time}</td>
+              <td className="py-3 pr-4">{b.ref}</td><td className="pr-4">{b.name}<br /><span className="opacity-60">{b.phone}</span>{b.mode === 'home' && <><br /><span className="opacity-60">{t('Home visit')}</span></>}</td><td className="pr-4">{t(b.serviceName)}</td><td className="pr-4 whitespace-nowrap">{fmtDate(b.date, lang)} · {b.time}</td>
               <td className="pr-4">{b.guests > 1 ? b.specialists.join(', ') : <select disabled={b.status !== 'Confirmed'} value={b.specialists[0]} onChange={(e) => { updateBooking(b.ref, { specialists: [e.target.value] }); re() }} className="bg-transparent border border-ink/25 rounded-full px-2 py-1">{opts.map((o) => <option key={o}>{o}</option>)}</select>}</td>
               <td className="pr-4">{b.remind ? t('{channel} · {n} queued', { channel: b.channel, n: b.reminders.filter((r) => r.status === 'Scheduled').length }) : t('Off')}</td>
               <td className="pr-4">{t(b.status)}</td>
-              <td>{b.status === 'Confirmed' && <button onClick={() => { cancelBooking(b.ref); re() }} className="underline">{t('Cancel')}</button>}</td>
+              <td>{(b.status === 'Confirmed' || b.status === 'Pending Review') && <button onClick={() => { cancelBooking(b.ref); re() }} className="underline">{t('Cancel')}</button>}</td>
             </tr>)})}</tbody></table></div>
 
       <h2 className="h text-3xl mt-16 mb-2">{t('Reminder queue')}</h2>

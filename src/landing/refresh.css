@@ -798,3 +798,29 @@
     transform: none;
   }
 }
+
+/* Tagline under the logo */
+.brand-tagline {
+  display: block;
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 9.5px;
+  letter-spacing: 0.14em;
+  margin: 6px 0 0 0.14em;
+  white-space: nowrap;
+  opacity: 0.9;
+}
+.intro-inner .brand-tagline { font-size: clamp(14px, 1.6vw, 19px); margin-top: 14px; letter-spacing: 0.18em; }
+.footer-top .brand-tagline { margin-left: 0; }
+@media (max-width: 900px) { .header-brand .brand-tagline { font-size: 8px; letter-spacing: 0.08em; } }
+
+/* Colour swatches sit directly below the price in the product details */
+.modal-moods.modal-moods-inline {
+  position: static;
+  translate: none;
+  background: transparent;
+  backdrop-filter: none;
+  padding: 4px 2px;
+  margin: 2px 0 10px;
+  width: fit-content;
+}

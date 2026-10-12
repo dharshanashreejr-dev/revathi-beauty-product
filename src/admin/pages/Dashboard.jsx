@@ -24,7 +24,7 @@ const PERIODS = [
 ];
 
 export default function Dashboard({ user, onNavigate }) {
-  const { products, orders, appointments, customers, staff } = useStore();
+  const { products, orders, appointments, customers, staff, lowStockThreshold = 10 } = useStore();
   const { t, lang } = useT();
   const [period, setPeriod] = useState('6');
   const isAdmin = user.role === 'Admin';
@@ -36,7 +36,7 @@ export default function Dashboard({ user, onNavigate }) {
   }, [orders, appointments, products, period]);
 
   const totalRevenue = productRevenue(orders, products) + appointmentRevenue(appointments);
-  const lowStock = products.filter((p) => p.stock <= LOW_STOCK);
+  const lowStock = products.filter((p) => p.stock <= (lowStockThreshold ?? LOW_STOCK));
   const available = staff.filter((s) => s.availability === 'Available').length;
   const todays = appointments.filter((a) => a.date === TODAY).sort((a, b) => a.time.localeCompare(b.time));
   const recentOrders = [...orders].sort((a, b) => b.date.localeCompare(a.date)).slice(0, 5);
@@ -93,7 +93,7 @@ export default function Dashboard({ user, onNavigate }) {
         <StatCard icon={CalendarDays} label={t('Total appointments')} value={appointments.length} hint={t('{n} today', { n: todays.length })} tone="sage" />
         <StatCard icon={Users} label={t('Total customers')} value={customers.length} hint={t('Across all tiers')} tone="sand" />
         {isAdmin && <StatCard icon={IndianRupee} label={t('Total revenue (sample)')} value={inr(totalRevenue)} hint={t('Paid orders and services')} tone="forest" />}
-        {isAdmin && <StatCard icon={AlertTriangle} label={t('Low-stock products')} value={lowStock.length} hint={t('{n} units or fewer', { n: LOW_STOCK })} tone="amber" />}
+        {isAdmin && <StatCard icon={AlertTriangle} label={t('Low-stock products')} value={lowStock.length} hint={t('{n} units or fewer', { n: lowStockThreshold ?? LOW_STOCK })} tone="amber" />}
         <StatCard icon={UserCheck} label={t('Available specialists')} value={available} hint={t('of {n} team members', { n: staff.length })} tone="sage" />
       </div>
 

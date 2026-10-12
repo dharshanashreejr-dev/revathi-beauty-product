@@ -13,6 +13,12 @@ import Customers from './pages/Customers.jsx';
 import Inventory from './pages/Inventory.jsx';
 import Reports from './pages/Reports.jsx';
 import Staff from './pages/Staff.jsx';
+import ServicesPricing from './pages/ServicesPricing.jsx';
+import Reviews from './pages/Reviews.jsx';
+import Offers from './pages/Offers.jsx';
+import SmsOutbox from './pages/SmsOutbox.jsx';
+import POS from './pages/POS.jsx';
+import AuditLog from './pages/AuditLog.jsx';
 import AccessDenied from './pages/AccessDenied.jsx';
 import { useT } from './i18n.js';
 
@@ -62,13 +68,19 @@ export default function App() {
   const props = { user, onNavigate: navigate, intent, onIntentHandled: clearIntent };
   const pages = {
     dashboard: <Dashboard {...props} />,
+    pos: <POS {...props} />,
     products: <Products {...props} />,
     orders: <Orders {...props} />,
     appointments: <Appointments {...props} />,
     customers: <Customers {...props} />,
     inventory: <Inventory {...props} />,
     reports: <Reports {...props} />,
-    staff: <Staff {...props} />
+    staff: <Staff {...props} />,
+    services: <ServicesPricing {...props} />,
+    offers: <Offers {...props} />,
+    reviews: <Reviews {...props} />,
+    sms: <SmsOutbox {...props} />,
+    audit: <AuditLog {...props} />
   };
 
   return (

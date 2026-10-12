@@ -3,8 +3,8 @@ import {
   INITIAL_PRODUCTS, INITIAL_ORDERS, INITIAL_APPOINTMENTS, INITIAL_CUSTOMERS, INITIAL_STAFF, USERS
 } from './data/mockData.js';
 
-const KEY = 'maison-bloom-demo-v1';
-const SESSION = 'maison-bloom-session-v1';
+const KEY = 'revathi-herbal-demo-v2';
+const SESSION = 'revathi-herbal-session-v2';
 
 const load = (key, fallback) => {
   try {
@@ -15,7 +15,6 @@ const load = (key, fallback) => {
   }
 };
 
-// Stock zero always means Out of Stock; restocking an Out of Stock product reactivates it.
 export const normaliseProduct = (p) => {
   const stock = Math.max(0, Number(p.stock) || 0);
   let status = p.status;
@@ -34,14 +33,17 @@ export function StoreProvider({ children }) {
   const [appointments, setAppointments] = useState(saved?.appointments || INITIAL_APPOINTMENTS);
   const [customers] = useState(saved?.customers || INITIAL_CUSTOMERS);
   const [staff, setStaff] = useState(saved?.staff || INITIAL_STAFF);
+  const [messages, setMessages] = useState(saved?.messages || []);
+  const [auditLog, setAuditLog] = useState(saved?.auditLog || []);
+  const [lowStockThreshold, setLowStockThreshold] = useState(saved?.lowStockThreshold ?? 10);
   const [user, setUser] = useState(() => load(SESSION, null));
   const [toasts, setToasts] = useState([]);
 
   useEffect(() => {
     try {
-      localStorage.setItem(KEY, JSON.stringify({ products, orders, appointments, customers, staff }));
-    } catch { /* storage unavailable, demo still works in memory */ }
-  }, [products, orders, appointments, customers, staff]);
+      localStorage.setItem(KEY, JSON.stringify({ products, orders, appointments, customers, staff, messages, auditLog, lowStockThreshold }));
+    } catch { /* storage unavailable */ }
+  }, [products, orders, appointments, customers, staff, messages, auditLog, lowStockThreshold]);
 
   useEffect(() => {
     try {
@@ -56,6 +58,17 @@ export function StoreProvider({ children }) {
     setTimeout(() => setToasts((t) => t.filter((x) => x.id !== id)), 3200);
   }, []);
 
+  const addAudit = useCallback((action, detail, actor) => {
+    const entry = {
+      id: `AUD-${Date.now()}`,
+      at: new Date().toISOString(),
+      actor: actor || 'System',
+      action,
+      detail
+    };
+    setAuditLog((list) => [entry, ...list].slice(0, 500));
+  }, []);
+
   const login = useCallback((email, password, role) => {
     const found = USERS.find((u) => u.email.toLowerCase() === email.trim().toLowerCase());
     if (!found) return { ok: false, error: 'No account found with that email address.' };
@@ -65,22 +78,36 @@ export function StoreProvider({ children }) {
     }
     const session = { name: found.name, email: found.email, role: found.role, title: found.title };
     setUser(session);
+    addAudit('Login', `${found.name} (${found.role}) signed in`, found.name);
     return { ok: true, user: session };
-  }, []);
+  }, [addAudit]);
 
-  const logout = useCallback(() => setUser(null), []);
+  const sendMessage = useCallback((text, to = 'inventory', from = '') => {
+    setMessages((m) => [{ id: Date.now() + Math.random(), text, to, from, at: Date.now(), read: false }, ...m].slice(0, 100));
+  }, []);
+  const markMessagesRead = useCallback(() => setMessages((m) => m.map((x) => (x.read ? x : { ...x, read: true }))), []);
+  const markMessageRead = useCallback((id) => setMessages((m) => m.map((x) => (x.id === id ? { ...x, read: true } : x))), []);
+
+  const logout = useCallback(() => {
+    if (user) addAudit('Logout', `${user.name} signed out`, user.name);
+    setUser(null);
+  }, [user, addAudit]);
 
   const resetDemo = useCallback(() => {
     setProducts(INITIAL_PRODUCTS);
     setOrders(INITIAL_ORDERS);
     setAppointments(INITIAL_APPOINTMENTS);
     setStaff(INITIAL_STAFF);
+    setAuditLog([]);
+    setLowStockThreshold(10);
     notify('Demo data has been reset to the original samples.', 'info');
   }, [notify]);
 
   const value = {
     products, setProducts, orders, setOrders, appointments, setAppointments,
-    customers, staff, setStaff, user, login, logout, notify, resetDemo, toasts
+    customers, staff, setStaff, user, login, logout, notify, resetDemo, toasts,
+    messages, sendMessage, markMessagesRead, markMessageRead,
+    auditLog, addAudit, lowStockThreshold, setLowStockThreshold
   };
   return <StoreContext.Provider value={value}>{children}</StoreContext.Provider>;
 }

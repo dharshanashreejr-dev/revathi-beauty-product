@@ -1,0 +1,6 @@
+// Navbar labels for the three newer languages (same keys as NAV_LABELS in i18n-nav.ts).
+export const NAV_EXTRA: Record<string, Record<string, string>> = {
+  kn: { Home: 'ಮುಖಪುಟ', Products: 'ಉತ್ಪನ್ನಗಳು', Services: 'ಸೇವೆಗಳು', About: 'ನಮ್ಮ ಬಗ್ಗೆ', Tracking: 'ಟ್ರ್ಯಾಕಿಂಗ್', Admin: 'ಅಡ್ಮಿನ್', AdminPanel: 'ಅಡ್ಮಿನ್ ಪ್ಯಾನೆಲ್', Cart: 'ಬ್ಯಾಗ್', Menu: 'ಮೆನು ತೆರೆಯಿರಿ', Close: 'ಮೆನು ಮುಚ್ಚಿ', SitePages: 'ಸೈಟ್ ಪುಟಗಳು', Footer: 'ಅಡಿಟಿಪ್ಪಣಿ', HomeLink: 'Revathi Herbal Beauty Care — ಮುಖಪುಟ', Language: 'ಭಾಷೆ', MenuNav: 'ಮೆನು', BrandSub: 'ಸೌಂದರ್ಯ & ಸಲೂನ್' },
+  mr: { Home: 'होम', Products: 'उत्पादने', Services: 'सेवा', About: 'आमच्याबद्दल', Tracking: 'ट्रॅकिंग', Admin: 'अ‍ॅडमिन', AdminPanel: 'अ‍ॅडमिन पॅनेल', Cart: 'बॅग', Menu: 'मेनू उघडा', Close: 'मेनू बंद करा', SitePages: 'साइट पृष्ठे', Footer: 'तळटीप', HomeLink: 'Revathi Herbal Beauty Care — होम', Language: 'भाषा', MenuNav: 'मेनू', BrandSub: 'ब्यूटी & सलून' },
+  bn: { Home: 'হোম', Products: 'পণ্য', Services: 'সেবা', About: 'আমাদের সম্পর্কে', Tracking: 'ট্র্যাকিং', Admin: 'অ্যাডমিন', AdminPanel: 'অ্যাডমিন প্যানেল', Cart: 'ব্যাগ', Menu: 'মেনু খুলুন', Close: 'মেনু বন্ধ করুন', SitePages: 'সাইটের পৃষ্ঠা', Footer: 'ফুটার', HomeLink: 'Revathi Herbal Beauty Care — হোম', Language: 'ভাষা', MenuNav: 'মেনু', BrandSub: 'বিউটি & সেলুন' },
+}

@@ -34,6 +34,9 @@ export const COUNT_TREATMENTS: Record<Lang, (n: number) => string> = {
   hi: (n) => `${n} ट्रीटमेंट`,
   ml: (n) => `${n} ചികിത്സ${n !== 1 ? 'കൾ' : ''}`,
   te: (n) => `${n} చికిత్స${n !== 1 ? 'లు' : ''}`,
+  kn: (n) => `${n} ಚಿಕಿತ್ಸೆ${n !== 1 ? 'ಗಳು' : ''}`,
+  mr: (n) => `${n} ट्रीटमेंट`,
+  bn: (n) => `${n} ট্রিটমেন্ট`,
 }
 
 /** "2026-10-12" -> "Mon, 12 Oct 2026" in the chosen language. */

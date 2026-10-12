@@ -1,7 +1,8 @@
 import type { CartItem } from '../types';
 import { formatPrice } from '../data/products';
 import ProductArt from './ProductArt';
-import { useLang } from '../../shared/i18n';
+import { useLang, useUiLang } from '../../shared/i18n';
+import { authT } from '../../shared/auth-text';
 import { colour as colL } from '../i18n';
 import { ck, sizeText } from '../i18n-checkout';
 import { pname } from '../i18n-names';
@@ -22,9 +23,10 @@ export function Steps({ at }: { at: number }) {
   );
 }
 
-export function Summary({ items, subtotal, shipping, fee = 0 }: { items: CartItem[]; subtotal: number; shipping: number | null; fee?: number }) {
+export function Summary({ items, subtotal, shipping, fee = 0, discount = 0 }: { items: CartItem[]; subtotal: number; shipping: number | null; fee?: number; discount?: number }) {
   const [lang] = useLang();
-  const total = subtotal + (shipping ?? 0) + fee;
+  const [ui] = useUiLang();
+  const total = subtotal - discount + (shipping ?? 0) + fee;
   return (
     <aside className="h-fit rounded-3xl bg-night p-7 text-stone-200 shadow-2xl lg:sticky lg:top-24">
       <h3 className="font-serif text-3xl text-white">{ck('Your order', lang)}</h3>
@@ -32,7 +34,7 @@ export function Summary({ items, subtotal, shipping, fee = 0 }: { items: CartIte
         {items.map(i => (
           <li key={i.key} className="flex items-center gap-4">
             <div className="relative h-16 w-14 shrink-0 rounded-xl" style={{ background: `${i.colour.hex}33` }}>
-              <ProductArt art={i.product.art} colour={i.colour.hex} colourName={i.colour.name} alt="" className="h-full w-full p-1" />
+              <ProductArt art={i.product.art} colour={i.colour.hex} colourName={i.colour.name} photo={i.colour.photo} alt="" className="h-full w-full p-1" />
               <span className="absolute -right-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-gold text-[11px] text-night">{i.qty}</span>
             </div>
             <div className="min-w-0 flex-1 text-sm"><p className="truncate text-white">{pname(i.product.name, lang)}</p><p className="text-xs text-stone-400">{colL(i.colour.name, lang)} · {sizeText(i.size, lang)}</p></div>
@@ -42,6 +44,7 @@ export function Summary({ items, subtotal, shipping, fee = 0 }: { items: CartIte
       </ul>
       <dl className="mt-6 space-y-2 border-t border-white/10 pt-5 text-sm">
         <div className="flex justify-between"><dt>{ck('Subtotal', lang)}</dt><dd>{formatPrice(subtotal)}</dd></div>
+        {discount > 0 && <div className="flex justify-between text-emerald-300"><dt>{authT('Coupon discount', ui)}</dt><dd>−{formatPrice(discount)}</dd></div>}
         <div className="flex justify-between"><dt>{ck('Shipping', lang)}</dt><dd>{shipping === null ? ck('Calculated next', lang) : shipping === 0 ? ck('Complimentary', lang) : formatPrice(shipping)}</dd></div>
         {fee > 0 && <div className="flex justify-between"><dt>{ck('Cash on delivery fee', lang)}</dt><dd>{formatPrice(fee)}</dd></div>}
         <div className="flex justify-between border-t border-white/10 pt-3 text-lg text-white"><dt>{ck('Total', lang)}</dt><dd className="gold-text font-serif text-3xl">{formatPrice(total)}</dd></div>

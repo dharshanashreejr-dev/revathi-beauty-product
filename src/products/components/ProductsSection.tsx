@@ -1,4 +1,5 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import { api } from '../../api';
 import type { CategoryKey, Colour, Product } from '../types';
 import { CATEGORIES, PRODUCTS, formatPrice } from '../data/products';
 import ProductCard from './ProductCard';
@@ -21,11 +22,15 @@ export default function ProductsSection({ category, onCategory, onOpen, onQuick 
   const [sort, setSort] = useState<Sort>('featured');
   const [inStockOnly, setInStockOnly] = useState(false);
   const [query, setQuery] = useState('');
+  const [stockTick, setStockTick] = useState(0);
+  useEffect(() => { const bump = () => setStockTick(n => n + 1); const a = api.stock.subscribe(bump), b = api.catalogue.subscribe(bump); return () => { a(); b(); }; }, []);
 
   const [lang] = useLang();
   const meta = CATEGORIES.find(c => c.name === category)!;
-  const all = PRODUCTS[category];
+  const all = PRODUCTS[category].filter(p => !p.archived && p.status !== 'Draft');
 
+  // `all` is rebuilt on every render, so key the memo on its content (archive / draft changes included).
+  const allKey = all.map(p => p.id + p.price + p.name).join('|');
   const list = useMemo(() => {
     let l = all.filter(p => (sub === 'All' || p.subcategory === sub) && (!inStockOnly || p.stock > 0));
     const q = query.trim().toLowerCase();
@@ -36,7 +41,7 @@ export default function ProductsSection({ category, onCategory, onOpen, onQuick 
     if (sort === 'rating') s.sort((a, b) => b.rating - a.rating);
     if (sort === 'stock') s.sort((a, b) => b.stock - a.stock);
     return s;
-  }, [all, sub, sort, inStockOnly, query, lang]);
+  }, [allKey, sub, sort, inStockOnly, query, lang, stockTick]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const switchCategory = (c: CategoryKey) => { setSub('All'); setQuery(''); onCategory(c); };
   const avg = Math.round(all.reduce((t, p) => t + p.price, 0) / all.length);

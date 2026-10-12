@@ -119,21 +119,18 @@ export const festiveDays = [
 ];
 
 export const spaOfferings = [
-  { id: "b4", photo: "woodCard", herbs: "Herbal oil blend", includes: ["Warm herbal-oil massage", "Gentle herbal steam", "Rest with herbal tea"], finish: "body-butter" },
   { id: "b1", photo: "noteJasmine", herbs: "Jasmine & lavender", includes: ["Aroma consultation", "Full-body massage", "Scalp and temple finish"], finish: "perfume" },
-  { id: "b5", photo: "noteWood", herbs: "Basalt stones & sandal", includes: ["Heated stone placement", "Back and leg release", "Warm towel wrap"], finish: "body-butter" },
-  { id: "b6", photo: "journalTwo", herbs: "Bhringraj oil", includes: ["Warm herbal oil flow", "Head and neck massage", "Quiet rest"], finish: "hair-oil" },
-  { id: "b7", photo: "peachCard", herbs: "Peach & mint soak", includes: ["Herbal foot soak", "Pressure-point therapy", "Peach balm finish"], finish: "body-butter" },
-  { id: "b9", photo: "world", herbs: "Signature aroma blend", includes: ["Side-by-side massage", "Herbal steam", "Shared tea ritual"], finish: "perfume" },
+  { id: "b4", photo: "jasmineCard", herbs: "Herbal oil blend", includes: ["Warm herbal oil massage", "Gentle herbal steam", "Herbal balm finish"], finish: "sandal-oil" },
+  { id: "b5", photo: "woodCard", herbs: "Basalt stones & sandalwood", includes: ["Warm stone placement", "Back and leg release", "Warm towel finish"], finish: "perfume" },
+  { id: "b6", photo: "peachCard", herbs: "Bhringraj oil", includes: ["Warm herbal oil flow", "Head and neck massage", "Shoulder release"], finish: "hair-oil" },
 ] as const;
 
 export const bundles = [
-  { service: "h1", product: "herbal-shampoo", a: "Hair styling", b: "Herbal shampoo", title: "Hair Styling + Herbal Shampoo", copy: "A polished cut and blow-dry, then take home the shampoo we used so the finish lasts.", photo: "/assets/hero-3.webp", pos: "50% 30%" },
-  { service: "h2", product: "hair-oil", a: "Hair spa", b: "Hair oil", title: "Velvet Hair Spa + Bhringraj Oil", copy: "Deep nourishment with scalp massage, plus the herbal oil for your weekly ritual at home.", photo: "/assets/hero-2.webp", pos: "70% 40%" },
   { service: "s1", product: "eclat", a: "Glow facial", b: "Glow serum", title: "Velvet Glow Facial + Éclat Serum", copy: "Our signature facial, finished with Éclat so your glow carries well beyond the chair.", photo: "/assets/hero-1.webp", pos: "30% 50%" },
   { service: "b1", product: "body-butter", a: "Aroma spa", b: "Body butter", title: "Aroma Massage + Herbal Body Butter", copy: "A calming full-body massage, then the whipped body butter to keep skin soft all week.", photo: "/assets/hero-4.webp", pos: "50% 50%" },
-  { service: "s3", product: "night-cream", a: "Gold facial", b: "Night cream", title: "Gold Radiance Facial + Night Cream", copy: "Our most indulgent facial, followed by the overnight cream that locks the glow in.", photo: "/assets/hero-3.webp", pos: "20% 40%" },
-  { service: "m1", product: "perfume", a: "Party makeup", b: "Perfume", title: "Party Makeup + Signature Perfume", copy: "A polished evening look, finished with the botanical scent made for it.", photo: "/assets/hero-3.webp", pos: "80% 30%" },
+  { service: "s3", product: "night-cream", a: "Gold facial", b: "Night cream", title: "Gold Radiance Facial + Night Cream", copy: "Our brightening gold facial, followed by a rich night cream for softer skin by morning.", photo: "/assets/hero-2.webp", pos: "50% 50%" },
+  { service: "b5", product: "sandal-oil", a: "Hot stone", b: "Sandal oil", title: "Hot Stone Massage + Sandal Body Oil", copy: "Warm stones to melt tension, then a sandal oil to keep the calm with you.", photo: "/assets/hero-3.webp", pos: "50% 50%" },
+  { service: "b6", product: "hair-oil", a: "Head massage", b: "Hair oil", title: "Head & Shoulder Massage + Herbal Hair Oil", copy: "A deep head and shoulder release, then herbal oil to nourish your roots.", photo: "/assets/hero-1.webp", pos: "70% 50%" },
 ] as const;
 
 export const arrivals = [
@@ -143,6 +140,6 @@ export const arrivals = [
   { id: "night-cream", brand: "SKIN", line: "Overnight comfort for softer-looking skin by morning." },
   { id: "body-butter", brand: "BODY", line: "Whipped butter with a warm, peachy glow." },
   { id: "perfume", brand: "FRAGRANCE", line: "Jasmine, sandalwood and vetiver in an eau de parfum." },
-  { id: "lipstick", brand: "MAKEUP", line: "A cushiony matte in a deep plum rose." },
+  { id: "lipstick-red", brand: "MAKEUP", line: "Four bold reds, from classic to brick." },
   { id: "highlighter", brand: "MAKEUP", line: "A champagne-gold glow for cheeks and brow bones." },
 ] as const;

@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { requireLogin } from "../shared/LoginModal";
 import {
   Search,
   ShoppingBag,
@@ -7,7 +8,6 @@ import {
   Plus,
   Minus,
   Check,
-  MoveDown,
   ArrowLeft,
   ArrowRight,
 } from "lucide-react";
@@ -18,6 +18,8 @@ import { img, photos } from "./photos";
 import { SITE } from "../site-links";
 import { content } from "./content";
 import { st } from "./i18n-sections";
+import { heroSlides, heroTicker } from "./hero-slides";
+import { addOrder } from "../site/account";
 import { NAV_LABELS } from "../shared/i18n-nav";
 import { applyHomeMeta } from "../shared/i18n-meta";
 import { ProductPhoto, HerbalShowcase, VideoBand, NineDays, SpaOfferings, RecommendedPicks, NewArrivals } from "./sections";
@@ -28,6 +30,7 @@ import {
   rituals,
   serviceGroups,
   allServices,
+  servicePricesOn,
   slots,
   rupees,
   SHADES,
@@ -47,14 +50,7 @@ type Panel =
   | "checkout"
   | "order"
   | null;
-type Language = "en" | "ta" | "hi" | "ml" | "te";
-const heroSlides = [
-  "/assets/hero-1.webp",
-  "/assets/hero-2.webp",
-  "/assets/hero-3.webp",
-  "/assets/hero-4.webp",
-];
-const heroAltKeys = ["heroAlt1", "heroAlt2", "heroAlt3", "heroAlt4"] as const;
+type Language = "en" | "ta" | "hi" | "ml" | "te" | "kn" | "mr" | "bn";
 const FREE_SHIP = 1999;
 const SHIP_FEE = 99;
 const byId = (id: string) => products.find((p) => p.id === id)!;
@@ -121,6 +117,16 @@ function Lotus() {
     </svg>
   );
 }
+const TAGLINE: Record<Language, string> = {
+  en: "Where Nature meets beauty",
+  ta: "இயற்கை அழகைச் சந்திக்கும் இடம்",
+  hi: "जहाँ प्रकृति सौंदर्य से मिलती है",
+  ml: "പ്രകൃതി സൗന്ദര്യത്തെ കണ്ടുമുട്ടുന്നിടം",
+  te: "ప్రకృతి అందాన్ని కలిసే చోటు",
+  kn: "ಪ್ರಕೃತಿ ಸೌಂದರ್ಯವನ್ನು ಭೇಟಿಯಾಗುವೆಡೆ",
+  mr: "जिथे निसर्ग सौंदर्याशी भेटतो",
+  bn: "যেখানে প্রকৃতি সৌন্দর্যের সাথে মেশে",
+};
 function Brand({ rise = false, lang }: { rise?: boolean; lang: Language }) {
   const part = (cls: string, children: React.ReactNode, i: number) =>
     rise ? (
@@ -149,6 +155,7 @@ function Brand({ rise = false, lang }: { rise?: boolean; lang: Language }) {
         <span className="brand-word" aria-hidden="true">{BRAND}</span>
       )}
       {part("brand-sub", NAV_LABELS[lang].BrandSub, 5)}
+      {part("brand-tagline", TAGLINE[lang], 6)}
     </span>
   );
 }
@@ -219,6 +226,7 @@ export default function Home() {
     [booked, setBooked] = useState<{ service: string; date: string; time: string; mins: number } | null>(null),
     [ship, setShip] = useState({ name: "", phone: "", address: "", city: "", pin: "" }),
     [orderError, setOrderError] = useState(""),
+    [pay, setPay] = useState({ mode: "upi", upi: "", num: "", exp: "", cvv: "", bank: "" }),
     [order, setOrder] = useState<{ id: string; total: number; lines: string[] } | null>(null),
     [note, setNote] = useState(0),
     [article, setArticle] = useState(0),
@@ -274,6 +282,16 @@ export default function Home() {
     applyHomeMeta(lang);
   }, [lang]);
   useEffect(() => {
+    const sync = () => {
+      try {
+        const s = localStorage.getItem("velvet-lang") as Language | null;
+        if (s && ["en", "ta", "hi", "ml", "te"].includes(s)) setLang(s);
+      } catch {}
+    };
+    window.addEventListener("velvet-lang-change", sync);
+    return () => window.removeEventListener("velvet-lang-change", sync);
+  }, []);
+  useEffect(() => {
     // The hero glides through its images on its own until someone takes over.
     if (!ready || slidePaused) return;
     if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
@@ -323,38 +341,6 @@ export default function Home() {
     const tick = (time: number) => smooth.raf(time * 1000);
     gsap.ticker.add(tick);
     const ctx = gsap.context(() => {
-      gsap.to(".hero-photo", {
-        yPercent: 15,
-        scale: 1.13,
-        ease: "none",
-        scrollTrigger: {
-          trigger: ".hero",
-          start: "top top",
-          end: "bottom top",
-          scrub: 1.2,
-        },
-      });
-      gsap.to(".hero-copy", {
-        y: -110,
-        opacity: 0,
-        ease: "none",
-        scrollTrigger: {
-          trigger: ".hero",
-          start: "15% top",
-          end: "85% top",
-          scrub: 0.6,
-        },
-      });
-      gsap.to(".hero-wordmark", {
-        yPercent: -28,
-        ease: "none",
-        scrollTrigger: {
-          trigger: ".hero",
-          start: "top top",
-          end: "bottom top",
-          scrub: 0.8,
-        },
-      });
       gsap.fromTo(
         ".statement-word",
         { opacity: 0.2 },
@@ -588,11 +574,9 @@ export default function Home() {
     setShade(0);
     setPanel("product");
   }
-  function openBooking(serviceId = "") {
-    setBooked(null);
-    setBookError("");
-    setBooking((b) => ({ ...b, service: serviceId || b.service }));
-    setPanel("booking");
+  // Every "Book" button opens the appointment booking page of the site (it feeds the Tracking page).
+  function openBooking(_serviceId = "") {
+    window.location.href = SITE.booking;
   }
   function bookBundle(serviceId: string, productId: string) {
     update((c) => ({ ...c, [productId]: Math.min(10, (c[productId] || 0) + 1) }));
@@ -633,7 +617,8 @@ export default function Home() {
     appointments.some((a) => a.date === booking.date && a.time === time) ||
     (booking.date === todayStr &&
       Number(time.slice(0, 2)) <= new Date().getHours());
-  function submitBooking() {
+  function submitBooking() { requireLogin(doSubmitBooking); }
+  function doSubmitBooking() {
     const svc = allServices.find((x) => x.id === booking.service);
     if (!svc || !booking.date || !booking.time || booking.name.trim().length < 2)
       return setBookError(t.errFill);
@@ -684,6 +669,12 @@ export default function Home() {
       ship.city.trim().length > 1 &&
       /^\d{6}$/.test(ship.pin.trim());
     if (!ok || !lines.length) return setOrderError(t.errOrder);
+    // Products are sold with online payment only (no cash on delivery).
+    const payErr =
+      pay.mode === "upi" ? (/^[\w.\-]{2,}@[a-z]{2,}$/i.test(pay.upi.trim()) ? "" : "Enter a valid UPI ID, e.g. name@okbank")
+      : pay.mode === "card" ? (pay.num.replace(/\s/g, "").length !== 16 ? "Enter a 16-digit card number" : !/^(0[1-9]|1[0-2])\/\d{2}$/.test(pay.exp) ? "Expiry must be MM/YY" : !/^\d{3}$/.test(pay.cvv) ? "Enter the 3-digit CVV" : "")
+      : pay.bank ? "" : "Select your bank";
+    if (payErr) return setOrderError(payErr);
     const id = "VT-" + Math.floor(100000 + Math.random() * 900000);
     const summary = lines.map((l) => `${l.p.name[lang]} × ${l.qty}`);
     try {
@@ -691,6 +682,18 @@ export default function Home() {
       localStorage.setItem(
         "velvet-orders",
         JSON.stringify([...(Array.isArray(prev) ? prev : []), { id, total, lines: summary, at: Date.now() }]),
+      );
+    } catch {}
+    try {
+      addOrder(
+        lines.map((l) => ({
+          pid: l.p.id,
+          name: l.p.name.en,
+          img: "facial",
+          qty: l.qty,
+          price: l.p.price,
+          size: l.p.size,
+        })),
       );
     } catch {}
     setOrder({ id, total, lines: summary });
@@ -716,7 +719,7 @@ export default function Home() {
     })),
     ...allServices.map((sv) => ({
       title: sv.name[lang],
-      sub: `${sv.mins} ${t.mins} · ${rupees(sv.price)}`,
+      sub: `${sv.mins} ${t.mins}${servicePricesOn() ? ` · ${rupees(sv.price)}` : ""}`,
       keywords: `${sv.name.en} ${sv.name.ta} ${sv.name.hi} ${sv.group} salon appointment treatment ${sv.desc.en}`,
       action: () => openBooking(sv.id),
       art: null,
@@ -862,116 +865,78 @@ export default function Home() {
         </div>
       </header>
       <main id="main">
-        <section id="top" className="hero" aria-labelledby="hero-title">
+        <section id="top" className="hb" aria-roledescription="carousel" aria-label="REVATHI HERBAL BEAUTY CARE">
           <div
-            className="hero-scene"
-            onPointerMove={(e) => {
-              if (
-                e.pointerType === "mouse" &&
-                !matchMedia("(prefers-reduced-motion: reduce)").matches
-              ) {
-                const rect = e.currentTarget.getBoundingClientRect();
-                gsap.to(e.currentTarget, {
-                  x: (e.clientX / rect.width - 0.5) * -9,
-                  y: (e.clientY / rect.height - 0.5) * -5,
-                  duration: 1.6,
-                });
-              }
-            }}
-            onPointerLeave={(e) =>
-              gsap.to(e.currentTarget, { x: 0, y: 0, duration: 1.6 })
-            }
+            className="hb-stage"
+            onPointerEnter={() => setSlidePaused(true)}
+            onPointerLeave={() => setSlidePaused(false)}
           >
-            <div
-              className="hero-photo hero-slides"
-              role="group"
-              aria-roledescription="carousel"
-              onPointerEnter={() => setSlidePaused(true)}
-              onPointerLeave={() => setSlidePaused(false)}
-            >
-              {heroSlides.map((src, i) => (
-                <img
-                  key={src}
-                  className={`hero-slide ${slide === i ? "is-active" : ""}`}
-                  src={src}
-                  alt={st(heroAltKeys[i], lang)}
-                  aria-hidden={slide !== i}
-                  width="1024"
-                  height="559"
-                  {...(i === 0 ? { fetchpriority: "high" } : { loading: "lazy" as const })}
-                />
+            {heroSlides.map((sl, i) => {
+              const active = slide === i;
+              const runAction = () => {
+                if (sl.action === "book") return openBooking();
+                setFilter(sl.action === "shop-makeup" ? "makeup" : "all");
+                go("#shop");
+              };
+              return (
+                <div
+                  key={sl.id}
+                  data-id={sl.id}
+                  className={`hb-slide ${active ? "is-active" : ""}`}
+                  style={{ "--hb-tone": sl.tone } as React.CSSProperties}
+                  role="group"
+                  aria-roledescription="slide"
+                  aria-label={`${i + 1} / ${heroSlides.length}`}
+                  aria-hidden={!active}
+                >
+                  <div className="hb-copy">
+                    <span className="hb-eyebrow">{sl.eyebrow[lang]}</span>
+                    {i === 0 ? <h1 id="hero-title">{sl.title[lang]}</h1> : <h2>{sl.title[lang]}</h2>}
+                    <p>{sl.copy[lang]}</p>
+                    <div className="hb-actions">
+                      <button className="hb-btn" tabIndex={active ? 0 : -1} onClick={runAction}>
+                        {sl.cta[lang]}
+                      </button>
+                      {sl.action !== "book" && (
+                        <button className="hb-btn ghost" tabIndex={active ? 0 : -1} onClick={() => openBooking()}>
+                          {t.heroBook}
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                  <figure className="hb-media" style={{ "--hb-img": `url(${sl.image})` } as React.CSSProperties}>
+                    <img
+                      src={sl.image}
+                      alt={sl.alt[lang]}
+                      width={sl.width}
+                      height={sl.height}
+                      {...(i === 0 ? { fetchpriority: "high" } : { loading: "lazy" as const })}
+                    />
+                  </figure>
+                </div>
+              );
+            })}
+          </div>
+          <div className="hb-ticker" aria-hidden="true">
+            <div className="hb-ticker-track">
+              {[0, 1].map((k) => (
+                <div className="hb-ticker-row" key={k}>
+                  {[...heroTicker.map((x) => x[lang]), BRAND].map((x) => (
+                    <span key={x + k}>{x}</span>
+                  ))}
+                </div>
               ))}
             </div>
           </div>
-          <div className="hero-shade" />
-          <div className="hero-copy">
-            <h1 id="hero-title">
-              <span className="rise-mask">
-                <span className="rise" style={{ "--d": "0.35s" } as React.CSSProperties}>
-                  {t.heroOne}
-                </span>
-              </span>
-              <strong className="rise-mask">
-                <span className="rise" style={{ "--d": "0.6s" } as React.CSSProperties}>
-                  {t.heroTwo}
-                </span>
-              </strong>
-            </h1>
-            <span className="rise-mask">
-              <p className="rise" style={{ "--d": "0.95s" } as React.CSSProperties}>
-                {t.heroCopy}
-              </p>
-            </span>
-            <div className="hero-actions">
-              <a
-                className="pill light hero-pill"
-                onPointerMove={magnet}
-                onPointerLeave={unmagnet}
-                href="#shop"
-                onClick={(e) => {
-                  e.preventDefault();
-                  go("#shop");
-                }}
-              >
-                {t.explore}
-                <span className="pill-dot">
-                  <Plus size={20} />
-                </span>
-              </a>
-              <button
-                className="pill ghost hero-pill hero-pill-2"
-                onPointerMove={magnet}
-                onPointerLeave={unmagnet}
-                onClick={() => openBooking()}
-              >
-                {t.heroBook}
-                <span className="pill-dot">
-                  <Plus size={20} />
-                </span>
-              </button>
-            </div>
-          </div>
-          <div className="hero-caption">
-            <span>{t.slides[slide].tag.toUpperCase()}</span>
-            <span>{t.slides[slide].line}</span>
-          </div>
-          <span className="hero-wordmark" aria-hidden="true">
-  <span>REVATHI HERBAL!</span>
-  <span>{st("heroTagline", lang)}</span>
-</span>
-          <button className="scroll-cue" onClick={() => go("#notes")}>
-            <span>{t.scroll}</span>
-            <MoveDown size={15} />
-          </button>
-          <div className="hero-slider-ui">
+          <div className="hb-controls">
             <button
-              className="icon-button"
+              className="hb-arrow"
               aria-label={t.slidePrev}
               onClick={() => setSlide((n) => (n + heroSlides.length - 1) % heroSlides.length)}
             >
-              <ArrowLeft size={18} />
+              <ArrowLeft size={16} />
             </button>
-            <div className="hero-dots">
+            <div className="hb-dots">
               {heroSlides.map((_, i) => (
                 <button
                   key={i}
@@ -985,11 +950,11 @@ export default function Home() {
               ))}
             </div>
             <button
-              className="icon-button"
+              className="hb-arrow"
               aria-label={t.slideNext}
               onClick={() => setSlide((n) => (n + 1) % heroSlides.length)}
             >
-              <ArrowRight size={18} />
+              <ArrowRight size={16} />
             </button>
           </div>
         </section>
@@ -1002,12 +967,13 @@ export default function Home() {
               playsInline
               autoPlay
               preload="metadata"
+              poster="/assets/video/herbal-film.jpg"
             >
-              <source src="/assets/video/makeup-studio.mp4" type="video/mp4" />
+              <source src="/assets/video/herbal-film.mp4" type="video/mp4" />
             </video>
             <div className="collection-hero-shade" />
             <div className="collection-hero-copy">
-              <span className="eyebrow">01 / {t.label}</span>
+              <span className="eyebrow">{t.label}</span>
               <h2 className="statement">
                 {t.statement.split(" ").map((word, i) => (
                   <span className="statement-word" key={i}>
@@ -1021,7 +987,7 @@ export default function Home() {
           <div className="collection-products">
             {[
               { id: "eclat", name: "Éclat Glow Serum", sub: "Signature serum" },
-              { id: "lipstick", name: "Velvet Matte Lipstick", sub: "Shade · Plum Rose" },
+              { id: "lipstick-red", name: "Red Lipstick", sub: "4 shades · R1–R4" },
               { id: "highlighter", name: "Golden Hour Highlighter", sub: "Champagne gold" },
               { id: "rose-mist", name: "Rose Petal Face Mist", sub: "Fresh, anytime" },
             ].map((item) => (
@@ -1061,7 +1027,7 @@ export default function Home() {
         <section className="shop" id="shop">
           <div className="shop-heading">
             <div>
-              <span className="eyebrow">03 / {t.shopLabel}</span>
+              <span className="eyebrow">{t.shopLabel}</span>
               <h2>
                 <Lines text={t.shopTitle} />
               </h2>
@@ -1190,7 +1156,7 @@ export default function Home() {
         <section className="rituals" id="rituals">
           <div className="rituals-heading">
             <div>
-              <span className="eyebrow">04 / {t.ritualsLabel}</span>
+              <span className="eyebrow">{t.ritualsLabel}</span>
               <h2>
                 <Lines text={t.ritualsTitle} />
               </h2>
@@ -1230,7 +1196,7 @@ export default function Home() {
             ))}
           </div>
         </section>
-        <NineDays onBook={() => openBooking("m1")} lang={lang} />
+        <NineDays onBook={() => openBooking("b1")} lang={lang} />
         <section className="salon salon-stack" id="salon">
           <div className="salon-banner">
             <video
@@ -1246,7 +1212,7 @@ export default function Home() {
             </video>
             <div className="salon-banner-shade" />
             <div className="salon-banner-copy">
-              <span className="eyebrow">05 / {t.salonLabel}</span>
+              <span className="eyebrow">{t.salonLabel}</span>
               <strong>{st("salonBanner", lang)}</strong>
             </div>
           </div>
@@ -1305,7 +1271,7 @@ export default function Home() {
                       </small>
                     </div>
                     <div className="service-end">
-                      <strong>{rupees(sv.price)}</strong>
+                      {servicePricesOn() && <strong>{rupees(sv.price)}</strong>}
                       <button className="service-book" onClick={() => openBooking(sv.id)}>
                         {t.bookService}
                         <Plus size={14} />
@@ -1319,74 +1285,29 @@ export default function Home() {
         </section>
         <SpaOfferings onBook={(id) => openBooking(id)} lang={lang} />
         <RecommendedPicks onBundle={bookBundle} lang={lang} />
-        <NewArrivals onOpen={openProduct} onAdd={(id) => addMany([id])} onJournal={() => go("#journal")} lang={lang} />
-        <section className="journal" id="journal">
-          <div className="journal-heading">
-            <span className="eyebrow">08 / {t.journalLabel}</span>
-            <h2>{t.journalTitle}</h2>
-          </div>
-          <div className="journal-grid">
-            {[0, 1].map((i) => (
-              <button
-                key={i}
-                className="journal-card"
-                data-cursor={t.read2}
-                onClick={() => {
-                  setArticle(i);
-                  setPanel("journal");
-                }}
-              >
-                <div className={`journal-picture ${i === 1 ? "second" : ""}`}>
-                  <img
-                    {...img(i === 0 ? photos.journalOne : photos.journalTwo, "(max-width: 799px) 100vw, 50vw")}
-                    width="1600"
-                    height="2400"
-                    loading="lazy"
-                  />
-                  <span className="journal-circle">
-                    <Plus size={24} />
-                  </span>
-                </div>
-                <div className="journal-card-info">
-                  <span className="eyebrow">
-                    0{i + 1} /{" "}
-                    {i === 0
-                      ? ({ en: "Inspiration", ta: "உத்வேகம்", hi: "प्रेरणा", ml: "പ്രചോദനം", te: "ప్రేరణ" } as const)[lang]
-                      : ({ en: "Rituals", ta: "சடங்குகள்", hi: "रिचुअल", ml: "റിച്വലുകൾ", te: "రిచువల్స్" } as const)[lang]}
-                  </span>
-                  <h3>{i === 0 ? t.articleOne : t.articleTwo}</h3>
-                  <span className="text-link">{t.read}</span>
-                </div>
-              </button>
-            ))}
-          </div>
-        </section>
+        <NewArrivals onOpen={openProduct} onAdd={(id) => addMany([id])} onJournal={() => go("#shop")} lang={lang} />
         <section className="closing">
-          <img
-            className="closing-image"
-            {...img(photos.closing)}
-            width="2400"
-            height="3600"
-            loading="lazy"
-          />
-          <div className="closing-shade" />
-          <div className="closing-content">
-            <span className="eyebrow">{BRAND}</span>
-            <h2>
-              {t.closing.split("\n").map((line, i) => (
-                <span key={i}>{line}</span>
-              ))}
-            </h2>
-            <button
-              className="pill light"
-              onPointerMove={magnet}
-              onPointerLeave={unmagnet}
-              onClick={() => openBooking()}
-            >
+          <div className="closing-banner">
+            <img
+              className="closing-image"
+              src="/assets/hero/spa.webp"
+              alt=""
+              width="1024"
+              height="559"
+              loading="lazy"
+            />
+            <div className="closing-shade" />
+            <div className="closing-content">
+              <span className="eyebrow">{BRAND}</span>
+              <h2>
+                {t.closing.split("\n").map((line, i) => (
+                  <span key={i}>{line}</span>
+                ))}
+              </h2>
+            </div>
+            <button className="closing-cta" onClick={() => openBooking()}>
               {t.closingCta}
-              <span className="pill-dot">
-                <Plus size={20} />
-              </span>
+              <ArrowRight size={18} />
             </button>
           </div>
         </section>
@@ -1521,8 +1442,15 @@ export default function Home() {
               >
                 <span className="product-modal-word">{product.name[lang].split(" ")[0]}</span>
                 <ProductPhoto id={product.id} shade={shade} className="product-modal-art" alt={product.name[lang]} />
+              </div>
+              <div className="product-modal-copy">
+                <span className="eyebrow">{catLabel(product.cat)}</span>
+                <h2>{product.name[lang]}</h2>
+                <p className="product-scent">{SHADES[product.id]?.[shade]?.sub?.[lang] ?? product.sub[lang]}</p>
+                <p>{product.copy[lang]}</p>
+                <p className="product-price">{rupees(product.price)}</p>
                 {(SHADES[product.id]?.length ?? 0) > 1 && (
-                  <div className="modal-moods" role="radiogroup" aria-label="Colour" onClick={(e) => e.stopPropagation()}>
+                  <div className="modal-moods modal-moods-inline" role="radiogroup" aria-label="Colour" onClick={(e) => e.stopPropagation()}>
                     {SHADES[product.id].map((sh, i) => (
                       <button
                         key={sh.key}
@@ -1537,13 +1465,13 @@ export default function Home() {
                     ))}
                   </div>
                 )}
-              </div>
-              <div className="product-modal-copy">
-                <span className="eyebrow">{catLabel(product.cat)}</span>
-                <h2>{product.name[lang]}</h2>
-                <p className="product-scent">{SHADES[product.id]?.[shade]?.sub?.[lang] ?? product.sub[lang]}</p>
-                <p>{product.copy[lang]}</p>
-                <p className="product-price">{rupees(product.price)}</p>
+                {SHADES[product.id]?.[0]?.code && (
+                  <div className="shade-codes" style={{ display: "flex", gap: 14, margin: "-4px 0 14px", fontSize: 12, letterSpacing: ".04em" }}>
+                    {SHADES[product.id].map((sh, i) => (
+                      <button key={sh.key} type="button" onClick={() => setShade(i)} style={{ background: "none", border: 0, padding: 0, cursor: "pointer", font: "inherit", fontWeight: shade === i ? 700 : 400, opacity: shade === i ? 1 : 0.6 }}>{sh.code}</button>
+                    ))}
+                  </div>
+                )}
                 <div className="size-option">
                   <Check size={16} />
                   <span>{product.size}</span>
@@ -1674,6 +1602,36 @@ export default function Home() {
                   </label>
                 </div>
               </div>
+              <div className="form-stack pay-block">
+                <label className="field">
+                  <span>Payment method (online)</span>
+                  <select value={pay.mode} onChange={(e) => setPay({ ...pay, mode: e.target.value })}>
+                    <option value="upi">UPI</option>
+                    <option value="card">Credit / Debit card</option>
+                    <option value="netbanking">Net banking</option>
+                  </select>
+                </label>
+                {pay.mode === "upi" && (
+                  <label className="field"><span>UPI ID</span><input placeholder="yourname@okbank" value={pay.upi} onChange={(e) => setPay({ ...pay, upi: e.target.value })} /></label>
+                )}
+                {pay.mode === "card" && (
+                  <>
+                    <label className="field"><span>Card number</span><input inputMode="numeric" maxLength={19} value={pay.num} onChange={(e) => setPay({ ...pay, num: e.target.value.replace(/\D/g, "").replace(/(.{4})/g, "$1 ").trim() })} /></label>
+                    <div className="field-row">
+                      <label className="field"><span>MM/YY</span><input maxLength={5} value={pay.exp} onChange={(e) => setPay({ ...pay, exp: e.target.value.replace(/^(\d{2})(\d)/, "$1/$2") })} /></label>
+                      <label className="field"><span>CVV</span><input type="password" inputMode="numeric" maxLength={3} value={pay.cvv} onChange={(e) => setPay({ ...pay, cvv: e.target.value.replace(/\D/g, "") })} /></label>
+                    </div>
+                  </>
+                )}
+                {pay.mode === "netbanking" && (
+                  <label className="field"><span>Bank</span>
+                    <select value={pay.bank} onChange={(e) => setPay({ ...pay, bank: e.target.value })}>
+                      <option value="">Select your bank</option>
+                      {["HDFC Bank", "ICICI Bank", "State Bank of India", "Axis Bank", "Kotak Mahindra Bank"].map((b) => <option key={b}>{b}</option>)}
+                    </select>
+                  </label>
+                )}
+              </div>
               <dl className="bag-totals">
                 <div>
                   <dt>{t.subtotal}</dt>
@@ -1800,7 +1758,7 @@ export default function Home() {
                           <optgroup key={g.key} label={g.label[lang]}>
                             {g.items.map((sv) => (
                               <option key={sv.id} value={sv.id}>
-                                {sv.name[lang]} · {rupees(sv.price)} · {sv.mins} {t.mins}
+                                {sv.name[lang]}{servicePricesOn() ? ` · ${rupees(sv.price)}` : ""} · {sv.mins} {t.mins}
                               </option>
                             ))}
                           </optgroup>
@@ -1827,7 +1785,7 @@ export default function Home() {
                             aria-checked={booking.time === slot}
                             disabled={!booking.date || isTaken(slot)}
                             className={`${booking.time === slot ? "is-active" : ""} ${booking.date && isTaken(slot) ? "is-taken" : ""}`}
-                            onClick={() => setBooking({ ...booking, time: slot })}
+                            onClick={() => requireLogin(() => setBooking((b) => ({ ...b, time: slot })))}
                           >
                             {slot}
                           </button>
@@ -1848,6 +1806,7 @@ export default function Home() {
                       <span>{t.notes}</span>
                       <input value={booking.notes} onChange={(e) => setBooking({ ...booking, notes: e.target.value })} />
                     </label>
+                    <p className="bag-information">Services are paid offline, at the salon. No online payment is needed to book.</p>
                     {bookError && (
                       <p className="form-error" role="alert">
                         {bookError}
@@ -1896,16 +1855,17 @@ export default function Home() {
           {panel === "journal" && (
             <article className="article-panel">
               <img
-                {...img(article === 0 ? photos.journalOne : photos.journalTwo, "(max-width: 799px) 100vw, 900px")}
-                width="1600"
-                height="2400"
+                src={article === 0 ? "/assets/hero/products.webp" : "/assets/hero/spa.webp"}
+                alt={article === 0 ? t.articleOne : t.articleTwo}
+                width="1024"
+                height="559"
               />
               <span className="eyebrow">{t.journalLabel}</span>
               <h2>{article === 0 ? t.articleOne : t.articleTwo}</h2>
               {(({
                 en: article === 0
-                  ? ["There is a moment just before the sun slips away when the world seems to soften. Skin looks warmer. Colour looks richer. Everything feels a little closer.", "That is the glow we chase at REVATHI HERBAL BEAUTY CARE: a drop of Éclat serum, a touch of golden highlighter on the cheekbones, and a velvet lip. Simple steps, done slowly.", "Some days pass. Others glow."]
-                  : ["A salon day is a pause. Begin with a facial while the day is still quiet, move on to your hair, and finish with makeup if there is an evening ahead.", "Tell us what you need and we will plan the order of your treatments so nothing feels rushed. Your consultation is on us.", "Come as you are. Leave as your most polished self."],
+                  ? ["Healthy skin starts with a simple routine: cleanse gently, moisturise daily and protect your skin from the sun.", "Herbal ingredients such as neem, aloe vera, turmeric and sandalwood have been used for generations to soothe and nourish the skin. Choose products that suit your skin type, and patch-test anything new.", "Consistency matters more than quantity."]
+                  : ["A herbal spa visit is a calm break in your day. We begin with a consultation so our therapist can understand your skin and hair needs.", "Treatments use herbal oils, packs and products from our own range, planned in an order that never feels rushed.", "Arrive relaxed. Leave refreshed."],
                 ta: article === 0
                   ? ["சூரியன் மறையும் முன் உலகம் மென்மையாகும் ஒரு தருணம் உண்டு. தோல் சூடாகத் தெரியும். நிறம் செறிவாகத் தெரியும்.", "REVATHI HERBAL BEAUTY CARE-இல் நாங்கள் தேடும் பிரகாசம் இதுதான்: எக்லாட் சீரம் துளி, கன்ன எலும்புகளில் தங்க ஹைலைட்டர், வெல்வெட் உதடு. எளிய படிகள், மெதுவாக.", "சில நாட்கள் கடந்து செல்லும். மற்றவை பிரகாசிக்கும்."]
                   : ["சலூன் நாள் ஒரு இடைவேளை. நாள் அமைதியாக இருக்கும்போது ஃபேஷியலுடன் தொடங்கி, முடிக்குச் சென்று, மாலை இருந்தால் மேக்கப்புடன் முடிக்கவும்.", "உங்களுக்குத் தேவையானதைச் சொல்லுங்கள் — சிகிச்சைகளின் வரிசையைத் திட்டமிடுவோம். ஆலோசனை இலவசம்.", "நீங்கள் இருப்பது போல வாருங்கள். மிகவும் பளபளப்பான உங்களாகச் செல்லுங்கள்."],

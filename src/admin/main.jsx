@@ -4,6 +4,11 @@ import App from './App.jsx';
 import { StoreProvider } from './store.jsx';
 import './styles.css';
 
+// Typing /admin//#/x (double slash) loads a blank page. Fix the address before the app starts.
+if (/\/{2,}/.test(window.location.pathname)) {
+  window.history.replaceState(null, '', window.location.pathname.replace(/\/{2,}/g, '/') + window.location.search + window.location.hash);
+}
+
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <StoreProvider>

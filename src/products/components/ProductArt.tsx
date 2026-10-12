@@ -30,7 +30,9 @@ const CURATED: Partial<Record<ArtType, Record<string, string>>> = {
 };
 
 const FALLBACK = '/assets/products/variants/cream-nourishing.png';
-const photoFor = (art: ArtType, colourName?: string) => {
+export const photoFor = (art: ArtType, colourName?: string, photo?: string) => {
+  if (photo) return photo; // shade-specific photo (lipstick shades)
+  if ((art as string).startsWith('data:')) return art as string; // photo uploaded by admin
   if ((art as string).startsWith('photo:')) return `/assets/products/${(art as string).slice(6)}.webp`;
   const n = (colourName ?? '').toLowerCase();
   return CURATED[art]?.[colourName ?? ''] ?? (n ? `/assets/products/colour/${art}-${n}.webp` : FALLBACK);
@@ -48,14 +50,15 @@ interface Props {
   art: ArtType;
   colour: string; // hex
   colourName?: string;
+  photo?: string; // optional shade photo, overrides the colour lookup
   className?: string;
   alt?: string;
 }
 
-export default function ProductArt({ art, colourName, className, alt }: Props) {
+export default function ProductArt({ art, colourName, photo, className, alt }: Props) {
   const [lang] = useLang();
 
-  const src = photoFor(art, colourName);
+  const src = photoFor(art, colourName, photo);
 
   return (
     <img
@@ -68,7 +71,7 @@ export default function ProductArt({ art, colourName, className, alt }: Props) {
       className={`${className ?? ''} h-full w-full object-contain object-center mix-blend-multiply`}
       onError={(e) => {
         const el = e.currentTarget;
-        if (!el.src.endsWith(FALLBACK)) el.src = FALLBACK;
+        if (!el.src.endsWith(FALLBACK) && !el.src.startsWith('data:')) el.src = FALLBACK;
       }}
     />
   );

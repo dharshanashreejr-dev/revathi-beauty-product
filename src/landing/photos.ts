@@ -17,7 +17,7 @@ export const photos = {
   },
   woodCard: {
     src: unsplash("photo-1635315619556-5826839a1bea"),
-    alt: "Warm, softly layered natural grain",
+    alt: "Warm, softly layered grain",
     credit: "Hans",
   },
   notePeach: {

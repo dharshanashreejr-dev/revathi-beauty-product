@@ -1,8 +1,8 @@
 // All figures are sample / demo data. No real customers, payments or accounting.
 
 export const USERS = [
-  { email: 'admin@maisonbloom.demo', password: 'Bloom@123', role: 'Admin', name: 'Ananya Iyer', title: 'Operations Head' },
-  { email: 'staff@maisonbloom.demo', password: 'Staff@123', role: 'Staff', name: 'Meera Nair', title: 'Front Desk Associate' }
+  { email: 'admin@revathiherbal.demo', password: 'Admin@123', role: 'Admin', name: 'Ananya Iyer', title: 'Operations Head' },
+  { email: 'staff@revathiherbal.demo', password: 'Staff@123', role: 'Staff', name: 'Meera Nair', title: 'Front Desk Associate' }
 ];
 
 export const CATEGORIES = ['Serum', 'Moisturiser', 'Hair Care', 'Perfume', 'Skincare Kit', 'Body Care'];
@@ -16,14 +16,14 @@ const palette = [
 export const swatch = (i) => palette[i % palette.length];
 
 export const INITIAL_PRODUCTS = [
-  { id: 'MB-1001', name: 'Rose Petal Radiance Serum', category: 'Serum', price: 2450, stock: 42, capacity: 60, status: 'Active', description: 'Vitamin C and rose extract serum for an even, luminous tone.' },
-  { id: 'MB-1002', name: 'Hyaluronic Dew Moisturiser', category: 'Moisturiser', price: 1890, stock: 36, capacity: 60, status: 'Active', description: 'Lightweight gel-cream with triple hyaluronic acid.' },
-  { id: 'MB-1003', name: 'Botanical Repair Hair Mask', category: 'Hair Care', price: 1350, stock: 8, capacity: 50, status: 'Active', description: 'Deep conditioning mask with amla, hibiscus and argan oil.' },
-  { id: 'MB-1004', name: 'Oud and Jasmine Eau de Parfum', category: 'Perfume', price: 4999, stock: 15, capacity: 30, status: 'Active', description: 'Warm woody floral fragrance, 50 ml.' },
+  { id: 'MB-1001', name: 'Rose Petal Radiance Serum', category: 'Serum', mrp: 2450, discountType: 'percent', discountValue: 0, price: 2450, stock: 42, capacity: 60, status: 'Active', description: 'Vitamin C and rose extract serum for an even, luminous tone.' },
+  { id: 'MB-1002', name: 'Hyaluronic Dew Moisturiser', category: 'Moisturiser', mrp: 2100, discountType: 'percent', discountValue: 10, price: 1890, stock: 36, capacity: 60, status: 'Active', description: 'Lightweight gel-cream with triple hyaluronic acid.' },
+  { id: 'MB-1003', name: 'Botanical Repair Hair Mask', category: 'Hair Care', mrp: 1500, discountType: 'percent', discountValue: 10, price: 1350, stock: 8, capacity: 50, status: 'Active', description: 'Deep conditioning mask with amla, hibiscus and argan oil.' },
+  { id: 'MB-1004', name: 'Oud and Jasmine Eau de Parfum', category: 'Perfume', mrp: 5499, discountType: 'flat', discountValue: 500, price: 4999, stock: 15, capacity: 30, status: 'Active', description: 'Warm woody floral fragrance, 50 ml.' },
   { id: 'MB-1005', name: 'Glow Ritual Skincare Kit', category: 'Skincare Kit', price: 5800, stock: 0, capacity: 25, status: 'Out of Stock', description: 'Cleanser, serum, moisturiser and mask gift set.' },
-  { id: 'MB-1006', name: 'Saffron Night Repair Cream', category: 'Moisturiser', price: 3200, stock: 22, capacity: 40, status: 'Active', description: 'Overnight cream with kesar and bakuchiol.' },
+  { id: 'MB-1006', name: 'Saffron Night Repair Cream', category: 'Moisturiser', mrp: 3500, discountType: 'flat', discountValue: 300, price: 3200, stock: 22, capacity: 40, status: 'Active', description: 'Overnight cream with kesar and bakuchiol.' },
   { id: 'MB-1007', name: 'Niacinamide Clarity Serum', category: 'Serum', price: 1650, stock: 5, capacity: 50, status: 'Active', description: 'Pore refining serum with 10 percent niacinamide.' },
-  { id: 'MB-1008', name: 'Sandalwood Body Butter', category: 'Body Care', price: 1250, stock: 28, capacity: 40, status: 'Active', description: 'Rich body butter with Mysore sandalwood and shea.' },
+  { id: 'MB-1008', name: 'Sandalwood Body Butter', category: 'Body Care', mrp: 1250, discountType: 'percent', discountValue: 0, price: 1250, stock: 28, capacity: 40, status: 'Active', description: 'Rich body butter with Mysore sandalwood and shea.' },
   { id: 'MB-1009', name: 'Coconut Scalp Revival Oil', category: 'Hair Care', price: 990, stock: 60, capacity: 80, status: 'Draft', description: 'Cold pressed coconut and curry leaf scalp oil.' },
   { id: 'MB-1010', name: 'Pearl Brightening Eye Cream', category: 'Skincare Kit', price: 2150, stock: 9, capacity: 30, status: 'Active', description: 'Caffeine and pearl powder eye treatment.' }
 ];
@@ -44,41 +44,44 @@ export const INITIAL_ORDERS = [
   { id: 'ORD-5010', customerId: 'C-010', customer: 'Harish Gupta', date: '2026-10-01', items: [{ productId: 'MB-1008', qty: 1 }, { productId: 'MB-1006', qty: 1 }], payment: 'Paid', status: 'Delivered', address: 'Salt Lake, Kolkata 700091' }
 ];
 
+import { getSiteConfig } from '../../shared/siteConfig';
+
 export const SERVICES = [
-  { name: 'Signature Glow Facial', duration: 60, price: 3500 },
-  { name: 'Botanical Hair Spa', duration: 90, price: 2800 },
-  { name: 'Bridal Skin Consultation', duration: 45, price: 1500 },
-  { name: 'Relaxing Aromatherapy', duration: 75, price: 3200 },
-  { name: 'Deep Cleansing Facial', duration: 60, price: 2400 }
+  { name: 'Body Massage', duration: 60, price: 2800 },
+  { name: 'Normal Facial', duration: 60, price: 2200 },
+  { name: 'Hydra Facial', duration: 75, price: 3200 },
+  { name: 'Beauty Consultation', duration: 30, price: 500 },
+  // Bridal makeup packages are edited in Services & Pricing.
+  ...getSiteConfig().bridalPackages.map((b) => ({ name: `Bridal Makeup – ${b.name}`, duration: b.duration, price: b.price }))
 ];
-export const APPOINTMENT_STATUSES = ['Pending', 'Confirmed', 'Checked In', 'Completed', 'Cancelled'];
+export const APPOINTMENT_STATUSES = ['Scheduled', 'Checked-In', 'Completed', 'Rescheduled', 'No-Show', 'Cancelled'];
 export const TIME_SLOTS = ['09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00'];
 
 export const TODAY = '2026-10-09';
 
 export const INITIAL_APPOINTMENTS = [
-  { id: 'APT-3001', customerId: 'C-001', customer: 'Priya Venkatesh', service: 'Signature Glow Facial', date: '2026-10-09', time: '10:00', specialistId: 'S-002', status: 'Confirmed', notes: 'Sensitive skin, avoid strong acids.' },
-  { id: 'APT-3002', customerId: 'C-005', customer: 'Divya Subramanian', service: 'Bridal Skin Consultation', date: '2026-10-09', time: '11:00', specialistId: 'S-002', status: 'Checked In', notes: 'Wedding in December.' },
-  { id: 'APT-3003', customerId: 'C-003', customer: 'Sneha Kulkarni', service: 'Botanical Hair Spa', date: '2026-10-09', time: '13:00', specialistId: 'S-003', status: 'Pending', notes: '' },
-  { id: 'APT-3004', customerId: 'C-007', customer: 'Lakshmi Narayanan', service: 'Relaxing Aromatherapy', date: '2026-10-09', time: '15:00', specialistId: 'S-005', status: 'Confirmed', notes: 'Prefers lavender oil.' },
-  { id: 'APT-3005', customerId: 'C-009', customer: 'Nandini Rao', service: 'Deep Cleansing Facial', date: '2026-10-10', time: '10:00', specialistId: 'S-002', status: 'Confirmed', notes: '' },
-  { id: 'APT-3006', customerId: 'C-002', customer: 'Rahul Menon', service: 'Deep Cleansing Facial', date: '2026-10-10', time: '12:00', specialistId: 'S-004', status: 'Pending', notes: 'First visit.' },
-  { id: 'APT-3007', customerId: 'C-008', customer: 'Vikram Shah', service: 'Relaxing Aromatherapy', date: '2026-10-11', time: '16:00', specialistId: 'S-005', status: 'Confirmed', notes: '' },
-  { id: 'APT-3008', customerId: 'C-004', customer: 'Arjun Reddy', service: 'Signature Glow Facial', date: '2026-10-08', time: '14:00', specialistId: 'S-004', status: 'Completed', notes: '' },
-  { id: 'APT-3009', customerId: 'C-006', customer: 'Karthik Raman', service: 'Botanical Hair Spa', date: '2026-10-07', time: '11:00', specialistId: 'S-003', status: 'Cancelled', notes: 'Customer rescheduled.' },
-  { id: 'APT-3010', customerId: 'C-010', customer: 'Harish Gupta', service: 'Bridal Skin Consultation', date: '2026-10-12', time: '09:00', specialistId: 'S-002', status: 'Pending', notes: '' }
+  { id: 'APT-3001', customerId: 'C-001', customer: 'Priya Venkatesh', service: 'Normal Facial', date: '2026-10-09', time: '10:00', specialistId: 'S-002', status: 'Scheduled', notes: 'Sensitive skin, avoid strong acids.' },
+  { id: 'APT-3002', customerId: 'C-005', customer: 'Divya Subramanian', service: 'Beauty Consultation', date: '2026-10-09', time: '11:00', specialistId: 'S-002', status: 'Checked-In', notes: 'Wedding in December.' },
+  { id: 'APT-3003', customerId: 'C-003', customer: 'Sneha Kulkarni', service: 'Body Massage', date: '2026-10-09', time: '13:00', specialistId: 'S-003', status: 'Scheduled', notes: '' },
+  { id: 'APT-3004', customerId: 'C-007', customer: 'Lakshmi Narayanan', service: 'Body Massage', date: '2026-10-09', time: '15:00', specialistId: 'S-005', status: 'Scheduled', notes: 'Prefers lavender oil.' },
+  { id: 'APT-3005', customerId: 'C-009', customer: 'Nandini Rao', service: 'Hydra Facial', date: '2026-10-10', time: '10:00', specialistId: 'S-002', status: 'Scheduled', notes: '' },
+  { id: 'APT-3006', customerId: 'C-002', customer: 'Rahul Menon', service: 'Hydra Facial', date: '2026-10-10', time: '12:00', specialistId: 'S-004', status: 'Scheduled', notes: 'First visit.' },
+  { id: 'APT-3007', customerId: 'C-008', customer: 'Vikram Shah', service: 'Body Massage', date: '2026-10-11', time: '16:00', specialistId: 'S-005', status: 'Scheduled', notes: '' },
+  { id: 'APT-3008', customerId: 'C-004', customer: 'Arjun Reddy', service: 'Normal Facial', date: '2026-10-08', time: '14:00', specialistId: 'S-004', status: 'Completed', notes: '' },
+  { id: 'APT-3009', customerId: 'C-006', customer: 'Karthik Raman', service: 'Body Massage', date: '2026-10-07', time: '11:00', specialistId: 'S-003', status: 'Cancelled', notes: 'Customer rescheduled.' },
+  { id: 'APT-3010', customerId: 'C-010', customer: 'Harish Gupta', service: 'Beauty Consultation', date: '2026-10-12', time: '09:00', specialistId: 'S-002', status: 'Scheduled', notes: '' }
 ];
 
 export const STAFF_ROLES = ['Administrator', 'Skin Specialist', 'Hair Therapist', 'Beauty Specialist', 'Receptionist', 'Wellness Specialist'];
 export const AVAILABILITY = ['Available', 'With Client', 'Off Duty'];
 
 export const INITIAL_STAFF = [
-  { id: 'S-001', name: 'Ananya Iyer', email: 'ananya@maisonbloom.demo', phone: '+91 98400 11201', role: 'Administrator', availability: 'Available', experience: '12 years', bio: 'Leads salon operations and client experience.' },
-  { id: 'S-002', name: 'Dr. Kavya Menon', email: 'kavya@maisonbloom.demo', phone: '+91 98410 22302', role: 'Skin Specialist', availability: 'With Client', experience: '9 years', bio: 'Dermatology trained, bridal and clinical facials.' },
-  { id: 'S-003', name: 'Ritu Sharma', email: 'ritu@maisonbloom.demo', phone: '+91 98420 33403', role: 'Hair Therapist', availability: 'Available', experience: '7 years', bio: 'Trichology and botanical hair spa expert.' },
-  { id: 'S-004', name: 'Farah Khan', email: 'farah@maisonbloom.demo', phone: '+91 98430 44504', role: 'Beauty Specialist', availability: 'Available', experience: '6 years', bio: 'Skin prep, makeup and facials.' },
-  { id: 'S-005', name: 'Suresh Kumar', email: 'suresh@maisonbloom.demo', phone: '+91 98440 55605', role: 'Wellness Specialist', availability: 'Off Duty', experience: '10 years', bio: 'Aromatherapy and relaxation therapies.' },
-  { id: 'S-006', name: 'Meera Nair', email: 'staff@maisonbloom.demo', phone: '+91 98450 66706', role: 'Receptionist', availability: 'Available', experience: '3 years', bio: 'Front desk, scheduling and client care.' }
+  { id: 'S-001', name: 'Ananya Iyer', email: 'ananya@maisonbloom.demo', phone: '+91 98400 11201', role: 'Administrator', availability: 'Available', experience: '12 years', bio: 'Leads salon operations and client experience.', workstationBay: 'Bay-A1', shiftHours: '09:00-18:00', permissions: ['all'] },
+  { id: 'S-002', name: 'Dr. Kavya Menon', email: 'kavya@maisonbloom.demo', phone: '+91 98410 22302', role: 'Skin Specialist', availability: 'With Client', experience: '9 years', bio: 'Dermatology trained, bridal and clinical facials.', workstationBay: 'Bay-B2', shiftHours: '10:00-19:00', permissions: ['appointments', 'services'] },
+  { id: 'S-003', name: 'Ritu Sharma', email: 'ritu@maisonbloom.demo', phone: '+91 98420 33403', role: 'Hair Therapist', availability: 'Available', experience: '7 years', bio: 'Trichology and botanical hair spa expert.', workstationBay: 'Bay-C1', shiftHours: '09:00-17:00', permissions: ['appointments'] },
+  { id: 'S-004', name: 'Farah Khan', email: 'farah@maisonbloom.demo', phone: '+91 98430 44504', role: 'Beauty Specialist', availability: 'Available', experience: '6 years', bio: 'Skin prep, makeup and facials.', workstationBay: 'Bay-B1', shiftHours: '11:00-20:00', permissions: ['appointments', 'services'] },
+  { id: 'S-005', name: 'Suresh Kumar', email: 'suresh@maisonbloom.demo', phone: '+91 98440 55605', role: 'Wellness Specialist', availability: 'Off Duty', experience: '10 years', bio: 'Aromatherapy and relaxation therapies.', workstationBay: 'Bay-D1', shiftHours: '12:00-21:00', permissions: ['appointments'] },
+  { id: 'S-006', name: 'Meera Nair', email: 'staff@maisonbloom.demo', phone: '+91 98450 66706', role: 'Receptionist', availability: 'Available', experience: '3 years', bio: 'Front desk, scheduling and client care.', workstationBay: 'Front-Desk', shiftHours: '09:00-18:00', permissions: ['appointments', 'customers'] }
 ];
 
 export const LOYALTY_TIERS = ['New', 'Regular', 'Silver', 'Gold', 'VIP'];
@@ -108,9 +111,9 @@ export const MONTHLY_REVENUE = [
 ];
 
 export const ACTIVITY = [
-  { who: 'Divya Subramanian', what: 'checked in for {service}', vars: { service: 'Bridal Skin Consultation' }, when: '10 min ago' },
+  { who: 'Divya Subramanian', what: 'checked in for {service}', vars: { service: 'Beauty Consultation' }, when: '10 min ago' },
   { who: 'Priya Venkatesh', what: 'placed order {id}', vars: { id: 'ORD-5001' }, when: '1 hr ago' },
-  { who: 'Rahul Menon', what: 'booked {service}', vars: { service: 'Deep Cleansing Facial' }, when: '3 hrs ago' },
+  { who: 'Rahul Menon', what: 'booked {service}', vars: { service: 'Hydra Facial' }, when: '3 hrs ago' },
   { who: 'Arjun Reddy', what: 'received order {id}', vars: { id: 'ORD-5004' }, when: 'Yesterday' },
   { who: 'Nandini Rao', what: 'placed order {id}', vars: { id: 'ORD-5009' }, when: '2 days ago' }
 ];
