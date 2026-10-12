@@ -120,23 +120,17 @@ export const festiveDays = [
 
 export const spaOfferings = [
   { id: "b1", photo: "noteJasmine", herbs: "Jasmine & lavender", includes: ["Aroma consultation", "Full-body massage", "Scalp and temple finish"], finish: "perfume" },
-<<<<<<< HEAD
   { id: "b4", photo: "jasmineCard", herbs: "Herbal oil blend", includes: ["Warm herbal oil massage", "Gentle herbal steam", "Herbal balm finish"], finish: "sandal-oil" },
   { id: "b5", photo: "woodCard", herbs: "Basalt stones & sandalwood", includes: ["Warm stone placement", "Back and leg release", "Warm towel finish"], finish: "perfume" },
   { id: "b6", photo: "peachCard", herbs: "Bhringraj oil", includes: ["Warm herbal oil flow", "Head and neck massage", "Shoulder release"], finish: "hair-oil" },
-=======
->>>>>>> origin/main
 ] as const;
 
 export const bundles = [
   { service: "s1", product: "eclat", a: "Glow facial", b: "Glow serum", title: "Velvet Glow Facial + Éclat Serum", copy: "Our signature facial, finished with Éclat so your glow carries well beyond the chair.", photo: "/assets/hero-1.webp", pos: "30% 50%" },
   { service: "b1", product: "body-butter", a: "Aroma spa", b: "Body butter", title: "Aroma Massage + Herbal Body Butter", copy: "A calming full-body massage, then the whipped body butter to keep skin soft all week.", photo: "/assets/hero-4.webp", pos: "50% 50%" },
-<<<<<<< HEAD
   { service: "s3", product: "night-cream", a: "Gold facial", b: "Night cream", title: "Gold Radiance Facial + Night Cream", copy: "Our brightening gold facial, followed by a rich night cream for softer skin by morning.", photo: "/assets/hero-2.webp", pos: "50% 50%" },
   { service: "b5", product: "sandal-oil", a: "Hot stone", b: "Sandal oil", title: "Hot Stone Massage + Sandal Body Oil", copy: "Warm stones to melt tension, then a sandal oil to keep the calm with you.", photo: "/assets/hero-3.webp", pos: "50% 50%" },
   { service: "b6", product: "hair-oil", a: "Head massage", b: "Hair oil", title: "Head & Shoulder Massage + Herbal Hair Oil", copy: "A deep head and shoulder release, then herbal oil to nourish your roots.", photo: "/assets/hero-1.webp", pos: "70% 50%" },
-=======
->>>>>>> origin/main
 ] as const;
 
 export const arrivals = [

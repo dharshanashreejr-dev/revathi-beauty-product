@@ -45,11 +45,7 @@ export default function Appointments({ intent, onIntentHandled }) {
 
   const specialists = staff.filter((s) => SERVICE_ROLES.includes(s.role));
   const staffName = (id) => staff.find((s) => s.id === id)?.name || t('Unassigned');
-<<<<<<< HEAD
   const isBusy = (sid, d, t, ignore) => appointments.some((a) => a.id !== ignore && a.specialistId === sid && a.date === d && a.time === t && a.status !== 'Cancelled' && a.status !== 'No-Show');
-=======
-  const isBusy = (sid, d, time, ignore) => appointments.some((a) => a.id !== ignore && a.specialistId === sid && a.date === d && a.time === time && a.status !== 'Cancelled');
->>>>>>> origin/main
 
   const blankForm = (time = '', d = date) => ({
     customerId: customers[0]?.id || '', service: SERVICES[0]?.name || '', date: d, time,
@@ -223,7 +219,6 @@ export default function Appointments({ intent, onIntentHandled }) {
             </div>
             <button className="icon-btn" onClick={() => setDate(addDays(date, viewMode === 'monthly' ? 30 : viewMode === 'weekly' ? 7 : 1))} aria-label={t('Next')}><ChevronRight size={18} /></button>
           </div>
-<<<<<<< HEAD
 
           {viewMode === 'daily' && (
             <>
@@ -259,26 +254,6 @@ export default function Appointments({ intent, onIntentHandled }) {
                 <div key={d} style={{ textAlign: 'center', fontWeight: 600, padding: 6, background: d === TODAY ? 'var(--primary-soft, #e8f5e9)' : 'transparent', borderRadius: 6 }}>
                   {dayLabel(d)}
                   <div className="muted" style={{ fontSize: 12 }}>{appointments.filter((a) => a.date === d && a.status !== 'Cancelled').length} appts</div>
-=======
-          <h3 className="section-title">{fmtDate(date)} <span className="muted">{dayAppts.length} booked, {TIME_SLOTS.length - new Set(dayAppts.map((a) => a.time)).size} slots free</span></h3>
-          <div className="schedule">
-            {TIME_SLOTS.map((slot) => {
-              const items = dayAppts.filter((a) => a.time === slot);
-              return (
-                <div className="slot-row" key={slot}>
-                  <span className="slot-time"><Clock size={14} />{slot}</span>
-                  <div className="slot-body">
-                    {items.map((a) => (
-                      <button key={a.id} className={`appt-card st-${a.status.replace(' ', '').toLowerCase()}`} onClick={() => setOpenId(a.id)}>
-                        <strong>{a.customer}</strong>
-                        <span>{a.service}</span>
-                        <span className="appt-meta"><UserRound size={13} />{staffName(a.specialistId)}</span>
-                        <Badge>{a.status}</Badge>
-                      </button>
-                    ))}
-                    {items.length === 0 && <button className="slot-free" onClick={() => openAdd(slot, date)}><Plus size={14} />{t('Available, book this slot')}</button>}
-                  </div>
->>>>>>> origin/main
                 </div>
               ))}
               {TIME_SLOTS.map((slot) => (

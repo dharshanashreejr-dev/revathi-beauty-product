@@ -24,19 +24,11 @@ export const content = {
     ],
     label: "Featured Collection",
     statement:
-<<<<<<< HEAD
       "Herbal skincare and makeup, made with herbal ingredients for an everyday glow.",
     storySmall:
       "Shop skincare, makeup and body care, and book body massage, facials and beauty consultations at our women's luxury salon.",
     notesLabel: "Key ingredients",
     notesTitle: "Three ingredients for an everyday glow.",
-=======
-      "Herbal skincare and makeup, made with natural ingredients for an everyday glow.",
-    storySmall:
-      "Shop skincare, makeup and body care, and book body massage, facials and beauty consultations at our women's luxury salon.",
-    notesLabel: "Key ingredients",
-    notesTitle: "Three ingredients for a natural glow.",
->>>>>>> origin/main
     peach: "Peach nectar",
     peachSub: "Brightens and revives",
     peachCopy:
