@@ -5,6 +5,7 @@ import { NAV_EXTRA } from './i18n-nav-extra'
 import { NAV_LABELS as LABELS } from './i18n-nav'
 import { openLogin, useUser } from './LoginModal'
 import { authT } from './auth-text'
+import { reviewNav } from './i18n-reviews'
 import './site-header.css'
 
 // ONE navbar for the whole website (same look as the landing page).
@@ -15,8 +16,8 @@ export type NavLinkComp = ComponentType<{ to: string; className?: string; onClic
 const PlainLink: NavLinkComp = ({ to, children, ...rest }) => <a href={to} {...rest}>{children}</a>
 
 const LEFT: [string, string][] = [['Products', SITE.products], ['Services', SITE.services]]
-const RIGHT: [string, string][] = [['About', SITE.about], ['Tracking', SITE.tracking]]
-const MENU: [string, string][] = [['Home', SITE.home], ...LEFT, ...RIGHT, ['Admin', SITE.admin]]
+const RIGHT_BASE: [string, string][] = [['About', SITE.about], ['Tracking', SITE.tracking]]
+const menuFor = (right: [string, string][]): [string, string][] => [['Home', SITE.home], ...LEFT, ...right]
 
 function Lotus() {
   return (
@@ -37,6 +38,10 @@ const BagIcon = () => (
   <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
     <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" /><path d="M3 6h18" /><path d="M16 10a4 4 0 0 1-8 0" />
   </svg>
+)
+
+const ProfileIcon = () => (
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4" /><path d="M4 21a8 8 0 0 1 16 0" /></svg>
 )
 
 const savedBagCount = () => {
@@ -64,8 +69,10 @@ export default function SiteHeader({ Link = PlainLink, current, cartCount, onCar
   const [saved, setSaved] = useState(0)
   const [lang, setLang] = useLang()
   const [ui] = useUiLang()
-  const L = { ...LABELS[lang], ...(NAV_EXTRA[ui] ?? {}) }
   const user = useUser()
+  const reviewKey = user ? 'Reviews' : 'Testimonials'
+  const RIGHT: [string, string][] = [...RIGHT_BASE, [reviewKey, SITE.reviews]]
+  const L: Record<string, string> = { ...LABELS[lang], ...(NAV_EXTRA[ui] ?? {}), [reviewKey]: reviewNav(ui, !!user) }
   const who = user ? authT('Hi, {name}', ui, { name: user.name.split(' ')[0] || user.phone.slice(-4) }) : ''
   useEffect(() => {
     const on = () => setScrolled(window.scrollY > 40)
@@ -77,7 +84,7 @@ export default function SiteHeader({ Link = PlainLink, current, cartCount, onCar
   useEffect(() => { document.body.style.overflow = open ? 'hidden' : '' ; return () => { document.body.style.overflow = '' } }, [open])
   const count = cartCount ?? saved
   const item = ([t, to]: [string, string]) => (
-    <Link key={t} to={to} className={current === t ? 'is-current' : ''} aria-current={current === t ? 'page' : undefined}>{L[t] ?? t}</Link>
+    <Link key={t} to={to} className={current === t || (current === 'Reviews' && t === 'Testimonials') ? 'is-current' : ''} aria-current={current === t ? 'page' : undefined}>{L[t] ?? t}</Link>
   )
   return (
     <>
@@ -102,16 +109,15 @@ export default function SiteHeader({ Link = PlainLink, current, cartCount, onCar
             ? <button className="vt-bag" onClick={onCart} aria-label={`${L.Cart} (${count})`}><BagIcon /><span>({count})</span></button>
             : <Link to={SITE.products} className="vt-bag" aria-label={`${L.Cart} (${count})`}><BagIcon /><span>({count})</span></Link>}
           {user
-            ? <Link to={SITE.tracking + '?tab=profile'} className="vt-admin">{who}</Link>
-            : <button type="button" className="vt-admin" onClick={() => openLogin()}>{authT('Login', ui)}</button>}
-          <Link to={SITE.admin} className="vt-admin vt-admin-link">{L.Admin}</Link>
+            ? <Link to={SITE.tracking + '?tab=profile'} className="vt-admin vt-profile" aria-label={who}><ProfileIcon /><span className="vt-profile-name">{who}</span></Link>
+            : <button type="button" className="vt-admin vt-profile" onClick={() => openLogin()} aria-label={authT('Login', ui)}><ProfileIcon /><span className="vt-profile-name">{authT('Login', ui)}</span></button>}
         </div>
         </div>
       </header>
       <div className={`vt-panel ${open ? 'is-open' : ''}`} aria-hidden={!open}>
         <button className="vt-close" onClick={() => setOpen(false)} aria-label={L.Close}>✕</button>
         <nav aria-label={L.MenuNav}>
-          {MENU.map(([t, to]) => <Link key={t} to={to} onClick={() => setOpen(false)}>{L[t] ?? t}</Link>)}
+          {menuFor(RIGHT).map(([t, to]) => <Link key={t} to={to} onClick={() => setOpen(false)}>{L[t] ?? t}</Link>)}
           {user ? <Link to={SITE.tracking + '?tab=profile'} onClick={() => setOpen(false)}>{who}</Link> : <a href="#" onClick={(e) => { e.preventDefault(); setOpen(false); openLogin() }}>{authT('Login', ui)}</a>}
           <select className="vt-lang vt-lang-menu" value={ui} onChange={(e) => setLang(e.target.value as UiLang)} aria-label={L.Language}>
             {LANGS.map((l) => <option key={l.code} value={l.code}>{l.label}</option>)}

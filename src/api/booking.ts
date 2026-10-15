@@ -19,6 +19,8 @@ export interface Booking {
   channel: Channel; remind: boolean; reminders: Reminder[]; status: BookingStatus; total: number
   mode: BookingMode; address?: HomeAddress; userId?: string; createdAt: string
   reviewNote?: string; reviewedAt?: string
+  /** Set by admin / staff: Scheduled | Checked-In | In Session | Completed | Rescheduled | No-Show. The customer's tracking page follows it live. */
+  adminStatus?: string
 }
 export interface SlotLock {
   id: string; owner: string; serviceId: string; category: Category; date: string; time: string; duration: number
@@ -42,15 +44,7 @@ export const needsReview = (mode: BookingMode, category: string) => mode === 'ho
 export { homeServiceAvailable }
 
 // ---------- storage + one-time migration from the old `serene-*` keys ----------
-function seed(): Booking[] {
-  const mk = (day: number, time: string, spec: string, name: string, svc: string, dur: number, cat: string): Booking => ({
-    ref: `SRN-${name.slice(0, 3).toUpperCase()}${day}${time.slice(0, 2)}`, serviceId: '', serviceName: svc, category: cat, duration: dur, date: addDays(day), time,
-    specialists: [spec], guests: 1, name, phone: '+91 98000 00000', email: 'demo@example.com', notes: '', channel: 'WhatsApp', remind: false, reminders: [], status: 'Confirmed', total: 0,
-    mode: 'parlour', createdAt: new Date().toISOString() })
-  return [mk(0, '16:00', 'Anika', 'Priya', 'Body Massage', 60, 'Body Massage'), mk(1, '10:00', 'Meera', 'Latha', 'Body Massage', 60, 'Body Massage'),
-    mk(1, '11:00', 'Isha', 'Karthika', 'Hydra Facial', 75, 'Facial'), mk(1, '14:00', 'Nisha', 'Divya', 'Beauty Consultation', 30, 'Consultation'),
-    mk(2, '12:00', 'Isha', 'Meena', 'Normal Facial', 60, 'Facial'), mk(2, '15:00', 'Nisha', 'Revathi', 'Beauty Consultation', 30, 'Consultation')]
-}
+function seed(): Booking[] { return [] } // no demo bookings: only real customer bookings
 export function getBookings(): Booking[] {
   const v = read<Booking[] | null>(KEYS.bookings, null)
   if (v) return v

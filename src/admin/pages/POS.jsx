@@ -6,7 +6,7 @@ import {
 import { useStore } from '../store.jsx';
 import { api } from '../../api';
 import { catalogue, sellable } from '../../products/data/products';
-import { SERVICES, INITIAL_CUSTOMERS, inr } from '../data/mockData.js';
+import { SERVICES, inr } from '../data/mockData.js';
 import PageHeader from '../components/PageHeader.jsx';
 import Badge from '../components/Badge.jsx';
 import Modal from '../components/Modal.jsx';
@@ -21,7 +21,7 @@ const PAY_METHODS = [
 const GST = api.pos.GST_RATE;
 
 export default function POS() {
-  const { user, notify } = useStore();
+  const { user, notify, customers } = useStore();
   const { t } = useT();
   const [, tick] = useState(0);
   const re = () => tick((n) => n + 1);
@@ -350,7 +350,7 @@ export default function POS() {
               />
             </div>
             <div className="pos-quick-customers">
-              {INITIAL_CUSTOMERS.slice(0, 4).map((c) => (
+              {customers.slice(0, 4).map((c) => (
                 <button key={c.id} type="button" className="chip" onClick={() => pickCustomer(c)}>
                   {c.name.split(' ')[0]}
                 </button>

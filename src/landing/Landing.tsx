@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
-import { requireLogin } from "../shared/LoginModal";
+import { requireLogin, openLogin } from "../shared/LoginModal";
+import { authT } from "../shared/auth-text";
 import {
   Search,
   ShoppingBag,
@@ -22,8 +23,11 @@ import { st } from "./i18n-sections";
 import { heroSlides, heroTicker } from "./hero-slides";
 import { addOrder } from "../site/account";
 import { NAV_LABELS } from "../shared/i18n-nav";
+import { reviewNav } from "../shared/i18n-reviews";
+import { useUser } from "../shared/LoginModal";
 import { applyHomeMeta } from "../shared/i18n-meta";
-import { ProductPhoto, HerbalShowcase, VideoBand, NineDays, SpaOfferings, RecommendedPicks, NewArrivals } from "./sections";
+import { ProductPhoto, HerbalShowcase, VideoBand } from "./sections";
+import Testimonials from "./Testimonials";
 import {
   BRAND,
   products,
@@ -218,6 +222,7 @@ export default function Home() {
     [query, setQuery] = useState(""),
     [cart, setCart] = useState<Record<string, number>>({}),
     [productId, setProductId] = useState("eclat"),
+    [picBg, setPicBg] = useState<string | null>(null),
     [filter, setFilter] = useState<"all" | Cat>("all"),
     [group, setGroup] = useState(serviceGroups[0].key),
     [slide, setSlide] = useState(0),
@@ -233,16 +238,35 @@ export default function Home() {
     [note, setNote] = useState(0),
     [article, setArticle] = useState(0),
     [toast, setToast] = useState(""),
-    [ready, setReady] = useState(false),
+    [introSeen] = useState(() => { try { return sessionStorage.getItem("rhbc-intro-seen") === "1"; } catch { return false; } }),
+    [ready, setReady] = useState(() => { try { return sessionStorage.getItem("rhbc-intro-seen") === "1"; } catch { return false; } }),
     [sticky, setSticky] = useState(false),
     [shade, setShade] = useState(0),
     [notesPaused, setNotesPaused] = useState(false),
     [notesTouched, setNotesTouched] = useState(false);
+
+  // Shop shows only 5 random products per category (picked once per visit); "View all" opens the full products page.
+  const shopShuffle = useRef<Record<string, string[]>>({});
+  const shopPicks = (key: "all" | Cat) => {
+    if (!shopShuffle.current[key]) {
+      const HIDE = ["body-butter", "perfume"], PIN = ["tint-powder", "cleansing-oil", "herbal-shampoo"];
+      const pool = products.filter((p) => !HIDE.includes(p.id) && (key === "all" || p.cat === key));
+      for (let i = pool.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [pool[i], pool[j]] = [pool[j], pool[i]];
+      }
+      pool.sort((a, b) => Number(PIN.includes(b.id)) - Number(PIN.includes(a.id)));
+      shopShuffle.current[key] = pool.slice(0, 5).map((p) => p.id);
+    }
+    return shopShuffle.current[key].map((id) => products.find((p) => p.id === id)!);
+  };
   const root = useRef<HTMLDivElement>(null),
     dialog = useRef<HTMLDialogElement>(null),
     lenis = useRef<Lenis | null>(null);
   const t = content[lang as keyof typeof content] ?? content.en;
   const NL = NAV_LABELS[lang];
+  const loggedUser = useUser();
+  const reviewsLabel = reviewNav(lang, !!loggedUser);
   const product = byId(productId);
   const lines = products.filter((p) => cart[p.id] > 0).map((p) => ({ p, qty: cart[p.id] }));
   const bag = lines.reduce((n, l) => n + l.qty, 0);
@@ -270,7 +294,7 @@ export default function Home() {
       if (Array.isArray(appts)) setAppointments(appts.filter((a) => a && typeof a.date === "string" && typeof a.time === "string"));
     } catch {}
     // Long enough for the intro lines to rise slowly before the curtain lifts.
-    const timeout = setTimeout(() => setReady(true), 3300);
+    const timeout = setTimeout(() => { setReady(true); try { sessionStorage.setItem("rhbc-intro-seen", "1"); } catch {} }, introSeen ? 0 : 3300);
     const scroll = () => setSticky(window.scrollY > 60);
     window.addEventListener("scroll", scroll, { passive: true });
     return () => {
@@ -305,12 +329,6 @@ export default function Home() {
     const timer = setTimeout(() => ScrollTrigger.refresh(), 80);
     return () => clearTimeout(timer);
   }, [filter, group]);
-  useEffect(() => {
-    // The composition gently cycles through its notes until someone takes over.
-    if (notesPaused || notesTouched) return;
-    const timer = setTimeout(() => setNote((n) => (n + 1) % 3), 5200);
-    return () => clearTimeout(timer);
-  }, [note, notesPaused, notesTouched]);
   useEffect(() => {
     if (!toast) return;
     const timer = setTimeout(() => setToast(""), 3200);
@@ -389,15 +407,6 @@ export default function Home() {
         onEnter: (els) =>
           gsap.to(els, { opacity: 1, y: 0, stagger: 0.1, duration: 1, ease: "power3.out" }),
         onLeave: (els) => gsap.set(els, { opacity: 1, y: 0 }),
-      });
-      const skew = gsap.quickTo(".marquee-row", "skewX", { duration: 0.6, ease: "power3" });
-      ScrollTrigger.create({
-        trigger: ".marquee",
-        start: "top bottom",
-        end: "bottom top",
-        onUpdate: (self) =>
-          skew(gsap.utils.clamp(-8, 8, self.getVelocity() / -260)),
-        onLeave: () => skew(0),
       });
       gsap.utils.toArray<HTMLElement>(".journal-picture").forEach((pic) =>
         gsap.fromTo(
@@ -777,7 +786,7 @@ export default function Home() {
         {trx({ en: "Skip to content", ta: "உள்ளடக்கத்திற்குச் செல்", hi: "सामग्री पर जाएँ", ml: "ഉള്ളടക്കത്തിലേക്ക് പോകുക", te: "కంటెంట్‌కు వెళ్ళండి" }, lang)}
       </a>
       <Cursor />
-      <div className="intro-curtain" aria-hidden="true">
+      {!introSeen && <div className="intro-curtain" aria-hidden="true">
         <div className="intro-inner">
           <Brand rise lang={lang} />
           <span className="intro-line" />
@@ -792,7 +801,7 @@ export default function Home() {
             </span>
           </span>
         </div>
-      </div>
+      </div>}
       <header className={`header ${sticky ? "is-scrolled" : ""}`}>
         <nav className="nav-left" aria-label={NL.SitePages}>
           <a href={SITE.products}>{NL.Products}</a>
@@ -819,6 +828,7 @@ export default function Home() {
         <nav className="nav-right" aria-label={NL.SitePages}>
           <a href={SITE.about}>{NL.About}</a>
           <a href={SITE.tracking}>{NL.Tracking}</a>
+<a href={SITE.reviews}>{reviewsLabel}</a>
         </nav>
         <div className="nav-tools">
           <label className="lang-select" style={{ display: "inline-flex", alignItems: "center" }}>
@@ -861,9 +871,17 @@ export default function Home() {
             <ShoppingBag size={21} />
             <span>({bag})</span>
           </button>
-          <a className="nav-admin" href={SITE.admin}>
-            {NL.Admin}
-          </a>
+          {loggedUser ? (
+            <a className="nav-admin nav-profile" href={SITE.tracking + "?tab=profile"} aria-label={authT("Hi, {name}", lang as never, { name: loggedUser.name.split(" ")[0] || loggedUser.phone.slice(-4) })}>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4" /><path d="M4 21a8 8 0 0 1 16 0" /></svg>
+              <span className="nav-profile-name">{authT("Hi, {name}", lang as never, { name: loggedUser.name.split(" ")[0] || loggedUser.phone.slice(-4) })}</span>
+            </a>
+          ) : (
+            <button type="button" className="nav-admin nav-profile" onClick={() => openLogin()} aria-label={authT("Login", lang as never)}>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4" /><path d="M4 21a8 8 0 0 1 16 0" /></svg>
+              <span className="nav-profile-name">{authT("Login", lang as never)}</span>
+            </button>
+          )}
         </div>
       </header>
       <main id="main">
@@ -891,22 +909,14 @@ export default function Home() {
                   aria-label={`${i + 1} / ${heroSlides.length}`}
                   aria-hidden={!active}
                 >
-                  <div className="hb-copy">
-                    <span className="hb-eyebrow">{tr(sl.eyebrow, lang)}</span>
-                    {i === 0 ? <h1 id="hero-title">{tr(sl.title, lang)}</h1> : <h2>{tr(sl.title, lang)}</h2>}
-                    <p>{tr(sl.copy, lang)}</p>
-                    <div className="hb-actions">
-                      <button className="hb-btn" tabIndex={active ? 0 : -1} onClick={runAction}>
-                        {tr(sl.cta, lang)}
-                      </button>
-                      {sl.action !== "book" && (
-                        <button className="hb-btn ghost" tabIndex={active ? 0 : -1} onClick={() => openBooking()}>
-                          {t.heroBook}
-                        </button>
-                      )}
-                    </div>
-                  </div>
-                  <figure className="hb-media" style={{ "--hb-img": `url(${sl.image})` } as React.CSSProperties}>
+                  <button
+                    type="button"
+                    className="hb-banner"
+                    style={{ "--hb-img": `url(${sl.image})` } as React.CSSProperties}
+                    tabIndex={active ? 0 : -1}
+                    aria-label={tr(sl.cta, lang)}
+                    onClick={runAction}
+                  >
                     <img
                       src={sl.image}
                       alt={tr(sl.alt, lang)}
@@ -914,7 +924,7 @@ export default function Home() {
                       height={sl.height}
                       {...(i === 0 ? { fetchpriority: "high" } : { loading: "lazy" as const })}
                     />
-                  </figure>
+                  </button>
                 </div>
               );
             })}
@@ -988,10 +998,10 @@ export default function Home() {
           </div>
           <div className="collection-products">
             {[
-              { id: "eclat", name: "Éclat Glow Serum", sub: "Signature serum" },
-              { id: "lipstick-red", name: "Red Lipstick", sub: "4 shades · R1–R4" },
-              { id: "highlighter", name: "Golden Hour Highlighter", sub: "Champagne gold" },
-              { id: "rose-mist", name: "Rose Petal Face Mist", sub: "Fresh, anytime" },
+              { id: "eclat", name: "Éclat Glow Serum", sub: "Our best-seller for glowing skin" },
+              { id: "lipstick-red", name: "Red Lipstick", sub: "4 pretty red shades" },
+              { id: "compact-powder", name: "Compact Powder", sub: "Silky pressed finish, 4 flavours" },
+              { id: "cleanser", name: "Foaming Cleanser", sub: "Gentle botanical foam, 4 flavours" },
             ].map((item) => (
               <button
                 key={item.id}
@@ -1012,20 +1022,6 @@ export default function Home() {
         </section>
         <HerbalShowcase onOpen={openProduct} onAdd={(id) => addMany([id])} lang={lang} />
         <VideoBand onBook={() => openBooking()} lang={lang} />
-        <div className="marquee" aria-hidden="true">
-          <div className="marquee-row">
-            {[0, 1].map((k) => (
-              <span className="marquee-set" key={k}>
-                {t.marquee.map((word) => (
-                  <span key={word}>
-                    {word}
-                    <Lotus />
-                  </span>
-                ))}
-              </span>
-            ))}
-          </div>
-        </div>
         <section className="shop" id="shop">
           <div className="shop-heading">
             <div>
@@ -1053,9 +1049,7 @@ export default function Home() {
             ))}
           </div>
           <div className="product-grid">
-            {products
-              .filter((p) => filter === "all" || p.cat === filter)
-              .map((p) => (
+            {shopPicks(filter).map((p) => (
                 <article className="product-card" key={p.id}>
                   <button
                     className="product-picture"
@@ -1082,236 +1076,14 @@ export default function Home() {
                 </article>
               ))}
           </div>
-        </section>
-        <section
-          className="composition"
-          id="composition"
-          onPointerEnter={() => setNotesPaused(true)}
-          onPointerLeave={() => setNotesPaused(false)}
-        >
-          <div className="composition-image" data-cursor={t.noteTabs[note]}>
-            {noteImages.map((photo, i) => (
-              <img
-                key={photo.src}
-                {...img(photo, "(max-width: 799px) 100vw, 45vw")}
-                className={note === i ? "is-active" : ""}
-                width="1600"
-                height="2000"
-                loading="lazy"
-              />
-            ))}
-            <span className="image-caption">
-              {String(note + 1).padStart(2, "0")} / 03 — {notes[note].name}
-            </span>
-            <span className="note-progress" aria-hidden="true">
-              <span
-                key={`${note}-${notesPaused || notesTouched}`}
-                className={notesPaused || notesTouched ? "is-paused" : ""}
-              />
-            </span>
-          </div>
-          <div className="composition-content">
-            <span className="eyebrow">{t.notesLabel}</span>
-            <h2>{t.notesTitle}</h2>
-            <div className="note-tabs" role="tablist" aria-label={t.notesLabel}>
-              {t.noteTabs.map((tab, i) => (
-                <button
-                  role="tab"
-                  aria-selected={note === i}
-                  aria-controls={`note-panel-${i}`}
-                  id={`note-tab-${i}`}
-                  tabIndex={note === i ? 0 : -1}
-                  key={tab}
-                  onClick={() => {
-                    setNote(i);
-                    setNotesTouched(true);
-                  }}
-                  onKeyDown={(e) => {
-                    if (e.key === "ArrowRight" || e.key === "ArrowLeft") {
-                      e.preventDefault();
-                      setNotesTouched(true);
-                      const next =
-                        (note + (e.key === "ArrowRight" ? 1 : 2)) % 3;
-                      setNote(next);
-                      document.getElementById(`note-tab-${next}`)?.focus();
-                    }
-                  }}
-                >
-                  {String(i + 1).padStart(2, "0")}
-                  <span>{tab}</span>
-                </button>
-              ))}
-            </div>
-            <div
-              className="note-description"
-              role="tabpanel"
-              id={`note-panel-${note}`}
-              aria-labelledby={`note-tab-${note}`}
-              key={note}
-            >
-              <span className="eyebrow">{notes[note].sub}</span>
-              <h3>{notes[note].name}</h3>
-              <p>{notes[note].copy}</p>
-            </div>
+          <div className="shop-more">
+            <a className="hb-btn" href={SITE.products}>
+              {st("viewAllProducts", lang)}
+            </a>
           </div>
         </section>
-        <section className="rituals" id="rituals">
-          <div className="rituals-heading">
-            <div>
-              <span className="eyebrow">{t.ritualsLabel}</span>
-              <h2>
-                <Lines text={t.ritualsTitle} />
-              </h2>
-            </div>
-            <p>{t.ritualsCopy}</p>
-          </div>
-          <div className="ritual-grid">
-            {rituals.map((r, i) => (
-              <article className={`ritual-card ritual-${i}`} key={r.id}>
-                <span className="ritual-when">
-                  {String(i + 1).padStart(2, "0")} / {r.when[lang]}
-                </span>
-                <h3>{r.title[lang]}</h3>
-                <p>{r.copy[lang]}</p>
-                <div className="ritual-items">
-                  {r.items.map((id) => (
-                    <button key={id} aria-label={byId(id).name[lang]} onClick={() => openProduct(id)}>
-                      <ProductPhoto id={id} />
-                    </button>
-                  ))}
-                </div>
-                <small>
-                  {t.includes}: {r.items.map((id) => byId(id).name[lang]).join(" · ")}
-                </small>
-                <button
-                  className="pill dark"
-                  onPointerMove={magnet}
-                  onPointerLeave={unmagnet}
-                  onClick={() => addMany(r.items, t.ritualAdded)}
-                >
-                  {t.addRitual}
-                  <span className="pill-dot">
-                    <Plus size={20} />
-                  </span>
-                </button>
-              </article>
-            ))}
-          </div>
-        </section>
-        <NineDays onBook={() => openBooking("b1")} lang={lang} />
-        <section className="salon salon-stack" id="salon">
-          <div className="salon-banner">
-            <video
-              className="salon-banner-video"
-              muted
-              loop
-              playsInline
-              autoPlay
-              preload="metadata"
-              poster="/assets/hero-2.webp"
-            >
-              <source src="/assets/video/salon.mp4" type="video/mp4" />
-            </video>
-            <div className="salon-banner-shade" />
-            <div className="salon-banner-copy">
-              <span className="eyebrow">{t.salonLabel}</span>
-              <strong>{st("salonBanner", lang)}</strong>
-            </div>
-          </div>
-          <div className="salon-body">
-            <div className="salon-copy">
-              <h2>
-                <Lines text={t.salonTitle} />
-              </h2>
-              <p>{t.salonCopy}</p>
-              <ul className="salon-perks">
-                {t.perks.map((perk) => (
-                  <li key={perk}>
-                    <Check size={15} />
-                    {perk}
-                  </li>
-                ))}
-              </ul>
-              <span className="salon-hours">{t.salonHours}</span>
-              <button
-                className="pill dark"
-                onPointerMove={magnet}
-                onPointerLeave={unmagnet}
-                onClick={() => openBooking()}
-              >
-                {t.heroBook}
-                <span className="pill-dot">
-                  <Plus size={20} />
-                </span>
-              </button>
-            </div>
-            <div className="salon-menu">
-              <div className="salon-tabs" role="tablist" aria-label={t.salonLabel}>
-                {serviceGroups.map((g) => (
-                  <button
-                    key={g.key}
-                    role="tab"
-                    aria-selected={group === g.key}
-                    className={group === g.key ? "is-active" : ""}
-                    onClick={() => setGroup(g.key)}
-                  >
-                    {g.label[lang]}
-                  </button>
-                ))}
-              </div>
-              <p className="salon-intro" key={group}>
-                {activeGroup.intro[lang]}
-              </p>
-              <ul className="service-list" key={`${group}-list`}>
-                {activeGroup.items.map((sv, si) => (
-                  <li className="service-row" key={sv.id} style={{ "--i": si } as React.CSSProperties}>
-                    <div>
-                      <h3>{sv.name[lang]}</h3>
-                      <p>{sv.desc[lang]}</p>
-                      <small>
-                        {sv.mins} {t.mins}
-                      </small>
-                    </div>
-                    <div className="service-end">
-                      {servicePricesOn() && <strong>{rupees(sv.price)}</strong>}
-                      <button className="service-book" onClick={() => openBooking(sv.id)}>
-                        {t.bookService}
-                        <Plus size={14} />
-                      </button>
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        </section>
-        <SpaOfferings onBook={(id) => openBooking(id)} lang={lang} />
-        <RecommendedPicks onBundle={bookBundle} lang={lang} />
-        <NewArrivals onOpen={openProduct} onAdd={(id) => addMany([id])} onJournal={() => go("#shop")} lang={lang} />
-        <section className="closing">
-          <div className="closing-banner">
-            <img
-              className="closing-image"
-              src="/assets/hero/spa.webp"
-              alt=""
-              width="1024"
-              height="559"
-              loading="lazy"
-            />
-            <div className="closing-shade" />
-            <div className="closing-content">
-              <span className="eyebrow">{BRAND}</span>
-              <h2>
-                {t.closing.split("\n").map((line, i) => (
-                  <span key={i}>{line}</span>
-                ))}
-              </h2>
-            </div>
-            <button className="closing-cta" onClick={() => openBooking()}>
-              {t.closingCta}
-              <ArrowRight size={18} />
-            </button>
-          </div>
+        <section className="testimonials" id="salon">
+          <Testimonials lang={lang} />
         </section>
       </main>
       <footer>
@@ -1325,6 +1097,7 @@ export default function Home() {
             <a href={SITE.services}>{NL.Services}</a>
             <a href={SITE.about}>{NL.About}</a>
             <a href={SITE.tracking}>{NL.Tracking}</a>
+<a href={SITE.reviews}>{reviewsLabel}</a>
             <a href={SITE.admin}>{NL.Admin}</a>
           </nav>
           <div className="footer-service">
@@ -1432,7 +1205,28 @@ export default function Home() {
             <div className="product-modal">
               <div
                 className="product-modal-picture"
-                style={{ background: moods[1].bg }}
+                style={{ background: picBg ?? "#f3ece4" }}
+                onLoadCapture={(e) => {
+                  const im = e.target as HTMLImageElement;
+                  if (!(im instanceof HTMLImageElement)) return;
+                  try {
+                    const n = 32, c = document.createElement("canvas");
+                    c.width = c.height = n;
+                    const g = c.getContext("2d", { willReadFrequently: true });
+                    if (!g) return;
+                    g.drawImage(im, 0, 0, n, n);
+                    const d = g.getImageData(0, 0, n, n).data;
+                    let r = 0, gg = 0, b = 0, k = 0;
+                    for (let i = 0; i < n; i++) for (let j = 0; j < n; j++) {
+                      if (i > 1 && i < n - 2 && j > 1 && j < n - 2) continue;
+                      const o = (i * n + j) * 4;
+                      r += d[o]; gg += d[o + 1]; b += d[o + 2]; k++;
+                    }
+                    setPicBg(`rgb(${Math.round(r / k)},${Math.round(gg / k)},${Math.round(b / k)})`);
+                  } catch {
+                    /* keep the neutral background */
+                  }
+                }}
                 data-cursor="Zoom"
                 onPointerMove={(e) => {
                   const r = e.currentTarget.getBoundingClientRect();
@@ -1831,6 +1625,7 @@ export default function Home() {
                 <a href={SITE.services}>{NL.Services}</a>
                 <a href={SITE.about}>{NL.About}</a>
                 <a href={SITE.tracking}>{NL.Tracking}</a>
+<a href={SITE.reviews}>{reviewsLabel}</a>
                 <a href={SITE.admin}>{NL.AdminPanel}</a>
               </nav>
               <button className="text-link" onClick={() => setPanel("search")}>

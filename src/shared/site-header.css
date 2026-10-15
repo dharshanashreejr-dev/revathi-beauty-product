@@ -1,138 +1,314 @@
 /* One navbar for the whole site — mirrors the landing page header. */
 .vt-header {
   --vt-cream: #fdfcfb;
-  position: fixed; z-index: 50; top: 0; left: 0; width: 100%; height: 96px;
-  display: grid; grid-template-columns: 1fr minmax(200px, 320px) 1fr; align-items: start;
-  color: var(--vt-cream); background: transparent; text-shadow: 0 1px 12px #35201565;
+  position: fixed;
+  z-index: 50;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 96px;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: start;
+  color: var(--vt-cream);
+  background: transparent;
+  text-shadow: 0 1px 12px #35201565;
   font-family: 'Jost', 'DM Sans', Arial, sans-serif;
   transition: background .5s, height .5s, box-shadow .5s;
+  overflow: visible;
 }
-.vt-header.is-solid { height: 80px; background: #38271ce0; box-shadow: 0 1px 0 #f4dfc91a; backdrop-filter: blur(16px); text-shadow: none; }
-.vt-header a, .vt-header button { color: inherit; text-decoration: none; }
-.vt-nav { display: flex; align-items: center; height: 73px; gap: 40px; font-size: 12px; letter-spacing: .08em; text-transform: uppercase; }
-.vt-header.is-solid .vt-nav { height: 80px; }
-.vt-left { justify-content: flex-end; padding-right: 45px; }
-.vt-right { padding-left: 45px; }
-.vt-nav a { position: relative; padding: 10px 0; white-space: nowrap; }
-.vt-nav a::after { content: ''; position: absolute; left: 0; bottom: 4px; width: 100%; height: 1px; background: currentColor; transform: scaleX(0); transform-origin: right; transition: transform .35s; }
-.vt-nav a:hover::after, .vt-nav a.is-current::after { transform: scaleX(1); transform-origin: left; }
-.vt-brand { justify-self: center; display: inline-flex; flex-direction: column; align-items: center; line-height: 1; padding-top: 12px; transition: transform .5s; }
-.vt-header.is-solid .vt-brand { padding-top: 8px; transform: none; }
-.vt-lotus { width: 34px; height: auto; display: block; overflow: visible; }
-.vt-word { display: block; font-family: 'Cormorant Garamond', Georgia, serif; font-size: 20px; letter-spacing: .14em; margin: 6px 0 0 .12em; white-space: nowrap; font-weight: 600; }
-.vt-sub { display: block; font-size: 13px; letter-spacing: .2em; margin: 6px 0 0 .2em; white-space: nowrap; }
-.vt-tagline { display: block; font-size: 12px; letter-spacing: .14em; margin: 5px 0 0 0; white-space: nowrap; opacity: .9; font-style: italic; }
-.vt-tools { position: absolute; right: 3.5%; top: 18px; display: flex; align-items: center; gap: 21px; font-size: 12px; }
-.vt-header.is-solid .vt-tools { top: 20px; }
-.vt-bag { display: flex; gap: 9px; align-items: center; min-height: 38px; background: none; border: 0; padding: 0; cursor: pointer; font: inherit; }
-.vt-admin { display: inline-flex; align-items: center; padding: 9px 18px; border: 1px solid currentColor; border-radius: 999px; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; white-space: nowrap; transition: background .3s, color .3s; }
-.vt-admin:hover { background: var(--vt-cream); color: #422c20 !important; text-shadow: none; }
-.vt-icon { width: 38px; height: 38px; display: grid; place-items: center; padding: 0; background: none; border: 0; cursor: pointer; }
-.vt-burger { display: none; }
-.vt-panel { position: fixed; inset: 0; z-index: 70; background: #38271c; color: #fdfcfb; display: flex; flex-direction: column; justify-content: center; padding: 0 8vw; opacity: 0; visibility: hidden; transition: opacity .4s, visibility .4s; }
-.vt-panel.is-open { opacity: 1; visibility: visible; }
-.vt-panel nav { display: flex; flex-direction: column; gap: 14px; }
-.vt-panel nav a { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 40px; color: inherit; text-decoration: none; }
-.vt-close { position: absolute; top: 18px; right: 20px; background: none; border: 0; color: inherit; font-size: 22px; cursor: pointer; }
-@media (max-width: 1300px) { .vt-header { grid-template-columns: 1fr minmax(180px, 280px) 1fr; } .vt-nav { gap: 20px; font-size: 11px; } .vt-admin { padding: 8px 14px; } }
-@media (max-width: 1100px) { .vt-nav { gap: 20px; } .vt-left { padding-right: 24px; } .vt-right { padding-left: 24px; } }
-@media (max-width: 899px) {
-  .vt-header { grid-template-columns: 1fr minmax(140px, 200px) 1fr; height: 80px; }
-  .vt-nav { display: none; }
-  .vt-burger { display: grid; grid-column: 1; grid-row: 1; margin: 14px 0 0 12px; }
-  .vt-brand { grid-column: 2; grid-row: 1; }
-  .vt-tools { grid-column: 3; right: 12px; gap: 8px; }
-  .vt-admin { display: none; }
-  .vt-word { font-size: 14px; letter-spacing: .1em; } .vt-sub { font-size: 11px; } .vt-tagline { font-size: 10px; }
+.vt-header.is-solid {
+  height: 80px;
+  background: #38271ce0;
+  box-shadow: 0 1px 0 #f4dfc91a;
+  backdrop-filter: blur(16px);
+  text-shadow: none;
+}
+.vt-header a,
+.vt-header button {
+  color: inherit;
+  text-decoration: none;
 }
 
-/* language dropdown (same on every page) */
-.vt-lang { background: transparent; color: inherit; border: 1px solid currentColor; border-radius: 999px; padding: 7px 10px; font: inherit; font-size: 11px; letter-spacing: .1em; cursor: pointer; text-shadow: inherit; }
+.vt-nav {
+  display: flex;
+  align-items: center;
+  height: 73px;
+  gap: 28px;
+  font-size: 12px;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+.vt-header.is-solid .vt-nav { height: 80px; }
+.vt-left { justify-content: flex-end; padding-right: 28px; }
+.vt-right { padding-left: 28px; }
+.vt-nav a {
+  position: relative;
+  padding: 10px 0;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.vt-nav a::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 4px;
+  width: 100%;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform .35s;
+}
+.vt-nav a:hover::after,
+.vt-nav a.is-current::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+.vt-brand {
+  justify-self: center;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 1;
+  padding-top: 12px;
+  transition: transform .5s;
+  min-width: 200px;
+}
+.vt-header.is-solid .vt-brand { padding-top: 8px; transform: none; }
+.vt-lotus { width: 34px; height: auto; display: block; overflow: visible; }
+.vt-word {
+  display: block;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 16px;
+  letter-spacing: .1em;
+  margin: 6px 0 0 .1em;
+  white-space: nowrap;
+  font-weight: 600;
+}
+.vt-sub {
+  display: block;
+  font-size: 11px;
+  letter-spacing: .16em;
+  margin: 5px 0 0 .16em;
+  white-space: nowrap;
+}
+.vt-tagline {
+  display: block;
+  font-size: 10px;
+  letter-spacing: .12em;
+  margin: 4px 0 0 0;
+  white-space: nowrap;
+  opacity: .9;
+  font-style: italic;
+}
+
+/* Right side: links + tools in one flex row (no absolute overlap) */
+.vt-rightwrap {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 20px;
+  min-width: 0;
+  height: 73px;
+  padding-right: 28px;
+}
+.vt-header.is-solid .vt-rightwrap { height: 80px; }
+
+.vt-right {
+  display: flex;
+  align-items: center;
+  padding: 0 0 0 32px !important;
+  overflow: visible !important;
+  gap: 18px !important;
+  height: auto !important;
+  flex: 0 0 auto;
+}
+
+.vt-tools {
+  position: static !important;
+  right: auto !important;
+  top: auto !important;
+  display: flex;
+  align-items: center;
+  gap: 12px !important;
+  font-size: 12px;
+  flex: 0 0 auto;
+  flex-shrink: 0;
+  z-index: 8;
+}
+
+.vt-bag {
+  display: flex;
+  gap: 9px;
+  align-items: center;
+  min-height: 38px;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  font: inherit;
+}
+
+.vt-admin {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 14px;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  font-size: 11px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  transition: background .3s, color .3s;
+  flex-shrink: 0;
+}
+.vt-admin:hover {
+  background: var(--vt-cream);
+  color: #422c20 !important;
+  text-shadow: none;
+}
+
+/* Hide Admin on public site — only reachable via /admin URL */
+.vt-admin-link { display: none !important; }
+
+.vt-icon {
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+.vt-burger { display: none; }
+
+.vt-panel {
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+  background: #38271c;
+  color: #fdfcfb;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 8vw;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .4s, visibility .4s;
+}
+.vt-panel.is-open { opacity: 1; visibility: visible; }
+.vt-panel nav { display: flex; flex-direction: column; gap: 14px; }
+.vt-panel nav a {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 40px;
+  color: inherit;
+  text-decoration: none;
+}
+.vt-close {
+  position: absolute;
+  top: 18px;
+  right: 20px;
+  background: none;
+  border: 0;
+  color: inherit;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+/* Language */
+.vt-lang {
+  background: transparent;
+  color: inherit;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  padding: 6px 10px;
+  font: inherit;
+  font-size: 10px;
+  letter-spacing: .04em;
+  cursor: pointer;
+  text-shadow: inherit;
+  max-width: 100px;
+  flex-shrink: 0;
+}
 .vt-lang option { color: #2b1d14; background: #fdfcfb; }
 .vt-lang-menu { margin: 24px auto 0; display: block; }
 
-/* Indic scripts: wide tracking breaks the letter shapes and 7px is too small to read */
-html:not([lang="en"]) .vt-sub { font-size: 9px; letter-spacing: .08em; margin-left: .08em; }
-@media (max-width: 900px) { html:not([lang="en"]) .vt-sub { font-size: 8px; } }
-
-
-/* navbar overflow fix — longer Indic labels + lang select must not collide */
-.vt-nav { letter-spacing: .06em; }
-.vt-tools { z-index: 5; flex-shrink: 0; }
-.vt-lang { max-width: 110px; overflow: hidden; text-overflow: ellipsis; padding: 6px 8px; font-size: 10px; letter-spacing: .04em; }
-html:not([lang="en"]) .vt-nav { gap: 18px; font-size: 11px; letter-spacing: 0; }
-html:not([lang="en"]) .vt-left { padding-right: 20px; }
-html:not([lang="en"]) .vt-right { padding-left: 20px; }
-@media (max-width: 1200px) {
-  html:not([lang="en"]) .vt-nav { gap: 12px; font-size: 10px; }
+/* Profile / Login — always last, never clipped */
+.vt-tools .vt-profile {
+  display: inline-flex !important;
+  order: 99;
+  gap: 8px;
+  margin-left: 4px;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+.vt-profile-name {
+  max-width: none !important;
+  overflow: visible !important;
+  text-overflow: unset !important;
+  white-space: nowrap;
 }
 
-
-/* vt-right reserve — Tracking never collides with lang select */
-.vt-right {
-  padding-right: 300px !important;
-  gap: 18px !important;
-  overflow: hidden;
-}
-.vt-right a { flex-shrink: 0; white-space: nowrap; }
-.vt-tools {
-  z-index: 8 !important;
-  gap: 12px !important;
-  right: 2% !important;
-}
-.vt-lang {
-  max-width: 100px !important;
-  font-size: 10px !important;
-  letter-spacing: 0.02em !important;
-  padding: 6px 8px !important;
+/* Indic */
+html:not([lang="en"]) .vt-sub {
+  font-size: 9px;
+  letter-spacing: .08em;
+  margin-left: .08em;
 }
 html:not([lang="en"]) .vt-nav {
   gap: 14px !important;
   font-size: 11px !important;
   letter-spacing: 0 !important;
 }
-html:not([lang="en"]) .vt-right {
-  padding-right: 310px !important;
-}
-@media (max-width: 1200px) {
-  .vt-right { padding-right: 260px !important; }
-  html:not([lang="en"]) .vt-right { padding-right: 270px !important; }
-}
-@media (max-width: 899px) {
-  .vt-right { padding-right: 0 !important; }
-}
+html:not([lang="en"]) .vt-left { padding-right: 16px; }
+html:not([lang="en"]) .vt-right { gap: 14px !important; }
 
-
-/* ===== navbar layout fix (final) =====
-   Right side = ONE flex row: [About, Tracking] ... [language, cart, Hi/Login, Admin].
-   Nothing is position:absolute any more, so Tracking can never sit under the buttons. */
-.vt-header { grid-template-columns: 1fr auto 1fr; }
-.vt-rightwrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-width: 0; height: 73px; padding-right: 2%; }
-.vt-header.is-solid .vt-rightwrap { height: 80px; }
-.vt-right { padding: 0 0 0 28px !important; overflow: visible !important; gap: 22px !important; height: auto !important; flex: 0 0 auto; }
-html:not([lang="en"]) .vt-right { padding: 0 0 0 20px !important; gap: 14px !important; }
-.vt-tools { position: static !important; right: auto !important; top: auto !important; flex: 0 0 auto; gap: 12px !important; }
-.vt-admin { padding: 8px 14px; }
-.vt-brand { min-width: 200px; }
-
-/* not enough room for both pills: Admin stays reachable from the menu */
-@media (max-width: 1499px) { .vt-admin-link { display: none; } }
-
-/* below 1360px switch to the burger layout (menu has every link, Login and Admin) */
- @media (max-width: 1199px) {
-  .vt-header { grid-template-columns: 1fr minmax(160px, 240px) 1fr; height: 80px; }
-  .vt-nav { display: none; }
-  .vt-burger { display: grid; grid-column: 1; grid-row: 1; margin: 14px 0 0 12px; }
-  .vt-brand { grid-column: 2; grid-row: 1; min-width: 0; }
-  .vt-rightwrap { grid-column: 3; grid-row: 1; justify-content: flex-end; padding-right: 12px; height: 80px; }
-}
-@media (max-width: 899px) {
-  .vt-admin { display: none; }
-  .vt-rightwrap { gap: 8px; }
-  .vt-tools { gap: 8px !important; }
-}
-/* below 1360px switch to the burger layout */
+/* Burger layout below 1360px */
 @media (max-width: 1359px) {
-  .vt-nav { display: none; }          /* hides Products / Services / About / Tracking */
-  .vt-burger { display: grid;  }   /* shows ☰ */
+  .vt-header {
+    grid-template-columns: 1fr minmax(160px, 240px) 1fr;
+    height: 80px;
+  }
+  .vt-nav { display: none; }
+  .vt-burger {
+    display: grid;
+    grid-column: 1;
+    grid-row: 1;
+    margin: 14px 0 0 12px;
+  }
+  .vt-brand {
+    grid-column: 2;
+    grid-row: 1;
+    min-width: 0;
+    max-width: 280px;
+  }
+  .vt-rightwrap {
+    grid-column: 3;
+    grid-row: 1;
+    justify-content: flex-end;
+    padding-right: 20px;
+    height: 80px;
+  }
+}
+
+@media (max-width: 899px) {
+  .vt-header {
+    grid-template-columns: 1fr minmax(140px, 200px) 1fr;
+    height: 80px;
+  }
+  .vt-admin { display: none; }
+  .vt-rightwrap { gap: 8px; padding-right: 16px; }
+  .vt-tools { gap: 8px !important; }
+  .vt-tools .vt-profile { padding: 7px 9px; }
+  .vt-profile-name { display: none; }
+  .vt-word { font-size: 14px; letter-spacing: .1em; }
+  .vt-sub { font-size: 11px; }
+  .vt-tagline { font-size: 10px; }
+}
+
+@media (max-width: 900px) {
+  html:not([lang="en"]) .vt-sub { font-size: 8px; }
 }

@@ -1,0 +1,177 @@
+import { useEffect, useRef, useState } from "react";
+import useEmblaCarousel from "embla-carousel-react";
+import { ArrowLeft, ArrowRight } from "lucide-react";
+import type { Lang } from "./data";
+
+// Customer testimonials shown inside the salon services section.
+// Names, quotes and photos are sample content: replace them with real customers' (with their permission).
+type L = Partial<Record<Lang, string>> & { en: string };
+
+const heading: L = {
+  en: "What our customers say",
+  ta: "எங்கள் வாடிக்கையாளர்கள் சொல்வது",
+  hi: "हमारे ग्राहक क्या कहते हैं",
+  ml: "ഞങ്ങളുടെ ഉപഭോക്താക്കൾ പറയുന്നത്",
+  te: "మా కస్టమర్లు ఏమంటున్నారు",
+};
+const sub: L = {
+  en: "Real words from the people who visit us.",
+  ta: "எங்களிடம் வருபவர்களின் உண்மையான வார்த்தைகள்.",
+  hi: "हमारे यहाँ आने वालों की सच्ची बातें।",
+  ml: "ഞങ്ങളെ സന്ദർശിക്കുന്നവരുടെ യഥാർത്ഥ വാക്കുകൾ.",
+  te: "మా దగ్గరకు వచ్చేవారి నిజమైన మాటలు.",
+};
+
+const items: { name: string; service: L; photo: string; quote: L }[] = [
+  {
+    name: "Priya V.",
+    photo: "/img/facial.jpg",
+    service: { en: "Herbal facial", ta: "மூலிகை ஃபேஷியல்", hi: "हर्बल फेशियल", ml: "ഹെർബൽ ഫേഷ്യൽ", te: "హెర్బల్ ఫేషియల్" },
+    quote: {
+      en: "My skin felt fresh and soft. The staff were so kind and gentle.",
+      ta: "என் சருமம் புத்துணர்ச்சியுடனும் மென்மையாகவும் இருந்தது. ஊழியர்கள் மிகவும் அன்பாக நடந்துகொண்டார்கள்.",
+      hi: "मेरी त्वचा ताज़ा और मुलायम लगी। स्टाफ बहुत प्यार से पेश आया।",
+      ml: "എന്റെ ചർമ്മം പുതുമയും മൃദുവുമായി തോന്നി. ജീവനക്കാർ വളരെ സ്നേഹത്തോടെ പെരുമാറി.",
+      te: "నా చర్మం తాజాగా, మృదువుగా అనిపించింది. సిబ్బంది చాలా దయగా ఉన్నారు.",
+    },
+  },
+  {
+    name: "Anitha R.",
+    photo: "/img/back.jpg",
+    service: { en: "Herbal oil massage", ta: "மூலிகை எண்ணெய் மசாஜ்", hi: "हर्बल तेल मसाज", ml: "ഹെർബൽ ഓയിൽ മസാജ്", te: "హెర్బల్ ఆయిల్ మసాజ్" },
+    quote: {
+      en: "Very relaxing massage in a private room. I left feeling light.",
+      ta: "தனி அறையில் மிகவும் இதமான மசாஜ். மனம் லேசாகி வெளியே வந்தேன்.",
+      hi: "प्राइवेट रूम में बहुत आरामदायक मसाज। मैं हल्का महसूस करके निकली।",
+      ml: "സ്വകാര്യ മുറിയിൽ വളരെ വിശ്രമം നൽകുന്ന മസാജ്. ഭാരം കുറഞ്ഞ മനസ്സോടെ മടങ്ങി.",
+      te: "ప్రైవేట్ రూమ్‌లో చాలా రిలాక్సింగ్ మసాజ్. తేలికగా అనిపించి బయటకు వచ్చాను.",
+    },
+  },
+  {
+    name: "Meena S.",
+    photo: "/img/foot.jpg",
+    service: { en: "Manicure & pedicure", ta: "மெனிக்யூர் & பெடிக்யூர்", hi: "मैनीक्योर और पेडीक्योर", ml: "മാനിക്യൂർ & പെഡിക്യൂർ", te: "మానిక్యూర్ & పెడిక్యూర్" },
+    quote: {
+      en: "Clean, neat and so peaceful. My hands and feet feel brand new.",
+      ta: "சுத்தமாகவும் அமைதியாகவும் இருந்தது. கை, கால்கள் புதியது போல உணர்கிறேன்.",
+      hi: "साफ़-सुथरा और शांत माहौल। हाथ-पैर बिल्कुल नए जैसे लगे।",
+      ml: "വൃത്തിയും ശാന്തവും. കൈകാലുകൾ പുതിയത് പോലെ തോന്നുന്നു.",
+      te: "శుభ్రంగా, ప్రశాంతంగా ఉంది. చేతులు, కాళ్లు కొత్తవిలా అనిపిస్తున్నాయి.",
+    },
+  },
+  {
+    name: "Kavitha M.",
+    photo: "/img/reception.jpg",
+    service: { en: "Salon visit", ta: "சலூன் வருகை", hi: "सैलून विज़िट", ml: "സലൂൺ സന്ദർശനം", te: "సెలూన్ సందర్శన" },
+    quote: {
+      en: "Booking was easy and the team welcomed me with a smile.",
+      ta: "பதிவு செய்வது எளிது. குழுவினர் புன்னகையுடன் வரவேற்றார்கள்.",
+      hi: "बुकिंग आसान थी और टीम ने मुस्कान के साथ स्वागत किया।",
+      ml: "ബുക്കിംഗ് എളുപ്പമായിരുന്നു, ടീം പുഞ്ചിരിയോടെ സ്വീകരിച്ചു.",
+      te: "బుకింగ్ సులభం, టీమ్ చిరునవ్వుతో స్వాగతించింది.",
+    },
+  },
+  {
+    name: "Lakshmi D.",
+    photo: "/img/facial2.jpg",
+    service: { en: "Hydra facial", ta: "ஹைட்ரா ஃபேஷியல்", hi: "हाइड्रा फेशियल", ml: "ഹൈഡ്ര ഫേഷ്യൽ", te: "హైడ్రా ఫేషియల్" },
+    quote: {
+      en: "My skin glowed for days after. I am booking again next month.",
+      ta: "சில நாட்கள் வரை என் சருமம் ஜொலித்தது. அடுத்த மாதமும் பதிவு செய்கிறேன்.",
+      hi: "कई दिनों तक मेरी त्वचा चमकती रही। अगले महीने फिर बुक करूँगी।",
+      ml: "ദിവസങ്ങളോളം എന്റെ ചർമ്മം തിളങ്ങി. അടുത്ത മാസവും ബുക്ക് ചെയ്യും.",
+      te: "రోజుల తరబడి నా చర్మం మెరిసింది. వచ్చే నెల మళ్లీ బుక్ చేస్తాను.",
+    },
+  },
+  {
+    name: "Divya K.",
+    photo: "/img/close.jpg",
+    service: { en: "Herbal products", ta: "மூலிகைப் பொருட்கள்", hi: "हर्बल प्रोडक्ट", ml: "ഹെർബൽ ഉൽപ്പന്നങ്ങൾ", te: "హెర్బల్ ఉత్పత్తులు" },
+    quote: {
+      en: "The herbal oil and face cream suit my skin well. Delivery was quick.",
+      ta: "ஹெர்பல் ஆயிலும் ஃபேஸ் கிரீமும் என் சருமத்துக்கு நன்றாகப் பொருந்துகிறது. டெலிவரி விரைவாக வந்தது.",
+      hi: "हर्बल ऑयल और फेस क्रीम मेरी त्वचा को सूट करते हैं। डिलीवरी भी जल्दी हुई।",
+      ml: "ഹെർബൽ ഓയിലും ഫേസ് ക്രീമും എന്റെ ചർമ്മത്തിന് ചേരുന്നു. ഡെലിവറി വേഗത്തിലായിരുന്നു.",
+      te: "హెర్బల్ ఆయిల్, ఫేస్ క్రీమ్ నా చర్మానికి బాగా సరిపోయాయి. డెలివరీ త్వరగా వచ్చింది.",
+    },
+  },
+];
+
+const pick = (v: L, lang: Lang) => v[lang] ?? v.en;
+
+export default function Testimonials({ lang }: { lang: Lang }) {
+  const [viewportRef, api] = useEmblaCarousel({ loop: true, align: "center", skipSnaps: false });
+  const [index, setIndex] = useState(0);
+  const [paused, setPaused] = useState(false);
+  const [shown, setShown] = useState(false);
+  const rootRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!api) return;
+    const on = () => setIndex(api.selectedScrollSnap());
+    on();
+    api.on("select", on);
+    return () => { api.off("select", on); };
+  }, [api]);
+
+  // Auto-slide every 5 seconds (stops while hovering, and for people who prefer reduced motion).
+  useEffect(() => {
+    if (!api || paused || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const t = setTimeout(() => api.scrollNext(), 5000);
+    return () => clearTimeout(t);
+  }, [api, paused, index]);
+
+  // Fade the section in once when it scrolls into view.
+  useEffect(() => {
+    const el = rootRef.current;
+    if (!el) return;
+    const io = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setShown(true); io.disconnect(); } }, { threshold: 0.2 });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
+  return (
+    <div
+      ref={rootRef}
+      className={`testi ${shown ? "is-in" : ""}`}
+      aria-label={pick(heading, lang)}
+      onPointerEnter={() => setPaused(true)}
+      onPointerLeave={() => setPaused(false)}
+    >
+      <div className="testi-head">
+        <h2>{pick(heading, lang)}</h2>
+        <p>{pick(sub, lang)}</p>
+      </div>
+      <div className="testi-viewport" ref={viewportRef}>
+        <div className="testi-track">
+          {items.map((it, i) => (
+            <div className={`testi-slide ${index === i ? "is-active" : ""}`} key={it.name} aria-roledescription="slide" aria-label={`${i + 1} / ${items.length}`}>
+              <figure className="testi-card">
+                <img src={it.photo} alt={it.name} width={320} height={220} loading="lazy" />
+                <div className="testi-body">
+                  <span className="testi-stars" aria-label="5 / 5">
+                    {[0, 1, 2, 3, 4].map((n) => (<i key={n} style={{ animationDelay: `${n * 90}ms` }}>★</i>))}
+                  </span>
+                  <blockquote>{pick(it.quote, lang)}</blockquote>
+                  <figcaption>
+                    <strong>{it.name}</strong>
+                    <span>{pick(it.service, lang)}</span>
+                  </figcaption>
+                </div>
+              </figure>
+            </div>
+          ))}
+        </div>
+      </div>
+      <div className="testi-nav">
+        <button type="button" aria-label="Previous" onClick={() => api?.scrollPrev()}><ArrowLeft size={18} /></button>
+        <div className="testi-dots">
+          {items.map((it, i) => (
+            <button key={it.name} type="button" aria-label={`${i + 1}`} aria-current={index === i} className={index === i ? "is-active" : ""} onClick={() => api?.scrollTo(i)} />
+          ))}
+        </div>
+        <button type="button" aria-label="Next" onClick={() => api?.scrollNext()}><ArrowRight size={18} /></button>
+      </div>
+    </div>
+  );
+}

@@ -235,7 +235,7 @@
 .hb-arrow:hover { background: #f6dfd6; color: #15100e; }
 .hb-dots button span { background: #f6dfd64d; }
 .hb-dots button.is-active span::after { background: #f6dfd6; }
-.hb-ticker { position: absolute; left: 0; right: 0; bottom: 0; z-index: 3; overflow: hidden; background: #f6ece6; color: #422c20; padding: 14px 0; }
+.hb-ticker { position: relative; left: 0; right: 0; bottom: 0; z-index: 3;overflow: hidden; background: #f6ece6; color: #422c20; padding: 14px 0; }
 .hb-ticker-track { display: flex; width: max-content; animation: hb-tick 32s linear infinite; }
 .hb-ticker-row { display: flex; flex-shrink: 0; }
 .hb-ticker-row span { padding: 0 44px; font-size: 11px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; white-space: nowrap; }
@@ -348,3 +348,26 @@
 .hb-slide > .hb-copy { padding: 28px var(--hb-pad) 112px !important; }
 .hb-media img { object-fit: cover !important; object-position: center center !important; }
 @media (max-width: 900px) { .hb-slide > .hb-media { height: 240px !important; } }
+
+/* Offer pill shown above the hero title */
+.hb-offer {
+  display: inline-block;
+  margin: 0 0 16px;
+  padding: 8px 16px;
+  border-radius: 999px;
+  background: var(--ink);
+  color: var(--cream);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+/* Offer banners: every slide has the same wide (1024:434) height (no jumping). The whole image is visible, never cropped;
+   if a banner is different from that ratio the spare space is filled with a soft blur of the same image. */
+.hb { background: #faf6f1 !important; padding-top: 96px; }
+.hb-slide { display: block !important; min-height: 0 !important; height: auto !important; background: #faf6f1 !important; }
+.hb-banner { position: relative; display: block; width: 100%; aspect-ratio: 2352 / 1008; padding: 0; border: 0; overflow: hidden; background: #efe5dc; cursor: pointer; }
+.hb-banner::before { content: ""; position: absolute; inset: -30px; background: var(--hb-img) center / cover no-repeat; filter: blur(28px); transform: scale(1.1); }
+.hb-banner img { position: relative; display: block; width: 100%; height: 100%; object-fit: contain !important; object-position: center; }
+@media (max-width: 700px) { .hb { padding-top: 84px; } }
+.hb-controls { bottom: 84px; }

@@ -15,6 +15,8 @@ const EVT = 'rhbc-session-change'
 export const isPhone = (p: string) => /^[6-9]\d{9}$/.test(p)
 
 const users = () => read<User[]>(KEYS.users, [])
+/** Admin panel: every registered customer. BACKEND: GET /api/customers */
+export const allUsers = (): User[] => users()
 const emit = () => window.dispatchEvent(new Event(EVT))
 
 export function isNewUser(phone: string) { return !users().some((u) => u.phone === phone) }

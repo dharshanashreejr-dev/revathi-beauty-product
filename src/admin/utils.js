@@ -1,4 +1,4 @@
-import { MONTHLY_REVENUE, SERVICES } from './data/mockData.js';
+import { SERVICES } from './data/mockData.js';
 
 export const productOf = (products, id) => products.find((p) => p.id === id);
 
@@ -16,16 +16,19 @@ export const productRevenue = (orders, products) =>
 export const servicePrice = (name) => SERVICES.find((s) => s.name === name)?.price || 0;
 
 export const appointmentRevenue = (appointments) =>
-  appointments.filter((a) => a.status === 'Completed' || a.status === 'Checked In').reduce((s, a) => s + servicePrice(a.service), 0);
+  appointments.filter((a) => a.status === 'Completed').reduce((s, a) => s + (a.price || servicePrice(a.service)), 0);
 
-// Apr to Sep are fixed sample history; the current month is computed live from the demo orders and appointments.
-export const revenueSeries = (orders, appointments, products) => {
-  const live = {
-    month: 'Oct',
-    products: productRevenue(orders, products),
-    appointments: appointmentRevenue(appointments)
-  };
-  return [...MONTHLY_REVENUE.filter((m) => m.month !== 'Oct'), live].map((m) => ({ ...m, total: m.products + m.appointments }));
+// Last 6 months, calculated from the real orders and completed appointments (nothing is hardcoded).
+export const revenueSeries = (orders, appointments) => {
+  const now = new Date(), out = [];
+  for (let i = 5; i >= 0; i--) {
+    const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+    const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
+    const products = orders.filter((o) => countsAsRevenue(o) && String(o.date).startsWith(key)).reduce((s, o) => s + (o.total || 0), 0);
+    const appts = appointmentRevenue(appointments.filter((a) => String(a.date).startsWith(key)));
+    out.push({ month: d.toLocaleString('en-IN', { month: 'short' }), products, appointments: appts, total: products + appts });
+  }
+  return out;
 };
 
 export const unitsSold = (orders, products) => {

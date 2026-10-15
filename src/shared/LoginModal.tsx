@@ -9,10 +9,11 @@ import { authT } from './auth-text'
 //   useUser()                         -> current customer (or null), re-renders on login / logout.
 
 let pending: (() => void) | null = null
+let gateMode = false // true when shown as the full-page login right after the language page
 const OPEN = 'rhbc-login-open'
 
 export const useUser = (): User | null => useSyncExternalStore(api.auth.subscribe, api.auth.currentUser, () => null)
-export function openLogin(then?: () => void) { pending = then ?? null; window.dispatchEvent(new Event(OPEN)) }
+export function openLogin(then?: () => void, gate = false) { pending = then ?? null; gateMode = gate; window.dispatchEvent(new Event(OPEN)) }
 export function requireLogin(then: () => void) { if (api.auth.currentUser()) then(); else openLogin(then) }
 
 const mmss = (ms: number) => { const s = Math.max(0, Math.ceil(ms / 1000)); return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}` }
@@ -22,7 +23,7 @@ const input: React.CSSProperties = { width: '100%', padding: '13px 14px', border
 const btn: React.CSSProperties = { width: '100%', padding: 13, borderRadius: 999, border: 0, cursor: 'pointer', background: '#3b2a1e', color: '#fffaf3', fontSize: 15, letterSpacing: '.08em' }
 const link: React.CSSProperties = { background: 'none', border: 0, cursor: 'pointer', color: '#7a5a2f', textDecoration: 'underline', fontSize: 13, padding: 4 }
 
-function Modal({ onClose, onDone }: { onClose: () => void; onDone: (u: User) => void }) {
+function Modal({ onClose, onDone, gate }: { onClose: () => void; onDone: (u: User) => void; gate: boolean }) {
   const [lang, setL] = useState<UiLang>(getUiLang())
   useEffect(() => { const f = () => setL(getUiLang()); window.addEventListener('velvet-lang-change', f); return () => window.removeEventListener('velvet-lang-change', f) }, [])
   const t = (s: string, v?: Record<string, string | number>) => authT(s, lang, v)
@@ -50,7 +51,7 @@ function Modal({ onClose, onDone }: { onClose: () => void; onDone: (u: User) => 
 
   return (
     <div role="dialog" aria-modal="true" aria-label={t('Login to continue')} onMouseDown={(e) => e.target === e.currentTarget && onClose()}
-      style={{ position: 'fixed', inset: 0, zIndex: 2147482000, display: 'grid', placeItems: 'center', background: 'rgba(30,20,12,.62)', backdropFilter: 'blur(6px)', padding: 16 }}>
+      style={{ position: 'fixed', inset: 0, zIndex: 2147482000, display: 'grid', placeItems: 'center', background: gate ? 'linear-gradient(160deg,#fbf3e6 0%,#f1e0c8 100%)' : 'rgba(30,20,12,.62)', backdropFilter: gate ? undefined : 'blur(6px)', padding: 16 }}>
       <div style={{ position: 'relative', width: 'min(420px,100%)', background: '#fffaf3', color: '#3b2a1e', borderRadius: 20, padding: '30px 26px', boxShadow: '0 30px 80px rgba(0,0,0,.35)', textAlign: 'center', fontFamily: 'inherit' }}>
         <button type="button" onClick={onClose} aria-label="Close" style={{ position: 'absolute', top: 10, right: 14, background: 'none', border: 0, fontSize: 20, cursor: 'pointer', color: 'inherit', opacity: .6 }}>✕</button>
         <div style={{ fontSize: 11, letterSpacing: '.3em', textTransform: 'uppercase', opacity: .7 }}>REVATHI HERBAL BEAUTY CARE</div>
@@ -82,6 +83,7 @@ function Modal({ onClose, onDone }: { onClose: () => void; onDone: (u: User) => 
             </div>
           </>
         )}
+        {gate && <button type="button" style={{ ...link, marginTop: 14 }} onClick={onClose}>{t('Skip for now')}</button>}
       </div>
     </div>
   )
@@ -89,10 +91,11 @@ function Modal({ onClose, onDone }: { onClose: () => void; onDone: (u: User) => 
 
 function Host() {
   const [open, setOpen] = useState(false)
-  useEffect(() => { const f = () => setOpen(true); window.addEventListener(OPEN, f); return () => window.removeEventListener(OPEN, f) }, [])
+  const [gate, setGate] = useState(false)
+  useEffect(() => { const f = () => { setGate(gateMode); setOpen(true) }; window.addEventListener(OPEN, f); return () => window.removeEventListener(OPEN, f) }, [])
   if (!open) return null
   const close = () => { pending = null; setOpen(false) }
-  return <Modal onClose={close} onDone={() => { const p = pending; pending = null; setOpen(false); if (p) setTimeout(p, 0) }} />
+  return <Modal gate={gate} onClose={close} onDone={() => { const p = pending; pending = null; setOpen(false); if (p) setTimeout(p, 0) }} />
 }
 
 export function mountLogin() {

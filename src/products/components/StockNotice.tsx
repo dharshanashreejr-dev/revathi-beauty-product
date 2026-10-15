@@ -36,3 +36,12 @@ export function OutCross() {
     </svg>
   );
 }
+
+/** One red diagonal line (top-right to bottom-left) across the whole product card when it is out of stock. */
+export function OutLine() {
+  return (
+    <svg aria-hidden="true" viewBox="0 0 100 100" preserveAspectRatio="none" className="pointer-events-none absolute inset-0 z-20 h-full w-full">
+      <line x1="100" y1="0" x2="0" y2="100" stroke="#dc2626" strokeWidth="3" strokeLinecap="round" vectorEffect="non-scaling-stroke" opacity=".9" />
+    </svg>
+  );
+}

@@ -344,3 +344,54 @@ html:not([lang="zz"]) .promo-foot button { font-size: 12px !important; padding: 
 .salon-body .salon-menu { width: 100%; min-width: 0; }
 .salon-body .service-list, .salon-body .salon-intro { max-width: none; }
 .salon-body .service-row > div:first-child { flex: 1; min-width: 0; }
+
+/* Golden glow showcase: fixed light background, only the bottle colour changes */
+.herbal-slide.is-light { background: #f7f1e8 !important; transition: none; }
+.herbal-halo { background: radial-gradient(circle, #ffffffcc 0%, #ffffff00 68%) !important; }
+.herbal-img { filter: drop-shadow(10px 18px 16px #3b2a1e33) !important; }
+.herbal .mood-swatch { width: 26px; height: 26px; border-radius: 50%; border: 1px solid #3b2a1e33; }
+
+/* Testimonials slider */
+.testimonials { background: #faf6f1; padding: 88px 0 96px; overflow: hidden; }
+.testi { max-width: 1240px; margin: 0 auto; padding: 0 24px; opacity: 0; transform: translateY(24px); transition: opacity .8s ease, transform .8s ease; }
+.testi.is-in { opacity: 1; transform: none; }
+.testi-head { text-align: center; margin-bottom: 40px; }
+.testi-head h2 { margin: 0 0 8px; font-family: var(--serif); font-size: clamp(28px, 3.4vw, 44px); font-weight: 500; color: var(--ink); }
+.testi-head p { margin: 0; color: var(--muted); font-size: 15px; }
+.testi-viewport { overflow: hidden; padding: 24px 0 32px; }
+.testi-track { display: flex; }
+.testi-slide { flex: 0 0 34%; min-width: 0; padding: 0 14px; transition: transform .6s cubic-bezier(.2,.7,.2,1), opacity .6s; transform: scale(.9); opacity: .55; }
+.testi-slide.is-active { transform: scale(1); opacity: 1; }
+.testi-card { margin: 0; height: 100%; display: flex; flex-direction: column; overflow: hidden; border-radius: 18px; background: #fffaf3; border: 1px solid #e8dccb; box-shadow: 0 10px 30px rgba(59,42,30,.08); }
+.testi-slide.is-active .testi-card { box-shadow: 0 22px 50px rgba(59,42,30,.18); }
+.testi-card img { width: 100%; height: 210px; object-fit: cover; display: block; transition: transform 1.2s ease; }
+.testi-slide.is-active .testi-card img { transform: scale(1.06); }
+.testi-card { overflow: hidden; }
+.testi-body { display: flex; flex-direction: column; gap: 10px; padding: 20px 22px 24px; }
+.testi-stars { color: #c9a24a; letter-spacing: 3px; font-size: 16px; }
+.testi-stars i { font-style: normal; display: inline-block; }
+.testi-slide.is-active .testi-stars i { animation: testiStar .5s cubic-bezier(.3,1.6,.5,1) both; }
+@keyframes testiStar { from { opacity: 0; transform: scale(.2) rotate(-40deg); } to { opacity: 1; transform: none; } }
+.testi-card blockquote { margin: 0; font-size: 16px; line-height: 1.65; color: var(--ink); min-height: 78px; }
+.testi-card figcaption { display: flex; flex-direction: column; gap: 2px; font-size: 13px; color: var(--muted); }
+.testi-card figcaption strong { color: var(--ink); font-size: 15px; }
+.testi-nav { display: flex; align-items: center; justify-content: center; gap: 18px; }
+.testi-nav > button { width: 42px; height: 42px; border-radius: 50%; border: 1px solid var(--ink); background: transparent; color: var(--ink); display: grid; place-items: center; cursor: pointer; transition: background .3s, color .3s; }
+.testi-nav > button:hover { background: var(--ink); color: var(--cream); }
+.testi-dots { display: flex; gap: 8px; }
+.testi-dots button { width: 9px; height: 9px; padding: 0; border: 0; border-radius: 999px; background: #d9c9b2; cursor: pointer; transition: width .4s, background .4s; }
+.testi-dots button.is-active { width: 28px; background: var(--ink); }
+@media (max-width: 1000px) { .testi-slide { flex-basis: 52%; } }
+@media (max-width: 640px) { .testi-slide { flex-basis: 86%; } .testimonials { padding: 56px 0 64px; } }
+@media (prefers-reduced-motion: reduce) { .testi, .testi-slide, .testi-card img { transition: none; } .testi-slide.is-active .testi-stars i { animation: none; } }
+
+/* Shop: 5 bigger cards per category */
+.shop .product-grid { grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)) !important; gap: 24px !important; }
+.shop .product-card-info h3 { font-size: 18px !important; }
+.shop-more { display: flex; justify-content: center; margin-top: 36px; }
+
+.film-slides { position: relative !important; inset: auto !important; aspect-ratio: 16 / 9; max-height: 380px; width: 100%; border-radius: var(--pro-radius); background: #1c120d; }
+
+/* Product popup: straight photo, background follows the photo colour */
+.product-modal-picture > img, .product-modal-picture > svg.product-modal-art { width: 100%; height: 100%; max-height: none; object-fit: contain; transform: none; filter: none; }
+.product-modal-picture.is-zoomed > img { transform: none; scale: 2.1; }

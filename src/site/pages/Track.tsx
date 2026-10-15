@@ -10,7 +10,7 @@ import { orderStages, apptStages } from '../stages'
 import { openLogin, useUser } from '../../shared/LoginModal'
 import { authT } from '../../shared/auth-text'
 import { LANGS, setLang, useUiLang, type UiLang } from '../../shared/i18n'
-import { ORDER_LAST, getOrders, advanceOrder, getAppts, cancelAppt, advanceAppt, getProfile, saveProfile, fmtDay, fmtWhen, type Order, type Appt, type Profile } from '../account'
+import { ORDER_LAST, getMyOrders, getAppts, cancelAppt, subscribeData, getProfile, saveProfile, fmtDay, fmtWhen, type Order, type Appt, type Profile } from '../account'
 
 type Tab = 'orders' | 'appointments' | 'profile'
 const TABS: [Tab, string][] = [['orders', 'Orders'], ['appointments', 'Appointments'], ['profile', 'Profile']]
@@ -51,7 +51,7 @@ function Hero({ pr, onFind, err }: { pr: Profile; onFind: (q: string) => void; e
   const { t } = useI18n()
   const [q, setQ] = useState('')
   const sub = (e: FormEvent) => { e.preventDefault(); onFind(q.trim()) }
-  const orders = getOrders(), ap = getAppts()
+  const orders = getMyOrders(), ap = getAppts()
   return (
     <section className="relative min-h-[78svh] overflow-hidden bg-ink text-sand pt-28 pb-10 flex flex-col justify-end">
       <div className="absolute inset-0">
@@ -87,9 +87,10 @@ function Hero({ pr, onFind, err }: { pr: Profile; onFind: (q: string) => void; e
 function OrdersTab({ sel, setSel }: { sel: string; setSel: (s: string) => void }) {
   const { t, lang } = useI18n()
   const stages = orderStages(lang)
-  const [list, setList] = useState<Order[]>(getOrders)
+  const [list, setList] = useState<Order[]>(getMyOrders)
   const cur = list.find((o) => o.id === sel) ?? list[0]
-  const adv = () => { advanceOrder(cur.id); setList(getOrders()) }
+  useEffect(() => subscribeData(() => setList(getMyOrders())), []) // admin / staff updates show up here live
+  if (!cur) return <div className="bg-white/60 border border-ink/10 p-10 text-center"><p className="h text-2xl">{t('No orders yet')}</p><p className="text-sm opacity-70 mt-2">{t('Orders you place will appear here and update live as our team packs and ships them.')}</p><Link to="/products" className="inline-flex mt-6 bg-ink text-sand rounded-full px-7 py-4 label">{t('Shop products ↗')}</Link></div>
   const eta = (o: Order) => (o.cancelled ? t('Cancelled') : o.stage === ORDER_LAST ? t('Delivered') : t('Arriving {day}', { day: fmtDay(o.eta) }))
   return (
     <div className="grid lg:grid-cols-[1fr_1.1fr] gap-8">
@@ -121,7 +122,7 @@ function OrdersTab({ sel, setSel }: { sel: string; setSel: (s: string) => void }
           <p className="flex justify-between border-t border-sand/15 pt-3 text-sm"><span>{t('Total')}</span><span>{money(cur.total)}</span></p></div>
         <p className="text-xs opacity-70 mt-4">{t('Delivering to: {address}', { address: t(cur.address) })}</p>
         <div className="flex flex-wrap gap-3 mt-6">
-          {!cur.cancelled && cur.stage < ORDER_LAST && <button onClick={adv} className="bg-gold text-ink rounded-full px-6 py-3 label hover:bg-sand transition">{t('Simulate next update →')}</button>}
+          {!cur.cancelled && cur.stage === ORDER_LAST && <Link to="/reviews" className="bg-gold text-ink rounded-full px-6 py-3 label hover:bg-sand transition">{t('Write a review')}</Link>}
           <Link to="/products" className="border border-sand/40 rounded-full px-6 py-3 label hover:bg-sand hover:text-ink transition">{t('Reorder')}</Link>
         </div>
       </aside>
@@ -134,7 +135,8 @@ function ApptsTab({ sel, setSel }: { sel: string; setSel: (s: string) => void })
   const [list, setList] = useState<Appt[]>(getAppts)
   const cur = list.find((a) => a.ref === sel) ?? list[0]
   const refresh = () => setList(getAppts())
-  useEffect(() => api.booking.subscribe(refresh), []) // the team approving or rejecting shows up here live
+  useEffect(() => subscribeData(refresh), []) // the team approving, checking in or completing shows up here live
+  if (!cur) return <div className="bg-white/60 border border-ink/10 p-10 text-center"><p className="h text-2xl">{t('No appointments yet')}</p><p className="text-sm opacity-70 mt-2">{t('Your bookings will appear here and update live as our team confirms and completes them.')}</p><Link to="/booking" className="inline-flex mt-6 bg-ink text-sand rounded-full px-7 py-4 label">{t('Book new appointment ↗')}</Link></div>
   const tone = (s: Appt['status']) => (s === 'Upcoming' || s === 'Pending Review' ? 'gold' : s === 'Completed' ? 'green' : 'red')
   return (
     <div className="grid lg:grid-cols-[1fr_1.1fr] gap-8">
@@ -165,7 +167,7 @@ function ApptsTab({ sel, setSel }: { sel: string; setSel: (s: string) => void })
           {cur.notes && <p className="text-xs opacity-70 mt-4">{t('Note: {note}', { note: t(cur.notes) })}</p>}
           <div className="mt-6 bg-sand text-ink p-5">{cur.status === 'Cancelled' ? <p className="text-sm">{t('This appointment was cancelled. The slot has been released.')}</p> : cur.status === 'Rejected' ? <div className="text-sm space-y-2"><p>{t('This request was not approved. The slot has been released.')}</p>{cur.reviewNote && <p className="opacity-70">{t('Reason from our team: {note}', { note: cur.reviewNote })}</p>}</div> : cur.status === 'Pending Review' ? <p className="text-sm">{t('Our team is reviewing your request. You will get an SMS once it is confirmed.')}</p> : <Timeline steps={apptStages(lang)} current={cur.stage} />}</div>
           <div className="flex flex-wrap gap-3 mt-6">
-            {cur.status === 'Upcoming' && <><button onClick={() => { advanceAppt(cur.ref); refresh() }} className="bg-gold text-ink rounded-full px-6 py-3 label hover:bg-sand transition">{t('Simulate next step →')}</button>
+            {cur.status === 'Upcoming' && <>
               <Link to="/booking" className="border border-sand/40 rounded-full px-6 py-3 label hover:bg-sand hover:text-ink transition">{t('Reschedule')}</Link>
               <button onClick={() => { cancelAppt(cur.ref); refresh() }} className="border border-sand/40 rounded-full px-6 py-3 label hover:bg-red-900/50 transition">{t('Cancel')}</button></>}
             {cur.status === 'Pending Review' && <button onClick={() => { cancelAppt(cur.ref); refresh() }} className="border border-sand/40 rounded-full px-6 py-3 label hover:bg-red-900/50 transition">{t('Cancel request')}</button>}
@@ -231,7 +233,7 @@ export default function Track() {
   const go = (t: Tab, i = '') => setSp(i ? { tab: t, id: i } : { tab: t })
   const find = (q: string) => {
     const k = q.toUpperCase()
-    if (getOrders().some((o) => o.id === k)) { setErr(null); go('orders', k); document.getElementById('panel')?.scrollIntoView({ behavior: 'smooth' }) }
+    if (getMyOrders().some((o) => o.id === k)) { setErr(null); go('orders', k); document.getElementById('panel')?.scrollIntoView({ behavior: 'smooth' }) }
     else if (getAppts().some((a) => a.ref === k)) { setErr(null); go('appointments', k); document.getElementById('panel')?.scrollIntoView({ behavior: 'smooth' }) }
     else setErr(q)
   }

@@ -499,7 +499,8 @@ body {
   min-height: 160px;
   background: #1c120d;
 }
-.reel video {
+.reel video,
+.reel img {
   position: absolute;
   inset: 0;
   width: 100%;
@@ -507,7 +508,8 @@ body {
   object-fit: cover;
   transition: transform 1.2s cubic-bezier(0.2, 0.7, 0.2, 1);
 }
-.reel:hover video {
+.reel:hover video,
+.reel:hover img {
   transform: scale(1.06);
 }
 .reel figcaption {
@@ -1945,3 +1947,24 @@ html:not([lang="en"]) .salon-banner-copy strong {
   letter-spacing: 0 !important;
   max-width: 90vw;
 }
+
+/* Main services slider (auto-scrolling images) */
+.film-slides { position: absolute; inset: 0; overflow: hidden; }
+.film-slides > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 0.9s ease; }
+.film-slides > img.on { opacity: 1; }
+.film-dots { position: absolute; left: 0; right: 0; bottom: 14px; display: flex; justify-content: center; gap: 8px; z-index: 2; }
+.film-dots button { width: 8px; height: 8px; padding: 0; border-radius: 50%; background: #ffffff80; transition: width 0.3s, background 0.3s; }
+.film-dots button.on { width: 24px; border-radius: 8px; background: #fff; }
+
+/* Herbal collection: real product photos with cursor zoom */
+.herbal-zoom { position: relative; width: 100%; aspect-ratio: 1 / 1; border-radius: 22px; overflow: hidden; background: #fff; box-shadow: 0 24px 50px #2f160d33; cursor: zoom-in; opacity: 0; transform: translateY(20px); transition: opacity .9s, transform 1s; }
+.herbal-slide.is-active .herbal-zoom { opacity: 1; transform: none; }
+.herbal-zoom img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .25s ease-out; user-select: none; }
+.herbal-zoom.is-zoomed img { transform: scale(2.2); }
+.herbal-photo:has(.herbal-zoom) { width: min(100%, 460px); aspect-ratio: 1 / 1; }
+.herbal-photo:has(.herbal-zoom) .herbal-halo { display: none; }
+.herbal-variant { display: inline-flex; flex-direction: column; align-items: center; gap: 4px; width: 84px; padding: 4px; border: 2px solid transparent; border-radius: 12px; background: transparent; cursor: pointer; }
+.herbal-variant img { width: 64px; height: 64px; object-fit: cover; border-radius: 8px; }
+.herbal-variant small { font-size: 10px; line-height: 1.2; text-align: center; opacity: .8; }
+.herbal-variant.is-active { border-color: currentColor; }
+@media (max-width: 799px) { .herbal-photo:has(.herbal-zoom) { width: min(86%, 340px); } }

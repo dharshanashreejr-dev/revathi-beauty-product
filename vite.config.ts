@@ -3,7 +3,7 @@ import react from '@vitejs/plugin-react'
 import { resolve } from 'node:path'
 
 // Pages served by the "site" single-page app (src/site). Keep in sync with src/site-links.ts.
-const SITE_APP_ROUTES = ['/services', '/booking', '/success', '/about', '/track', '/account', '/manager']
+const SITE_APP_ROUTES = ['/services', '/booking', '/success', '/about', '/track', '/account', '/manager', '/reviews']
 // Pages that live in their own folder (products/index.html, admin/index.html).
 const FOLDER_PAGES = ['/products', '/admin']
 

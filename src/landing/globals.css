@@ -228,10 +228,10 @@ p {
 }
 .nav-right {
   padding-left: 24px;
-  padding-right: 300px; /* reserve space for lang + icons + admin */
+  padding-right: 380px; /* reserve for lang + icons + profile (Admin removed) */
   gap: 22px;
   flex-wrap: nowrap;
-  overflow: hidden;
+  overflow: visible;
 }
 .nav-right a {
   flex-shrink: 0;
@@ -239,15 +239,28 @@ p {
 }
 .nav-tools {
   position: absolute;
-  right: 2%;
+  right: 16px;
   top: 18px;
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 12px;
   font-size: 12px;
   z-index: 6;
   background: transparent;
   pointer-events: auto;
+  flex-shrink: 0;
+}
+.nav-tools .nav-profile {
+  display: inline-flex !important;
+  gap: 8px;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+.nav-profile-name {
+  max-width: none !important;
+  overflow: visible !important;
+  text-overflow: unset !important;
+  white-space: nowrap;
 }
 .nav-tools .lang-select,
 .nav-tools select {
@@ -1164,7 +1177,7 @@ footer {
   width: 100%;
   border: 0;
   background: none;
-  font-size: 20px;
+  font-size: 24px;
   padding: 8px;
 }
 .search-input input::placeholder {
@@ -1455,7 +1468,7 @@ footer {
 }
 @media (min-width: 1700px) {
   .nav-tools {
-    right: 4.5%;
+    right: 24px;
   }
   .hero-wordmark {
     font-size: 33.5vw;
@@ -1475,7 +1488,7 @@ footer {
     gap: 28px;
   }
   .nav-tools {
-    right: 2%;
+    right: 16px;
     gap: 12px;
   }
   .language-label > span {
@@ -2265,4 +2278,10 @@ html:not([lang="en"]) .collection-hero-copy h2,
 html:not([lang="en"]) .hero-copy h1 {
   font-size: clamp(28px, 4vw, 56px) !important;
   line-height: 1.15 !important;
+}
+
+
+/* Hide Admin on public landing navbar — only reachable via /admin URL */
+.nav-tools > .nav-admin:not(.nav-profile) {
+  display: none !important;
 }

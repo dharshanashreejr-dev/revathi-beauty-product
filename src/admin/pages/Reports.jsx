@@ -71,8 +71,6 @@ export default function Reports() {
             <button className="btn btn-primary" onClick={exportCsv}><Download size={17} />{t('Export report')}</button>
           </>
         } />
-      <div className="alert alert-info"><FlaskConical size={18} />{t('All figures on this screen are sample demo data. April to September are fixed samples, October is calculated live from the demo orders and appointments.')}</div>
-
       <div className="stat-grid">
         <StatCard icon={IndianRupee} label={t('Total revenue')} value={inr(totalRevenue)} hint={t(RANGES.find((r) => r.id === range).label)} tone="forest" />
         <StatCard icon={Package} label={t('Product sales')} value={inr(productSales)} tone="rose" />

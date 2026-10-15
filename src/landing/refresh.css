@@ -804,8 +804,8 @@
   display: block;
   font-family: var(--serif);
   font-style: italic;
-  font-size: 9.5px;
-  letter-spacing: 0.14em;
+  font-size: 12px;
+  letter-spacing: 0.12em;
   margin: 6px 0 0 0.14em;
   white-space: nowrap;
   opacity: 0.9;

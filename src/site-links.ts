@@ -6,6 +6,7 @@ export const SITE = {
   services: '/services',
   booking: '/booking',
   about: '/about',
+  reviews: '/reviews',
   tracking: '/track',
   manager: '/manager',
   admin: '/admin/',
@@ -13,4 +14,4 @@ export const SITE = {
 
 // Pages that are served by the "site" single-page app (src/site).
 // Keep this list in sync with vite.config.ts, vercel.json and public/_redirects.
-export const SITE_APP_ROUTES = ['/services', '/booking', '/success', '/about', '/track', '/account', '/manager'] as const
+export const SITE_APP_ROUTES = ['/services', '/booking', '/success', '/about', '/track', '/account', '/manager', '/reviews'] as const

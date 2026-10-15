@@ -3,6 +3,7 @@ import useEmblaCarousel from "embla-carousel-react";
 import { ArrowLeft, ArrowRight, Plus } from "lucide-react";
 import { products, allServices, shadePhoto, rupees, BRAND, servicePricesOn, type Lang } from "./data";
 import { img, photos, type Photo } from "./photos";
+import { ProductArt } from "./art";
 import { st } from "./i18n-sections";
 import { showcaseT } from "./showcase-i18n";
 import { herbalSlides, promoCards, festiveDays, spaOfferings, bundles, arrivals } from "./showcase";
@@ -106,18 +107,37 @@ function Arrows({ prev, next, label, lang = "en" }: { prev: () => void; next: ()
 
 /* ───────── 02 · Herbal signature showcase + promo cards ───────── */
 
-const lights = [{ key: "dusk" }, { key: "ivory" }, { key: "bloom" }] as const;
-const lightBg = [
-  null,
-  "linear-gradient(135deg,#ffffff 0%,#f4f1ee 60%,#e9e2dc 100%)",
-  "linear-gradient(135deg,#fde7ea 0%,#f3bfc8 55%,#e49aa8 100%)",
-];
+/** Colour options for the bottle in the "Golden glow" showcase. The page background stays fixed; only the product colour changes. */
+const bottleColours: Record<string, [string, string][]> = {
+  eclat: [["#eaa56a", "#c68a4d"], ["#e8a0b4", "#c46a86"], ["#9fd0b3", "#5f9c7a"]],
+  "night-cream": [["#c9aed3", "#7f5b93"], ["#f0c6a8", "#c98a62"], ["#a9c4e0", "#5f86b0"]],
+  "body-butter": [["#f4c1b2", "#cc7b6b"], ["#f6dd9a", "#c9a23f"], ["#b8d8b0", "#6f9c63"]],
+  "hair-oil": [["#aebf9c", "#5f7d4d"], ["#d8b27a", "#8a5f2b"], ["#9cc3d6", "#4f86a3"]],
+  perfume: [["#d4b6a6", "#8b6753"], ["#e6b8d4", "#a8689a"], ["#f0d58a", "#b08a2a"]],
+};
+
+/** Product photo that zooms in under the cursor (no extra angle views). */
+function ZoomPhoto({ src, alt }: { src: string; alt: string }) {
+  const [pos, setPos] = useState<{ x: number; y: number } | null>(null);
+  return (
+    <div
+      className={`herbal-zoom ${pos ? "is-zoomed" : ""}`}
+      onMouseMove={(e) => {
+        const r = e.currentTarget.getBoundingClientRect();
+        setPos({ x: ((e.clientX - r.left) / r.width) * 100, y: ((e.clientY - r.top) / r.height) * 100 });
+      }}
+      onMouseLeave={() => setPos(null)}
+    >
+      <img src={src} alt={alt} draggable={false} style={pos ? { transformOrigin: `${pos.x}% ${pos.y}%` } : undefined} />
+    </div>
+  );
+}
 
 export function HerbalShowcase({ onOpen, onAdd, lang = "en" }: { onOpen: (id: string) => void; onAdd: (id: string) => void; lang?: Lang }) {
   const main = useSwipe({ loop: true, align: "center", containScroll: false });
   const promo = useSwipe({ dragFree: true });
   const [herb, setHerb] = useState(0);
-  const [light, setLight] = useState(0);
+  const [tints, setTints] = useState<Record<string, number>>({});
   useEffect(() => setHerb(0), [main.index]);
   const T = showcaseT[lang];
   const strip = T?.strip ?? "FREE DELIVERY ON ALL ORDERS ABOVE ₹1,999   |   HERBAL COLLECTION IS LIVE   |   ";
@@ -137,12 +157,13 @@ export function HerbalShowcase({ onOpen, onAdd, lang = "en" }: { onOpen: (id: st
               const p = byId(s.id);
               const active = main.index === i;
               const tx = T?.herbal[s.id];
+              const palette = bottleColours[s.id] ?? [byId(s.id).tone];
+              const tint = tints[s.id] ?? 0;
               const herbs = s.herbs.map((x, n) => ({ k: tx?.herbs[n]?.[0] ?? x.k, v: tx?.herbs[n]?.[1] ?? x.v }));
               return (
                 <article
                   key={s.id}
-                  className={`herbal-slide ${active ? "is-active" : ""} ${light === 1 ? "is-light" : ""}`}
-                  style={{ background: lightBg[light] ?? s.bg }}
+                  className={`herbal-slide is-light ${active ? "is-active" : ""}`}
                   aria-roledescription="slide"
                   aria-label={`${i + 1} ${st("slideOf", lang)} ${herbalSlides.length}`}
                 >
@@ -158,8 +179,12 @@ export function HerbalShowcase({ onOpen, onAdd, lang = "en" }: { onOpen: (id: st
                   <div className="herbal-product">
                     <div className="herbal-photo">
                       <span className="herbal-halo" aria-hidden="true" />
-                      <ProductPhoto id={s.id} className="herbal-img" alt={p.name[lang]} />
-                      {s.hotspots.map((h, hi) => (
+                      {s.photos ? (
+                        <ZoomPhoto src={s.photos[tint % s.photos.length].src} alt={`${p.name[lang]} · ${s.photos[tint % s.photos.length].name}`} />
+                      ) : (
+                        <ProductArt kind={p.kind} tone={palette[tint]} className="herbal-img" title={p.name[lang]} />
+                      )}
+                      {!s.photos && s.hotspots.map((h, hi) => (
                         <button
                           key={hi}
                           className={`hotspot ${active && herb === hi ? "is-active" : ""}`}
@@ -194,21 +219,36 @@ export function HerbalShowcase({ onOpen, onAdd, lang = "en" }: { onOpen: (id: st
                         <span key={h.v}>{h.v}</span>
                       ))}
                     </div>
-                    <div className="mood-picker herbal-light" role="radiogroup" aria-label={st("setLight", lang)}>
-                      <span className="eyebrow">{st("setLight", lang)}</span>
+                    <div className="mood-picker herbal-light" role="radiogroup" aria-label={st("productColour", lang)}>
+                      <span className="eyebrow">{st("productColour", lang)}</span>
                       <div>
-                        {lights.map((m, li) => (
-                          <button
-                            key={m.key}
-                            role="radio"
-                            aria-checked={light === li}
-                            className={light === li ? "is-active" : ""}
-                            onClick={() => setLight(li)}
-                          >
-                            <span className="mood-swatch" style={{ background: lightBg[li] ?? s.bg }} />
-                            {st(m.key, lang)}
-                          </button>
-                        ))}
+                        {s.photos
+                          ? s.photos.map((ph, li) => (
+                              <button
+                                key={ph.src}
+                                role="radio"
+                                aria-checked={tint === li}
+                                aria-label={ph.name}
+                                title={ph.name}
+                                className={`${tint === li ? "is-active" : ""} herbal-variant`}
+                                onClick={() => setTints((m) => ({ ...m, [s.id]: li }))}
+                              >
+                                <img src={ph.src} alt="" loading="lazy" />
+                                <small>{ph.name}</small>
+                              </button>
+                            ))
+                          : palette.map((tone, li) => (
+                              <button
+                                key={tone[0]}
+                                role="radio"
+                                aria-checked={tint === li}
+                                aria-label={`${st("productColour", lang)} ${li + 1}`}
+                                className={tint === li ? "is-active" : ""}
+                                onClick={() => setTints((m) => ({ ...m, [s.id]: li }))}
+                              >
+                                <span className="mood-swatch" style={{ background: `linear-gradient(135deg,${tone[0]},${tone[1]})` }} />
+                              </button>
+                            ))}
                       </div>
                     </div>
                     <div className="herbal-cta">
@@ -325,25 +365,23 @@ function AutoVideo({ src, poster, className }: { src: string; poster?: string; c
   );
 }
 
+/** Main "services in action" slider. Replace these images (or add more) - same folder: public/assets/film/ */
+const FILM_SLIDES = ["/assets/film/slide-1.webp", "/assets/film/slide-2.webp", "/assets/film/slide-3.webp"];
+
 export function VideoBand({ onBook, lang = "en" }: { onBook: () => void; lang?: Lang }) {
   const reels = [
-    { src: "/assets/video/salon.mp4", tag: st("reelSalonTag", lang), line: st("reelSalonLine", lang) },
-    { src: "/assets/video/reel-1.mp4", tag: st("reelSpaTag", lang), line: st("reelSpaLine", lang) },
-    { src: "/assets/video/reel-2.mp4", tag: st("reelMakeupTag", lang), line: st("reelMakeupLine", lang) },
+    { src: "/assets/film/makeup.webp", alt: "Bridal makeover", tag: st("reelMakeupTag", lang), line: st("reelMakeupLine", lang) },
+    { src: "/assets/film/facial.webp", alt: "Hydrafacial treatment", tag: st("reelSalonTag", lang), line: st("reelSalonLine", lang) },
+    { src: "/assets/film/spa.webp", alt: "Herbal spa massage", tag: st("reelSpaTag", lang), line: st("reelSpaLine", lang) },
   ];
-  const main = useRef<HTMLVideoElement>(null);
+  const [slide, setSlide] = useState(0);
   const [playing, setPlaying] = useState(true);
-  const toggle = () => {
-    const v = main.current;
-    if (!v) return;
-    if (v.paused) {
-      v.play().catch(() => {});
-      setPlaying(true);
-    } else {
-      v.pause();
-      setPlaying(false);
-    }
-  };
+  useEffect(() => {
+    if (!playing) return;
+    const id = window.setInterval(() => setSlide((i) => (i + 1) % FILM_SLIDES.length), 4000);
+    return () => window.clearInterval(id);
+  }, [playing]);
+  const toggle = () => setPlaying((p) => !p);
   return (
     <section className="film" id="film">
       <div className="film-head">
@@ -355,19 +393,16 @@ export function VideoBand({ onBook, lang = "en" }: { onBook: () => void; lang?: 
       </div>
       <div className="film-grid">
         <div className="film-main">
-          <video
-            ref={main}
-            muted
-            loop
-            playsInline
-            autoPlay
-            preload="metadata"
-            poster="/assets/video/velvet-film.jpg"
-            onPlay={() => setPlaying(true)}
-            onPause={() => setPlaying(false)}
-          >
-            <source src="/assets/video/velvet-film.mp4" type="video/mp4" />
-          </video>
+          <div className="film-slides">
+            {FILM_SLIDES.map((src, i) => (
+              <img key={src} src={src} alt="" className={i === slide ? "on" : ""} loading={i === 0 ? "eager" : "lazy"} />
+            ))}
+            <div className="film-dots">
+              {FILM_SLIDES.map((src, i) => (
+                <button key={src} className={i === slide ? "on" : ""} onClick={() => setSlide(i)} aria-label={`Slide ${i + 1}`} />
+              ))}
+            </div>
+          </div>
           <div className="film-shade" />
           <div className="film-caption">
             <span className="eyebrow">{st("filmTag", lang)}</span>
@@ -386,7 +421,7 @@ export function VideoBand({ onBook, lang = "en" }: { onBook: () => void; lang?: 
         <div className="film-reels">
           {reels.map((r) => (
             <figure className="reel" key={r.src}>
-              <AutoVideo src={r.src} />
+              <img src={r.src} alt={r.alt} loading="lazy" />
               <figcaption>
                 <span>{r.tag}</span>
                 {r.line}

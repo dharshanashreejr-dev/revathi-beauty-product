@@ -1,8 +1,11 @@
 import { createRoot } from 'react-dom/client'
 import { useState } from 'react'
 import { LANGS, getUiLang, setLang, type UiLang } from './i18n'
+import { api } from '../api'
+import { openLogin } from './LoginModal'
 
-// Language picker that pops up whenever someone opens the site (once per browser session).
+// First page of the site: the visitor picks a language, then the login page shows, then they enter the site.
+// Shown once per browser session.
 // Mounted from every public entry point (landing, products, services...). Uses the shared
 // language store, so choosing a language updates every page immediately.
 
@@ -25,7 +28,7 @@ function Modal({ onDone }: { onDone: () => void }) {
   const c = COPY[sel]
   const pick = (l: UiLang) => { setSel(l); setLang(l) }
   return (
-    <div role="dialog" aria-modal="true" aria-label={c.title} style={{ position: 'fixed', inset: 0, zIndex: 2147483000, display: 'grid', placeItems: 'center', background: 'rgba(30,20,12,.62)', backdropFilter: 'blur(6px)', padding: 16 }}>
+    <div role="dialog" aria-modal="true" aria-label={c.title} style={{ position: 'fixed', inset: 0, zIndex: 2147483000, display: 'grid', placeItems: 'center', background: 'linear-gradient(160deg,#fbf3e6 0%,#f1e0c8 100%)', padding: 16, overflowY: 'auto' }}>
       <div style={{ width: 'min(440px,100%)', background: '#fffaf3', color: '#3b2a1e', borderRadius: 20, padding: '30px 26px', boxShadow: '0 30px 80px rgba(0,0,0,.35)', textAlign: 'center', fontFamily: 'inherit' }}>
         <div style={{ fontSize: 11, letterSpacing: '.3em', textTransform: 'uppercase', opacity: .7 }}>REVATHI HERBAL</div>
         <h2 style={{ margin: '10px 0 6px', fontSize: 24, fontWeight: 600 }}>{c.title}</h2>
@@ -49,9 +52,14 @@ export function mountLanguageModal() {
   const host = document.createElement('div')
   document.body.appendChild(host)
   const root = createRoot(host)
+  const prevOverflow = document.body.style.overflow
+  document.body.style.overflow = 'hidden'
   const close = () => {
     try { sessionStorage.setItem(SEEN, '1') } catch {}
+    document.body.style.overflow = prevOverflow
     root.unmount(); host.remove()
+    // Next page: login (skipped if the visitor is already logged in).
+    if (!api.auth.currentUser()) openLogin(undefined, true)
   }
   root.render(<Modal onDone={close} />)
 }

@@ -10,23 +10,31 @@ import { services, categories, amenities, policies, spa, team, img, money, type 
 const Img = ({ k, className = '', alt = '' }: { k: string; className?: string; alt?: string }) => <img src={img(k)} alt={alt} draggable={false} loading="lazy" className={`object-cover ${className}`} />
 const Cap = ({ children }: { children: string }) => <p className="label !font-medium mt-3 max-w-[16rem] opacity-80">{children}</p>
 
+// Full-width auto-scrolling image banner at the top of the Services page.
+// Replace the images in public/assets/services-hero/ (or add more here).
+const HERO_SLIDES = [
+  { src: '/assets/services-hero/sh-festive.webp', alt: 'Revathi Herbal Spa festive offers' },
+  { src: '/assets/services-hero/sh-bridal.webp', alt: 'Revathi bridal makeover' },
+  { src: '/assets/services-hero/sh-spa.webp', alt: 'Revathi herbal spa' },
+]
+
 function Hero() {
-  const { t } = useI18n()
+  const [i, setI] = useState(0)
+  const [hover, setHover] = useState(false)
+  useEffect(() => {
+    if (hover) return
+    const id = window.setInterval(() => setI((n) => (n + 1) % HERO_SLIDES.length), 4500)
+    return () => window.clearInterval(id)
+  }, [hover])
   return (
-    <section className="relative h-[100svh] min-h-[600px] overflow-hidden bg-ink text-sand">
-      <video className="absolute inset-0 h-full w-full object-cover object-[50%_35%]" src="/hero.mp4" autoPlay muted loop playsInline />
-      <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-transparent to-black/35" />
-      <h1 className="h svc-hero-title absolute left-5 md:left-10 bottom-[190px] md:bottom-6 text-[clamp(1.9rem,3.4vw,3.4rem)] fade-up"><Lines text={t('Restore.\nRenew. Return.')} /></h1>
-      <div className="absolute bottom-0 inset-x-0 md:left-auto md:w-[min(44vw,660px)] h-[170px] md:h-[200px] flex">
-        <a href="#menu" className="flex-1 bg-ink p-4 flex flex-col justify-between group">
-          <span className="label">{t('The ritual menu')}</span><ArrowUR className="group-hover:translate-x-1 group-hover:-translate-y-1 transition" />
-          <span className="label !font-medium text-[.55rem]">{t('See all treatments ↓')}</span>
-        </a>
-        <Link to="/booking" className="flex-1 bg-sand text-ink p-4 flex flex-col justify-between group">
-          <span className="label">{t('Follow your calm')}</span>
-          <span className="h text-xl md:text-2xl"><Lines text={t('Find your\nritual.')} /></span>
-          <span className="label !font-medium text-[.55rem] group-hover:underline">{t('Book appointment ↗')}</span>
-        </Link>
+    <section className="relative w-full overflow-hidden bg-ink" onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}>
+      <div className="relative w-full aspect-[2352/1008] max-h-[620px]">
+        {HERO_SLIDES.map((s, n) => (
+          <img key={s.src} src={s.src} alt={s.alt} draggable={false} loading={n === 0 ? 'eager' : 'lazy'} className={`absolute inset-0 h-full w-full object-cover object-[50%_30%] transition-opacity duration-700 ${n === i ? 'opacity-100' : 'opacity-0'}`} />
+        ))}
+        <div className="absolute inset-x-0 bottom-4 flex justify-center gap-2">
+          {HERO_SLIDES.map((s, n) => <button key={s.src} onClick={() => setI(n)} aria-label={`Slide ${n + 1}`} className={`h-2 rounded-full transition-all ${n === i ? 'w-7 bg-sand' : 'w-2 bg-sand/50'}`} />)}
+        </div>
       </div>
     </section>
   )
@@ -105,76 +113,116 @@ function Ingredients() {
 }
 
 
+function ServiceCard({ s, n }: { s: (typeof services)[number]; n: number }) {
+  const { t } = useI18n()
+  return (
+    <article style={{ animationDelay: `${n * 50}ms` }} className="fade-up group flex h-full flex-col">
+      <div className="overflow-hidden relative"><Img k={s.img} alt={t(s.name)} className="w-full aspect-[4/3] group-hover:scale-105 transition duration-700" />
+        {s.popular && <span className="label absolute top-3 left-3 bg-sand px-3 py-1 rounded-full">{t('Most loved')}</span>}</div>
+      <div className="flex justify-between gap-4 mt-4"><h3 className="h text-xl">{t(s.name)}</h3>{servicePricesVisible() && <span className="text-sm font-medium whitespace-nowrap text-right">{s.basePrice ? <s className="opacity-50 mr-2 font-normal">{money(s.basePrice)}</s> : null}{money(s.price)}{s.promo && <span className="label block !text-[10px] text-gold">{t(s.promo)}</span>}</span>}</div>
+      <p className="label !font-medium opacity-60 mt-2">{t(s.category)}  {s.duration} {t('min')}</p>
+      <p className="text-xs mt-3 opacity-80">{t(s.desc)}</p>
+      {s.care && <p className="text-xs mt-2 opacity-70"><span className="label !font-medium">{t('Before your visit')}:</span> {t(s.care)}</p>}
+      <div className="mt-auto pt-4">
+        <Link to={`/booking?service=${s.id}`} className="inline-flex items-center gap-2 bg-ink text-sand rounded-full px-5 py-3 label hover:bg-stone transition">{t('Book appointment')} <ArrowUR /></Link>
+      </div>
+    </article>
+  )
+}
+
+function Popup({ label, title, onClose, children }: { label: string; title: string; onClose: () => void; children: React.ReactNode }) {
+  const { t } = useI18n()
+  useEffect(() => {
+    const key = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose() }
+    window.addEventListener('keydown', key)
+    const prev = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    return () => { window.removeEventListener('keydown', key); document.body.style.overflow = prev }
+  }, [onClose])
+  return (
+    <div className="fixed inset-0 z-[80] flex items-end md:items-center justify-center bg-black/60 md:p-8" onClick={onClose} role="dialog" aria-modal="true" aria-label={t(title)}>
+      <div className="flex flex-col w-full max-w-6xl max-h-[92vh] bg-[#eeede9] shadow-2xl" onClick={(e) => e.stopPropagation()}>
+        <div className="flex items-start justify-between gap-6 px-6 md:px-10 pt-6 pb-4 border-b border-ink/10">
+          <div><span className="label block mb-2">{t(label)}</span><h2 className="h text-[clamp(1.8rem,3.6vw,3.2rem)]">{t(title)}</h2></div>
+          <button onClick={onClose} aria-label={t('Close')} className="shrink-0 h-10 w-10 rounded-full border border-ink/30 hover:bg-ink hover:text-sand transition text-lg leading-none">&times;</button>
+        </div>
+        <div className="overflow-y-auto px-6 md:px-10 py-8">{children}</div>
+      </div>
+    </div>
+  )
+}
+
 function Menu() {
   const { t, lang } = useI18n()
-  const [cat, setCat] = useState<'All' | Category>('All')
-  const [dur, setDur] = useState('any')
-  const [sort, setSort] = useState('featured')
-  const [q, setQ] = useState('')
-  const list = useMemo(() => {
-    let l = services.filter((s) => (cat === 'All' || s.category === cat) && (s.name.toLowerCase().includes(q.toLowerCase()) || t(s.name).toLowerCase().includes(q.toLowerCase())) &&
-      (dur === 'any' || (dur === 'short' && s.duration <= 60) || (dur === 'mid' && s.duration > 60 && s.duration <= 90) || (dur === 'long' && s.duration > 90)))
-    if (sort === 'low') l = [...l].sort((a, b) => a.price - b.price)
-    if (sort === 'high') l = [...l].sort((a, b) => b.price - a.price)
-    if (sort === 'time') l = [...l].sort((a, b) => a.duration - b.duration)
-    if (sort === 'featured') l = [...l].sort((a, b) => Number(!!b.popular) - Number(!!a.popular))
-    return l
-  }, [cat, dur, sort, q, lang])
-  const chip = (on: boolean) => `px-4 py-2 rounded-full border text-xs transition ${on ? 'bg-ink text-sand border-ink' : 'border-ink/25 hover:border-ink'}`
+  const [open, setOpen] = useState<null | 'facial' | 'bridal'>(null)
+  const pk = useSiteConfig().bridalPackages
+  const facials = services.filter((s) => s.category === 'Facial')
+  const others = services.filter((s) => s.category === 'Body Massage' || s.category === 'Consultation')
+  const close = () => setOpen(null)
+  const big = [
+    { key: 'facial' as const, title: 'Facial', k: 'facial2', src: '', count: COUNT_TREATMENTS[lang](facials.length), desc: 'Hydra, normal and herbal facials for every skin type.', btn: 'View facials' },
+    { key: 'bridal' as const, title: 'Bridal Makeup', k: '', src: '/assets/services-hero/bridal.webp', count: `${pk.length} ${t('packages')}`, desc: 'Silver, Gold and Platinum bridal packages, plus a trial pack.', btn: 'View packages' },
+  ]
   return (
-    <section id="menu" className="bg-[#eeede9] px-5 md:px-10 pt-28 pb-28 scroll-mt-0">
-      <div className="flex flex-col md:flex-row justify-between gap-6 md:items-end">
-        <div><span className="label block mb-4">{t('The ritual menu')}</span><h2 className="h text-[clamp(2.4rem,5.5vw,5rem)]"><Lines text={t('All treatments.\nAll yours.')} /></h2></div>
-        <input value={q} onChange={(e) => setQ(e.target.value)} placeholder={t('Search treatments…')} className="bg-transparent border-b border-ink/40 py-2 text-sm w-full md:w-72 outline-none focus:border-ink" />
-      </div>
-      <div className="mt-10 flex flex-wrap gap-2">{categories.map((c) => <button key={c} onClick={() => setCat(c)} className={chip(cat === c)}>{t(c)}</button>)}</div>
-      <div className="mt-4 flex flex-wrap gap-x-8 gap-y-3 items-center text-xs">
-        <div className="flex items-center gap-2"><span className="label">{t('Duration')}</span>
-          {[['any', 'Any'], ['short', '≤ 60 min'], ['mid', '61–90 min'], ['long', '90+ min']].map(([v, label]) => <button key={v} onClick={() => setDur(v)} className={chip(dur === v)}>{t(label)}</button>)}</div>
-        <label className="flex items-center gap-2"><span className="label">{t('Sort')}</span>
-          <select value={sort} onChange={(e) => setSort(e.target.value)} className="bg-transparent border border-ink/25 rounded-full px-3 py-2">
-            <option value="featured">{t('Featured')}</option><option value="low">{t('Price: low to high')}</option><option value="high">{t('Price: high to low')}</option><option value="time">{t('Shortest first')}</option></select></label>
-        <span className="opacity-60 ml-auto">{COUNT_TREATMENTS[lang](list.length)}</span>
-      </div>
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-12 mt-10">
-        {list.map((s, n) => (
-          <article key={s.id} style={{ animationDelay: `${n * 50}ms` }} className="fade-up group">
-            <div className="overflow-hidden relative"><Img k={s.img} alt={t(s.name)} className="w-full aspect-[4/3] group-hover:scale-105 transition duration-700" />
-              {s.popular && <span className="label absolute top-3 left-3 bg-sand px-3 py-1 rounded-full">{t('Most loved')}</span>}</div>
-            <div className="flex justify-between gap-4 mt-4"><h3 className="h text-xl">{t(s.name)}</h3>{servicePricesVisible() && <span className="text-sm font-medium whitespace-nowrap text-right">{s.basePrice ? <s className="opacity-50 mr-2 font-normal">{money(s.basePrice)}</s> : null}{money(s.price)}{s.promo && <span className="label block !text-[10px] text-gold">{t(s.promo)}</span>}</span>}</div>
-            <p className="label !font-medium opacity-60 mt-2">{t(s.category)} · {s.duration} {t('min')}</p>
-            <p className="text-xs mt-3 opacity-80">{t(s.desc)}</p>
-            {s.care && <p className="text-xs mt-2 opacity-70"><span className="label !font-medium">{t('Before your visit')}:</span> {t(s.care)}</p>}
-            <Link to={`/booking?service=${s.id}`} className="inline-flex items-center gap-2 mt-4 bg-ink text-sand rounded-full px-5 py-3 label hover:bg-stone transition">{t('Book appointment')} <ArrowUR /></Link>
-          </article>
+    <section id="menu" className="bg-[#eeede9] px-5 md:px-10 pt-24 pb-24 scroll-mt-0">
+      <span className="label block mb-4">{t('The ritual menu')}</span>
+      <h2 className="h text-[clamp(2.4rem,5.5vw,5rem)]">{t('Services & Consulting')}</h2>
+
+      <div className="grid md:grid-cols-2 gap-6 mt-12">
+        {big.map((c) => (
+          <button key={c.key} onClick={() => setOpen(c.key)} className="group text-left bg-white/60 border border-ink/15 hover:border-ink transition">
+            <div className="overflow-hidden relative">
+              {c.src ? <img src={c.src} alt={t(c.title)} loading="lazy" draggable={false} className="w-full aspect-[16/9] object-cover group-hover:scale-105 transition duration-700" /> : <Img k={c.k} alt={t(c.title)} className="w-full aspect-[16/9] group-hover:scale-105 transition duration-700" />}
+            </div>
+            <div className="p-6 flex items-end justify-between gap-4">
+              <div><h3 className="h text-3xl">{t(c.title)}</h3><p className="text-xs mt-3 opacity-75 max-w-sm">{t(c.desc)}</p><p className="label opacity-60 mt-3">{c.count}</p></div>
+              <span className="label flex items-center gap-2 whitespace-nowrap">{t(c.btn)} <ArrowUR /></span>
+            </div>
+          </button>
         ))}
       </div>
-      {!list.length && <p className="mt-16 text-sm opacity-70">{t('No treatments match those filters.')} <button className="underline" onClick={() => { setCat('All'); setDur('any'); setQ('') }}>{t('Clear filters')}</button></p>}
+
+      <div className="mt-24">
+        <span className="label block mb-4">{t('Body Massage')} &amp; {t('Consultation')}</span>
+        <h3 className="h text-[clamp(1.8rem,3.4vw,3rem)]">{t('Massage & Consultation')}</h3>
+        <div className="grid sm:grid-cols-2 gap-x-6 gap-y-12 mt-10">
+          {others.map((s, n) => <ServiceCard key={s.id} s={s} n={n} />)}
+        </div>
+      </div>
+
+      {open === 'facial' && (
+        <Popup label="Facial" title="Facial treatments" onClose={close}>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-12">{facials.map((s, n) => <ServiceCard key={s.id} s={s} n={n} />)}</div>
+        </Popup>
+      )}
+      {open === 'bridal' && (
+        <Popup label="Bridal Makeup" title="Bridal packages" onClose={close}>
+          <BridalPackages />
+        </Popup>
+      )}
     </section>
   )
 }
 
-function Bridal() {
+function BridalPackages() {
   const { t } = useI18n()
   const pk = useSiteConfig().bridalPackages
   return (
-    <section id="bridal" className="px-5 md:px-10 py-24 bg-[#eeede9]">
-      <span className="label block mb-4">{t('Bridal Makeup')}</span>
-      <h2 className="h text-[clamp(2.2rem,5vw,4.6rem)]">{t('Bridal packages')}</h2>
-      <p className="text-xs mt-4 max-w-xl opacity-70">{t('Pick a package, choose a date, and our team confirms your booking after a quick review.')} {t('Available at our parlour or at your home.')}</p>
-      <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-12">
+    <div>
+      <p className="text-xs max-w-xl opacity-70">{t('Pick a package, choose a date, and our team confirms your booking after a quick review.')} {t('Available at our parlour or at your home.')}</p>
+      <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-8">
         {pk.map((b) => (
           <article key={b.id} className={`flex flex-col border p-6 ${b.popular ? 'bg-ink text-sand border-ink' : 'bg-white/60 border-ink/15'}`}>
             {b.popular && <span className="label mb-3 text-gold">{t('Most loved')}</span>}
             <h3 className="h text-2xl">{t(b.name)}</h3>
-            <p className="label opacity-60 mt-2">{b.duration} {t('min')}{servicePricesVisible() && <> · {(b.discountValue ?? 0) > 0 && <s className="opacity-60 mr-1">{money(b.price)}</s>}{money(promoPrice(b.price, b.discountType, b.discountValue))}{(b.discountValue ?? 0) > 0 && <span className="text-gold"> · {t(b.discountType === 'flat' ? `₹${b.discountValue} off` : `${b.discountValue}% off`)}</span>}</>}</p>
-            <ul className="mt-5 space-y-2 text-xs flex-1">{b.features.map((f) => <li key={f} className="flex gap-2"><span aria-hidden>·</span><span>{t(f)}</span></li>)}</ul>
+            <p className="label opacity-60 mt-2">{b.duration} {t('min')}{servicePricesVisible() && <>  {(b.discountValue ?? 0) > 0 && <s className="opacity-60 mr-1">{money(b.price)}</s>}{money(promoPrice(b.price, b.discountType, b.discountValue))}{(b.discountValue ?? 0) > 0 && <span className="text-gold">  {t(b.discountType === 'flat' ? `${b.discountValue} off` : `${b.discountValue}% off`)}</span>}</>}</p>
+            <ul className="mt-5 space-y-2 text-xs flex-1">{b.features.map((f) => <li key={f} className="flex gap-2"><span aria-hidden></span><span>{t(f)}</span></li>)}</ul>
             {b.care && <p className="text-xs mt-4 opacity-70"><span className="label !font-medium">{t('Before your visit')}:</span> {t(b.care)}</p>}
             <Link to={`/booking?service=${b.id}`} className={`inline-flex items-center justify-center gap-2 mt-6 rounded-full px-5 py-3 label transition ${b.popular ? 'bg-sand text-ink hover:opacity-90' : 'bg-ink text-sand hover:bg-stone'}`}>{t('Book this package')} <ArrowUR /></Link>
           </article>
         ))}
       </div>
-    </section>
+    </div>
   )
 }
 
@@ -197,33 +245,13 @@ function Visit() {
 }
 
 
-function Intro() {
-  const { t } = useI18n()
-  const p = [['Release', 'Body Massage', 'close'], ['Style', 'Facial', 'facial2'], ['Heal', 'Consultation', 'foot']]
-  return (
-    <section className="pt-28 pb-24 px-5 md:px-10">
-      <div className="grid md:grid-cols-[1fr_2fr] gap-8 items-end">
-        <Reveal><span className="label">{t('A point of view')}</span></Reveal>
-        <Reveal><h2 className="h text-[clamp(2rem,4.4vw,4.2rem)]">{t('Rest, done properly.')}</h2><p className="text-sm mt-5 max-w-sm opacity-75">{t('A women\'s luxury salon for slow, unhurried care.')}</p></Reveal>
-      </div>
-      <div className="grid md:grid-cols-3 gap-5 mt-14">
-        {p.map(([title, c, k], n) => (
-          <Reveal key={title} delay={n * 120}><a href="#menu" className="block group">
-            <div className="overflow-hidden"><Img k={k} className="w-full aspect-[4/5] group-hover:scale-105 transition duration-700" /></div>
-            <div className="flex justify-between items-center mt-4"><h3 className="h text-3xl">{t(title)}</h3><span className="label opacity-70 group-hover:opacity-100 flex items-center gap-2">{t(c)} <ArrowUR /></span></div>
-          </a></Reveal>))}
-      </div>
-    </section>
-  )
-}
-
 function Marquee() {
   const { t } = useI18n()
-  const w = ['Body Massage', 'Facials', 'Beauty Consultation', 'Women\'s luxury salon']
+  const w = ['Festive holiday offers', '15% off your first visit', 'Body massage offers', 'Facial offers', 'Bridal package offers']
   return (
-    <div className="bg-ink text-sand overflow-hidden py-5 border-y border-sand/10">
+    <div className="bg-ink text-sand overflow-hidden pt-24 pb-3">
       <div className="flex w-max" style={{ animation: 'marquee 30s linear infinite' }}>
-        {[...w, ...w, ...w, ...w].map((word, i) => <span key={i} className="h text-3xl md:text-5xl px-6 flex items-center gap-12 whitespace-nowrap">{t(word)}<i className="h-1.5 w-1.5 rounded-full bg-sand/50" /></span>)}
+        {[...w, ...w, ...w, ...w].map((word, i) => <span key={i} className="h text-base md:text-xl px-4 flex items-center gap-8 whitespace-nowrap">{t(word)}<i className="h-1.5 w-1.5 rounded-full bg-sand/50" /></span>)}
       </div>
     </div>
   )
@@ -307,7 +335,7 @@ export default function Home() {
   const { t } = useI18n()
   return (
     <main>
-      <Hero /><Intro /><Marquee /><Menu /><Bridal />
+      <Marquee /><Hero /><Menu />
       <Bleed k="wide" label="The ritual" title="Calm. Slow. Unhurried." body="Warm oil. Steady hands. The instant a whole room exhales." />
       <Motion /><Moments /><Team /><Ingredients /><Reviews /><ServiceReviews /><Offers /><Visit />
       <footer className="bg-sand px-5 md:px-10 py-16 flex flex-col md:flex-row justify-between gap-8 items-start md:items-end">

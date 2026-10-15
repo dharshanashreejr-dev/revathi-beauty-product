@@ -22,11 +22,11 @@ export const content = {
       { tag: "The makeup", line: "Velvet lips · Golden finish" },
       { tag: "The rituals", line: "Calm · Focus · Glow" },
     ],
-    label: "Featured Collection",
+    label: "Our favourites",
     statement:
-      "Herbal skincare and makeup, made with herbal ingredients for an everyday glow.",
+      "Gentle herbal products your skin will love, made for everyday use.",
     storySmall:
-      "Shop skincare, makeup and body care, and book body massage, facials and beauty consultations at our women's luxury salon.",
+      "Pick up your favourites, or drop in for a facial or massage. We are happy to help you choose.",
     notesLabel: "Key ingredients",
     notesTitle: "Three ingredients for an everyday glow.",
     peach: "Peach nectar",
@@ -50,7 +50,7 @@ export const content = {
     eau: "Glow serum",
     size: "30 ml / 1.0 fl. oz.",
     shopLabel: "Shop",
-    shopTitle: "Shop our herbal products.",
+    shopTitle: "Our Best Seller Products.",
     shopCopy:
       "Skincare, makeup and body rituals, chosen to feel as good as they look. Delivery across India.",
     shipping: "Free delivery on orders over ₹1,999",
@@ -178,11 +178,11 @@ export const content = {
       { tag: "ஒப்பனை", line: "வெல்வெட் உதடுகள் · தங்க முடிவு" },
       { tag: "சடங்குகள்", line: "அமைதி · கவனம் · ஒளிர்வு" },
     ],
-    label: "அழகின் கலை",
+    label: "எங்கள் பிடித்தவை",
     statement:
-      "பீச்ச் சாறு ஒரு தொடுதல். மல்லிகையின் கிசுகிசுப்பு. சந்தனத்தின் வெப்பம். எக்லாட் என்பது தோலுக்கு நெருக்கமாக வைக்கப்பட்ட சிறிய தங்க ஒளி.",
+      "உங்கள் சருமம் விரும்பும் மென்மையான மூலிகைப் பொருட்கள், தினசரி பயன்பாட்டுக்கு.",
     storySmall:
-      "சரும பராமரிப்பு, மேக்கப், உடல் பராமரிப்பு பொருட்களை வாங்குங்கள்; எங்கள் பெண்களுக்கான ஆடம்பர சலூனில் உடல் மசாஜ், ஃபேஷியல், அழகு ஆலோசனையை பதிவு செய்யுங்கள்.",
+      "உங்களுக்குப் பிடித்தவற்றை வாங்குங்கள், அல்லது ஃபேஷியல், மசாஜுக்கு வாருங்கள். தேர்ந்தெடுக்க நாங்கள் உதவுவோம்.",
     notesLabel: "முக்கிய பொருட்கள்",
     notesTitle: "மூன்று பொருட்களில் ஒரு ஒளிர்வு.",
     peach: "பீச்ச் நெக்டர்",
@@ -334,11 +334,11 @@ export const content = {
       { tag: "मेकअप", line: "मखमली होंठ · सुनहरा फ़िनिश" },
       { tag: "रिचुअल", line: "शांति · फोकस · ग्लो" },
     ],
-    label: "सौंदर्य की कला",
+    label: "हमारे पसंदीदा",
     statement:
-      "आड़ू का स्पर्श। चमेली की फुसफुसाहट। चंदन की गर्माहट। एक्ला त्वचा के पास रखा एक छोटा सुनहरा प्रकाश है।",
+      "आपकी त्वचा को पसंद आने वाले नरम हर्बल प्रोडक्ट, रोज़ के इस्तेमाल के लिए।",
     storySmall:
-      "स्किनकेयर, मेकअप और बॉडी केयर खरीदें, और हमारे महिलाओं के लग्ज़री सैलून में बॉडी मसाज, फेशियल और ब्यूटी कंसल्टेशन बुक करें।",
+      "अपने पसंदीदा प्रोडक्ट लें, या फेशियल और मसाज के लिए आइए। चुनने में हम आपकी मदद करेंगे।",
     notesLabel: "मुख्य सामग्री",
     notesTitle: "तीन सामग्री में एक चमक।",
     peach: "आड़ू का रस",
@@ -490,11 +490,11 @@ export const content = {
       { tag: "മേക്കപ്പ്", line: "വെൽവെറ്റ് ചുണ്ടുകൾ · സ്വർണ്ണ ഫിനിഷ്" },
       { tag: "റിച്വലുകൾ", line: "ശാന്തി · ഫോക്കസ് · ഗ്ലോ" },
     ],
-    label: "സൗന്ദര്യത്തിന്റെ കല",
+    label: "ഞങ്ങളുടെ ഇഷ്ടങ്ങൾ",
     statement:
-      "പീച്ച് നെക്ടറിന്റെ സ്പർശം. മുല്ലയുടെ മന്ത്രണം. ചന്ദനത്തിന്റെ ചൂട്. എക്ലാറ്റ് ചർമ്മത്തോട് ചേർന്ന് വയ്ക്കുന്ന ഒരു ചെറിയ സ്വർണ്ണ പ്രകാശമാണ്.",
+      "നിങ്ങളുടെ ചർമ്മത്തിന് ഇഷ്ടപ്പെടുന്ന മൃദുവായ ഹെർബൽ ഉൽപ്പന്നങ്ങൾ, ദിവസവും ഉപയോഗിക്കാൻ.",
     storySmall:
-      "സ്കിൻകെയർ, മേക്കപ്പ്, ബോഡി കെയർ വാങ്ങൂ; ഞങ്ങളുടെ സ്ത്രീകൾക്കായുള്ള ലക്ഷ്വറി സലൂണിൽ ബോഡി മസാജ്, ഫേഷ്യൽ, ബ്യൂട്ടി കൺസൾട്ടേഷൻ ബുക്ക് ചെയ്യൂ.",
+      "ഇഷ്ടമുള്ളത് വാങ്ങൂ, അല്ലെങ്കിൽ ഫേഷ്യലിനോ മസാജിനോ വരൂ. തിരഞ്ഞെടുക്കാൻ ഞങ്ങൾ സഹായിക്കും.",
     notesLabel: "പ്രധാന ഘടകങ്ങൾ",
     notesTitle: "മൂന്ന് ഘടകങ്ങളിലെ ഒരു തിളക്കം.",
     peach: "പീച്ച് നെക്ടർ",
@@ -646,11 +646,11 @@ export const content = {
       { tag: "మేకప్", line: "వెల్వెట్ పెదవులు · బంగారు ఫినిష్" },
       { tag: "రిచువల్స్", line: "ప్రశాంతత · ఫోకస్ · గ్లో" },
     ],
-    label: "అందం యొక్క కళ",
+    label: "మా ఇష్టమైనవి",
     statement:
-      "పీచ్ నెక్టార్ స్పర్శ. మల్లె మెల్లని మాట. సందనం వెచ్చదనం. ఎక్లా చర్మానికి దగ్గరగా ఉంచిన చిన్న బంగారు కాంతి.",
+      "మీ చర్మానికి నచ్చే మృదువైన హెర్బల్ ఉత్పత్తులు, రోజూ వాడేందుకు.",
     storySmall:
-      "స్కిన్‌కేర్, మేకప్, బాడీ కేర్ షాపింగ్ చేయండి; మా మహిళల లగ్జరీ సెలూన్‌లో బాడీ మసాజ్, ఫేషియల్, బ్యూటీ కన్సల్టేషన్ బుక్ చేయండి.",
+      "మీకు నచ్చినవి కొనండి, లేదా ఫేషియల్, మసాజ్ కోసం రండి. ఎంచుకోవడంలో మేము సహాయం చేస్తాం.",
     notesLabel: "ప్రధాన పదార్థాలు",
     notesTitle: "మూడు పదార్థాల్లో ఒక మెరుపు.",
     peach: "పీచ్ నెక్టార్",

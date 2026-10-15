@@ -1,112 +1,119 @@
-import { useRef, useState } from 'react';
-import type { MouseEvent } from 'react';
+import { useState } from 'react';
 import type { Colour, Product } from '../types';
-import { useLang } from '../../shared/i18n';
-import { StockLine, OutCross } from './StockNotice';
-import { sub as subL, badge as badgeL, colour as colL, ui, sizesLabel, offLabel, stockLabel } from '../i18n';
-import { discount, formatPrice, stockStatus } from '../data/products';
+import { useLang, trx } from '../../shared/i18n';
+import { StockLine, OutLine } from './StockNotice';
+import { badge as badgeL, colour as colL, ui, offLabel } from '../i18n';
+import { discount, formatPrice } from '../data/products';
 import ProductArt from './ProductArt';
 import { sizeText } from '../i18n-checkout';
 import { pname } from '../i18n-names';
+import { api } from '../../api';
 
 interface Props { product: Product; index: number; onOpen: (p: Product, c: Colour) => void; onQuick: (p: Product, c: Colour) => void }
 
+const ADD_TO_CART = { en: 'Add to Cart', ta: 'கார்ட்டில் சேர்', hi: 'कार्ट में जोड़ें', ml: 'കാർട്ടിൽ ചേർക്കുക', te: 'కార్ట్‌కి జోడించండి' };
+const SELLING_FAST = { en: 'Selling fast', ta: 'வேகமாக விற்பனை', hi: 'तेज़ी से बिक रहा', ml: 'വേഗത്തിൽ വിൽക്കുന്നു', te: 'వేగంగా అమ్ముడవుతోంది' };
+
+/** Product card: white = normal, yellow = selling fast (low stock), red diagonal line = out of stock. */
 export default function ProductCard({ product, index, onOpen, onQuick }: Props) {
   const [colour, setColour] = useState<Colour>(product.colours[0]);
   const [liked, setLiked] = useState(false);
-  const tilt = useRef<HTMLDivElement>(null);
-  const glare = useRef<HTMLDivElement>(null);
   const [lang] = useLang();
-  const status = stockStatus(product.stock);
   const out = product.stock === 0;
+  const fast = !out && api.stock.stockState(product.stock) === 'low';
 
-  const move = (e: MouseEvent) => {
-    const el = tilt.current, g = glare.current;
-    if (!el || !g) return;
-    const r = el.getBoundingClientRect();
-    const x = (e.clientX - r.left) / r.width;
-    const y = (e.clientY - r.top) / r.height;
-    el.style.transform = `perspective(900px) rotateY(${(x - 0.5) * 14}deg) rotateX(${-(y - 0.5) * 14}deg) scale3d(1.02,1.02,1.02)`;
-    g.style.background = `radial-gradient(circle at ${x * 100}% ${y * 100}%, rgba(255,255,255,.6), transparent 55%)`;
-    g.style.opacity = '1';
-  };
-  const leave = () => {
-    if (tilt.current) tilt.current.style.transform = 'perspective(900px) rotateX(0) rotateY(0) scale3d(1,1,1)';
-    if (glare.current) glare.current.style.opacity = '0';
-  };
+  const tone = out
+    ? 'border-stone-200 bg-stone-50'
+    : fast
+      ? 'border-amber-300 bg-amber-100'
+      : 'border-stone-200 bg-white';
 
   return (
-    <article className="animate-rise" style={{ animationDelay: `${index * 70}ms` }}>
+    <article className="animate-rise" style={{ animationDelay: `${Math.min(index, 12) * 50}ms` }}>
       <div
-        ref={tilt}
-        onMouseMove={move}
-        onMouseLeave={leave}
         onClick={() => onOpen(product, colour)}
-        className="group preserve-3d flex h-full cursor-pointer flex-col overflow-hidden rounded-3xl bg-white shadow-[0_2px_30px_-12px_rgba(60,40,20,.25)] transition-transform duration-300 ease-out"
+        className={`group relative flex h-full cursor-pointer flex-col overflow-hidden rounded-xl border p-3 transition duration-300 hover:shadow-[0_10px_30px_-12px_rgba(60,40,20,.35)] ${tone}`}
       >
-        <div className="preserve-3d relative h-[310px] shrink-0 overflow-hidden sm:h-[320px]" style={{ background: `linear-gradient(160deg, ${colour.hex}33, ${colour.hex}0d 70%)`, transition: 'background .5s' }}>
-          <div className="absolute inset-0 flex items-center justify-center" style={{ transform: 'translateZ(60px)' }}>
-            <ProductArt art={product.art} colour={colour.hex} colourName={colour.name} photo={colour.photo} alt={pname(product.name, lang)} className={`h-[250px] w-[78%] object-contain drop-shadow-xl transition-all duration-500 ${out ? 'opacity-50 grayscale' : ''}`} />
-          </div>
-          {out && <div className="pointer-events-none absolute inset-0" style={{ transform: 'translateZ(70px)' }}><OutCross /></div>}
-          <div ref={glare} className="pointer-events-none absolute inset-0 opacity-0 mix-blend-soft-light transition-opacity duration-300" />
-          {product.badge && (
-            <span className="absolute left-4 top-4 rounded-full bg-ink px-3 py-1 text-xs text-white" style={{ transform: 'translateZ(40px)' }}>
-              {badgeL(product.badge, lang)}
-            </span>
-          )}
-          <button
-            aria-label={ui('wish', lang)}
-            aria-pressed={liked}
-            onClick={e => { e.stopPropagation(); setLiked(v => !v); }}
-            className="absolute right-4 top-4 flex h-9 w-9 items-center justify-center rounded-full bg-white/80 backdrop-blur transition hover:bg-white"
-            style={{ transform: 'translateZ(40px)' }}
-          >
-            <svg viewBox="0 0 24 24" className="h-4 w-4" fill={liked ? '#be123c' : 'none'} stroke={liked ? '#be123c' : '#1c1917'} strokeWidth={1.8}>
-              <path d="M12 21s-7.5-4.6-9.3-9.2C1.5 8.5 3.4 5 6.9 5c2 0 3.5 1.1 5.1 3 1.6-1.9 3.1-3 5.1-3 3.5 0 5.4 3.500 4.2 6.800C19.500 16.400 12 21 12 21z" />
-            </svg>
-          </button>
-          {!out && <button onClick={e => { e.stopPropagation(); onQuick(product, colour); }} className="gold-btn absolute inset-x-5 bottom-5 translate-y-4 rounded-full py-3 text-sm opacity-0 shadow-lg transition duration-500 group-hover:translate-y-0 group-hover:opacity-100">{ui('quick', lang)}</button>}
-          {out && <div className="absolute inset-x-0 bottom-4 text-center text-sm font-medium text-stone-700">{ui('unavail', lang)}</div>}
-        </div>
+        {out && <OutLine />}
 
-        <div className="flex min-h-[245px] flex-1 flex-col space-y-3 p-5">
-          <div className="flex items-center justify-between text-xs text-stone-500">
-            <span>{subL(product.subcategory, lang)}</span>
-            <span>{product.id}</span>
-          </div>
-          <h3 className={`line-clamp-2 min-h-[3.5rem] font-serif font-medium leading-snug ${lang === 'en' ? 'text-2xl' : 'text-xl'}`}>{pname(product.name, lang)}</h3>
-
-          <div className="flex items-baseline gap-2">
-            <span className="text-xl font-medium">{formatPrice(product.price)}</span>
-            <span className="text-sm text-stone-400 line-through">{formatPrice(product.mrp)}</span>
-            <span className="text-sm text-emerald-700">{offLabel(discount(product), lang)}</span>
-          </div>
-
-          <div className="flex items-center justify-between">
-            <div className="flex gap-2" role="radiogroup" aria-label={ui('colour', lang)}>
-              {product.colours.map(col => (
-                <button
-                  key={col.name}
-                  role="radio"
-                  aria-checked={col.name === colour.name}
-                  aria-label={colL(col.name, lang)}
-                  title={colL(col.name, lang)}
-                  onClick={e => { e.stopPropagation(); setColour(col); }}
-                  className={`flex flex-col items-center gap-1 ${col.code ? 'pb-0.5' : ''}`}
-                >
-                  <span className={`block h-6 w-6 rounded-full border border-black/10 transition ${col.name === colour.name ? 'ring-2 ring-ink ring-offset-2' : 'hover:scale-110'}`} style={{ background: col.hex }} />
-                  {col.code && <span className={`text-[10px] leading-none ${col.name === colour.name ? 'font-semibold text-ink' : 'text-stone-500'}`}>{col.code}</span>}
-                </button>
-              ))}
+        <div className={`flex h-full flex-col ${out ? 'opacity-60' : ''}`}>
+          {/* image */}
+          <div className="relative aspect-square w-full overflow-hidden rounded-lg" style={{ background: `linear-gradient(160deg, ${colour.hex}33, ${colour.hex}0d 70%)` }}>
+            <div className="absolute inset-0 flex items-center justify-center p-3">
+              <ProductArt art={product.art} colour={colour.hex} colourName={colour.name} photo={colour.photo} alt={pname(product.name, lang)} className={`h-full w-full object-contain transition-transform duration-500 group-hover:scale-105 ${out ? 'grayscale' : ''}`} />
             </div>
-            <span className="text-sm text-stone-500">★ {product.rating} ({product.reviews})</span>
+            {product.badge && (
+              <span className="absolute -right-1 top-3 -skew-x-12 bg-clay px-3 py-1 text-[10px] font-bold uppercase italic tracking-wider text-white shadow">
+                {badgeL(product.badge, lang)}
+              </span>
+            )}
+            {fast && (
+              <span className="absolute bottom-2 left-2 rounded-full bg-amber-500 px-2.5 py-0.5 text-[11px] font-semibold text-white shadow">
+                {trx(SELLING_FAST, lang)}
+              </span>
+            )}
           </div>
-          {colour.code && <p className="-mt-1 text-xs text-stone-600">{colL(colour.name, lang)} <span className="text-stone-400">· {product.colours.length} shades</span></p>}
 
-          <div className="flex items-center justify-between border-t border-stone-100 pt-3 text-sm">
-            <StockLine stock={product.stock} />
-            <span className="text-stone-500">{product.sizes.length > 1 ? sizesLabel(product.sizes.length, lang) : sizeText(product.sizes[0], lang)}</span>
+          {/* details */}
+          <div className="mt-3 flex flex-1 flex-col gap-2">
+            <h3 className="line-clamp-2 min-h-[2.75rem] text-[15px] leading-snug text-ink">{pname(product.name, lang)}</h3>
+
+            <div className="flex flex-wrap items-baseline gap-x-2">
+              <span className="text-lg font-semibold">{formatPrice(product.price)}</span>
+              {product.mrp > product.price && <span className="text-sm text-stone-400 line-through">{formatPrice(product.mrp)}</span>}
+              {discount(product) > 0 && <span className="text-sm font-semibold text-emerald-700">{offLabel(discount(product), lang)}</span>}
+            </div>
+
+            <div className="flex items-center gap-2 text-xs">
+              <span className="rounded bg-emerald-700 px-1.5 py-0.5 font-semibold text-white">{product.rating} ★</span>
+              <span className="text-stone-500">({product.reviews.toLocaleString('en-IN')})</span>
+            </div>
+
+            {/* shades (if any) or size chips */}
+            <div className="flex min-h-[2rem] flex-wrap items-center gap-1.5">
+              {product.colours.length > 1 ? (
+                <>
+                  {product.colours.slice(0, 5).map(col => (
+                    <button
+                      key={col.name}
+                      aria-label={colL(col.name, lang)}
+                      title={colL(col.name, lang)}
+                      onClick={e => { e.stopPropagation(); setColour(col); }}
+                      className={`h-6 w-6 rounded-full border border-black/10 transition ${col.name === colour.name ? 'ring-2 ring-clay ring-offset-1' : 'hover:scale-110'}`}
+                      style={{ background: col.hex }}
+                    />
+                  ))}
+                  {product.colours.length > 5 && <span className="text-xs text-stone-500">+{product.colours.length - 5}</span>}
+                </>
+              ) : (
+                product.sizes.slice(0, 2).map(sz => (
+                  <span key={sz} className="rounded-full border border-clay/60 px-2.5 py-0.5 text-xs text-clay">{sizeText(sz, lang)}</span>
+                ))
+              )}
+            </div>
+
+            {(fast || out) && <div className="text-xs"><StockLine stock={product.stock} /></div>}
+
+            {/* actions */}
+            <div className="mt-auto flex items-center gap-2 pt-1">
+              <button
+                disabled={out}
+                onClick={e => { e.stopPropagation(); if (!out) onQuick(product, colour); }}
+                className={`h-11 flex-1 rounded-lg border text-sm font-semibold transition ${out ? 'cursor-not-allowed border-stone-300 text-stone-400' : 'border-clay text-clay hover:bg-clay hover:text-white'}`}
+              >
+                {out ? ui('unavail', lang) : trx(ADD_TO_CART, lang)}
+              </button>
+              <button
+                aria-label={ui('wish', lang)}
+                aria-pressed={liked}
+                onClick={e => { e.stopPropagation(); setLiked(v => !v); }}
+                className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full transition hover:bg-black/5"
+              >
+                <svg viewBox="0 0 24 24" className="h-6 w-6" fill={liked ? '#be123c' : 'none'} stroke={liked ? '#be123c' : '#78716c'} strokeWidth={1.6}>
+                  <path d="M12 21s-7.5-4.6-9.3-9.2C1.5 8.5 3.4 5 6.9 5c2 0 3.5 1.1 5.1 3 1.6-1.9 3.1-3 5.1-3 3.5 0 5.4 3.5 4.2 6.8C19.5 16.4 12 21 12 21z" />
+                </svg>
+              </button>
+            </div>
           </div>
         </div>
       </div>

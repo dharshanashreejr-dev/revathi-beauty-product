@@ -27,6 +27,10 @@
     {
       "source": "/manager",
       "destination": "/site/index.html"
+    },
+    {
+      "source": "/reviews",
+      "destination": "/site/index.html"
     }
   ]
 }

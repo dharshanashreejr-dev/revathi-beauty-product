@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { Search, Eye, MapPin, Phone } from 'lucide-react';
 import { useStore } from '../store.jsx';
 import { api } from '../../api';
-import { getOrders, setOrderStage, cancelOrder, updateShipping } from '../../site/account';
+import { getOrders, setOrderStage, cancelOrder, updateShipping, subscribeData } from '../../site/account';
 import { inr } from '../data/mockData.js';
 import PageHeader from '../components/PageHeader.jsx';
 import DataTable from '../components/DataTable.jsx';
@@ -10,11 +10,11 @@ import Badge from '../components/Badge.jsx';
 import Modal from '../components/Modal.jsx';
 import { useT } from '../i18n.js';
 
-// CRS 4.4 Order Fulfilment Pipeline: Pending > Packed > Dispatched > Delivered (or Cancelled).
+// CRS 4.4 Order Fulfilment Pipeline: Placed > Confirmed > Packed > Shipped > Delivered (or Cancelled).
 // These are the REAL orders placed from the customer shop (same store the customer's Tracking page reads).
 // Marking an order Dispatched sends the "Product Dispatched" DLT SMS to the customer's phone (once).
 // BACKEND: GET /api/orders, PATCH /api/orders/:id/status. The server sends the SMS and writes the audit entry; stages only move forward.
-const STAGES = ['Pending', 'Packed', 'Dispatched', 'Delivered'];
+const STAGES = ['Order placed', 'Order confirmed', 'Order packed', 'Order shipped', 'Order delivered'];
 const FILTERS = [...STAGES, 'Cancelled'];
 const statusOf = (o) => (o.cancelled ? 'Cancelled' : STAGES[o.stage]);
 const when = (iso) => { const d = new Date(iso); return Number.isNaN(+d) ? iso : d.toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' }); };
@@ -25,7 +25,7 @@ export default function Orders() {
   const { t } = useT();
   const [, tick] = useState(0);
   const re = () => tick((n) => n + 1);
-  useEffect(() => { window.addEventListener('storage', re); return () => window.removeEventListener('storage', re); }, []);
+  useEffect(() => subscribeData(re), []); // new orders from customers appear live
   const [q, setQ] = useState('');
   const [status, setStatus] = useState('All');
   const [openId, setOpenId] = useState(null);
@@ -61,7 +61,7 @@ export default function Orders() {
   };
   const optionsFor = (o) => FILTERS.map((s) => {
     const idx = STAGES.indexOf(s);
-    const disabled = o.cancelled ? s !== 'Cancelled' : s === 'Cancelled' ? o.stage >= 2 : idx < o.stage;
+    const disabled = o.cancelled ? s !== 'Cancelled' : s === 'Cancelled' ? o.stage >= 3 : idx < o.stage;
     return <option key={s} value={s} disabled={disabled && s !== statusOf(o)}>{t(s)}</option>;
   });
 
@@ -80,7 +80,7 @@ export default function Orders() {
     { key: 'total', label: t('Total'), render: (o) => <strong>{inr(o.total)}</strong> },
     { key: 'payment', label: t('Payment'), render: (o) => <span className="muted">{o.payment}</span> },
     { key: 'status', label: t('Fulfilment'), render: (o) => (
-      <select className="status-select" value={statusOf(o)} onClick={(e) => e.stopPropagation()} disabled={o.cancelled || o.stage === 3}
+      <select className="status-select" value={statusOf(o)} onClick={(e) => e.stopPropagation()} disabled={o.cancelled || o.stage === 4}
         onChange={(e) => change(o, e.target.value)} aria-label={t('Status for {id}', { id: o.id })}>
         {optionsFor(o)}
       </select>
@@ -90,7 +90,7 @@ export default function Orders() {
 
   return (
     <div className="page">
-      <PageHeader title={t('Order management')} subtitle={t('Orders placed from the customer shop. Stages move forward only: Pending, Packed, Dispatched, Delivered. Marking Dispatched sends the SMS.')} />
+      <PageHeader title={t('Order management')} subtitle={t('Orders placed from the customer shop. Stages move forward only: Order placed, confirmed, packed, shipped, delivered. Marking Shipped sends the SMS.')} />
       <div className="filters">
         <div className="search-box"><Search size={17} /><input value={q} onChange={(e) => setQ(e.target.value)} placeholder={t('Search by order ID or customer')} aria-label={t('Search orders')} /></div>
         <select value={status} onChange={(e) => setStatus(e.target.value)} aria-label={t('Filter by fulfilment status')}>
@@ -126,7 +126,7 @@ export default function Orders() {
               <label className="field"><span className="field-label">{t('Fulfilment status')}</span>
                 <select value={statusOf(open)} disabled={open.cancelled || open.stage === 3} onChange={(e) => change(open, e.target.value)}>{optionsFor(open)}</select>
               </label>
-              <p className="muted" style={{ fontSize: 13, margin: '0 0 12px' }}>{open.dispatchSms ? t('Dispatch SMS has been sent.') : t('The dispatch SMS is sent when you mark the order Dispatched.')}</p>
+              <p className="muted" style={{ fontSize: 13, margin: '0 0 12px' }}>{open.dispatchSms ? t('Dispatch SMS has been sent.') : t('The dispatch SMS is sent when you mark the order Shipped.')}</p>
               <label className="field"><span className="field-label">{t('Courier')}</span><input value={ship.courier} onChange={(e) => setShip({ ...ship, courier: e.target.value })} /></label>
               <label className="field"><span className="field-label">{t('Tracking number')}</span><input value={ship.awb} onChange={(e) => setShip({ ...ship, awb: e.target.value })} /></label>
               <label className="field"><span className="field-label">{t('Expected delivery')}</span><input type="date" value={ship.eta} onChange={(e) => setShip({ ...ship, eta: e.target.value })} /></label>

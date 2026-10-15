@@ -10,6 +10,7 @@ export interface Review {
   rating: number
   text: string
   at: number
+  uid?: string
 }
 
 const KEY = 'revathi-reviews'

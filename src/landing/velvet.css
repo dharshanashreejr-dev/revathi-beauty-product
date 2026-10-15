@@ -15,14 +15,14 @@
   max-width: 100%;
 }
 .brand-word {
-  font-size: 11px;
+  font-size: 18px;
   letter-spacing: 0.12em;
   margin: 6px 0 0 0.12em;
   white-space: nowrap;
 }
 .brand-sub {
-  font-size: 7px;
-  letter-spacing: 0.28em;
+  font-size: 11px;
+  letter-spacing: 0.2em;
 }
 .header {
   grid-template-columns: 1fr minmax(200px, 320px) 1fr;
@@ -47,12 +47,12 @@
   .header {
     grid-template-columns: 1fr minmax(140px, 200px) 1fr;
   }
-  .brand-word {
-    font-size: 9px;
+   .brand-word {
+    font-size: 13px;
     letter-spacing: 0.08em;
   }
   .brand-sub {
-    font-size: 6px;
+    font-size: 9px;
   }
 }
 

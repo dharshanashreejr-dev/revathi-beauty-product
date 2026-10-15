@@ -1,4 +1,5 @@
-import { getOrders } from '../site/account';
+import { getOrders, emitData } from '../site/account';
+import { api } from '../api';
 import type { Order } from './types';
 
 // Saves a products-page order into the Tracking page's storage (top of the list, old orders kept).
@@ -10,7 +11,8 @@ export function saveToTracking(o: Order) {
       items: o.items.map(i => ({ pid: i.product.id, name: i.product.name, img: 'facial', qty: i.qty, price: i.product.price, size: i.size })),
       total: o.total,
       stage: 0,
-      v: 2,
+      v: 3,
+      userId: api.auth.currentUser()?.id,
       customer: o.address.name,
       phone: o.address.phone,
       courier: 'To be assigned',
@@ -18,9 +20,10 @@ export function saveToTracking(o: Order) {
       eta: o.eta.slice(0, 10),
       address: `${o.address.line1}, ${o.address.city}, ${o.address.state} ${o.address.pin}`,
       payment: o.pay,
-      log: [{ stage: 0, at: o.date, note: 'Order confirmed and payment received' }],
+      log: [{ stage: 0, at: o.date, note: 'Order placed and payment received' }],
     };
     localStorage.setItem('VELVET TOUCH-orders', JSON.stringify([t, ...getOrders()]));
+    emitData();
   } catch (e) {
     console.error('Tracking save failed', e);
   }

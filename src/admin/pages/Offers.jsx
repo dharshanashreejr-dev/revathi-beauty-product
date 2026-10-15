@@ -12,6 +12,7 @@ import Modal from '../components/Modal.jsx';
 import Field from '../components/Field.jsx';
 import ConfirmDialog from '../components/ConfirmDialog.jsx';
 import { useT } from '../i18n.js';
+import { heroSlides } from '../../landing/hero-slides';
 
 // CRS 4.3 Discount & Festival Offer Module.
 //  - Festival Campaign Creator: Pongal Special, Deepavali Glow Offer, New Year Bundles ... (+ promotional SMS)
@@ -169,10 +170,10 @@ export default function Offers() {
       { key: 'actions', label: '', width: '130px', render: (o) => rowActions('bundle', o) }
     ]
   };
-  const rows = { campaigns: data.campaigns, coupons: data.coupons, bundles: data.bundles }[tab];
+  const rows = { campaigns: data.campaigns, coupons: data.coupons, bundles: data.bundles }[tab] || [];
   const addLabel = { campaigns: 'New festival campaign', coupons: 'New coupon', bundles: 'New bundle' }[tab];
   const addType = { campaigns: 'campaign', coupons: 'coupon', bundles: 'bundle' }[tab];
-  const tabs = [['campaigns', t('Festival campaigns')], ['coupons', t('Coupons')], ['bundles', t('Service + product bundles')]];
+  const tabs = [['campaigns', t('Festival campaigns')], ['coupons', t('Coupons')], ['bundles', t('Service + product bundles')], ['gallery', t('Brochures & festive images')]];
 
   const d = form?.data;
   const er = form?.errors || {};
@@ -181,7 +182,7 @@ export default function Offers() {
   return (
     <div className="page">
       <PageHeader title={t('Festival & Offers')} subtitle={t('Create festival campaigns, coupon rules and service + product bundles with start and expiry dates.')}
-        actions={<button className="btn btn-primary" onClick={() => open(addType)}><Plus size={17} />{t(addLabel)}</button>} />
+        actions={tab !== 'gallery' && <button className="btn btn-primary" onClick={() => open(addType)}><Plus size={17} />{t(addLabel)}</button>} />
 
       <div className="stat-grid four">
         <StatCard icon={Gift} label={t('Active offers')} value={count('Active')} tone="forest" />
@@ -193,7 +194,9 @@ export default function Offers() {
       <div className="tabs" role="tablist">
         {tabs.map(([id, label]) => <button key={id} role="tab" aria-selected={tab === id} className={tab === id ? 'active' : ''} onClick={() => setTab(id)}>{label}</button>)}
       </div>
-      <div className="card flush"><DataTable columns={columns[tab]} rows={rows} empty="No offers yet. Use the button above to create one." /></div>
+      {tab === 'gallery'
+        ? <Gallery t={t} />
+        : <div className="card flush"><DataTable columns={columns[tab]} rows={rows} empty="No offers yet. Use the button above to create one." /></div>}
 
       {form && (
         <Modal wide title={t(`${d.id ? 'Edit' : 'New'} ${{ campaign: 'festival campaign', coupon: 'coupon', bundle: 'bundle' }[form.type]}`)} subtitle={t('Offers follow their start and expiry dates automatically.')} onClose={() => setForm(null)}
@@ -236,5 +239,42 @@ export default function Offers() {
         <ConfirmDialog title={t('Delete offer')} message={t('Delete "{name}"? Customers will no longer be able to use it.', { name: toDelete.label })} onConfirm={remove} onCancel={() => setToDelete(null)} />
       )}
     </div>
+  );
+}
+
+
+// Brochures, festive offers, seasonal offers and ads shown on the customer website (hero banner), for the admin to view.
+const EXTRA = [
+  { id: 'b1', image: '/assets/banners/best-sellers.webp', label: 'Best sellers banner', kind: 'Banner' },
+  { id: 'b2', image: '/assets/banners/combos.webp', label: 'Combos banner', kind: 'Banner' }
+];
+const KIND = { festive: 'Festive offer', seasonal: 'Seasonal offer', brochure: 'Brochure', daily: "Today's deal" };
+function Gallery({ t }) {
+  const [big, setBig] = useState(null);
+  const items = [
+    ...heroSlides.map((s) => ({ id: s.id, image: s.image, kind: KIND[s.id], title: s.title?.en || '', badge: s.badge?.en || '' })),
+    ...EXTRA.map((e) => ({ id: e.id, image: e.image, kind: e.kind, title: e.label, badge: '' }))
+  ];
+  return (
+    <>
+      <p className="muted" style={{ marginTop: 0 }}>{t('These brochures and festive / seasonal offer images are what customers see on the website home banner.')}</p>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(280px,1fr))', gap: 16 }}>
+        {items.map((it) => (
+          <div key={it.id} className="card" style={{ padding: 12, cursor: 'zoom-in' }} onClick={() => setBig(it)}>
+            <img src={it.image} alt={it.title} loading="lazy" style={{ width: '100%', borderRadius: 10, display: 'block', background: '#f3ece2' }} />
+            <div style={{ display: 'flex', justifyContent: 'space-between', gap: 8, marginTop: 10, alignItems: 'center' }}>
+              <strong style={{ fontSize: 14 }}>{it.title || t(it.kind)}</strong>
+              <Badge tone={it.id === 'festive' ? 'sand' : it.id === 'brochure' ? 'blue' : 'green'}>{t(it.kind)}</Badge>
+            </div>
+            {it.badge && <span className="muted block" style={{ fontSize: 12 }}>{it.badge}</span>}
+          </div>
+        ))}
+      </div>
+      {big && (
+        <div onClick={() => setBig(null)} style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,.75)', zIndex: 999, display: 'grid', placeItems: 'center', padding: 20, cursor: 'zoom-out' }}>
+          <img src={big.image} alt={big.title} style={{ maxWidth: '95vw', maxHeight: '90vh', borderRadius: 12 }} />
+        </div>
+      )}
+    </>
   );
 }

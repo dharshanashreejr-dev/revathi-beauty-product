@@ -26,7 +26,7 @@ export default function Customers() {
         const myAppts = appointments.filter((a) => a.customerId === c.id);
         const spend =
           myOrders.filter(countsAsRevenue).reduce((s, o) => s + orderTotal(o, products), 0) +
-          myAppts.filter((a) => a.status === 'Completed' || a.status === 'Checked In').reduce((s, a) => s + servicePrice(a.service), 0);
+          myAppts.filter((a) => a.status === 'Completed').reduce((s, a) => s + servicePrice(a.service), 0);
         return { ...c, index: i, myOrders, myAppts, spend };
       }),
     [customers, orders, appointments, products]

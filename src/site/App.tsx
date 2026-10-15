@@ -6,8 +6,12 @@ import Booking from './pages/Booking'
 import Success from './pages/Success'
 import About from './pages/About'
 import Track from './pages/Track'
-import Manager from './pages/Manager'
+import { SITE } from '../site-links'
+import Reviews from './pages/Reviews'
 import { useI18n } from './i18n-site'
+
+// The old demo "Manager" screen had its own sample data. Managers now use the real admin panel.
+function ToAdmin() { useEffect(() => { window.location.replace(SITE.admin) }, []); return null }
 
 function ScrollManager() {
   const { pathname, hash } = useLocation()
@@ -38,7 +42,8 @@ export default function App() {
         <Route path="/about" element={<About />} />
         <Route path="/track" element={<Track />} />
         <Route path="/account" element={<Navigate to="/track" replace />} />
-        <Route path="/manager" element={<Manager />} />
+        <Route path="/manager" element={<ToAdmin />} />
+        <Route path="/reviews" element={<Reviews />} />
         <Route path="*" element={<Navigate to="/services" replace />} />
       </Routes>
     </>

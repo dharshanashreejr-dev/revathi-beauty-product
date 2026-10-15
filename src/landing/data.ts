@@ -240,6 +240,158 @@ export const products: Product[] = [
     }
   },
   {
+    id: "compact-powder",
+    kind: "compact",
+    tone: ["#cdb8e3", "#c9a45c"],
+    cat: "makeup",
+    price: 1450,
+    size: "10 g",
+    name: {
+      en: "Compact Powder",
+      ta: "காம்பாக்ட் பவுடர்",
+      hi: "कॉम्पैक्ट पाउडर",
+      ml: "കോംപാക്ട് പൗഡർ",
+      te: "కాంపాక్ట్ పౌడర్",
+      kn: "ಕಾಂಪ್ಯಾಕ್ಟ್ ಪೌಡರ್",
+      mr: "कॉम्पॅक्ट पावडर",
+      bn: "কমপ্যাক্ট পাউডার"
+    },
+    sub: {
+      en: "4 flavours · Lavender, Rose, Matcha, Citrus",
+      ta: "4 flavours · Lavender, Rose, Matcha, Citrus",
+      hi: "4 flavours · Lavender, Rose, Matcha, Citrus",
+      ml: "4 flavours · Lavender, Rose, Matcha, Citrus",
+      te: "4 flavours · Lavender, Rose, Matcha, Citrus",
+      kn: "4 flavours · Lavender, Rose, Matcha, Citrus",
+      mr: "4 flavours · Lavender, Rose, Matcha, Citrus",
+      bn: "4 flavours · Lavender, Rose, Matcha, Citrus"
+    },
+    copy: {
+      en: "A silky pressed compact powder in four botanical flavours. Pick a flavour to see it.",
+      ta: "A silky pressed compact powder in four botanical flavours. Pick a flavour to see it.",
+      hi: "A silky pressed compact powder in four botanical flavours. Pick a flavour to see it.",
+      ml: "A silky pressed compact powder in four botanical flavours. Pick a flavour to see it.",
+      te: "A silky pressed compact powder in four botanical flavours. Pick a flavour to see it.",
+      kn: "A silky pressed compact powder in four botanical flavours. Pick a flavour to see it.",
+      mr: "A silky pressed compact powder in four botanical flavours. Pick a flavour to see it.",
+      bn: "A silky pressed compact powder in four botanical flavours. Pick a flavour to see it."
+    }
+  },
+  {
+    id: "cleanser",
+    kind: "tube",
+    tone: ["#cdb8e3", "#9fb98a"],
+    cat: "skin",
+    price: 1250,
+    size: "150 ml",
+    name: {
+      en: "Foaming Cleanser",
+      ta: "ஃபோமிங் க்ளென்சர்",
+      hi: "फोमिंग क्लींज़र",
+      ml: "ഫോമിംഗ് ക്ലെൻസർ",
+      te: "ఫోమింగ్ క్లెన్సర్",
+      kn: "ಫೋಮಿಂಗ್ ಕ್ಲೆನ್ಸರ್",
+      mr: "फोमिंग क्लेंझर",
+      bn: "ফোমিং ক্লিনজার"
+    },
+    sub: {
+      en: "4 flavours · Lavender, Rose, Matcha, Citrus",
+      ta: "4 flavours · Lavender, Rose, Matcha, Citrus",
+      hi: "4 flavours · Lavender, Rose, Matcha, Citrus",
+      ml: "4 flavours · Lavender, Rose, Matcha, Citrus",
+      te: "4 flavours · Lavender, Rose, Matcha, Citrus",
+      kn: "4 flavours · Lavender, Rose, Matcha, Citrus",
+      mr: "4 flavours · Lavender, Rose, Matcha, Citrus",
+      bn: "4 flavours · Lavender, Rose, Matcha, Citrus"
+    },
+    copy: {
+      en: "A gentle botanical foaming cleanser in four flavours. Pick a flavour to see it.",
+      ta: "A gentle botanical foaming cleanser in four flavours. Pick a flavour to see it.",
+      hi: "A gentle botanical foaming cleanser in four flavours. Pick a flavour to see it.",
+      ml: "A gentle botanical foaming cleanser in four flavours. Pick a flavour to see it.",
+      te: "A gentle botanical foaming cleanser in four flavours. Pick a flavour to see it.",
+      kn: "A gentle botanical foaming cleanser in four flavours. Pick a flavour to see it.",
+      mr: "A gentle botanical foaming cleanser in four flavours. Pick a flavour to see it.",
+      bn: "A gentle botanical foaming cleanser in four flavours. Pick a flavour to see it."
+    }
+  },
+  {
+    id: "pimple-gel",
+    kind: "tube",
+    tone: ["#cdb8e3", "#b7d3a5"],
+    cat: "skin",
+    price: 899,
+    size: "15 ml",
+    name: {
+      en: "Pimple Gel",
+      ta: "பிம்பிள் ஜெல்",
+      hi: "पिंपल जेल",
+      ml: "പിംപിൾ ജെൽ",
+      te: "పింపుల్ జెల్",
+      kn: "ಪಿಂಪಲ್ ಜೆಲ್",
+      mr: "पिंपल जेल",
+      bn: "পিম্পল জেল"
+    },
+    sub: {
+      en: "4 flavours · Lavender, Rose, Matcha, Citrus",
+      ta: "4 flavours · Lavender, Rose, Matcha, Citrus",
+      hi: "4 flavours · Lavender, Rose, Matcha, Citrus",
+      ml: "4 flavours · Lavender, Rose, Matcha, Citrus",
+      te: "4 flavours · Lavender, Rose, Matcha, Citrus",
+      kn: "4 flavours · Lavender, Rose, Matcha, Citrus",
+      mr: "4 flavours · Lavender, Rose, Matcha, Citrus",
+      bn: "4 flavours · Lavender, Rose, Matcha, Citrus"
+    },
+    copy: {
+      en: "A botanical spot-treatment gel in four flavours. Pick a flavour to see it.",
+      ta: "A botanical spot-treatment gel in four flavours. Pick a flavour to see it.",
+      hi: "A botanical spot-treatment gel in four flavours. Pick a flavour to see it.",
+      ml: "A botanical spot-treatment gel in four flavours. Pick a flavour to see it.",
+      te: "A botanical spot-treatment gel in four flavours. Pick a flavour to see it.",
+      kn: "A botanical spot-treatment gel in four flavours. Pick a flavour to see it.",
+      mr: "A botanical spot-treatment gel in four flavours. Pick a flavour to see it.",
+      bn: "A botanical spot-treatment gel in four flavours. Pick a flavour to see it."
+    }
+  },
+  {
+    id: "shower-gel",
+    kind: "mist",
+    tone: ["#cdb8e3", "#f5bdc9"],
+    cat: "body",
+    price: 1250,
+    size: "500 ml",
+    name: {
+      en: "Shower Gel",
+      ta: "ஷவர் ஜெல்",
+      hi: "शावर जेल",
+      ml: "ഷവർ ജെൽ",
+      te: "షవర్ జెల్",
+      kn: "ಶವರ್ ಜೆಲ್",
+      mr: "शॉवर जेल",
+      bn: "শাওয়ার জেল"
+    },
+    sub: {
+      en: "4 flavours · Lavender, Rose, Matcha, Citrus",
+      ta: "4 flavours · Lavender, Rose, Matcha, Citrus",
+      hi: "4 flavours · Lavender, Rose, Matcha, Citrus",
+      ml: "4 flavours · Lavender, Rose, Matcha, Citrus",
+      te: "4 flavours · Lavender, Rose, Matcha, Citrus",
+      kn: "4 flavours · Lavender, Rose, Matcha, Citrus",
+      mr: "4 flavours · Lavender, Rose, Matcha, Citrus",
+      bn: "4 flavours · Lavender, Rose, Matcha, Citrus"
+    },
+    copy: {
+      en: "A gentle botanical shower gel in four flavours. Pick a flavour to see it.",
+      ta: "A gentle botanical shower gel in four flavours. Pick a flavour to see it.",
+      hi: "A gentle botanical shower gel in four flavours. Pick a flavour to see it.",
+      ml: "A gentle botanical shower gel in four flavours. Pick a flavour to see it.",
+      te: "A gentle botanical shower gel in four flavours. Pick a flavour to see it.",
+      kn: "A gentle botanical shower gel in four flavours. Pick a flavour to see it.",
+      mr: "A gentle botanical shower gel in four flavours. Pick a flavour to see it.",
+      bn: "A gentle botanical shower gel in four flavours. Pick a flavour to see it."
+    }
+  },
+  {
     id: "night-cream",
     kind: "jar",
     tone: ["#e9d6e6", "#9a6a8e"],
@@ -430,6 +582,44 @@ export const products: Product[] = [
     }
   },
   {
+    id: "tint-powder",
+    kind: "jar",
+    tone: ["#e2a0b0", "#b5566f"],
+    cat: "makeup",
+    price: 1199,
+    size: "10 g",
+    name: {
+      en: "Herbal Tint Powder",
+      ta: "Herbal Tint Powder",
+      hi: "Herbal Tint Powder",
+      ml: "Herbal Tint Powder",
+      te: "Herbal Tint Powder",
+      kn: "Herbal Tint Powder",
+      mr: "Herbal Tint Powder",
+      bn: "Herbal Tint Powder"
+    },
+    sub: {
+      en: "3 shades · Beetroot, Turmeric, Charcoal",
+      ta: "3 shades · Beetroot, Turmeric, Charcoal",
+      hi: "3 shades · Beetroot, Turmeric, Charcoal",
+      ml: "3 shades · Beetroot, Turmeric, Charcoal",
+      te: "3 shades · Beetroot, Turmeric, Charcoal",
+      kn: "3 shades · Beetroot, Turmeric, Charcoal",
+      mr: "3 shades · Beetroot, Turmeric, Charcoal",
+      bn: "3 shades · Beetroot, Turmeric, Charcoal"
+    },
+    copy: {
+      en: "A natural tint powder in three plant-based shades: beetroot pink for cheeks and lips, turmeric gold for a warm glow and charcoal black as a natural eyeliner tint.",
+      ta: "A natural tint powder in three plant-based shades: beetroot pink for cheeks and lips, turmeric gold for a warm glow and charcoal black as a natural eyeliner tint.",
+      hi: "A natural tint powder in three plant-based shades: beetroot pink for cheeks and lips, turmeric gold for a warm glow and charcoal black as a natural eyeliner tint.",
+      ml: "A natural tint powder in three plant-based shades: beetroot pink for cheeks and lips, turmeric gold for a warm glow and charcoal black as a natural eyeliner tint.",
+      te: "A natural tint powder in three plant-based shades: beetroot pink for cheeks and lips, turmeric gold for a warm glow and charcoal black as a natural eyeliner tint.",
+      kn: "A natural tint powder in three plant-based shades: beetroot pink for cheeks and lips, turmeric gold for a warm glow and charcoal black as a natural eyeliner tint.",
+      mr: "A natural tint powder in three plant-based shades: beetroot pink for cheeks and lips, turmeric gold for a warm glow and charcoal black as a natural eyeliner tint.",
+      bn: "A natural tint powder in three plant-based shades: beetroot pink for cheeks and lips, turmeric gold for a warm glow and charcoal black as a natural eyeliner tint."
+    }
+  },
+  {
     id: "highlighter",
     kind: "compact",
     tone: ["#e9c68c", "#7a4b2f"],
@@ -586,17 +776,17 @@ export const products: Product[] = [
     kind: "tube",
     tone: ["#d7e3cf", "#6f8a5a"],
     cat: "body",
-    price: 850,
+    price: 899,
     size: "250 ml",
     name: {
-      en: "Herbal Silk Shampoo",
-      ta: "மூலிகை சில்க் ஷாம்பு",
-      hi: "हर्बल सिल्क शैम्पू",
-      ml: "ഹെർബൽ സിൽക്ക് ഷാംപൂ",
-      te: "హెర్బల్ సిల్క్ షాంపూ",
-      kn: "Herbal Silk Shampoo",
-      mr: "Herbal Silk Shampoo",
-      bn: "Herbal Silk Shampoo"
+      en: "Herbal Shampoo",
+      ta: "மூலிகை ஷாம்பு",
+      hi: "हर्बल शैम्पू",
+      ml: "ഹെർബൽ ഷാംപൂ",
+      te: "హెర్బల్ షాంపూ",
+      kn: "Herbal Shampoo",
+      mr: "Herbal Shampoo",
+      bn: "Herbal Shampoo"
     },
     sub: {
       en: "Gentle daily wash",
@@ -1027,13 +1217,20 @@ export const rupees = (n: number, lang: Lang = "en") =>
  *  A few hero products use colour-accurate packshots from /variants so the image
  *  matches the selected shade (lipstick, serum, blush, cream). */
 const VARIANT_PHOTO: Record<string, string> = {
-  eclat: "/assets/products/variants/serum-rose.png",
+  eclat: "/assets/products/serum/lavender.webp",
+  "compact-powder": "/assets/products/compact/lavender.webp",
   "lipstick-red": "/assets/products/lipstick/r1.webp",
   "lipstick-nude": "/assets/products/lipstick/n1.webp",
   "lipstick-green": "/assets/products/lipstick/g1.webp",
   "lipstick-pink": "/assets/products/lipstick/p1.webp",
-  "night-cream": "/assets/products/variants/cream-nourishing.png",
+  "night-cream": "/assets/products/moisturiser/lavender.webp",
+  cleanser: "/assets/products/cleanser/lavender.webp",
+  "pimple-gel": "/assets/products/pimple-gel/lavender.webp",
+  "shower-gel": "/assets/products/shower-gel/lavender.webp",
   "skin-tint": "/assets/products/variants/blush-peach.png",
+  "tint-powder": "/assets/products/tint-powder/beetroot-pink.webp",
+  "cleansing-oil": "/assets/products/cleansing-oil/jasmine.webp",
+  "herbal-shampoo": "/assets/products/herbal-shampoo/hibiscus-aloe.webp",
   highlighter: "/assets/products/variants/blush-pink.png",
 };
 
@@ -1048,14 +1245,27 @@ const V = "/assets/products/variants/";
 const S = "/assets/products/shades/";
 const P = "/assets/products/";
 const LIP = "/assets/products/lipstick/";
+const SER = "/assets/products/serum/";
+const CMP = "/assets/products/compact/";
+const MOI = "/assets/products/moisturiser/";
+const CLN = "/assets/products/cleanser/";
+const PMP = "/assets/products/pimple-gel/";
+const SHW = "/assets/products/shower-gel/";
 
 /** The first shade of every product is its default photo. The swatches in the product
  *  modal read from this list, so adding a shade here adds a swatch automatically. */
 export const SHADES: Record<string, Shade[]> = {
   eclat: [
-    { key: "rose", name: "Rose", hex: "#ef9a9a", img: V + "serum-rose.png" },
-    { key: "aloe", name: "Aloe Vera", hex: "#9fd68c", img: V + "serum-aloe.png" },
-    { key: "orange", name: "Orange", hex: "#f2c230", img: V + "serum-orange.png" },
+    { key: "lavender", name: "Lavender", hex: "#B9A9D8", img: SER + "lavender.webp" },
+    { key: "rose", name: "Rose", hex: "#F3B9C0", img: SER + "rose.webp" },
+    { key: "matcha", name: "Matcha", hex: "#A8C28A", img: SER + "matcha.webp" },
+    { key: "citrus", name: "Citrus", hex: "#E9A23B", img: SER + "citrus.webp" },
+  ],
+  "compact-powder": [
+    { key: "lavender", name: "Lavender", hex: "#B7A6DA", img: CMP + "lavender.webp" },
+    { key: "rose", name: "Rose", hex: "#F2C4C9", img: CMP + "rose.webp" },
+    { key: "matcha", name: "Matcha", hex: "#A9C27F", img: CMP + "matcha.webp" },
+    { key: "citrus", name: "Citrus", hex: "#EDB48F", img: CMP + "citrus.webp" },
   ],
   "lipstick-red": [
     { key: "r1", code: "R1", name: "R1 · Classic Red", hex: "#B22222", img: LIP + "r1.webp", sub: { en: "Shade · R1 · Classic Red", ta: "Shade · R1 · Classic Red", hi: "Shade · R1 · Classic Red", ml: "Shade · R1 · Classic Red", te: "Shade · R1 · Classic Red",
@@ -1146,9 +1356,28 @@ export const SHADES: Record<string, Shade[]> = {
     } },
   ],
   "night-cream": [
-    { key: "nourishing", name: "Nourishing", hex: "#f1dcae", img: V + "cream-nourishing.png" },
-    { key: "hydrating", name: "Hydrating", hex: "#bfe0f5", img: V + "cream-hydrating.png" },
-    { key: "brightening", name: "Brightening", hex: "#f6c6d6", img: V + "cream-brightening.png" },
+    { key: "lavender", name: "Lavender", hex: "#B9A9DA", img: MOI + "lavender.webp" },
+    { key: "rose", name: "Rose", hex: "#F4C6CB", img: MOI + "rose.webp" },
+    { key: "matcha", name: "Matcha", hex: "#AFC48F", img: MOI + "matcha.webp" },
+    { key: "citrus", name: "Citrus", hex: "#F0B27A", img: MOI + "citrus.webp" },
+  ],
+  cleanser: [
+    { key: "lavender", name: "Lavender", hex: "#C9B8E3", img: CLN + "lavender.webp" },
+    { key: "rose", name: "Rose", hex: "#F2C0C8", img: CLN + "rose.webp" },
+    { key: "matcha", name: "Matcha", hex: "#8FB07A", img: CLN + "matcha.webp" },
+    { key: "citrus", name: "Citrus", hex: "#F2B84B", img: CLN + "citrus.webp" },
+  ],
+  "pimple-gel": [
+    { key: "lavender", name: "Lavender", hex: "#C3B1E1", img: PMP + "lavender.webp" },
+    { key: "rose", name: "Rose", hex: "#F4C9D0", img: PMP + "rose.webp" },
+    { key: "matcha", name: "Matcha", hex: "#B7D3A5", img: PMP + "matcha.webp" },
+    { key: "citrus", name: "Citrus", hex: "#F6B58E", img: PMP + "citrus.webp" },
+  ],
+  "shower-gel": [
+    { key: "lavender", name: "Lavender", hex: "#C9B8E8", img: SHW + "lavender.webp" },
+    { key: "rose", name: "Rose", hex: "#F5BDC9", img: SHW + "rose.webp" },
+    { key: "matcha", name: "Matcha", hex: "#C4DB9A", img: SHW + "matcha.webp" },
+    { key: "citrus", name: "Citrus", hex: "#F7B26B", img: SHW + "citrus.webp" },
   ],
   "skin-tint": [
     { key: "peach", name: "Peach", hex: "#f08a7a", img: V + "blush-peach.png" },
@@ -1173,10 +1402,12 @@ export const SHADES: Record<string, Shade[]> = {
     { key: "blue", name: "Midnight Blue", hex: "#3c5a8c", img: S + "body-butter-blue.webp" },
   ],
   "cleansing-oil": [
-    { key: "gold", name: "Golden", hex: "#e6d27a", img: P + "cleansing-oil.webp" },
-    { key: "rose", name: "Rose", hex: "#eeaab2", img: S + "cleansing-oil-rose.webp" },
-    { key: "green", name: "Mint", hex: "#aad7a0", img: S + "cleansing-oil-green.webp" },
-    { key: "blue", name: "Sky", hex: "#a5c8eb", img: S + "cleansing-oil-blue.webp" },
+    { key: "jasmine", name: "Jasmine", hex: "#e6d27a", img: P + "cleansing-oil/jasmine.webp" },
+  ],
+  "tint-powder": [
+    { key: "beetroot", name: "Beetroot Pink", hex: "#c4607a", img: P + "tint-powder/beetroot-pink.webp" },
+    { key: "turmeric", name: "Turmeric Gold", hex: "#d19a1e", img: P + "tint-powder/turmeric-gold.webp" },
+    { key: "charcoal", name: "Charcoal Black", hex: "#2b2b2b", img: P + "tint-powder/charcoal-black.webp" },
   ],
   "sandal-oil": [
     { key: "amber", name: "Amber", hex: "#a8651e", img: P + "sandal-oil.webp" },
@@ -1197,10 +1428,10 @@ export const SHADES: Record<string, Shade[]> = {
     { key: "violet", name: "Violet", hex: "#aa8cd2", img: S + "perfume-violet.webp" },
   ],
   "herbal-shampoo": [
-    { key: "white", name: "Pearl White", hex: "#f2f2f0", img: P + "herbal-shampoo.webp" },
-    { key: "blush", name: "Blush", hex: "#ecb0ba", img: S + "herbal-shampoo-blush.webp" },
-    { key: "sage", name: "Sage", hex: "#b0cea8", img: S + "herbal-shampoo-sage.webp" },
-    { key: "lilac", name: "Lilac", hex: "#c8b4e2", img: S + "herbal-shampoo-lilac.webp" },
+    { key: "hibiscus", name: "Hibiscus & Aloe Vera", hex: "#d97a95", img: P + "herbal-shampoo/hibiscus-aloe.webp" },
+    { key: "neem", name: "Neem & Tea Tree", hex: "#5f8a4f", img: P + "herbal-shampoo/neem-tea-tree.webp" },
+    { key: "coconut", name: "Coconut Milk & Fenugreek", hex: "#c9964f", img: P + "herbal-shampoo/coconut-fenugreek.webp" },
+    { key: "amla", name: "Amla & Reetha", hex: "#b8a63a", img: P + "herbal-shampoo/amla-reetha.webp" },
   ],
 };
 

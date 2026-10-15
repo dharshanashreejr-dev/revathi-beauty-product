@@ -30,7 +30,7 @@ const daysInMonth = (iso) => {
 };
 
 export default function Appointments({ intent, onIntentHandled }) {
-  const { appointments, setAppointments, customers, staff, notify, user, sendMessage, addAudit } = useStore();
+  const { appointments, setAppointments, approveAppointment, rejectAppointment, customers, staff, notify, user, sendMessage, addAudit } = useStore();
   const { t } = useT();
   const [tab, setTab] = useState('schedule');
   const [viewMode, setViewMode] = useState('daily'); // daily | weekly | monthly
@@ -296,8 +296,11 @@ export default function Appointments({ intent, onIntentHandled }) {
       {open && !reschedule && (
         <Modal title={`Appointment ${open.id}`} subtitle={`${open.service} on ${fmtDate(open.date)} at ${open.time}`} wide onClose={() => setOpenId(null)}
           footer={<>
+            {open.status === 'Pending Review' && <><button className="btn btn-soft" onClick={() => { approveAppointment(open.id); notify(`${open.id} approved. The customer is notified.`); addAudit?.('Appointment approved', open.id, user?.name); }}>{t('Approve')}</button>
+              <button className="btn btn-ghost" style={{ color: '#c62828' }} onClick={() => { rejectAppointment(open.id); notify(`${open.id} rejected.`); addAudit?.('Appointment rejected', open.id, user?.name); setOpenId(null); }}>{t('Reject')}</button></>}
             {open.status === 'Scheduled' && <button className="btn btn-soft" onClick={() => patch(open.id, { status: 'Checked-In' }, `${open.id} checked in.`)}>{t('Check in')}</button>}
-            {open.status === 'Checked-In' && <button className="btn btn-soft" onClick={() => patch(open.id, { status: 'Completed' }, `${open.id} completed (checked out).`)}>{t('Check out / Complete')}</button>}
+            {open.status === 'Checked-In' && <button className="btn btn-soft" onClick={() => patch(open.id, { status: 'In Session' }, `${open.id} session started.`)}>{t('Start session')}</button>}
+            {open.status === 'In Session' && <button className="btn btn-soft" onClick={() => patch(open.id, { status: 'Completed' }, `${open.id} completed (checked out).`)}>{t('Complete')}</button>}
             {['Scheduled', 'Checked-In', 'Rescheduled'].includes(open.status) && (
               <button className="btn btn-ghost" onClick={() => setReschedule({ date: open.date, time: open.time, specialistId: open.specialistId })}>{t('Reschedule')}</button>
             )}
@@ -312,7 +315,7 @@ export default function Appointments({ intent, onIntentHandled }) {
               <dl className="dl">
                 <dt>{t('Customer')}</dt><dd>{open.customer}</dd>
                 <dt>{t('Service')}</dt><dd>{open.service}</dd>
-                <dt>{t('Price')}</dt><dd>{inr(servicePrice(open.service))}</dd>
+                <dt>{t('Price')}</dt><dd>{inr(open.price || servicePrice(open.service))}</dd>
                 <dt>{t('Date')}</dt><dd>{fmtDate(open.date)}, {open.time}</dd>
                 <dt>{t('Specialist')}</dt><dd>{staffName(open.specialistId)}</dd>
                 <dt>{t('Notes')}</dt><dd>{open.notes || t('No notes')}</dd>

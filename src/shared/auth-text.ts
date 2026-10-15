@@ -5,6 +5,7 @@ import type { UiLang } from './i18n'
 type Row = Partial<Record<UiLang, string>>
 const D: Record<string, Row> = {
   // ---- coupons / festival offers (CRS 4.3)
+  'Skip for now': { ta: 'இப்போது தவிர்', hi: 'अभी छोड़ें', ml: 'ഇപ്പോൾ ഒഴിവാക്കൂ', te: 'ఇప్పుడు వద్దు', kn: 'ಈಗ ಬಿಡಿ', mr: 'आता वगळा', bn: 'এখন বাদ দিন' },
   'Coupon code': { ta: 'கூப்பன் குறியீடு', hi: 'कूपन कोड', ml: 'കൂപ്പൺ കോഡ്', te: 'కూపన్ కోడ్', kn: 'ಕೂಪನ್ ಕೋಡ್', bn: 'কুপন কোড' },
   'Apply': { ta: 'பயன்படுத்து', hi: 'लागू करें', ml: 'പ്രയോഗിക്കുക', te: 'వర్తింపజేయి', kn: 'ಅನ್ವಯಿಸಿ', bn: 'প্রয়োগ করুন' },
   'Remove coupon': { ta: 'கூப்பனை நீக்கு', hi: 'कूपन हटाएं', ml: 'കൂപ്പൺ നീക്കുക', te: 'కూపన్ తొలగించు', kn: 'ಕೂಪನ್ ತೆಗೆದುಹಾಕಿ', bn: 'কুপন সরান' },

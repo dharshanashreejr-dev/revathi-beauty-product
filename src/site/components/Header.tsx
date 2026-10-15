@@ -7,6 +7,7 @@ export default function Header() {
   const { pathname } = useLocation()
   const current = pathname.startsWith('/services') || pathname.startsWith('/booking') || pathname.startsWith('/success') ? 'Services'
     : pathname.startsWith('/about') ? 'About'
+    : pathname.startsWith('/reviews') ? 'Reviews'
     : pathname.startsWith('/track') || pathname.startsWith('/account') ? 'Tracking' : undefined
   return <SiteHeader Link={Link as never} current={current} solid />
 }

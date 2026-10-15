@@ -1,6 +1,9 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useLang, type Lang } from './i18n'
 import { addReview, useReviews } from './reviews'
+import { openLogin, useUser } from './LoginModal'
+import { reviewAccess } from '../site/reviewAccess'
+import { subscribeData } from '../site/account'
 
 // Drop-in review block: lists reviews for one product / service and lets visitors add their own.
 const L: Record<Lang, Record<string, string>> = {
@@ -18,12 +21,25 @@ const Stars = ({ n, size = 16 }: { n: number; size?: number }) => (
   <span aria-label={`${n} / 5`} style={{ color: '#c9a24a', fontSize: size, letterSpacing: 2 }}>{'★'.repeat(n)}<span style={{ opacity: 0.3 }}>{'★'.repeat(5 - n)}</span></span>
 )
 
+const GATE: Record<string, { login: string; product: string; service: string }> = {
+  en: { login: 'Log in to review', product: 'You can review this product after your order is delivered.', service: 'You can review this service after your appointment is completed.' },
+  ta: { login: 'விமர்சனம் எழுத உள்நுழையவும்', product: 'உங்கள் ஆர்டர் டெலிவரி ஆன பிறகு இந்தப் பொருளை விமர்சிக்கலாம்.', service: 'உங்கள் சேவை முடிந்த பிறகு இந்தச் சேவையை விமர்சிக்கலாம்.' },
+  hi: { login: 'समीक्षा के लिए लॉग इन करें', product: 'ऑर्डर डिलीवर होने के बाद आप इस उत्पाद की समीक्षा कर सकते हैं।', service: 'अपॉइंटमेंट पूरा होने के बाद आप इस सेवा की समीक्षा कर सकते हैं।' },
+  ml: { login: 'റിവ്യൂവിനായി ലോഗിൻ ചെയ്യുക', product: 'ഓർഡർ ഡെലിവർ ചെയ്ത ശേഷം ഈ ഉൽപ്പന്നം റിവ്യൂ ചെയ്യാം.', service: 'അപ്പോയിന്റ്മെന്റ് പൂർത്തിയായ ശേഷം ഈ സേവനം റിവ്യൂ ചെയ്യാം.' },
+  te: { login: 'సమీక్ష కోసం లాగిన్ అవ్వండి', product: 'ఆర్డర్ డెలివరీ అయిన తర్వాత ఈ ఉత్పత్తిని సమీక్షించవచ్చు.', service: 'అపాయింట్‌మెంట్ పూర్తయిన తర్వాత ఈ సేవను సమీక్షించవచ్చు.' },
+}
+
 export default function ReviewsSection({ kind, targetId, targetName, dark = false }: { kind: 'product' | 'service'; targetId: string; targetName: string; dark?: boolean }) {
   const [lang] = useLang()
   const t = L[lang] ?? L.en
   const all = useReviews()
   const list = useMemo(() => all.filter((r) => r.kind === kind && r.targetId === targetId), [all, kind, targetId])
   const [open, setOpen] = useState(false)
+  const user = useUser()
+  const [, bump] = useState(0)
+  useEffect(() => subscribeData(() => bump((n) => n + 1)), [])
+  const access = reviewAccess(kind, targetId, targetName)
+  const gate = GATE[lang] ?? GATE.en
   const [f, setF] = useState({ name: '', rating: 5, text: '' })
   const [msg, setMsg] = useState('')
   const [err, setErr] = useState('')
@@ -34,7 +50,7 @@ export default function ReviewsSection({ kind, targetId, targetName, dark = fals
 
   const submit = () => {
     if (f.name.trim().length < 2 || f.text.trim().length < 3) { setErr(t.err); return }
-    addReview({ kind, targetId, targetName, name: f.name.trim(), rating: f.rating, text: f.text.trim() })
+    addReview({ kind, targetId, targetName, name: f.name.trim(), rating: f.rating, text: f.text.trim(), uid: user?.id })
     setF({ name: '', rating: 5, text: '' }); setErr(''); setMsg(t.thanks); setOpen(false)
   }
 
@@ -42,10 +58,12 @@ export default function ReviewsSection({ kind, targetId, targetName, dark = fals
     <section aria-label={t.title} style={{ color: fg, marginTop: 24, textAlign: 'left' }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap', justifyContent: 'space-between' }}>
         <h3 style={{ margin: 0, fontSize: 18, fontWeight: 600 }}>{t.title} {list.length > 0 && <small style={{ fontWeight: 400, opacity: 0.7 }}>· <Stars n={Math.round(avg)} size={14} /> {avg.toFixed(1)} {t.avg} ({list.length})</small>}</h3>
-        <button type="button" onClick={() => { setOpen(!open); setMsg('') }} style={{ padding: '8px 16px', borderRadius: 999, border: `1px solid ${fg}`, background: 'transparent', color: fg, cursor: 'pointer', fontSize: 13 }}>{t.write}</button>
+        {access === 'ok' && <button type="button" onClick={() => { setOpen(!open); setMsg(''); setF((x) => ({ ...x, name: x.name || user?.name || '' })) }} style={{ padding: '8px 16px', borderRadius: 999, border: `1px solid ${fg}`, background: 'transparent', color: fg, cursor: 'pointer', fontSize: 13 }}>{t.write}</button>}
+        {access === 'login' && <button type="button" onClick={() => openLogin()} style={{ padding: '8px 16px', borderRadius: 999, border: `1px solid ${fg}`, background: 'transparent', color: fg, cursor: 'pointer', fontSize: 13 }}>{gate.login}</button>}
       </div>
+      {access === 'notyet' && <p style={{ margin: '10px 0 0', fontSize: 13, opacity: 0.75 }}>{kind === 'product' ? gate.product : gate.service}</p>}
       {msg && <p role="status" style={{ margin: '10px 0 0', fontSize: 13, color: dark ? '#b8e0b0' : '#2f6b3a' }}>{msg}</p>}
-      {open && (
+      {open && access === 'ok' && (
         <div style={{ ...box, marginTop: 12, display: 'grid', gap: 10 }}>
           <input style={input} placeholder={t.name} value={f.name} onChange={(e) => setF({ ...f, name: e.target.value })} aria-label={t.name} maxLength={40} />
           <div role="radiogroup" aria-label={t.rating} style={{ display: 'flex', alignItems: 'center', gap: 4 }}>

@@ -10,7 +10,7 @@ import ProductArt from './ProductArt';
 import { useLang, tr } from '../../shared/i18n';
 import { ptext } from '../i18n-text';
 import { sizeText } from '../i18n-checkout';
-import { CAT_NAME, sub as subL, colour as colL, ui, mt, viewLabel, stockLabel, offLabel } from '../i18n';
+import { CAT_NAME, sub as subL, colour as colL, ui, mt, stockLabel, offLabel } from '../i18n';
 import { pname } from '../i18n-names';
 import ReviewsSection from '../../shared/ReviewsSection';
 
@@ -21,21 +21,17 @@ interface Props {
   onAdd: (c: Colour, s: string, q: number) => void;
 }
 
-type View = 'live' | 'front' | 'left' | 'right';
-const ANGLES: Record<Exclude<View, 'live'>, number> = { front: 0, left: -38, right: 38 };
-const LAYERS = 9;
 
 export default function ProductModal({ product, initialColour, onClose, onAdd }: Props) {
   const [lang] = useLang();
   const [colour, setColour] = useState(initialColour);
   const [size, setSize] = useState(product.sizes[0]);
   const [qty, setQty] = useState(1);
-  const [view, setView] = useState<View>('live');
-  const [rot, setRot] = useState({ x: 0, y: -18 });
+  const [zoom, setZoom] = useState<{ x: number; y: number } | null>(null);
     const status = stockStatus(product.stock);
   const out = product.stock === 0;
   const [ui] = useUiLang();
-  const info = productInfo(product.subcategory);
+  const info = productInfo(product.subcategory, product.name);
 
   useEffect(() => {
     const key = (e: KeyboardEvent) => e.key === 'Escape' && onClose();
@@ -46,14 +42,10 @@ export default function ProductModal({ product, initialColour, onClose, onAdd }:
   }, [onClose]);
 
   const track = (e: MouseEvent<HTMLDivElement>) => {
-    if (view !== 'live') return;
     const r = e.currentTarget.getBoundingClientRect();
-    const x = (e.clientX - r.left) / r.width, y = (e.clientY - r.top) / r.height;
-    setRot({ y: (x - 0.5) * 80, x: -(y - 0.5) * 22 });
+    setZoom({ x: ((e.clientX - r.left) / r.width) * 100, y: ((e.clientY - r.top) / r.height) * 100 });
   };
 
-  const angleY = view === 'live' ? rot.y : ANGLES[view];
-  const angleX = view === 'live' ? rot.x : 0;
   const stockPct = Math.min(100, (product.stock / 100) * 100);
 
   const add = () => {
@@ -77,39 +69,18 @@ export default function ProductModal({ product, initialColour, onClose, onAdd }:
         <button onClick={onClose} aria-label={mt('m_close', lang)} className="absolute right-4 top-4 z-20 flex h-10 w-10 items-center justify-center rounded-full bg-white/90 text-xl shadow transition hover:bg-white">×</button>
 
         <div className="grid md:grid-cols-2">
-          {/* 3D viewer */}
+          {/* Photo viewer: cursor zoom */}
           <div className="p-4 sm:p-6">
             <div
               onMouseMove={track}
-              onMouseLeave={() => view === 'live' && setRot({ x: 0, y: -18 })}
+              onMouseLeave={() => setZoom(null)}
               className="relative flex h-[380px] items-center justify-center overflow-hidden rounded-3xl sm:h-[500px]"
-              style={{ background: `radial-gradient(circle at 50% 40%, ${colour.hex}55, ${colour.hex}12 70%)`, perspective: 1200, transition: 'background .5s' }}
+              style={{ background: `radial-gradient(circle at 50% 40%, ${colour.hex}55, ${colour.hex}12 70%)`, transition: 'background .5s', cursor: 'zoom-in' }}
             >
-              <div className="animate-float"><div className="absolute left-1/2 top-[92%] h-6 w-56 -translate-x-1/2 rounded-full bg-black/25 blur-xl" />
-                <div className="preserve-3d relative h-[360px] w-[280px] sm:h-[440px] sm:w-[340px]" style={{ transform: `rotateX(${angleX}deg) rotateY(${angleY}deg)`, transition: 'transform .45s cubic-bezier(.2,.7,.2,1)' }}>
-                  {Array.from({ length: LAYERS }).map((_, i) => (
-                    <div key={i} className="absolute inset-0 flex items-center justify-center" style={{ transform: `translateZ(${(i - (LAYERS - 1) / 2) * 5}px)`, filter: i === LAYERS - 1 ? 'none' : `brightness(${0.7 + i * 0.02})` }}>
-                      <ProductArt art={product.art} colour={colour.hex} colourName={colour.name} photo={colour.photo} alt={i === LAYERS - 1 ? pname(product.name, lang) : ''} className={`h-full w-full ${out ? 'opacity-60 grayscale' : ''}`} />
-                    </div>
-                  ))}
-                </div>
+              <div className="h-[360px] w-[280px] sm:h-[460px] sm:w-[360px]" style={{ transform: zoom ? 'scale(2)' : 'scale(1)', transformOrigin: zoom ? `${zoom.x}% ${zoom.y}%` : '50% 50%', transition: 'transform .25s ease-out' }}>
+                <ProductArt art={product.art} colour={colour.hex} colourName={colour.name} photo={colour.photo} alt={pname(product.name, lang)} className={`h-full w-full ${out ? 'opacity-60 grayscale' : ''}`} />
               </div>
               {out && <div className="pointer-events-none absolute inset-0 z-10"><OutCross /></div>}
-              <span className="absolute bottom-4 left-4 rounded-full bg-white/80 px-3 py-1 text-xs backdrop-blur">
-                {viewLabel(view, lang)}
-              </span>
-            </div>
-
-            <div className="mt-3 grid grid-cols-4 gap-3">
-              {(['live', 'front', 'left', 'right'] as View[]).map(v => (
-                <button key={v} onClick={() => setView(v)} aria-pressed={view === v} aria-label={viewLabel(v, lang)}
-                  className={`flex aspect-square items-center justify-center overflow-hidden rounded-2xl bg-white transition ${view === v ? 'ring-2 ring-ink' : 'opacity-70 hover:opacity-100'}`}
-                  style={{ perspective: 400 }}>
-                  <div className="h-4/5 w-4/5" style={{ transform: `rotateY(${v === 'live' ? -18 : ANGLES[v]}deg)` }}>
-                    <ProductArt art={product.art} colour={colour.hex} colourName={colour.name} photo={colour.photo} alt="" className="h-full w-full" />
-                  </div>
-                </button>
-              ))}
             </div>
           </div>
 

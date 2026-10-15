@@ -8,7 +8,7 @@ import LangSelect from './LangSelect.jsx';
 import { useT } from '../i18n.js';
 
 export default function Topbar({ user, page, onNavigate, onMenu, onLogout }) {
-  const { products, orders, appointments, resetDemo, messages, markMessageRead, markMessagesRead } = useStore();
+  const { products, orders, appointments, messages, markMessageRead, markMessagesRead } = useStore();
   const { t, lang } = useT();
   const [q, setQ] = useState('');
   const [menu, setMenu] = useState(null); // 'notif' | 'profile' | null
@@ -31,11 +31,11 @@ export default function Topbar({ user, page, onNavigate, onMenu, onLogout }) {
     const list = [];
     if (user.role === 'Admin') {
       messages.filter((m) => !m.read).forEach((m) => list.push({ id: 'm' + m.id, text: m.text, to: m.to || 'inventory', msg: m.id }));
-      products.filter((p) => p.stock > 0 && p.stock <= LOW_STOCK).forEach((p) => list.push({ id: p.id, text: t('{name} is low on stock ({n} left)', { name: p.name, n: p.stock }), to: 'inventory' }));
-      products.filter((p) => p.stock === 0).forEach((p) => list.push({ id: p.id + 'o', text: t('{name} is out of stock', { name: p.name }), to: 'inventory' }));
-      orders.filter((o) => o.status === 'Pending').forEach((o) => list.push({ id: o.id, text: t('Order {id} is awaiting processing', { id: o.id }), to: 'orders' }));
+      products.filter((p) => !p.archived && p.stock > 0 && p.stock <= LOW_STOCK).forEach((p) => list.push({ id: p.id, text: t('{name} is low on stock ({n} left)', { name: p.name, n: p.stock }), to: 'inventory' }));
+      products.filter((p) => !p.archived && p.stock === 0).forEach((p) => list.push({ id: p.id + 'o', text: t('{name} is out of stock', { name: p.name }), to: 'inventory' }));
+      orders.filter((o) => o.status === 'Order placed').forEach((o) => list.push({ id: o.id, text: t('Order {id} is awaiting processing', { id: o.id }), to: 'orders' }));
     }
-    appointments.filter((a) => a.status === 'Pending').forEach((a) => list.push({ id: a.id, text: t('Appointment {id} needs confirmation', { id: a.id }), to: 'appointments' }));
+    appointments.filter((a) => a.status === 'Pending Review').forEach((a) => list.push({ id: a.id, text: t('Appointment {id} needs confirmation', { id: a.id }), to: 'appointments' }));
     return list;
   }, [products, orders, appointments, messages, user.role, lang]);
 
@@ -92,9 +92,6 @@ export default function Topbar({ user, page, onNavigate, onMenu, onLogout }) {
                 <span className="muted">{user.email}</span>
                 <span className="role-pill"><ShieldCheck size={14} />{t('{role} (demo role)', { role: t(user.role) })}</span>
               </div>
-              {user.role === 'Admin' && (
-                <button className="pop-item" onClick={() => { resetDemo(); setMenu(null); }}><RotateCcw size={16} />{t('Reset demo data')}</button>
-              )}
               <button className="pop-item" onClick={onLogout}><LogOut size={16} />{t('Log out')}</button>
             </div>
           )}

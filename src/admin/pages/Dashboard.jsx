@@ -4,7 +4,7 @@ import {
 } from 'lucide-react';
 import { useStore } from '../store.jsx';
 import {
-  inr, fmtDate, TODAY, LOW_STOCK, ORDER_STATUSES, APPOINTMENT_STATUSES, ACTIVITY
+  inr, fmtDate, TODAY, LOW_STOCK, ORDER_STATUSES, APPOINTMENT_STATUSES
 } from '../data/mockData.js';
 import {
   orderTotal, revenueSeries, unitsSold, countBy, productRevenue, appointmentRevenue
@@ -24,7 +24,7 @@ const PERIODS = [
 ];
 
 export default function Dashboard({ user, onNavigate }) {
-  const { products, orders, appointments, customers, staff, lowStockThreshold = 10 } = useStore();
+  const { products, orders, appointments, customers, staff, activity, lowStockThreshold = 10 } = useStore();
   const { t, lang } = useT();
   const [period, setPeriod] = useState('6');
   const isAdmin = user.role === 'Admin';
@@ -36,7 +36,7 @@ export default function Dashboard({ user, onNavigate }) {
   }, [orders, appointments, products, period]);
 
   const totalRevenue = productRevenue(orders, products) + appointmentRevenue(appointments);
-  const lowStock = products.filter((p) => p.stock <= (lowStockThreshold ?? LOW_STOCK));
+  const lowStock = products.filter((p) => !p.archived && p.status !== 'Draft' && p.stock <= (lowStockThreshold ?? LOW_STOCK));
   const available = staff.filter((s) => s.availability === 'Available').length;
   const todays = appointments.filter((a) => a.date === TODAY).sort((a, b) => a.time.localeCompare(b.time));
   const recentOrders = [...orders].sort((a, b) => b.date.localeCompare(a.date)).slice(0, 5);
@@ -51,7 +51,7 @@ export default function Dashboard({ user, onNavigate }) {
           <h2>{t('Good morning, {name}', { name: user.name.split(' ')[0] })}</h2>
           <p>
             {isAdmin
-              ? t('{n} appointments are scheduled today and {m} orders are waiting to be processed.', { n: todays.length, m: orders.filter((o) => o.status === 'Pending').length })
+              ? t('{n} appointments are scheduled today and {m} orders are waiting to be processed.', { n: todays.length, m: orders.filter((o) => o.status === 'Order placed' || o.status === 'Order confirmed').length })
               : t('{n} appointments are scheduled today.', { n: todays.length })}
           </p>
           <div className="banner-actions">
@@ -89,10 +89,10 @@ export default function Dashboard({ user, onNavigate }) {
       </div>
 
       <div className="stat-grid">
-        {isAdmin && <StatCard icon={ShoppingBag} label={t('Total product orders')} value={orders.length} hint={t('{n} delivered', { n: orders.filter((o) => o.status === 'Delivered').length })} tone="rose" />}
+        {isAdmin && <StatCard icon={ShoppingBag} label={t('Total product orders')} value={orders.length} hint={t('{n} delivered', { n: orders.filter((o) => o.status === 'Order delivered').length })} tone="rose" />}
         <StatCard icon={CalendarDays} label={t('Total appointments')} value={appointments.length} hint={t('{n} today', { n: todays.length })} tone="sage" />
         <StatCard icon={Users} label={t('Total customers')} value={customers.length} hint={t('Across all tiers')} tone="sand" />
-        {isAdmin && <StatCard icon={IndianRupee} label={t('Total revenue (sample)')} value={inr(totalRevenue)} hint={t('Paid orders and services')} tone="forest" />}
+        {isAdmin && <StatCard icon={IndianRupee} label={t('Total revenue')} value={inr(totalRevenue)} hint={t('Paid orders and services')} tone="forest" />}
         {isAdmin && <StatCard icon={AlertTriangle} label={t('Low-stock products')} value={lowStock.length} hint={t('{n} units or fewer', { n: lowStockThreshold ?? LOW_STOCK })} tone="amber" />}
         <StatCard icon={UserCheck} label={t('Available specialists')} value={available} hint={t('of {n} team members', { n: staff.length })} tone="sage" />
       </div>
@@ -159,7 +159,8 @@ export default function Dashboard({ user, onNavigate }) {
           <div className="card">
             <div className="card-head"><h3>{t('Recent customer activity')}</h3></div>
             <ul className="list">
-              {ACTIVITY.map((a, i) => (
+              {activity.length === 0 && <li className="muted">{t('No activity yet.')}</li>}
+              {activity.map((a, i) => (
                 <li key={i}><div><strong>{a.who}</strong><span className="muted">{actText(a)}</span></div><span className="muted">{t(a.when)}</span></li>
               ))}
             </ul>
@@ -187,7 +188,8 @@ export default function Dashboard({ user, onNavigate }) {
           <div className="card">
             <div className="card-head"><h3>{t('Recent customer activity')}</h3></div>
             <ul className="list">
-              {ACTIVITY.map((a, i) => (
+              {activity.length === 0 && <li className="muted">{t('No activity yet.')}</li>}
+              {activity.map((a, i) => (
                 <li key={i}>
                   <div className="row-gap"><Avatar name={a.who} size={34} index={i} /><div><strong>{a.who}</strong><span className="muted">{actText(a)}</span></div></div>
                   <span className="muted">{t(a.when)}</span>

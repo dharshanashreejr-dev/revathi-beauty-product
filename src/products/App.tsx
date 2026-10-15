@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import Categories from './components/Categories';
+import HeroBanner from './components/HeroBanner';
+import ProductsFooter from './components/ProductsFooter';
 import ProductsSection from './components/ProductsSection';
 import ProductModal from './components/ProductModal';
 import CartDrawer from './components/CartDrawer';
@@ -9,7 +10,7 @@ import Confirmation from './components/Confirmation';
 import SiteHeader from '../shared/SiteHeader';
 import { requireLogin, useUser } from '../shared/LoginModal';
 import { useLang, tr, trx } from '../shared/i18n';
-import { PERKS } from './i18n';
+import { OFFERS } from './i18n';
 import { productsTitle } from '../shared/i18n-meta';
 import type { ArtType, Address, CartItem,CategoryKey, Colour, Order, Product } from './types';
 import { saveToTracking } from './saveOrder';
@@ -21,7 +22,7 @@ const go = (r: string) => { location.hash = `#/${r}`; };
 
 export default function App() {
   const [lang] = useLang();
-  const [category, setCategory] = useState<CategoryKey | null>(null);
+  const [category, setCategory] = useState<CategoryKey>('face');
   const [open, setOpen] = useState<{ product: Product; colour: Colour } | null>(null);
     const [cart, setCart] = useState<CartItem[]>(() => {
     let saved: CartItem[] = [];
@@ -69,11 +70,6 @@ export default function App() {
     return () => window.removeEventListener('hashchange', h);
   }, []);
 
-  const select = (c: CategoryKey) => {
-    const first = category === null;
-    setCategory(c);
-    setTimeout(() => document.getElementById('products')?.scrollIntoView({ behavior: 'smooth' }), first ? 80 : 0);
-  };
   const close = useCallback(() => setOpen(null), []);
 
   const add = (product: Product, colour: Colour, size: string, qty: number) => {
@@ -101,17 +97,17 @@ export default function App() {
       {page === 'shop' && (
         <main id="top">
           <div className="overflow-hidden bg-gold py-2 text-xs uppercase tracking-[.3em] text-night">
-            <div className="marquee flex w-max gap-12 whitespace-nowrap">{[...PERKS, ...PERKS, ...PERKS, ...PERKS].map((p, i) => <span key={i}>✦ {tr(p, lang)}</span>)}</div>
+            <div className="marquee flex w-max gap-12 whitespace-nowrap">{[...OFFERS, ...OFFERS, ...OFFERS, ...OFFERS].map((p, i) => <span key={i}>✦ {tr(p, lang)}</span>)}</div>
           </div>
-          <Categories active={category} onSelect={select} />
-          {category && <ProductsSection category={category} onCategory={setCategory} onOpen={(product, colour) => setOpen({ product, colour })} onQuick={(p, c) => add(p, c, p.sizes[0], 1)} />}
+          <HeroBanner />
+          <ProductsSection category={category} onCategory={setCategory} onOpen={(product, colour) => setOpen({ product, colour })} onQuick={(p, c) => add(p, c, p.sizes[0], 1)} />
         </main>
       )}
       {page === 'checkout' && <Checkout items={liveCart} initial={address} onBack={() => go('')} onNext={a => { setAddress(a); go('payment'); }} />}
       {page === 'payment' && address && <Payment items={liveCart} address={address} onBack={() => go('checkout')} onPlace={o => { saveToTracking(o); deductStockForOrder(o.items); try { localStorage.removeItem('velvet-bag'); } catch {} setOrder(o); setCart([]); go('confirmed'); }}/>}
       {page === 'confirmed' && order && <Confirmation order={order} onShop={() => go('')} />}
 
-      <footer className="bg-night px-5 py-12 text-center text-sm text-stone-400"><p className="gold-text font-serif text-3xl italic">REVATHI HERBAL</p><p className="mt-2 tracking-widest">{trx({ en: "FACE · WELLNESS · BODY", ta: "முகம் · ஆரோக்கியம் · உடல்", hi: "चेहरा · वेलनेस · शरीर", ml: "മുഖം · വെൽനെസ് · ശരീരം", te: "ముఖం · వెల్నెస్ · శరీరం" }, lang)}</p></footer>
+      <ProductsFooter />
 
       <CartDrawer open={drawer} items={liveCart} onClose={() => setDrawer(false)} onQty={changeQty} onRemove={remove} onCheckout={() => { setDrawer(false); requireLogin(() => go('checkout')); }} />
       {open && <ProductModal key={open.product.id} product={open.product} initialColour={open.colour} onClose={close} onAdd={(c, s, q) => add(open.product, c, s, q)} />}
