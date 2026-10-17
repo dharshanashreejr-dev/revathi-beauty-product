@@ -129,6 +129,27 @@ export function redeemCoupon(code: string) {
 }
 
 // ---------------------------------------------------------------------------------------------
+// Live offers shown on the customer website: service cards, product cards, the booking page and checkout.
+// Everything comes from Admin > Festival & Offers (coupons + festival campaigns), so pausing an offer or changing its dates
+// there changes what customers see straight away. Only offers that are Active today (and not used up) are returned.
+// BACKEND: GET /api/offers?scope=services|products (server decides which offers are live).
+// ---------------------------------------------------------------------------------------------
+export interface OfferView { id: string; kind: 'coupon' | 'campaign'; code: string; title: string; desc: string; type: 'percent' | 'freeship'; value: number; scope: Scope; end: string; daysLeft: number }
+const dayDiff = (to: string) => Math.round((Date.parse(`${to}T00:00:00`) - Date.parse(`${today()}T00:00:00`)) / 864e5)
+export function liveOffers(forScope: 'products' | 'services'): OfferView[] {
+  const d = load(), out: OfferView[] = []
+  d.coupons.forEach((c) => {
+    if (statusOf(c) !== 'Active' || (c.scope !== 'both' && c.scope !== forScope) || (c.maxUses > 0 && c.used >= c.maxUses)) return
+    out.push({ id: c.id, kind: 'coupon', code: c.code, title: c.title, desc: c.desc, type: c.type, value: c.type === 'percent' ? c.value : 0, scope: c.scope, end: c.end, daysLeft: dayDiff(c.end) })
+  })
+  d.campaigns.forEach((c) => {
+    if (statusOf(c) !== 'Active' || (c.scope !== 'both' && c.scope !== forScope)) return
+    out.push({ id: c.id, kind: 'campaign', code: c.code, title: c.name, desc: c.title || c.description || '', type: 'percent', value: c.pct, scope: c.scope, end: c.end, daysLeft: dayDiff(c.end) })
+  })
+  return out.sort((a, b) => (a.type === b.type ? b.value - a.value : a.type === 'percent' ? -1 : 1))
+}
+
+// ---------------------------------------------------------------------------------------------
 // Banners, brochures and festive images (admin controlled).
 // The customer website shows: default hero slides (src/landing/hero-slides.ts) + live festival-campaign banners
 // + images the admin added. Admin can replace or delete any of them. Stored in localStorage for now.

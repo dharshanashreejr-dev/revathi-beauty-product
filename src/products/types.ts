@@ -16,6 +16,7 @@ export interface Product {
   price: number;
   mrp: number;
   stock: number;
+  forcedOut?: boolean; // admin set the product Out of stock by hand (stock getter then reads 0)
   baseStock?: number; // the catalogue's own number; admin changes are layered on top (api/stock.ts)
   colours: Colour[];
   sizes: string[];

@@ -26,6 +26,7 @@ import { addOrder } from "../site/account";
 import { NAV_LABELS } from "../shared/i18n-nav";
 import { reviewNav } from "../shared/i18n-reviews";
 import { useUser } from "../shared/LoginModal";
+import ProfileMenu from "../shared/ProfileMenu";
 import { applyHomeMeta } from "../shared/i18n-meta";
 import { ProductPhoto, HerbalShowcase, VideoBand } from "./sections";
 import Testimonials from "./Testimonials";
@@ -895,10 +896,7 @@ export default function Home() {
             <span>({bag})</span>
           </button>
           {loggedUser ? (
-            <a className="nav-admin nav-profile" href={SITE.tracking + "?tab=profile"} aria-label={authT("Hi, {name}", lang as never, { name: loggedUser.name.split(" ")[0] || loggedUser.phone.slice(-4) })}>
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4" /><path d="M4 21a8 8 0 0 1 16 0" /></svg>
-              <span className="nav-profile-name">{authT("Hi, {name}", lang as never, { name: loggedUser.name.split(" ")[0] || loggedUser.phone.slice(-4) })}</span>
-            </a>
+            <ProfileMenu user={loggedUser} ui={lang as never} className="nav-admin nav-profile" nameClassName="nav-profile-name" />
           ) : (
             <button type="button" className="nav-admin nav-profile" onClick={() => openLogin()} aria-label={authT("Login", lang as never)}>
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4" /><path d="M4 21a8 8 0 0 1 16 0" /></svg>

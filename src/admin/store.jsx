@@ -82,7 +82,7 @@ export function StoreProvider({ children }) {
 
   const products = useMemo(() => catalogue().map((p) => ({
     id: p.id, name: p.name, category: p.category, price: p.price, archived: !!p.archived,
-    stock: api.stock.stockOverride(p.id) ?? p.baseStock ?? p.stock,
+    stock: p.forcedOut ? 0 : (api.stock.stockOverride(p.id) ?? p.baseStock ?? p.stock),
     status: p.archived ? 'Archived' : p.status || 'Active'
   })), [catTick]); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -180,7 +180,13 @@ export function StoreProvider({ children }) {
   }, []);
 
   const login = useCallback((email, password, role) => {
-    const found = USERS.find((u) => u.email.toLowerCase() === email.trim().toLowerCase());
+    const id = email.trim().toLowerCase();
+    let found = USERS.find((u) => u.email.toLowerCase() === id);
+    if (!found) {
+      // staff added by the admin: signs in with the username + password the admin assigned
+      const s = staff.find((x) => x.password && ((x.username || '').toLowerCase() === id || (x.email || '').toLowerCase() === id));
+      if (s) found = { email: s.username || s.email, password: s.password, role: 'Staff', name: s.name, title: s.role };
+    }
     if (!found) return { ok: false, error: 'No account found with that email address.' };
     if (found.password !== password) return { ok: false, error: 'Incorrect password. Please try again.' };
     if (found.role !== role) {
@@ -190,7 +196,7 @@ export function StoreProvider({ children }) {
     setUser(session);
     addAudit('Login', `${found.name} (${found.role}) signed in`, found.name);
     return { ok: true, user: session };
-  }, [addAudit]);
+  }, [addAudit, staff]);
 
   const sendMessage = useCallback((text, to = 'inventory', from = '') => {
     setMessages((m) => [{ id: Date.now() + Math.random(), text, to, from, at: Date.now(), read: false }, ...m].slice(0, 100));

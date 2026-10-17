@@ -19,7 +19,7 @@ import { inr } from '../data/mockData.js';
 // BACKEND: `services` and `service_packages` tables; price visibility = a row in `settings`. Admin only.
 const CATS = ['Body Massage', 'Facial', 'Consultation'];
 const slug = (n) => n.trim().toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
-const blankService = () => ({ id: '', name: '', category: 'Facial', duration: '45', price: '', discountType: 'percent', discountValue: '0', care: '', desc: '', active: true, popular: false });
+const blankService = () => ({ id: '', name: '', category: 'Facial', duration: '45', price: '', discountType: 'percent', discountValue: '0', care: '', desc: '', active: true, popular: false, signature: false });
 const toForm = (x) => ({ ...x, price: String(x.price), duration: String(x.duration), discountValue: String(x.discountValue ?? 0), discountType: x.discountType || 'percent', care: x.care || '', desc: x.desc || '', features: x.features ? x.features.join('\n') : undefined });
 const promoText = (type, v) => (!v ? 'No promotion' : type === 'percent' ? `${v}% off` : `${inr(v)} off`);
 
@@ -62,6 +62,7 @@ function ItemCard({ x, isPkg, t, onEdit, onDelete, onToggle }) {
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 6, alignItems: 'flex-end', flex: 'none' }}>
           {x.popular && <Badge tone="sand">{t('Most loved')}</Badge>}
+          {!isPkg && x.signature && <Badge tone="green">{t('Our signature service')}</Badge>}
           {!isPkg && <Badge tone={x.active ? 'green' : 'red'}>{x.active ? t('Active') : t('Hidden')}</Badge>}
         </div>
       </div>
@@ -127,7 +128,7 @@ export default function ServicesPricing() {
         const taken = new Set([...cfg.services.map((s) => s.id), ...cfg.bridalPackages.map((b) => b.id)]);
         id = base; for (let n = 2; taken.has(id); n += 1) id = `${base}-${n}`;
       }
-      const svc = { id, ...common, category: d.category, desc: d.desc.trim() || d.name.trim(), active: !!d.active };
+      const svc = { id, ...common, category: d.category, desc: d.desc.trim() || d.name.trim(), active: !!d.active, signature: !!d.signature };
       const services = isNew ? [...cfg.services, svc] : cfg.services.map((s) => (s.id === id ? svc : s));
       if (!services.some((s) => s.active)) { notify('Keep at least one service active.', 'error'); return; }
       const old = cfg.services.find((s) => s.id === id);
@@ -245,6 +246,11 @@ export default function ServicesPricing() {
               <label style={{ display: 'flex', gap: 8, alignItems: 'center', fontSize: 13.5 }}>
                 <input type="checkbox" checked={!!d.popular} onChange={(e) => set('popular', e.target.checked)} /> {t('Mark as most loved')}
               </label>
+              {form.kind !== 'package' && (
+                <label style={{ display: 'flex', gap: 8, alignItems: 'center', fontSize: 13.5 }}>
+                  <input type="checkbox" checked={!!d.signature} onChange={(e) => set('signature', e.target.checked)} /> {t('Mark as our signature service')}
+                </label>
+              )}
             </div>
           </div>
         </Modal>

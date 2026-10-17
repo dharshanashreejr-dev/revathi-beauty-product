@@ -10,6 +10,7 @@ import { useI18n, fmtDate } from '../i18n-site'
 import { useSlotLock, mmss } from '../useSlotLock'
 import { useUiLang } from '../../shared/i18n'
 import { authT } from '../../shared/auth-text'
+import { CouponPicker } from '../../shared/Offers'
 
 const channels: Channel[] = ['SMS', 'WhatsApp', 'SMS + WhatsApp']
 function HoldTimer({ msLeft, dark }: { msLeft: number; dark?: boolean }) {
@@ -60,12 +61,15 @@ export default function Booking() {
   const discount = cres && cres.ok ? cres.discount : 0
   const total = Math.max(0, base - discount)
   const REASON: Record<string, string> = { empty: 'Enter a coupon code.', invalid: 'Invalid coupon code.', inactive: 'Invalid coupon code.', early: 'This coupon is not active yet.', expired: 'This coupon has expired.', scope: 'This coupon does not apply to service bookings.', 'used-up': 'This coupon has been fully used.', login: 'Please log in to use this coupon.', 'not-first-order': 'This coupon is only for your first product order.', 'not-first-service': 'This coupon is only for your first service booking.', 'need-booking': 'Book a service first to use this coupon.', 'has-order': 'This coupon is only for customers who have not bought products yet.' }
-  const applyCoupon = () => requireLogin(() => {
-    const r = api.offers.validateCoupon(code, base, 'services')
-    if (r.ok) { setApplied(r.code); setCnote({ ok: true, text: authT('Coupon {code} applied. You save {amount}.', ui, { code: r.code, amount: money(r.discount) }) }) }
+  const applyCoupon = (c: string = code) => requireLogin(() => {
+    const r = api.offers.validateCoupon(c, base, 'services')
+    if (r.ok) { setCode(r.code); setApplied(r.code); setCnote({ ok: true, text: authT('Coupon {code} applied. You save {amount}.', ui, { code: r.code, amount: money(r.discount) }) }) }
     else { setApplied(''); setCnote({ ok: false, text: r.reason === 'min' ? authT('Add items worth {amount} more to use this coupon.', ui, { amount: money((r.min ?? 0) - base) }) : authT(REASON[r.reason] ?? 'Invalid coupon code.', ui) }) }
   })
   const clearCoupon = () => { setApplied(''); setCode(''); setCnote(null) }
+  // Arriving from a service card's offer ("Book with this offer") puts that code in the box and applies it once the customer is logged in.
+  const urlCoupon = (sp.get('coupon') || '').toUpperCase()
+  useEffect(() => { if (urlCoupon && !applied) { setCode(urlCoupon); if (user) applyCoupon(urlCoupon) } }, [urlCoupon, user?.id]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const set = (k: string, v: string | number | boolean) => setF((p) => {
     const n = { ...p, [k]: v } as typeof p
@@ -180,9 +184,10 @@ export default function Booking() {
                 <input id="svc-coupon" value={code} disabled={!!applied} maxLength={15} onChange={(e) => { setCode(e.target.value.toUpperCase()); setCnote(null) }} onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); if (!applied) applyCoupon() } }} placeholder="FIRSTSERVICE10" className="min-w-0 flex-1 bg-transparent border-b border-sand/40 py-2 text-sm uppercase outline-none focus:border-sand" />
                 {applied
                   ? <button type="button" onClick={clearCoupon} className="rounded-full border border-sand/50 px-4 py-2 hover:bg-sand hover:text-ink">{authT('Remove coupon', ui)}</button>
-                  : <button type="button" onClick={applyCoupon} className="rounded-full bg-sand text-ink px-4 py-2 hover:opacity-90">{authT('Apply', ui)}</button>}
+                  : <button type="button" onClick={() => applyCoupon()} className="rounded-full bg-sand text-ink px-4 py-2 hover:opacity-90">{authT('Apply', ui)}</button>}
               </div>
               {cnote && <p className={`mt-2 ${cnote.ok ? 'text-emerald-300' : 'text-red-300'}`} role={cnote.ok ? 'status' : 'alert'}>{cnote.text}</p>}
+              <CouponPicker scope="services" subtotal={base} applied={applied} onApply={(c) => applyCoupon(c)} reasonText={(r) => authT(REASON[r] ?? 'Invalid coupon code.', ui)} fmt={money} />
             </div>
             {f.time && held && <HoldTimer msLeft={msLeft} dark />}
             <button className="w-full bg-sand text-ink rounded-full py-4 label mt-3 hover:opacity-90">{t(review ? 'Send booking request' : 'Confirm booking')}</button>

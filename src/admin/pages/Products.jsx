@@ -17,11 +17,13 @@ import { useT } from '../i18n.js';
 // Add / edit / archive (no hard delete) / categorise / photo upload / MRP + discount + effective price. Stock changes live in Inventory (with reason tags).
 // BACKEND: GET/POST/PATCH /api/products (Admin only), archive = PATCH {archived:true}, photo = multipart upload to object storage.
 const CAT_LABEL = { face: 'Face', 'wellness products': 'Wellness', body: 'Body' };
-const STATUSES = ['Active', 'Draft', 'Out of Stock', 'Archived'];
-const blank = () => ({ name: '', category: CATEGORIES[0].name, subcategory: CATEGORIES[0].subs[0], mrp: '', discountType: 'percent', discountValue: '0', stock: '', status: 'Active', description: '', image: '' });
+const STATUSES = ['In stock', 'Out of stock', 'Archived'];
+const blank = () => ({ name: '', category: CATEGORIES[0].name, subcategory: CATEGORIES[0].subs[0], mrp: '', discountType: 'percent', discountValue: '0', stock: '', availability: 'In stock', description: '', image: '' });
 const effOf = (d) => api.pricing.effectivePrice(Number(d.mrp) || 0, d.discountType, Number(d.discountValue) || 0);
 const discLabel = (p) => (!p.discountValue ? '-' : p.discountType === 'percent' ? `${p.discountValue}%` : `${inr(p.discountValue)} off`);
-const statusOf = (p) => (p.archived ? 'Archived' : p.status === 'Draft' ? 'Draft' : p.stock === 0 ? 'Out of Stock' : 'Active');
+// Availability follows stock: 0 units = Out of stock, anything above = In stock (stock itself is changed in Inventory).
+const statusOf = (p) => (p.archived ? 'Archived' : p.stock === 0 ? 'Out of stock' : 'In stock');
+const realStock = (p) => api.stock.stockOverride(p.id) ?? p.baseStock ?? p.stock; // quantity ignoring the manual Out-of-stock switch
 const isUpload = (art) => typeof art === 'string' && art.startsWith('data:');
 
 function Thumb({ p, size = 48 }) {
@@ -58,7 +60,7 @@ export default function Products({ intent, onIntentHandled }) {
   const openAdd = () => { setErrors({}); setForm({ mode: 'add', data: blank() }); };
   const openEdit = (p) => {
     setErrors({});
-    setForm({ mode: 'edit', data: { id: p.id, sku: p.sku, name: p.name, category: p.category, subcategory: p.subcategory, mrp: String(p.mrp), discountType: p.discountType || 'percent', discountValue: String(p.discountValue ?? 0), stock: String(p.stock), status: p.status === 'Draft' ? 'Draft' : 'Active', description: p.description, image: isUpload(p.art) ? p.art : '', price: p.price } });
+    setForm({ mode: 'edit', data: { id: p.id, sku: p.sku, name: p.name, category: p.category, subcategory: p.subcategory, mrp: String(p.mrp), discountType: p.discountType || 'percent', discountValue: String(p.discountValue ?? 0), stock: String(realStock(p)), availability: p.forcedOut ? 'Out of stock' : 'In stock', description: p.description, image: isUpload(p.art) ? p.art : '', price: p.price } });
   };
   const set = (k, v) => setForm((f) => ({ ...f, data: { ...f.data, [k]: v } }));
   const setCategory = (c) => setForm((f) => ({ ...f, data: { ...f.data, category: c, subcategory: CATEGORIES.find((x) => x.name === c).subs[0] } }));
@@ -81,6 +83,8 @@ export default function Products({ intent, onIntentHandled }) {
     else if (d.discountType === 'percent' && dv > 100) e.discountValue = 'Percentage cannot be more than 100.';
     else if (d.discountType === 'flat' && !e.mrp && dv >= Number(d.mrp)) e.discountValue = 'Flat discount must be less than the MRP.';
     if (form.mode === 'add' && (d.stock === '' || !/^\d+$/.test(String(d.stock).trim()))) e.stock = 'Enter a whole number, zero or more.';
+    const units = form.mode === 'add' ? Number(d.stock) : Number(d.stock);
+    if (d.availability === 'In stock' && !e.stock && units === 0) e.availability = 'Stock quantity is 0. Add stock in Inventory first, or choose Out of stock.';
     setErrors(e);
     return Object.keys(e).length === 0;
   };
@@ -89,14 +93,18 @@ export default function Products({ intent, onIntentHandled }) {
     const d = form.data;
     if (!validate(d)) { notify('Please fix the highlighted fields.', 'error'); return; }
     const price = effOf(d);
-    const base = { name: d.name.trim(), description: d.description.trim() || 'Herbal care product.', mrp: Number(d.mrp), discountType: d.discountType, discountValue: Number(d.discountValue) || 0, price, status: d.status };
+    const base = { name: d.name.trim(), description: d.description.trim() || 'Herbal care product.', mrp: Number(d.mrp), discountType: d.discountType, discountValue: Number(d.discountValue) || 0, price, status: 'Active' };
     if (form.mode === 'add') {
       const p = createProduct({ ...base, category: d.category, subcategory: d.subcategory, stock: Number(d.stock), image: d.image || undefined });
+      if (d.availability === 'Out of stock') api.catalogue.setPatch(p.id, { availability: 'out' });
       api.audit.log(actor, role, 'product.updated', `Added product ${p.name} (${p.id}) at ${inr(price)}`, { id: p.id, price });
       notify(`${p.name} was added to the catalogue.`);
     } else {
       const before = all.find((x) => x.id === d.id);
-      api.catalogue.setPatch(d.id, { ...base, image: d.image || undefined });
+      const wasOut = !!before.forcedOut, nowOut = d.availability === 'Out of stock';
+      api.catalogue.setPatch(d.id, { ...base, image: d.image || undefined, availability: nowOut ? 'out' : 'in' });
+      if (wasOut && !nowOut && Number(d.stock) > 0) api.stock.fulfil(d.id, `${window.location.origin}/products/`); // SMS people waiting on "Notify Me"
+      if (wasOut !== nowOut) api.audit.log(actor, role, 'product.updated', `${base.name} (${d.id}) marked ${nowOut ? 'Out of stock' : 'In stock'}`, { id: d.id });
       const changes = [];
       if (before.price !== price) changes.push(`price ${inr(before.price)} to ${inr(price)}`);
       if (before.mrp !== base.mrp) changes.push(`MRP ${inr(before.mrp)} to ${inr(base.mrp)}`);
@@ -202,7 +210,7 @@ export default function Products({ intent, onIntentHandled }) {
             {form.mode === 'add'
               ? <Field label={t('Opening stock')} error={errors.stock} hint="Later changes are made in Inventory with a reason"><input inputMode="numeric" value={form.data.stock} onChange={(e) => set('stock', e.target.value)} placeholder="25" /></Field>
               : <Field label={t('Stock quantity')} hint="Change stock from the Inventory page so a reason is recorded"><input readOnly value={form.data.stock} /></Field>}
-            <Field label={t('Status')}><select value={form.data.status} onChange={(e) => set('status', e.target.value)}><option value="Active">{t('Active')}</option><option value="Draft">{t('Draft')}</option></select></Field>
+            <Field label={t('Availability')} error={errors.availability} hint="Out of stock hides it from buying on the shop. The stock quantity is kept."><select value={form.data.availability || 'In stock'} onChange={(e) => set('availability', e.target.value)}><option value="In stock">{t('In stock')}</option><option value="Out of stock">{t('Out of stock')}</option></select></Field>
             <Field label={t('Description')}><textarea rows={3} value={form.data.description} onChange={(e) => set('description', e.target.value)} placeholder="Short product description" /></Field>
             <Field label={t('Product photo')} hint="PNG, JPG or WebP. It is resized automatically.">
               <div className="row-gap" style={{ alignItems: 'center' }}>

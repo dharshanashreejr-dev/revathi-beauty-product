@@ -3,8 +3,8 @@ import { spa } from '../../site/data';
 import { gstSplit } from '../../api/pricing';
 
 // Printing helpers for the admin: dispatch slips (From / To + QR), order bills and POS invoices.
-//  - The QR on every order holds a short summary (order id on the first line, customer, items, total, address).
-//    Scanning it in Admin > Orders opens that order's slip and bill, ready to print.
+//  - The QR on every order holds a short link to that order's details page (Admin > Orders > order).
+//    Scanning it (phone camera or the scanner in Admin > Orders) opens the order's full details, ready to print.
 //  - Slips print on 100 x 150 mm (standard courier label), bills on A5. One page per order, any number of orders in one go.
 // BACKEND: the QR can later carry a signed link to the order instead of the text summary.
 
@@ -18,16 +18,59 @@ const rs = (n) => `₹${Number(n || 0).toLocaleString('en-IN')}`;
 const rs2 = (n) => `₹${Number(n || 0).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 const fmtDate = (iso) => { const d = new Date(iso); return Number.isNaN(+d) ? String(iso || '') : d.toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' }); };
 
-/** Text stored inside the order QR. Kept short so the printed QR scans easily. First line always holds the order id. */
+/** Link to the order's own details page in Admin > Orders. This is what the QR holds. */
+export function orderLink(o) {
+  const base = typeof window !== 'undefined' ? window.location.href.split('#')[0] : '';
+  return `${base}#/orders/${encodeURIComponent(o.id)}`;
+}
+
+/** Where the public order page lives. Set VITE_PUBLIC_URL (e.g. https://yourshop.com) in .env for the live site;
+ *  otherwise the address the admin is opened on is used. A "localhost" address only works on this computer. */
+export function publicBase() {
+  let env = '';
+  try { env = (import.meta.env && import.meta.env.VITE_PUBLIC_URL) || ''; } catch { /* no env */ }
+  let saved = '';
+  try { saved = localStorage.getItem('rhbc:public-url') || ''; } catch { /* no storage */ }
+  const b = (env || saved || (typeof window !== 'undefined' ? window.location.origin : '')).trim();
+  return b.replace(/\/+$/, '');
+}
+export const isLocalBase = () => /^https?:\/\/(localhost|127\.|0\.0\.0\.0)/i.test(publicBase());
+
+const b64 = (str) => btoa(unescape(encodeURIComponent(str))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+const unb64 = (x) => decodeURIComponent(escape(atob(x.replace(/-/g, '+').replace(/_/g, '/'))));
+
+/** Text stored inside the order QR: a link to the PUBLIC page /order.html with the order details packed inside the link,
+ *  so anyone who scans it (any phone, any network) sees the order. No login and no server lookup needed.
+ *  BACKEND: later this becomes /order/<signed-token> and the page fetches live status. */
 export function orderQrText(o) {
-  const qty = o.items.reduce((s, i) => s + i.qty, 0);
-  return [
-    `RHBC ${o.id}`,
-    `${clip(o.customer || 'Customer', 30)} ${o.phone || ''}`.trim(),
-    `${qty} item(s): ${clip(o.items.map((i) => `${i.name} x${i.qty}`).join(', '), 90)}`,
-    `Total Rs ${o.total} ${o.payment || ''}`.trim(),
-    `To: ${clip(o.address, 80)}`,
-  ].join('\n');
+  const d = {
+    i: o.id, c: clip(o.customer, 30), p: o.phone || '', a: clip(o.address, 90), d: String(o.placed || '').slice(0, 10),
+    t: Math.round(o.total || 0), y: clip(o.payment || '', 16), s: o.cancelled ? -1 : (o.stage ?? 0),
+    k: clip(o.courier || '', 16), w: clip(o.awb || '', 24),
+    l: (o.items || []).map((x) => [clip(x.name, 28), x.qty, Math.round(x.price || 0)])
+  };
+  return `${publicBase()}/order.html#d=${b64(JSON.stringify(d))}`;
+}
+
+/** Work out which order a scanned / pasted QR text refers to. Exact id match only (ORD-1 must never match ORD-10).
+ *  Understands the link format and the older "RHBC <id>" text format. Returns the order or null. */
+export function findOrderByQr(raw, orders) {
+  const x = String(raw || '').trim();
+  if (!x) return null;
+  const ids = new Set(orders.map((o) => o.id));
+  const dm = x.match(/#d=([A-Za-z0-9_-]+)/);
+  if (dm) { try { const id = JSON.parse(unb64(dm[1])).i; if (ids.has(id)) return orders.find((o) => o.id === id); } catch { /* fall through */ } }
+  const m = x.match(/#\/orders\/([^\s?&]+)/i);
+  if (m) {
+    let id = m[1];
+    try { id = decodeURIComponent(id); } catch { /* keep raw */ }
+    if (ids.has(id)) return orders.find((o) => o.id === id);
+  }
+  const first = x.split(/\r?\n/)[0].replace(/^RHBC\s+/i, '').trim();
+  if (ids.has(first)) return orders.find((o) => o.id === first);
+  if (ids.has(x)) return orders.find((o) => o.id === x);
+  const tok = x.split(/[\s,;|]+/).find((t) => ids.has(t));
+  return tok ? orders.find((o) => o.id === tok) : null;
 }
 
 const svgCache = new Map();
@@ -82,11 +125,11 @@ body{margin:0;font-family:Arial,Helvetica,sans-serif;color:#000;background:#e9e9
 .to .ph{font-size:10pt;font-weight:700}
 .its ul{margin:0;padding-left:4mm;font-size:8pt}
 .slip .ft{margin-top:auto;display:flex;gap:3mm;align-items:center;border-top:.4mm dashed #000;padding-top:2mm}
-.slip .qr svg{width:30mm;height:30mm;display:block}
+.slip .qr svg{width:32mm;height:32mm;display:block}
 .tot{font-size:14pt;font-weight:800}
 .bill{page:bill;width:148mm;height:210mm;padding:10mm;font-size:9.5pt;display:flex;flex-direction:column;gap:4mm}
 .bill h1{margin:0;font-size:14pt}
-.bill .qr svg{width:24mm;height:24mm;display:block}
+.bill .qr svg{width:28mm;height:28mm;display:block}
 .bill .title{font-size:16pt;font-weight:800;letter-spacing:1px}
 .bill table{width:100%;border-collapse:collapse}
 .bill th{background:#f1f1f1;text-align:left;font-size:8pt;padding:2mm;border-bottom:.3mm solid #000}
@@ -111,7 +154,7 @@ function slipPage(o) {
 <div class="box to"><div class="lb">TO</div><div class="nm">${esc(o.customer || 'Customer')}</div><div class="ad">${esc(o.address || '')}</div><div class="ph">Ph: ${esc(o.phone || '-')}</div></div>
 <div class="sm">Courier: <b>${esc(o.courier)}</b> &nbsp; AWB: <b>${esc(o.awb)}</b></div>
 <div class="its"><div class="lb">${qty} ITEM(S)</div><ul>${items}${more}</ul></div>
-<div class="ft"><div class="qr">${qrSvg(orderQrText(o))}</div><div><div class="sm">Order total</div><div class="tot">${esc(rs(o.total))}</div><div class="sm">Scan the QR for the order summary</div></div></div>
+<div class="ft"><div class="qr">${qrSvg(orderQrText(o))}</div><div><div class="sm">Order total</div><div class="tot">${esc(rs(o.total))}</div><div class="sm">Scan the QR to open the order details</div></div></div>
 </section>`;
 }
 

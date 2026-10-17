@@ -4,7 +4,7 @@ import { team, type Category } from '../api/catalog'
 export { team }
 export type { Category }
 
-export interface Service { id: string; name: string; category: Category; duration: number; price: number; basePrice?: number; promo?: string; care?: string; img: string; desc: string; popular?: boolean }
+export interface Service { id: string; name: string; category: Category; duration: number; price: number; basePrice?: number; promo?: string; care?: string; img: string; desc: string; popular?: boolean; signature?: boolean }
 
 export const spa = {
   name: 'REVATHI HERBAL BEAUTY CARE', sub: 'WOMEN\'S LUXURY SALON', short: 'WOMEN\'S LUXURY SALON', phone: '+91 90000 00000', email: 'hello@revathiherbal.com',
@@ -26,7 +26,7 @@ const promoTag = (type?: 'flat' | 'percent', v = 0) => (v > 0 ? (type === 'flat'
 const baseServices = (): Service[] => getSiteConfig().services.filter((s) => s.active).map((s) => ({
   id: s.id, name: s.name, category: s.category as Category, duration: s.duration, price: promoPrice(s.price, s.discountType, s.discountValue),
   basePrice: s.discountValue > 0 ? s.price : undefined, promo: promoTag(s.discountType, s.discountValue), care: s.care || undefined,
-  img: SERVICE_IMG[s.id] ?? 'facial', popular: s.popular, desc: s.desc,
+  img: SERVICE_IMG[s.id] ?? 'facial', popular: s.popular, signature: s.signature, desc: s.desc,
 }))
 // Bridal makeup packages are edited by the admin too.
 const bridalServices = (): Service[] => getSiteConfig().bridalPackages.map((b) => ({

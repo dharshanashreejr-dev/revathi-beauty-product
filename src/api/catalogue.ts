@@ -5,7 +5,7 @@ import { read, write } from './storage'
 
 export type DiscountType = 'flat' | 'percent'
 export type ProductStatus = 'Active' | 'Draft'
-export interface Patch { name?: string; description?: string; mrp?: number; price?: number; discountType?: DiscountType; discountValue?: number; status?: ProductStatus; archived?: boolean; image?: string }
+export interface Patch { name?: string; description?: string; mrp?: number; price?: number; discountType?: DiscountType; discountValue?: number; status?: ProductStatus; archived?: boolean; image?: string; availability?: 'in' | 'out' }
 export interface Added { id: string; sku: string; category: 'face' | 'wellness products' | 'body'; subcategory: string; name: string; description: string; mrp: number; price: number; stock: number }
 
 const PK = 'rhbc:catalogue-patches', AK = 'rhbc:catalogue-added', EVT = 'rhbc-catalogue-change'

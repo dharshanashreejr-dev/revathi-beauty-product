@@ -8,6 +8,7 @@ import ProductArt from './ProductArt';
 import { sizeText } from '../i18n-checkout';
 import { pname } from '../i18n-names';
 import { api } from '../../api';
+import { OfferStrip } from '../../shared/Offers';
 
 interface Props { product: Product; index: number; onOpen: (p: Product, c: Colour) => void; onQuick: (p: Product, c: Colour) => void }
 
@@ -83,6 +84,8 @@ export default function ProductCard({ product, index, onOpen, onQuick }: Props) 
               {product.mrp > product.price && <span className="text-sm text-stone-400 line-through">{formatPrice(product.mrp)}</span>}
               {discount(product) > 0 && <span className="text-sm font-semibold text-emerald-700">{offLabel(discount(product), lang)}</span>}
             </div>
+
+            {!out && <OfferStrip scope="products" subtotal={product.price} />}
 
             <div className="flex items-center gap-2 text-xs">
               <span className="rounded bg-emerald-700 px-1.5 py-0.5 font-semibold text-white">{product.rating} ★</span>

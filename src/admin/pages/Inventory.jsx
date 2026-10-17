@@ -33,7 +33,7 @@ export default function Inventory() {
     const stock = api.stock.stockOverride(p.id) ?? p.baseStock ?? p.stock;
     return { ...p, stock, cap: Math.max(api.stock.capacityOverride(p.id) ?? 0, p.baseStock ?? p.stock, stock, 1), waiting: api.stock.waitingCount(p.id) };
   });
-  const stateOf = (p) => (p.stock === 0 ? 'Out of Stock' : p.stock <= th ? 'Low Stock' : 'In Stock');
+  const stateOf = (p) => (p.stock === 0 || p.forcedOut ? 'Out of Stock' : p.stock <= th ? 'Low Stock' : 'In Stock');
 
   const stats = useMemo(() => ({
     skus: products.length,

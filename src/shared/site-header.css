@@ -326,3 +326,56 @@ html:not([lang="en"]) .vt-right { gap: 14px !important; }
 .vt-brand { align-self: start; height: 73px; justify-content: center; }
 .vt-header.is-solid .vt-brand { height: 80px; padding-top: 0 !important; }
 @media (max-width: 1359px) { .vt-brand { height: 80px; } }
+
+/* ===== Neat navbar: flex layout, no overlap, no early collapse ===== */
+.vt-header {
+  display: flex !important;
+  align-items: flex-start;
+  justify-content: space-between;
+  grid-template-columns: none;
+}
+.vt-header .vt-left {
+  flex: 1 1 0;
+  min-width: 0;
+  justify-content: flex-end;
+  gap: clamp(14px, 1.6vw, 28px);
+  padding-right: clamp(16px, 2vw, 36px);
+}
+.vt-header .vt-brand {
+  flex: 0 0 auto;
+  min-width: 0;
+  margin: 0 auto;
+}
+.vt-header .vt-brand .vt-word { font-size: clamp(17px, 1.45vw, 20px); letter-spacing: .12em; }
+.vt-header .vt-rightwrap {
+  flex: 0 1 auto;
+  min-width: 0;
+  gap: clamp(10px, 1.2vw, 20px);
+  padding-right: clamp(14px, 1.6vw, 28px);
+}
+.vt-header .vt-right {
+  padding-left: clamp(14px, 2vw, 36px) !important;
+  gap: clamp(12px, 1.3vw, 18px) !important;
+}
+.vt-header .vt-nav { font-size: clamp(11px, .85vw, 12px); }
+.vt-header .vt-tools { gap: clamp(8px, .9vw, 12px) !important; }
+.vt-header .vt-lang { max-width: 92px; padding: 6px 8px; }
+.vt-header .vt-tools .vt-profile { padding: 8px clamp(10px, 1vw, 14px); letter-spacing: .1em; margin-left: 0; }
+
+/* collapse to burger only on genuinely small screens */
+@media (max-width: 1259px) {
+  .vt-header .vt-left { flex: 0 0 auto; }
+  .vt-header .vt-burger { margin: 14px 0 0 12px; flex: 0 0 auto; }
+  .vt-header .vt-brand { margin: 0 auto; }
+  .vt-header .vt-rightwrap { flex: 0 0 auto; }
+}
+@media (min-width: 1260px) and (max-width: 1359px) {
+  .vt-header .vt-nav { display: flex; }
+  .vt-header .vt-burger { display: none; }
+  .vt-header { height: 96px; }
+  .vt-header.is-solid { height: 80px; }
+  .vt-header .vt-rightwrap { height: 73px; }
+  .vt-header.is-solid .vt-rightwrap { height: 80px; }
+  .vt-header .vt-brand { height: 73px; }
+  .vt-header.is-solid .vt-brand { height: 80px; }
+}

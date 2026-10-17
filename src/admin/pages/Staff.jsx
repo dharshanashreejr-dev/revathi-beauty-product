@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
-import { Plus, Search, Pencil, Eye, Mail, Phone, Clock, MapPin, Shield } from 'lucide-react';
+import { Plus, Search, Pencil, Eye, Mail, Phone, Clock, MapPin, Shield, KeyRound } from 'lucide-react';
 import { useStore } from '../store.jsx';
-import { STAFF_ROLES, AVAILABILITY, TODAY, fmtDate } from '../data/mockData.js';
+import { STAFF_ROLES, AVAILABILITY, TODAY, fmtDate, USERS } from '../data/mockData.js';
 import { nextId } from '../utils.js';
 import PageHeader from '../components/PageHeader.jsx';
 import Badge from '../components/Badge.jsx';
@@ -12,7 +12,7 @@ import { useT } from '../i18n.js';
 
 const SERVICE_ROLES = ['Skin Specialist', 'Hair Therapist', 'Beauty Specialist', 'Wellness Specialist'];
 const PERM_OPTIONS = ['appointments', 'customers', 'inventory', 'services', 'pos', 'all'];
-const blank = { name: '', email: '', phone: '', role: STAFF_ROLES[1], availability: 'Available', experience: '', bio: '', workstationBay: '', shiftHours: '09:00-18:00', permissions: ['appointments'] };
+const blank = { name: '', email: '', phone: '', role: STAFF_ROLES[1], availability: 'Available', experience: '', bio: '', workstationBay: '', shiftHours: '09:00-18:00', permissions: ['appointments'], username: '', password: '' };
 
 export default function Staff({ intent, onIntentHandled }) {
   const { staff, setStaff, appointments, setAppointments, notify, user, addAudit } = useStore();
@@ -61,12 +61,24 @@ export default function Staff({ intent, onIntentHandled }) {
     else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(d.email.trim())) e.email = 'Enter a valid email address.';
     else if (staff.some((s) => s.id !== d.id && s.email.toLowerCase() === d.email.trim().toLowerCase())) e.email = 'This email is already used by another team member.';
     if (!d.phone.trim()) e.phone = 'Phone number is required.';
+    // login credentials assigned by the admin (the staff member signs in with these)
+    const uname = (d.username || '').trim().toLowerCase();
+    if (!uname) e.username = 'Login username is required.';
+    else if (/\s/.test(uname)) e.username = 'Username cannot contain spaces.';
+    else if (
+      USERS.some((u) => u.email.toLowerCase() === uname) ||
+      staff.some((s) => s.id !== d.id && ((s.username || '').toLowerCase() === uname || (s.email || '').toLowerCase() === uname))
+    ) e.username = 'This username is already taken.';
+    const hasOldPass = form.mode === 'edit' && !!d.passwordSaved;
+    if (!d.password) { if (!hasOldPass) e.password = 'Password is required.'; }
+    else if (d.password.length < 6) e.password = 'Password must be at least 6 characters.';
     setErrors(e);
     if (Object.keys(e).length) { notify('Please fix the highlighted fields.', 'error'); return; }
-    const clean = { ...d, name: d.name.trim(), email: d.email.trim(), phone: d.phone.trim(), workstationBay: (d.workstationBay || '').trim(), shiftHours: d.shiftHours || '09:00-18:00', permissions: d.permissions || [] };
+    const clean = { ...d, name: d.name.trim(), email: d.email.trim(), phone: d.phone.trim(), workstationBay: (d.workstationBay || '').trim(), shiftHours: d.shiftHours || '09:00-18:00', permissions: d.permissions || [], username: (d.username || '').trim(), password: d.password || d.passwordSaved || '' };
+    delete clean.passwordSaved;
     if (form.mode === 'add') {
       setStaff((list) => [...list, { ...clean, id: nextId('S', list, 6) }]);
-      notify(`${clean.name} joined the team.`);
+      notify(`${clean.name} joined the team. Login username: ${clean.username}`);
       addAudit?.('Staff added', clean.name, user?.name);
     } else {
       setStaff((list) => list.map((s) => (s.id === clean.id ? clean : s)));
@@ -144,7 +156,7 @@ export default function Staff({ intent, onIntentHandled }) {
                 <td style={{ fontSize: 12 }}>{(s.permissions || []).join(', ') || '—'}</td>
                 <td>
                   <button className="icon-btn" onClick={() => setViewId(s.id)} title={t('View')}><Eye size={16} /></button>
-                  {user?.role === 'Admin' && <button className="icon-btn" onClick={() => { setErrors({}); setForm({ mode: 'edit', data: { ...s, permissions: s.permissions || [] } }); }} title={t('Edit')}><Pencil size={16} /></button>}
+                  {user?.role === 'Admin' && <button className="icon-btn" onClick={() => { setErrors({}); setForm({ mode: 'edit', data: { ...s, permissions: s.permissions || [], username: s.username || '', password: '', passwordSaved: s.password || '' } }); }} title={t('Edit')}><Pencil size={16} /></button>}
                 </td>
               </tr>
             ))}
@@ -162,6 +174,7 @@ export default function Staff({ intent, onIntentHandled }) {
               <dl className="dl">
                 <dt>{t('Email')}</dt><dd><Mail size={13} /> {viewing.email}</dd>
                 <dt>{t('Phone')}</dt><dd><Phone size={13} /> {viewing.phone}</dd>
+                <dt>{t('Login')}</dt><dd><KeyRound size={13} /> {viewing.username || '—'}</dd>
                 <dt>{t('Experience')}</dt><dd>{viewing.experience}</dd>
                 <dt>{t('Bay')}</dt><dd>{viewing.workstationBay || '—'}</dd>
                 <dt>{t('Shift')}</dt><dd>{viewing.shiftHours || '—'}</dd>
@@ -212,6 +225,10 @@ export default function Staff({ intent, onIntentHandled }) {
             <Field label={t('Shift hours')}><input value={form.data.shiftHours || ''} onChange={(e) => set('shiftHours', e.target.value)} placeholder="09:00-18:00" /></Field>
             <Field label={t('Experience')}><input value={form.data.experience} onChange={(e) => set('experience', e.target.value)} /></Field>
             <Field label={t('Availability')}><select value={form.data.availability} onChange={(e) => set('availability', e.target.value)}>{AVAILABILITY.map((a) => <option key={a}>{a}</option>)}</select></Field>
+          </div>
+          <div className="form-grid">
+            <Field label={t('Login username')} error={errors.username}><input autoComplete="off" value={form.data.username || ''} onChange={(e) => set('username', e.target.value)} placeholder="e.g. priya.staff" /></Field>
+            <Field label={form.mode === 'edit' ? t('New password (leave blank to keep)') : t('Login password')} error={errors.password}><input autoComplete="new-password" value={form.data.password || ''} onChange={(e) => set('password', e.target.value)} placeholder="min 6 characters" /></Field>
           </div>
           <Field label={t('Permission delegation')}>
             <div className="chip-row">

@@ -5,6 +5,9 @@ import { useEffect, useState } from 'react'
 import { Link } from '../SmartLink'
 import { Reveal, DragRail, ArrowUR, Lines } from '../components/ui'
 import { useI18n, COUNT_TREATMENTS } from '../i18n-site'
+import { OfferStrip } from '../../shared/Offers'
+import { useUiLang } from '../../shared/i18n'
+import { authT } from '../../shared/auth-text'
 import { services, spa, team, img, money } from '../data'
 
 const Img = ({ k, className = '', alt = '' }: { k: string; className?: string; alt?: string }) => <img src={img(k)} alt={alt} draggable={false} loading="lazy" className={`object-cover ${className}`} />
@@ -42,14 +45,22 @@ function Hero() {
 
 function ServiceCard({ s, n }: { s: (typeof services)[number]; n: number }) {
   const { t } = useI18n()
+  const [ui] = useUiLang()
   return (
     <article style={{ animationDelay: `${n * 50}ms` }} className="fade-up group flex h-full flex-col">
       <div className="overflow-hidden relative"><Img k={s.img} alt={t(s.name)} className="w-full aspect-[4/3] group-hover:scale-105 transition duration-700" />
-        {s.popular && <span className="label absolute top-3 left-3 bg-sand px-3 py-1 rounded-full">{t('Most loved')}</span>}</div>
+        {(s.popular || s.signature) && (
+          <div className="absolute top-3 left-3 flex flex-col items-start gap-2">
+            {s.popular && <span className="label bg-sand px-3 py-1 rounded-full shadow">{t('Most loved')}</span>}
+            {s.signature && <span className="label bg-ink text-sand px-3 py-1 rounded-full shadow">{authT('Our signature service', ui)}</span>}
+          </div>
+        )}
+        {s.promo && <span className="label absolute top-3 right-3 bg-gold text-ink px-3 py-1 rounded-full shadow font-bold">{t(s.promo)}</span>}</div>
       <div className="flex justify-between gap-4 mt-4"><h3 className="h text-xl">{t(s.name)}</h3>{servicePricesVisible() && <span className="text-sm font-medium whitespace-nowrap text-right">{s.basePrice ? <s className="opacity-50 mr-2 font-normal">{money(s.basePrice)}</s> : null}{money(s.price)}{s.promo && <span className="label block !text-[10px] text-gold">{t(s.promo)}</span>}</span>}</div>
       <p className="label !font-medium opacity-60 mt-2">{t(s.category)}  {s.duration} {t('min')}</p>
       <p className="text-xs mt-3 opacity-80">{t(s.desc)}</p>
       {s.care && <p className="text-xs mt-2 opacity-70"><span className="label !font-medium">{t('Before your visit')}:</span> {t(s.care)}</p>}
+      <OfferStrip scope="services" subtotal={s.price} verb="Book by" cta={{ label: authT('Book with this offer', ui), Link, to: (o) => `/booking?service=${s.id}&coupon=${o.code}` }} />
       <div className="mt-auto pt-4">
         <Link to={`/booking?service=${s.id}`} className="inline-flex items-center gap-2 bg-ink text-sand rounded-full px-5 py-3 label hover:bg-stone transition">{t('Book appointment')} <ArrowUR /></Link>
       </div>
@@ -139,6 +150,7 @@ function Menu() {
 
 function BridalPackages() {
   const { t } = useI18n()
+  const [ui] = useUiLang()
   const pk = useSiteConfig().bridalPackages
   return (
     <div>
@@ -151,6 +163,7 @@ function BridalPackages() {
             <p className="label opacity-60 mt-2">{b.duration} {t('min')}{servicePricesVisible() && <>  {(b.discountValue ?? 0) > 0 && <s className="opacity-60 mr-1">{money(b.price)}</s>}{money(promoPrice(b.price, b.discountType, b.discountValue))}{(b.discountValue ?? 0) > 0 && <span className="text-gold">  {t(b.discountType === 'flat' ? `${b.discountValue} off` : `${b.discountValue}% off`)}</span>}</>}</p>
             <ul className="mt-5 space-y-2 text-xs flex-1">{b.features.map((f) => <li key={f} className="flex gap-2"><span aria-hidden></span><span>{t(f)}</span></li>)}</ul>
             {b.care && <p className="text-xs mt-4 opacity-70"><span className="label !font-medium">{t('Before your visit')}:</span> {t(b.care)}</p>}
+            <OfferStrip scope="services" dark={b.popular} subtotal={promoPrice(b.price, b.discountType, b.discountValue)} verb="Book by" cta={{ label: authT('Book with this offer', ui), Link, to: (o) => `/booking?service=${b.id}&coupon=${o.code}` }} />
             <Link to={`/booking?service=${b.id}`} className={`inline-flex items-center justify-center gap-2 mt-6 rounded-full px-5 py-3 label transition ${b.popular ? 'bg-sand text-ink hover:opacity-90' : 'bg-ink text-sand hover:bg-stone'}`}>{t('Book this package')} <ArrowUR /></Link>
           </article>
         ))}

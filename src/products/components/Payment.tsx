@@ -8,6 +8,7 @@ import { useLang, useUiLang } from '../../shared/i18n';
 import { authT } from '../../shared/auth-text';
 import { ck, ck2, shipToLabel } from '../i18n-checkout';
 import { api } from '../../api';
+import { CouponPicker } from '../../shared/Offers';
 
 // Product orders are paid ONLINE through Razorpay only (CRS 3.2 / 4.6). Pay on Delivery does not exist.
 export default function Payment({ items, address, onBack, onPlace }: { items: CartItem[]; address: Address; onBack: () => void; onPlace: (o: Order) => void }) {
@@ -25,9 +26,9 @@ export default function Payment({ items, address, onBack, onPlace }: { items: Ca
   const ship = applied?.freeShip ? 0 : shipFee(sub, address.method);
   const total = sub - discount + ship;
   const REASON: Record<string, string> = { empty: 'Enter a coupon code.', invalid: 'Invalid coupon code.', inactive: 'Invalid coupon code.', early: 'This coupon is not active yet.', expired: 'This coupon has expired.', scope: 'This coupon does not apply to product orders.', 'used-up': 'This coupon has been fully used.', login: 'Please log in to use this coupon.', 'not-first-order': 'This coupon is only for your first product order.', 'not-first-service': 'This coupon is only for your first service booking.', 'need-booking': 'Book a service first to use this coupon.', 'has-order': 'This coupon is only for customers who have not bought products yet.' };
-  const apply = () => {
-    const r = api.offers.validateCoupon(code, sub, 'products');
-    if (r.ok) { setApplied({ code: r.code, discount: r.discount, freeShip: r.freeShip }); setNote({ ok: true, text: r.freeShip ? authT('Coupon {code} applied. Delivery is free.', ui, { code: r.code }) : authT('Coupon {code} applied. You save {amount}.', ui, { code: r.code, amount: formatPrice(r.discount) }) }); }
+  const apply = (c: string = code) => {
+    const r = api.offers.validateCoupon(c, sub, 'products');
+    if (r.ok) { setCode(r.code); setApplied({ code: r.code, discount: r.discount, freeShip: r.freeShip }); setNote({ ok: true, text: r.freeShip ? authT('Coupon {code} applied. Delivery is free.', ui, { code: r.code }) : authT('Coupon {code} applied. You save {amount}.', ui, { code: r.code, amount: formatPrice(r.discount) }) }); }
     else { setApplied(null); setNote({ ok: false, text: r.reason === 'min' ? authT('Add items worth {amount} more to use this coupon.', ui, { amount: formatPrice((r.min ?? 0) - sub) }) : authT(REASON[r.reason] ?? 'Invalid coupon code.', ui) }); }
   };
   const clear = () => { setApplied(null); setNote(null); setCode(''); };
@@ -61,9 +62,10 @@ export default function Payment({ items, address, onBack, onPlace }: { items: Ca
               <input id="coupon" className="field flex-1 uppercase" value={code} disabled={!!applied} maxLength={15} onChange={e => { setCode(e.target.value.toUpperCase()); setNote(null); }} onKeyDown={e => e.key === 'Enter' && !applied && apply()} placeholder="FIRSTORDER" />
               {applied
                 ? <button type="button" onClick={clear} className="rounded-full border border-ink px-6 text-sm transition hover:bg-ink hover:text-white">{authT('Remove coupon', ui)}</button>
-                : <button type="button" onClick={apply} className="gold-btn rounded-full px-6 text-sm">{authT('Apply', ui)}</button>}
+                : <button type="button" onClick={() => apply()} className="gold-btn rounded-full px-6 text-sm">{authT('Apply', ui)}</button>}
             </div>
             {note && <p className={`mt-2 text-sm ${note.ok ? 'text-emerald-700' : 'text-rose-700'}`} role={note.ok ? 'status' : 'alert'}>{note.text}</p>}
+            <CouponPicker scope="products" subtotal={sub} applied={applied?.code ?? ''} onApply={c => apply(c)} reasonText={r => authT(REASON[r] ?? 'Invalid coupon code.', ui)} fmt={formatPrice} />
           </div>
           <div className="mt-8 flex items-center justify-between">
             <button onClick={onBack} className="text-sm underline">{ck('← Back to details', lang)}</button>

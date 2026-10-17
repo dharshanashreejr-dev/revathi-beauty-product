@@ -1,5 +1,5 @@
 import {
-  LayoutDashboard, Package, ShoppingBag, CalendarDays, Users, Boxes, BarChart3, UserCog, Sparkles, Star, MessageSquare,
+  LayoutDashboard, Package, ShoppingBag, CalendarDays, Users, Boxes, BarChart3, UserCog, Sparkles, Star,
   Receipt, Shield, Gift
 } from 'lucide-react';
 
@@ -16,7 +16,6 @@ export const NAV = [
   { id: 'reviews', label: 'Reviews', icon: Star, roles: ['Admin'] },
   { id: 'reports', label: 'Reports', icon: BarChart3, roles: ['Admin'] },
   { id: 'staff', label: 'Staff Management', icon: UserCog, roles: ['Admin'] },
-  { id: 'sms', label: 'SMS Outbox', icon: MessageSquare, roles: ['Admin'] },
   { id: 'audit', label: 'Audit log', icon: Shield, roles: ['Admin'] }
 ];
 

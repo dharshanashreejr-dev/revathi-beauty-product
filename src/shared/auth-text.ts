@@ -107,6 +107,30 @@ const D: Record<string, Row> = {
 }
 for (const k of Object.keys(EXTRA)) D[k] = { ...(D[k] ?? {}), ...EXTRA[k] }
 
+// ---- offers, coupon picker and profile menu (service cards, product cards, booking, checkout, navbar)
+const OFFER_TEXT: Record<string, Row> = {
+  'View profile': { ta: 'சுயவிவரத்தைப் பார்க்க', hi: 'प्रोफ़ाइल देखें' },
+  'Our signature service': { ta: 'எங்கள் சிறப்பு சேவை', hi: 'हमारी सिग्नेचर सेवा' },
+  'Free delivery': { ta: 'இலவச டெலிவரி', hi: 'मुफ़्त डिलीवरी' },
+  'Book by {date}': { ta: '{date} வரை முன்பதிவு செய்யுங்கள்', hi: '{date} तक बुक करें' },
+  'Offer till {date}': { ta: '{date} வரை சலுகை', hi: '{date} तक ऑफ़र' },
+  'Ends in {n} days': { ta: '{n} நாட்களில் முடிகிறது', hi: '{n} दिन में समाप्त' },
+  'Ends today': { ta: 'இன்று முடிகிறது', hi: 'आज समाप्त' },
+  '+{n} more offers': { ta: '+{n} சலுகைகள்', hi: '+{n} और ऑफ़र' },
+  'Available offers': { ta: 'கிடைக்கும் சலுகைகள்', hi: 'उपलब्ध ऑफ़र' },
+  'Valid till {date}': { ta: '{date} வரை செல்லும்', hi: '{date} तक मान्य' },
+  'Copy code': { ta: 'குறியீட்டை நகலெடு', hi: 'कोड कॉपी करें' },
+  'Copied': { ta: 'நகலெடுக்கப்பட்டது', hi: 'कॉपी हो गया' },
+  'Book with this offer': { ta: 'இந்த சலுகையுடன் முன்பதிவு', hi: 'इस ऑफ़र के साथ बुक करें' },
+  'Use at checkout': { ta: 'செக்அவுட்டில் பயன்படுத்துங்கள்', hi: 'चेकआउट पर उपयोग करें' },
+  'Login to use this offer': { ta: 'இந்த சலுகைக்கு உள்நுழையவும்', hi: 'इस ऑफ़र के लिए लॉगिन करें' },
+  'Coupons for you': { ta: 'உங்களுக்கான கூப்பன்கள்', hi: 'आपके लिए कूपन' },
+  'Tap to apply': { ta: 'பயன்படுத்த தட்டவும்', hi: 'लगाने के लिए टैप करें' },
+  'Save {amount}': { ta: '{amount} சேமிக்கலாம்', hi: '{amount} बचाएँ' },
+  'Applied': { ta: 'பயன்படுத்தப்பட்டது', hi: 'लागू हो गया' },
+}
+for (const k of Object.keys(OFFER_TEXT)) D[k] = { ...(D[k] ?? {}), ...OFFER_TEXT[k] }
+
 export function authT(text: string, lang: UiLang, vars?: Record<string, string | number>): string {
   const row = D[text]
   // Marathi falls back to Hindi (same script), everything else to English.

@@ -4,6 +4,7 @@ import type { Colour, Product } from '../types';
 import { StockLine, NotifyMe, OutCross } from './StockNotice';
 import { productInfo } from '../data/product-info';
 import { authT } from '../../shared/auth-text';
+import { OfferStrip } from '../../shared/Offers';
 import { useUiLang } from '../../shared/i18n';
 import { discount, formatPrice, stockStatus } from '../data/products';
 import ProductArt from './ProductArt';
@@ -97,6 +98,7 @@ export default function ProductModal({ product, initialColour, onClose, onAdd }:
               <span className="text-stone-400 line-through">{formatPrice(product.mrp)}</span>
               <span className="rounded-full bg-emerald-100 px-3 py-1 text-sm text-emerald-800">{mt('m_save', lang)} {discount(product)}%</span>
             </div>
+            {product.stock > 0 && <OfferStrip scope="products" subtotal={product.price} />}
 
             <div>
               <p className="mb-2 text-sm">{mt('m_col', lang)}: <span className="text-stone-500">{colL(colour.name, lang)}</span></p>

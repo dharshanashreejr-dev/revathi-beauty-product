@@ -28,8 +28,7 @@ export default function Login({ onSuccess }) {
 
   const validate = () => {
     const e = {};
-    if (!email.trim()) e.email = 'Email address is required.';
-    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) e.email = 'Enter a valid email address.';
+    if (!email.trim()) e.email = 'Email or username is required.';
     if (!password) e.password = 'Password is required.';
     else if (password.length < 6) e.password = 'Password must be at least 6 characters.';
     setErrors(e);
@@ -120,8 +119,8 @@ export default function Login({ onSuccess }) {
           </div>
 
           <label className={`field ${errors.email ? 'has-error' : ''}`}>
-            <span className="field-label">{t('Email address')}</span>
-            <input type="email" autoComplete="username" value={email} onChange={(e) => setEmail(e.target.value)} placeholder={DEMO[role].email} />
+            <span className="field-label">{t('Email / Username')}</span>
+            <input type="text" autoComplete="username" value={email} onChange={(e) => setEmail(e.target.value)} placeholder={DEMO[role].email} />
             {errors.email && <span className="field-error">{t(errors.email)}</span>}
           </label>
 

@@ -49,11 +49,13 @@ const mk = (category: CategoryKey, id: string, sku: string, x: Seed): Product =>
   get mrp() { return getPatch(id).mrp ?? x.mrp; },
   get description() { return getPatch(id).description ?? x.description; },
   get archived() { return !!getPatch(id).archived; },
-  get status() { return getPatch(id).status ?? 'Active'; },
+  get status() { const st = getPatch(id).status; return st === 'Draft' ? 'Active' : (st ?? 'Active'); }, // Draft no longer exists: availability follows stock
   get discountType() { return getPatch(id).discountType ?? 'percent'; },
   get discountValue() { const q = getPatch(id); return q.discountValue ?? Math.round(((this.mrp - this.price) / this.mrp) * 100); },
   // LIVE stock: read every time, so an order or a staff update shows on the shop straight away.
-  get stock() { return stockOverride(id) ?? x.stock; },
+  // Admin can mark a product Out of stock by hand (Admin > Products > Availability); the real quantity is kept for when it is switched back.
+  get forcedOut() { return getPatch(id).availability === 'out'; },
+  get stock() { return getPatch(id).availability === 'out' ? 0 : (stockOverride(id) ?? x.stock); },
   baseStock: x.stock, colours: x.colours, sizes: x.sizes, rating: x.rating, reviews: x.reviews,
   badge: x.badge, details: x.details, material: x.material, weight: x.weight,
 });

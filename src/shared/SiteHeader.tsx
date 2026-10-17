@@ -6,6 +6,7 @@ import { NAV_LABELS as LABELS } from './i18n-nav'
 import { openLogin, useUser } from './LoginModal'
 import { authT } from './auth-text'
 import { reviewNav } from './i18n-reviews'
+import ProfileMenu, { logoutCustomer, profileHref } from './ProfileMenu'
 import './site-header.css'
 
 // ONE navbar for the whole website (same look as the landing page).
@@ -59,7 +60,6 @@ export default function SiteHeader({ Link = PlainLink, current, cartCount, onCar
   const reviewKey = user ? 'Reviews' : 'Testimonials'
   const RIGHT: [string, string][] = [...RIGHT_BASE, [reviewKey, SITE.reviews]]
   const L: Record<string, string> = { ...LABELS[lang], ...(NAV_EXTRA[ui] ?? {}), [reviewKey]: reviewNav(ui, !!user) }
-  const who = user ? authT('Hi, {name}', ui, { name: user.name.split(' ')[0] || user.phone.slice(-4) }) : ''
   useEffect(() => {
     const on = () => setScrolled(window.scrollY > 40)
     on()
@@ -93,7 +93,7 @@ export default function SiteHeader({ Link = PlainLink, current, cartCount, onCar
             ? <button className="vt-bag" onClick={onCart} aria-label={`${L.Cart} (${count})`}><BagIcon /><span>({count})</span></button>
             : <Link to={SITE.products} className="vt-bag" aria-label={`${L.Cart} (${count})`}><BagIcon /><span>({count})</span></Link>}
           {user
-            ? <Link to={SITE.tracking + '?tab=profile'} className="vt-admin vt-profile" aria-label={who}><ProfileIcon /><span className="vt-profile-name">{who}</span></Link>
+            ? <ProfileMenu user={user} ui={ui} Link={Link} className="vt-admin vt-profile" nameClassName="vt-profile-name" />
             : <button type="button" className="vt-admin vt-profile" onClick={() => openLogin()} aria-label={authT('Login', ui)}><ProfileIcon /><span className="vt-profile-name">{authT('Login', ui)}</span></button>}
         </div>
         </div>
@@ -102,7 +102,12 @@ export default function SiteHeader({ Link = PlainLink, current, cartCount, onCar
         <button className="vt-close" onClick={() => setOpen(false)} aria-label={L.Close}>✕</button>
         <nav aria-label={L.MenuNav}>
           {menuFor(RIGHT).map(([t, to]) => <Link key={t} to={to} onClick={() => setOpen(false)}>{L[t] ?? t}</Link>)}
-          {user ? <Link to={SITE.tracking + '?tab=profile'} onClick={() => setOpen(false)}>{who}</Link> : <a href="#" onClick={(e) => { e.preventDefault(); setOpen(false); openLogin() }}>{authT('Login', ui)}</a>}
+          {user
+            ? <>
+                <Link to={profileHref()} onClick={() => setOpen(false)}>{authT('View profile', ui)}</Link>
+                <a href="#" onClick={(e) => { e.preventDefault(); setOpen(false); logoutCustomer() }}>{authT('Logout', ui)}</a>
+              </>
+            : <a href="#" onClick={(e) => { e.preventDefault(); setOpen(false); openLogin() }}>{authT('Login', ui)}</a>}
           <select className="vt-lang vt-lang-menu" value={ui} onChange={(e) => setLang(e.target.value as UiLang)} aria-label={L.Language}>
             {LANGS.map((l) => <option key={l.code} value={l.code}>{NAV_LANG_NAMES[l.code]}</option>)}
           </select>

@@ -28,6 +28,7 @@ export interface ServiceItem {
   desc: string
   active: boolean       // inactive = hidden from the website and booking
   popular?: boolean
+  signature?: boolean   // shows the "Our signature service" badge on the service card
 }
 export interface SiteConfig {
   showServicePrices: boolean
@@ -50,7 +51,7 @@ export const DEFAULT_SERVICES: ServiceItem[] = [
   { id: 'body-massage', name: 'Body Massage', category: 'Body Massage', duration: 60, price: 2800, discountType: 'percent', discountValue: 0, care: 'Avoid a heavy meal 1 hour before. Share any injuries or allergies.', desc: 'A calming full-body massage with warm herbal oils, made for women to unwind in our private suites.', active: true, popular: true },
   { id: 'normal-facial', name: 'Normal Facial', category: 'Facial', duration: 60, price: 2200, discountType: 'percent', discountValue: 0, care: 'Come with a clean face. Avoid threading or waxing 2 days before.', desc: 'Cleanse, gentle exfoliation, massage and a glow mask for fresh, healthy-looking skin.', active: true, popular: true },
   { id: 'hydra-facial', name: 'Hydra Facial', category: 'Facial', duration: 75, price: 3200, discountType: 'percent', discountValue: 0, care: 'Skip exfoliating products for 3 days before. Tell us about any skin allergies.', desc: 'Deep cleansing and intense hydration for a fresher, brighter, smoother look.', active: true },
-  { id: 'herbal-glow-facial', name: 'Herbal Glow Facial', category: 'Facial', duration: 60, price: 2400, discountType: 'percent', discountValue: 0, care: 'Come with a clean face. Tell us about any skin allergies.', desc: 'A herbal-infused facial that cleanses, nourishes and leaves skin with a natural glow.', active: true },
+  { id: 'herbal-glow-facial', name: 'Herbal Glow Facial', category: 'Facial', duration: 60, price: 2400, signature: true, discountType: 'percent', discountValue: 0, care: 'Come with a clean face. Tell us about any skin allergies.', desc: 'A herbal-infused facial that cleanses, nourishes and leaves skin with a natural glow.', active: true },
   { id: 'brightening-facial', name: 'Brightening Facial', category: 'Facial', duration: 60, price: 2800, discountType: 'percent', discountValue: 0, care: 'Avoid threading or waxing 2 days before.', desc: 'A vitamin-rich cleanse and mask that evens out tone and brightens dull skin.', active: true },
   { id: 'anti-ageing-facial', name: 'Anti-Ageing Facial', category: 'Facial', duration: 75, price: 3600, discountType: 'percent', discountValue: 0, care: 'Skip exfoliating products for 3 days before.', desc: 'Firming massage and a peptide-rich mask to soften fine lines and lift tired skin.', active: true },
   { id: 'beauty-consultation', name: 'Beauty Consultation', category: 'Consultation', duration: 30, price: 500, discountType: 'percent', discountValue: 0, care: 'Bring the skincare products you use now, if possible.', desc: 'A one-to-one session with our beauty expert to plan the right skin and beauty routine for you.', active: true },
