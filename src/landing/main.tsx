@@ -11,6 +11,8 @@ import './site-nav.css'
 import './lang-fit.css'
 import './hero-banner.css'
 import './professional.css'
+import '../shared/silk-bg.css'
+import '../shared/blendWhite'
 
 mountLanguageModal()
 mountLogin()

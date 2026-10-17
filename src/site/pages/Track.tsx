@@ -16,7 +16,7 @@ type Tab = 'orders' | 'appointments' | 'profile'
 const TABS: [Tab, string][] = [['orders', 'Orders'], ['appointments', 'Appointments'], ['profile', 'Profile']]
 
 function Chip({ text, tone }: { text: string; tone: 'gold' | 'green' | 'red' | 'grey' }) {
-  const c = { gold: 'bg-gold/20 text-[#8c6d35]', green: 'bg-green-600/15 text-green-700', red: 'bg-red-600/15 text-red-700', grey: 'bg-ink/10 text-ink/70' }[tone]
+  const c = { gold: 'bg-gold/20 text-[#6a7942]', green: 'bg-green-600/15 text-green-700', red: 'bg-red-600/15 text-red-700', grey: 'bg-ink/10 text-ink/70' }[tone]
   return <span className={`label px-3 py-1 rounded-full ${c}`}>{text}</span>
 }
 
@@ -53,32 +53,24 @@ function Hero({ pr, onFind, err }: { pr: Profile; onFind: (q: string) => void; e
   const sub = (e: FormEvent) => { e.preventDefault(); onFind(q.trim()) }
   const orders = getMyOrders(), ap = getAppts()
   return (
-    <section className="relative min-h-[78svh] overflow-hidden bg-ink text-sand pt-28 pb-10 flex flex-col justify-end">
-      <div className="absolute inset-0">
-  <video
-    className="h-full w-full object-cover"
-    src="/track-hero.mp4"
-    autoPlay
-    muted
-    loop
-    playsInline
-  />
-</div>
-      <div className="absolute inset-0 bg-gradient-to-b from-black/65 via-black/50 to-ink" />
-      <div className="relative px-5 md:px-10 grid lg:grid-cols-[1.3fr_1fr] gap-10 items-end">
+    <section className="relative min-h-[92svh] overflow-hidden bg-[#e9eedc] text-ink pt-28 pb-10 grid md:grid-cols-2 items-center">
+      <div className="relative px-5 md:px-10 grid gap-10 items-end order-2 md:order-1">
         <div>
-          <span className="label text-gold block fade-up">{t('Customer area · {name}', { name: spa.name })}</span>
-          <h1 className="h text-[clamp(2.4rem,6.5vw,6rem)] mt-4 fade-up">{rich(t('Welcome back,\n*{name}.*', { name: pr.name.split(' ')[0] }))}</h1>
-          <form onSubmit={sub} className="mt-8 flex max-w-lg glass rounded-full p-1.5 fade-up">
-            <input value={q} onChange={(e) => setQ(e.target.value)} placeholder={t('Track by ID · e.g. VT-ORD-10482 or VT-APT-7731')} className="flex-1 bg-transparent px-5 text-xs outline-none placeholder:text-sand/50" />
-            <button className="bg-gold text-ink rounded-full px-6 py-3 label hover:bg-sand transition">{t('Track')}</button>
+          <span className="label block fade-up opacity-70">{t('Customer area · {name}', { name: spa.name })}</span>
+          <h1 className="h text-[clamp(2.4rem,5.5vw,5.5rem)] mt-4 fade-up !normal-case">{rich(t('Welcome back,\n*{name}.*', { name: pr.name.split(' ')[0] }))}</h1>
+          <form onSubmit={sub} className="mt-8 flex max-w-lg bg-white/70 border border-ink/15 rounded-full p-1.5 fade-up">
+            <input value={q} onChange={(e) => setQ(e.target.value)} placeholder={t('Track by ID · e.g. VT-ORD-10482 or VT-APT-7731')} className="flex-1 bg-transparent px-5 text-xs outline-none placeholder:text-ink/50" />
+            <button className="bg-ink text-sand rounded-full px-6 py-3 label hover:bg-gold hover:text-ink transition">{t('Track')}</button>
           </form>
-          {err !== null && <p className="text-xs text-red-300 mt-3">{t('No order or appointment found for “{q}”. Try VT-ORD-10482 or VT-APT-7731.', { q: err })}</p>}
+          {err !== null && <p className="text-xs text-red-700 mt-3">{t('No order or appointment found for “{q}”. Try VT-ORD-10482 or VT-APT-7731.', { q: err })}</p>}
         </div>
         <div className="grid grid-cols-3 gap-3">
           {[[orders.filter((o) => !o.cancelled && o.stage < ORDER_LAST).length, 'Active orders'], [ap.filter((a) => a.status === 'Upcoming' || a.status === 'Pending Review').length, 'Upcoming visits'], [pr.points, 'Velvet points']].map(([n, l]) => (
-            <Tilt key={l} max={14} className="glass p-4"><p className="h text-3xl md:text-4xl text-gold"><Counter to={Number(n)} /></p><p className="label mt-2 !text-[.55rem]">{t(String(l))}</p></Tilt>))}
+            <Tilt key={l} max={14} className="bg-white/70 border border-ink/10 rounded-xl p-4"><p className="h text-3xl md:text-4xl text-ink"><Counter to={Number(n)} /></p><p className="label mt-2 !text-[.55rem]">{t(String(l))}</p></Tilt>))}
         </div>
+      </div>
+      <div className="order-1 md:order-2 relative h-[40svh] md:h-full md:absolute md:right-0 md:top-0 md:bottom-0 md:w-1/2 -mt-28 md:mt-0">
+        <img src="/assets/hero/track-hero.webp" alt="" className="absolute inset-0 h-full w-full object-cover" fetchpriority="high" />
       </div>
     </section>
   )
@@ -238,14 +230,14 @@ export default function Track() {
     else setErr(q)
   }
   if (!user) return (
-    <main className="bg-[#eeede9] min-h-screen grid place-items-center px-5 pt-28 pb-20 text-center">
+    <main className="bg-[#e5ead5] min-h-screen grid place-items-center px-5 pt-28 pb-20 text-center">
       <div className="max-w-md"><h1 className="h text-3xl">{authT('Login to continue', ui)}</h1>
         <p className="text-sm opacity-70 mt-3">{authT('Log in to see your orders, appointments and profile.', ui)}</p>
         <button onClick={() => openLogin()} className="mt-6 bg-ink text-sand rounded-full px-8 py-4 label hover:bg-stone transition">{authT('Login', ui)}</button></div>
     </main>
   )
   return (
-    <main className="bg-[#eeede9] min-h-screen">
+    <main className="bg-[#e5ead5] min-h-screen">
       <Hero pr={pr} onFind={find} err={err} />
       <div id="panel" className="sticky top-0 z-30 bg-sand/85 backdrop-blur border-b border-ink/10 px-5 md:px-10 pt-14 md:pt-16">
         <div className="flex gap-8">{TABS.map(([k, l]) => <button key={k} onClick={() => go(k)} className={`label pb-4 border-b-2 transition ${tab === k ? 'border-gold' : 'border-transparent opacity-50 hover:opacity-100'}`}>{t(l)}</button>)}</div>

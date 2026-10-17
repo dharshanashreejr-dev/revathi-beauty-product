@@ -30,7 +30,7 @@ export const herbalSlides: HerbalSlide[] = [
       { k: "Brighten", v: "Turmeric" },
     ],
     size: "Body butter · 200 ml / 6.8 fl. oz.",
-    bg: "linear-gradient(135deg,#f4c1b2 0%,#e39a88 55%,#cc7b6b 100%)",
+    bg: "linear-gradient(135deg,#dfe3c4 0%,#b9c391 55%,#8f9b61 100%)",
     hotspots: [{ x: 36, y: 22 }, { x: 68, y: 46 }, { x: 40, y: 76 }],
     photos: [{ name: "Rose & Shea", src: "/assets/herbal/body-butter-rose-shea.webp" }, { name: "Neem & Turmeric", src: "/assets/herbal/body-butter-neem-turmeric.webp" }, { name: "Coconut & Vanilla", src: "/assets/herbal/body-butter-coconut-vanilla.webp" }],
   },
@@ -47,7 +47,7 @@ export const herbalSlides: HerbalSlide[] = [
       { k: "Shine", v: "Hibiscus" },
     ],
     size: "Hair oil · 100 ml / 3.4 fl. oz.",
-    bg: "linear-gradient(135deg,#aebf9c 0%,#7f9a6b 55%,#5f7d4d 100%)",
+    bg: "linear-gradient(135deg,#b7c196 0%,#8b9760 55%,#667440 100%)",
     hotspots: [{ x: 50, y: 12 }, { x: 30, y: 52 }, { x: 68, y: 70 }],
     photos: [{ name: "Amla & Bhringraj", src: "/assets/herbal/hair-oil-amla-bhringraj.webp" }, { name: "Rosemary & Hibiscus", src: "/assets/herbal/hair-oil-rosemary-hibiscus.webp" }, { name: "Almond & Neem", src: "/assets/herbal/hair-oil-almond-neem.webp" }],
   },
@@ -64,19 +64,19 @@ export const herbalSlides: HerbalSlide[] = [
       { k: "Base", v: "Vetiver" },
     ],
     size: "Eau de parfum · 50 ml / 1.7 fl. oz.",
-    bg: "linear-gradient(135deg,#d4b6a6 0%,#a98672 55%,#8b6753 100%)",
+    bg: "linear-gradient(135deg,#a9ae98 0%,#6d7459 55%,#3a4030 100%)",
     hotspots: [{ x: 46, y: 16 }, { x: 62, y: 44 }, { x: 36, y: 72 }],
     photos: [{ name: "Sandal & Vetiver", src: "/assets/herbal/perfume-sandal-vetiver.webp" }, { name: "Jasmine & Mogara", src: "/assets/herbal/perfume-jasmine-mogara.webp" }, { name: "Orange & Tulsi", src: "/assets/herbal/perfume-orange-tulsi.webp" }],
   },
 ];
 
 export const promoCards = [
-  { id: "hair-oil", brand: "Herbal hair", chips: "Treat · Wash · Nourish", title: "Healthy\nHair\nHabits", offer: "Up To 20% OFF", sub: "Herbal hair care", bg: "linear-gradient(170deg,#d9d2f7 0%,#b4b6f2 60%,#9aa0ee 100%)", dark: true },
-  { id: "eclat", brand: "Glow serum", chips: "", title: "The all new\nHerbal Glow\nSerum", offer: "Up To 10% Off", sub: "Free gift on ₹2,999", bg: "linear-gradient(170deg,#f1f1f3 0%,#d8dade 55%,#9a9ca3 100%)", dark: true },
-  { id: "night-cream", brand: "Night cream", chips: "", title: "Overnight\nHerbal\nRepair", offer: "Festive Drop", sub: "Wake up to softer skin", bg: "linear-gradient(170deg,#f6dfe9 0%,#e3b7cf 55%,#c58fb0 100%)", dark: true },
-  { id: "tint-powder", brand: "Tint powder", chips: "Beetroot · Turmeric · Charcoal", title: "Natural\nTint\nPowders", offer: "New Arrival", sub: "3 plant-based shades", bg: "linear-gradient(170deg,#fbe4dc 0%,#f0b9a9 55%,#d98f7e 100%)", dark: true },
-  { id: "cleansing-oil", brand: "Cleansing oil", chips: "", title: "Jasmine\nCleansing\nOil", offer: "Gentle First Step", sub: "100 ml · melts makeup away", bg: "linear-gradient(170deg,#f7efd0 0%,#ecdc9a 55%,#cdb768 100%)", dark: true },
-  { id: "herbal-shampoo", brand: "Herbal shampoo", chips: "Cleanse · Soften · Shine", title: "The Silk\nWash Edit", offer: "Buy 2, Save 10%", sub: "Gentle daily wash", bg: "linear-gradient(170deg,#e3eedb 0%,#bfd4b0 55%,#8fb07c 100%)", dark: true },
+  { id: "hair-oil", brand: "Herbal hair", chips: "Treat · Wash · Nourish", title: "Healthy\nHair\nHabits", offer: "Up To 20% OFF", sub: "Herbal hair care", bg: "linear-gradient(170deg,#dde1bf 0%,#b0ba84 60%,#838f54 100%)", dark: true },
+  { id: "eclat", brand: "Glow serum", chips: "", title: "The all new\nHerbal Glow\nSerum", offer: "Up To 10% Off", sub: "Free gift on ₹2,999", bg: "linear-gradient(170deg,#5b6049 0%,#2f3427 55%,#12150f 100%)", dark: true },
+  { id: "night-cream", brand: "Night cream", chips: "", title: "Overnight\nHerbal\nRepair", offer: "Festive Drop", sub: "Wake up to softer skin", bg: "linear-gradient(170deg,#cbd1a8 0%,#9ca56e 55%,#6e7a43 100%)", dark: true },
+  { id: "tint-powder", brand: "Tint powder", chips: "Beetroot · Turmeric · Charcoal", title: "Natural\nTint\nPowders", offer: "New Arrival", sub: "3 plant-based shades", bg: "linear-gradient(170deg,#8f957c 0%,#555b45 55%,#2a2e22 100%)", dark: true },
+  { id: "cleansing-oil", brand: "Cleansing oil", chips: "", title: "Jasmine\nCleansing\nOil", offer: "Gentle First Step", sub: "100 ml · melts makeup away", bg: "linear-gradient(170deg,#d8dbb6 0%,#b5bb86 55%,#8b9258 100%)", dark: true },
+  { id: "herbal-shampoo", brand: "Herbal shampoo", chips: "Cleanse · Soften · Shine", title: "The Silk\nWash Edit", offer: "Buy 2, Save 10%", sub: "Gentle daily wash", bg: "linear-gradient(170deg,#bcc6a4 0%,#8c9b72 55%,#5e6d49 100%)", dark: true },
 ];
 
 export const festiveDays = [

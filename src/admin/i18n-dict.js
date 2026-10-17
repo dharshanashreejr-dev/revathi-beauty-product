@@ -369,6 +369,17 @@ export const DICT = [
   ["Cashier", "காசாளர்", "कैशियर", "കാഷ്യർ", "క్యాషియర్"],
   ["In-store billing with GST (18% inclusive). Demo only — no real payments.", "கடையில் GST (18%) உடன் பில்லிங். டெமோ மட்டும்."],
   ["Append-only activity trail. Demo data only — backend will store this immutably.", "சேர்ப்பு மட்டும் செயல்பாட்டுப் பதிவு. டெமோ தரவு."],
+  // ---- the 3 customer coupons
+  ["Benefit", "பலன்"],
+  ["Who gets it", "யாருக்கு கிடைக்கும்"],
+  ["off", "தள்ளுபடி"],
+  ["Free delivery", "இலவச டெலிவரி"],
+  ["First order: free delivery", "முதல் ஆர்டர்: இலவச டெலிவரி"],
+  ["First service: 10% off", "முதல் சேவை: 10% தள்ளுபடி"],
+  ["Booked a service: free delivery", "சேவை முன்பதிவு செய்தவர்: இலவச டெலிவரி"],
+  ["Customers placing their first product order get free delivery.", "முதல் முறையாக பொருள் ஆர்டர் செய்யும் வாடிக்கையாளர்களுக்கு இலவச டெலிவரி."],
+  ["Customers booking a service for the first time get 10% off that service.", "முதல் முறையாக சேவை முன்பதிவு செய்யும் வாடிக்கையாளர்களுக்கு அந்த சேவையில் 10% தள்ளுபடி."],
+  ["Customers who have booked a service but never bought products get free delivery on their first product purchase.", "சேவை முன்பதிவு செய்து இதுவரை பொருட்கள் வாங்காத வாடிக்கையாளர்களுக்கு முதல் பொருள் வாங்குதலில் இலவச டெலிவரி."],
   // ---- Festival & Offers (CRS 4.3)
   ["Festival & Offers", "திருவிழா & சலுகைகள்"],
   ["Create festival campaigns, coupon rules and service + product bundles with start and expiry dates.", "தொடக்க மற்றும் முடிவு தேதிகளுடன் திருவிழா பிரச்சாரங்கள், கூப்பன் விதிகள் மற்றும் சேவை + பொருள் தொகுப்புகளை உருவாக்கவும்."],

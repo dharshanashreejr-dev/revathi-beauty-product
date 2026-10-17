@@ -25,7 +25,7 @@ const statusOf = (p) => (p.archived ? 'Archived' : p.status === 'Draft' ? 'Draft
 const isUpload = (art) => typeof art === 'string' && art.startsWith('data:');
 
 function Thumb({ p, size = 48 }) {
-  return <img src={photoFor(p.art, p.colours?.[0]?.name, p.colours?.[0]?.photo)} alt={p.name} width={size} height={size} loading="lazy" style={{ width: size, height: size, borderRadius: 12, objectFit: 'cover', background: '#f4efe8', flex: 'none' }} onError={(e) => { e.currentTarget.style.visibility = 'hidden'; }} />;
+  return <img src={photoFor(p.art, p.colours?.[0]?.name, p.colours?.[0]?.photo)} alt={p.name} width={size} height={size} loading="lazy" style={{ width: size, height: size, borderRadius: 12, objectFit: 'cover', background: '#e7ecd9', flex: 'none' }} onError={(e) => { e.currentTarget.style.visibility = 'hidden'; }} />;
 }
 
 export default function Products({ intent, onIntentHandled }) {

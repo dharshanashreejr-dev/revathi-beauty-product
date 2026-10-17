@@ -47,20 +47,20 @@ export default function ProductsSection({ category, onCategory, onOpen, onQuick 
   return (
     <section id="products" className="mx-auto max-w-7xl px-4 pb-20 pt-6 sm:px-8">
       {/* top filter bar */}
-      <div className="z-20 -mx-4 space-y-3 border-b border-stone-200 bg-white/95 px-4 pb-4 pt-2 backdrop-blur sm:-mx-8 sm:px-8 md:sticky md:top-20">
+      <div className="z-20 -mx-4 space-y-3 border-b border-stone-200 bg-sand/95 px-4 pb-4 pt-2 backdrop-blur sm:-mx-8 sm:px-8 md:sticky md:top-20">
         <div className="flex flex-wrap items-center gap-2">
           {CATEGORIES.map(c => (
             <button key={c.name} onClick={() => switchCategory(c.name)} aria-pressed={c.name === category}
-              className={`rounded-full px-5 py-2 text-sm font-medium transition ${c.name === category ? 'bg-ink text-white' : 'bg-stone-100 text-stone-700 hover:bg-stone-200'}`}>{tr(CAT_NAME[c.name], lang)}</button>
+              className={`rounded-full px-5 py-2 text-sm font-medium transition border ${c.name === category ? 'bg-ink text-white border-ink' : 'bg-stone-200 text-stone-800 border-stone-300 hover:bg-stone-300'}`}>{tr(CAT_NAME[c.name], lang)}</button>
           ))}
           <div className="ml-auto flex flex-wrap items-center gap-3">
             <input value={query} onChange={e => setQuery(e.target.value)} placeholder={ui('search', lang)} aria-label={ui('searchAria', lang)}
-              className="h-10 w-full rounded-full border border-stone-300 bg-white px-5 text-sm outline-none focus:border-ink sm:w-56" />
+              className="h-10 w-full rounded-full border border-stone-300 bg-paper px-5 text-sm outline-none focus:border-ink sm:w-56" />
             <label className="flex cursor-pointer items-center gap-2 text-sm">
               <input type="checkbox" checked={inStockOnly} onChange={e => setInStockOnly(e.target.checked)} className="h-4 w-4 accent-stone-900" />{ui('stockOnly', lang)}
             </label>
             <select value={sort} onChange={e => setSort(e.target.value as Sort)} aria-label={ui('sortAria', lang)}
-              className="h-10 rounded-full border border-stone-300 bg-white px-4 text-sm outline-none focus:border-ink">
+              className="h-10 rounded-full border border-stone-300 bg-paper px-4 text-sm outline-none focus:border-ink">
               <option value="featured">{ui('featured', lang)}</option>
               <option value="price-asc">{ui('lowhigh', lang)}</option>
               <option value="price-desc">{ui('highlow', lang)}</option>
@@ -72,7 +72,7 @@ export default function ProductsSection({ category, onCategory, onOpen, onQuick 
         <div className="flex gap-2 overflow-x-auto pb-1 [scrollbar-width:none]">
           {['All', ...meta.subs.filter(x => all.some(p => p.subcategory === x))].map(s => (
             <button key={s} onClick={() => setSub(s)} aria-pressed={s === sub}
-              className={`shrink-0 rounded-full border px-4 py-1.5 text-sm transition ${s === sub ? 'border-clay bg-clay text-white' : 'border-stone-300 bg-white hover:border-clay'}`}>{subL(s, lang)}</button>
+              className={`shrink-0 rounded-full border px-4 py-1.5 text-sm transition ${s === sub ? 'border-clay bg-clay text-white' : 'border-stone-400 bg-stone-100 text-stone-800 hover:border-clay hover:bg-stone-200'}`}>{subL(s, lang)}</button>
           ))}
         </div>
       </div>

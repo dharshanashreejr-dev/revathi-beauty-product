@@ -1,11 +1,11 @@
 /* ═══════════ Professional layout pass ═══════════
    Rule for the whole landing page: no photo/video as a section background.
    Media is a component on the side of the text, on a flat colour. Cards are compact. */
-:root { --pro-bg: #f6f1ec; --pro-radius: 16px; }
+:root { --pro-bg: #e8eddb; --pro-radius: 16px; }
 html:not([lang="zz"]) body { overflow-x: hidden; }
 
 /* ── Featured Collection (was a full-width video with text over it) ── */
-.collection-band { padding: 0 0 56px !important; background: #fff !important; }
+.collection-band { padding: 0 0 56px !important; background: #eef2e4 !important; }
 .collection-band .collection-hero {
   display: grid !important;
   grid-template-columns: 1.5fr 1fr;
@@ -16,7 +16,7 @@ html:not([lang="zz"]) body { overflow-x: hidden; }
   max-height: none !important;
   padding: 64px 6%;
   overflow: visible;
-  background: #fff !important;
+  background: #eef2e4 !important;
 }
 .collection-band .collection-hero-shade { display: none !important; }
 .collection-band .collection-hero-copy {
@@ -66,11 +66,11 @@ html:not([lang="zz"]) .collection-hero-copy p {
 .film { padding: 72px 6% 80px !important; }
 .film-head h2 { font-size: clamp(30px, 3.6vw, 48px) !important; }
 .film-main { min-height: 0 !important; background: none !important; overflow: visible !important; display: grid; gap: 14px; align-content: start; }
-.film-main video { position: static !important; height: auto !important; aspect-ratio: 16 / 9; max-height: 380px; border-radius: var(--pro-radius); background: #1c120d; }
+.film-main video { position: static !important; height: auto !important; aspect-ratio: 16 / 9; max-height: 380px; border-radius: var(--pro-radius); background: #12140f; }
 .film-shade { display: none !important; }
 .film-caption { position: static !important; color: var(--ink) !important; }
 .film-caption strong { font-size: clamp(22px, 2.4vw, 32px) !important; }
-.film-toggle { background: #422c20cc !important; }
+.film-toggle { background: #282c20cc !important; }
 /* Brand video: one main video component, the extra reels are small thumbnails */
 .film-grid { grid-template-columns: 2.6fr 1fr !important; gap: 16px !important; align-items: start; }
 .film-reels { grid-template-columns: 1fr !important; grid-template-rows: none !important; gap: 12px !important; }
@@ -165,7 +165,7 @@ html:not([lang="zz"]) .promo-foot button { font-size: 12px !important; padding: 
   z-index: auto !important;
   object-fit: cover;
   border-radius: var(--pro-radius);
-  background: #e9dccf;
+  background: #dfe5cd;
 }
 .closing-shade { display: none !important; }
 .closing-content { margin: 0 !important; }
@@ -236,19 +236,19 @@ html:not([lang="zz"]) .promo-foot button { font-size: 12px !important; padding: 
 }
 
 /* ═══════════ Closing — big rounded banner + card row ═══════════ */
-.closing { display: block !important; padding: 56px 3% 72px !important; background: #fff !important; }
-.closing-banner { position: relative; width: 100%; min-height: 560px; border-radius: 22px; overflow: hidden; background: #2a1a14; }
+.closing { display: block !important; padding: 56px 3% 72px !important; background: #eef2e4 !important; }
+.closing-banner { position: relative; width: 100%; min-height: 560px; border-radius: 22px; overflow: hidden; background: #1b1f16; }
 .closing .closing-image { position: absolute !important; inset: 0; width: 100% !important; height: 100% !important; border-radius: 0 !important; object-fit: cover; order: 0; }
-.closing .closing-shade { display: block !important; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(25,14,10,0.72) 0%, rgba(25,14,10,0.15) 62%); }
+.closing .closing-shade { display: block !important; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(18, 20, 15,0.72) 0%, rgba(18, 20, 15,0.15) 62%); }
 .closing .closing-content { position: relative; z-index: 2; max-width: 620px; padding: 0 0 0 64px; min-height: 560px; display: flex; flex-direction: column; justify-content: center; }
-.closing .eyebrow { color: #f1d9c6 !important; }
+.closing .eyebrow { color: #dee4ce !important; }
 .closing h2 { color: #fff !important; }
 .closing h2 span { display: block; }
-.closing-cta { position: absolute; z-index: 3; right: 40px; bottom: 36px; display: inline-flex; align-items: center; gap: 10px; padding: 16px 30px; border: 0; border-radius: 999px; background: #fff; color: var(--ink); font-size: 16px; font-weight: 600; cursor: pointer; box-shadow: 0 8px 28px rgba(0,0,0,0.25); }
+.closing-cta { position: absolute; z-index: 3; right: 40px; bottom: 36px; display: inline-flex; align-items: center; gap: 10px; padding: 16px 30px; border: 0; border-radius: 999px; background: #eef2e4; color: var(--ink); font-size: 16px; font-weight: 600; cursor: pointer; box-shadow: 0 8px 28px rgba(0,0,0,0.25); }
 .closing-cta:hover { background: var(--cream); }
 .closing-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; margin-top: 24px; }
 .closing-card { text-align: left; background: none; border: 0; padding: 0; cursor: pointer; color: var(--ink); }
-.closing-card-media { display: block; aspect-ratio: 4 / 3; border-radius: 16px; overflow: hidden; background: #efe5dc; }
+.closing-card-media { display: block; aspect-ratio: 4 / 3; border-radius: 16px; overflow: hidden; background: #e2e7d5; }
 .closing-card-media img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; }
 .closing-card:hover img { transform: scale(1.05); }
 .closing-card-copy { display: block; padding: 14px 4px 0; }
@@ -270,8 +270,8 @@ html:not([lang="zz"]) .promo-foot button { font-size: 12px !important; padding: 
 
 /* ═══════════ Booking section — dark panel for readability ═══════════ */
 .salon.salon-stack .salon-body {
-  background: #2a1a14;
-  color: #f3e7dc;
+  background: #1b1f16;
+  color: #e5ebd6;
   padding: 80px 6% 88px !important;
   grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.3fr);
   gap: 7%;
@@ -281,35 +281,35 @@ html:not([lang="zz"]) .promo-foot button { font-size: 12px !important; padding: 
 .salon-body .salon-copy { position: sticky; top: 110px; }
 .salon-body .salon-copy h2 {
   background: none !important;
-  -webkit-text-fill-color: #f8ede3;
-  color: #f8ede3 !important;
+  -webkit-text-fill-color: #e6ebd7;
+  color: #e6ebd7 !important;
   animation: none !important;
   font-size: clamp(34px, 3.8vw, 54px) !important;
   line-height: 1.08 !important;
   margin: 0 0 18px;
 }
-.salon-body .salon-copy > p { color: #d9c8ba !important; font-size: 16px; line-height: 1.7; max-width: 440px; margin: 0 0 24px !important; }
-.salon-body .salon-perks { gap: 14px; margin-bottom: 26px; color: #f3e7dc; font-size: 15px; }
-.salon-body .salon-perks svg { color: #e3b98f; flex-shrink: 0; }
-.salon-body .salon-hours { color: #e3b98f !important; letter-spacing: 0.14em; margin-bottom: 30px; }
-.salon-body .salon-copy .pill.dark { background: #f8ede3 !important; color: #2a1a14 !important; border-color: #f8ede3 !important; }
-.salon-body .salon-copy .pill.dark .pill-dot { border-color: #2a1a1440; color: #2a1a14; }
-.salon-body .salon-tabs { border-bottom: 1px solid #f3e7dc26; padding-bottom: 20px; gap: 10px; }
-.salon-body .salon-tabs button { color: #f3e7dc; border-color: #f3e7dc40; background: transparent; }
-.salon-body .salon-tabs button:hover { border-color: #f3e7dc; }
-.salon-body .salon-tabs button.is-active { background: #f8ede3; color: #2a1a14; border-color: #f8ede3; }
+.salon-body .salon-copy > p { color: #c9d2af !important; font-size: 16px; line-height: 1.7; max-width: 440px; margin: 0 0 24px !important; }
+.salon-body .salon-perks { gap: 14px; margin-bottom: 26px; color: #e5ebd6; font-size: 15px; }
+.salon-body .salon-perks svg { color: #c1cda0; flex-shrink: 0; }
+.salon-body .salon-hours { color: #c1cda0 !important; letter-spacing: 0.14em; margin-bottom: 30px; }
+.salon-body .salon-copy .pill.dark { background: #e6ebd7 !important; color: #1b1f16 !important; border-color: #e6ebd7 !important; }
+.salon-body .salon-copy .pill.dark .pill-dot { border-color: #191c1440; color: #1b1f16; }
+.salon-body .salon-tabs { border-bottom: 1px solid #e3e9d326; padding-bottom: 20px; gap: 10px; }
+.salon-body .salon-tabs button { color: #e5ebd6; border-color: #e3e9d340; background: transparent; }
+.salon-body .salon-tabs button:hover { border-color: #e5ebd6; }
+.salon-body .salon-tabs button.is-active { background: #e6ebd7; color: #1b1f16; border-color: #e6ebd7; }
 .salon-body .salon-tabs button::after { display: none; }
-.salon-body .salon-intro { color: #f8ede3; font-size: 24px; margin: 28px 0 8px; }
-.salon-body .service-row { border-bottom: 1px solid #f3e7dc22; padding: 26px 0; align-items: flex-start; }
+.salon-body .salon-intro { color: #e6ebd7; font-size: 24px; margin: 28px 0 8px; }
+.salon-body .service-row { border-bottom: 1px solid #e3e9d322; padding: 26px 0; align-items: flex-start; }
 .salon-body .service-row::before { display: none; }
 .salon-body .service-row:hover { background: transparent; }
-.salon-body .service-row h3 { color: #f8ede3; font-size: 26px; margin: 0; }
-.salon-body .service-row p { color: #cdbbac; font-size: 14px; line-height: 1.6; margin: 8px 0 8px; }
-.salon-body .service-row small { color: #e3b98f; }
+.salon-body .service-row h3 { color: #e6ebd7; font-size: 26px; margin: 0; }
+.salon-body .service-row p { color: #c2cea3; font-size: 14px; line-height: 1.6; margin: 8px 0 8px; }
+.salon-body .service-row small { color: #c1cda0; }
 .salon-body .service-end { display: flex; flex-direction: column; align-items: flex-end; gap: 14px; }
-.salon-body .service-end strong { color: #f8ede3; font-size: 22px; font-weight: 500; }
-.salon-body .service-book { color: #f8ede3; border: 1px solid #f3e7dc66; background: transparent; border-radius: 999px; padding: 9px 20px; display: inline-flex; align-items: center; gap: 8px; }
-.salon-body .service-book:hover { background: #f8ede3; color: #2a1a14; }
+.salon-body .service-end strong { color: #e6ebd7; font-size: 22px; font-weight: 500; }
+.salon-body .service-book { color: #e6ebd7; border: 1px solid #e3e9d366; background: transparent; border-radius: 999px; padding: 9px 20px; display: inline-flex; align-items: center; gap: 8px; }
+.salon-body .service-book:hover { background: #e6ebd7; color: #1b1f16; }
 @media (max-width: 900px) {
   .salon.salon-stack .salon-body { grid-template-columns: 1fr; gap: 40px; padding: 48px 6% 56px !important; }
   .salon-body .salon-copy { position: static; }
@@ -325,19 +325,19 @@ html:not([lang="zz"]) .promo-foot button { font-size: 12px !important; padding: 
 .product-modal-copy .product-scent { font-size: 12px !important; letter-spacing: 0.12em; text-transform: uppercase; color: var(--amber); margin: 0 0 18px !important; }
 .product-modal-copy p { line-height: 1.65; margin-bottom: 18px; }
 .product-modal-copy .product-price { font-family: var(--sans); font-size: 28px; font-weight: 600; margin: 4px 0 6px; color: var(--ink); }
-.product-modal-copy .size-option { border-radius: 10px; padding: 14px 16px; margin: 14px 0 16px; background: #fff; }
+.product-modal-copy .size-option { border-radius: 10px; padding: 14px 16px; margin: 14px 0 16px; background: #eef2e4; }
 .product-modal-copy .solid { border-radius: 999px; }
 .product-modal-copy .ordering-note { margin: 14px 0 18px; }
-.product-notes { flex-direction: row !important; flex-wrap: wrap; gap: 8px !important; border-top: 1px solid #422c2018; padding-top: 18px !important; }
-.product-notes span { background: #f1e8df; border-radius: 999px; padding: 6px 12px; font-size: 12px !important; }
-.modal-close { background: #fff !important; box-shadow: 0 2px 10px rgba(66,44,32,0.15); }
+.product-notes { flex-direction: row !important; flex-wrap: wrap; gap: 8px !important; border-top: 1px solid #282c2018; padding-top: 18px !important; }
+.product-notes span { background: #e4e9d8; border-radius: 999px; padding: 6px 12px; font-size: 12px !important; }
+.modal-close { background: #eef2e4 !important; box-shadow: 0 2px 10px rgba(42, 49, 34,0.15); }
 @media (max-width: 900px) {
   .product-modal-picture { min-height: 360px; border-radius: 18px 18px 0 0; }
   .product-modal-copy { padding: 32px 24px 32px; }
 }
 
 /* Booking section: fill the full width (the flex column was shrinking it), no glow blobs */
-.salon.salon-stack { align-items: stretch !important; background: #2a1a14 !important; overflow: hidden; }
+.salon.salon-stack { align-items: stretch !important; background: #1b1f16 !important; overflow: hidden; }
 .salon.salon-stack::before, .salon.salon-stack::after { display: none !important; }
 .salon.salon-stack > .salon-banner, .salon.salon-stack > .salon-body { width: 100% !important; max-width: none !important; box-sizing: border-box; }
 .salon.salon-stack .salon-body { grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.35fr); padding: 80px 6% 96px !important; }
@@ -346,13 +346,13 @@ html:not([lang="zz"]) .promo-foot button { font-size: 12px !important; padding: 
 .salon-body .service-row > div:first-child { flex: 1; min-width: 0; }
 
 /* Golden glow showcase: fixed light background, only the bottle colour changes */
-.herbal-slide.is-light { background: #f7f1e8 !important; transition: none; }
+.herbal-slide.is-light { background: #e8edda !important; transition: none; }
 .herbal-halo { background: radial-gradient(circle, #ffffffcc 0%, #ffffff00 68%) !important; }
-.herbal-img { filter: drop-shadow(10px 18px 16px #3b2a1e33) !important; }
-.herbal .mood-swatch { width: 26px; height: 26px; border-radius: 50%; border: 1px solid #3b2a1e33; }
+.herbal-img { filter: drop-shadow(10px 18px 16px #25281d33) !important; }
+.herbal .mood-swatch { width: 26px; height: 26px; border-radius: 50%; border: 1px solid #25281d33; }
 
 /* Testimonials slider */
-.testimonials { background: #faf6f1; padding: 88px 0 96px; overflow: hidden; }
+.testimonials { background: #eaefde; padding: 88px 0 96px; overflow: hidden; }
 .testi { max-width: 1240px; margin: 0 auto; padding: 0 24px; opacity: 0; transform: translateY(24px); transition: opacity .8s ease, transform .8s ease; }
 .testi.is-in { opacity: 1; transform: none; }
 .testi-head { text-align: center; margin-bottom: 40px; }
@@ -362,13 +362,13 @@ html:not([lang="zz"]) .promo-foot button { font-size: 12px !important; padding: 
 .testi-track { display: flex; }
 .testi-slide { flex: 0 0 34%; min-width: 0; padding: 0 14px; transition: transform .6s cubic-bezier(.2,.7,.2,1), opacity .6s; transform: scale(.9); opacity: .55; }
 .testi-slide.is-active { transform: scale(1); opacity: 1; }
-.testi-card { margin: 0; height: 100%; display: flex; flex-direction: column; overflow: hidden; border-radius: 18px; background: #fffaf3; border: 1px solid #e8dccb; box-shadow: 0 10px 30px rgba(59,42,30,.08); }
-.testi-slide.is-active .testi-card { box-shadow: 0 22px 50px rgba(59,42,30,.18); }
+.testi-card { margin: 0; height: 100%; display: flex; flex-direction: column; overflow: hidden; border-radius: 18px; background: #eaefde; border: 1px solid #dee4cf; box-shadow: 0 10px 30px rgba(38, 44, 31,.08); }
+.testi-slide.is-active .testi-card { box-shadow: 0 22px 50px rgba(38, 44, 31,.18); }
 .testi-card img { width: 100%; height: 210px; object-fit: cover; display: block; transition: transform 1.2s ease; }
 .testi-slide.is-active .testi-card img { transform: scale(1.06); }
 .testi-card { overflow: hidden; }
 .testi-body { display: flex; flex-direction: column; gap: 10px; padding: 20px 22px 24px; }
-.testi-stars { color: #c9a24a; letter-spacing: 3px; font-size: 16px; }
+.testi-stars { color: #99b05b; letter-spacing: 3px; font-size: 16px; }
 .testi-stars i { font-style: normal; display: inline-block; }
 .testi-slide.is-active .testi-stars i { animation: testiStar .5s cubic-bezier(.3,1.6,.5,1) both; }
 @keyframes testiStar { from { opacity: 0; transform: scale(.2) rotate(-40deg); } to { opacity: 1; transform: none; } }
@@ -379,7 +379,7 @@ html:not([lang="zz"]) .promo-foot button { font-size: 12px !important; padding: 
 .testi-nav > button { width: 42px; height: 42px; border-radius: 50%; border: 1px solid var(--ink); background: transparent; color: var(--ink); display: grid; place-items: center; cursor: pointer; transition: background .3s, color .3s; }
 .testi-nav > button:hover { background: var(--ink); color: var(--cream); }
 .testi-dots { display: flex; gap: 8px; }
-.testi-dots button { width: 9px; height: 9px; padding: 0; border: 0; border-radius: 999px; background: #d9c9b2; cursor: pointer; transition: width .4s, background .4s; }
+.testi-dots button { width: 9px; height: 9px; padding: 0; border: 0; border-radius: 999px; background: #c7d2aa; cursor: pointer; transition: width .4s, background .4s; }
 .testi-dots button.is-active { width: 28px; background: var(--ink); }
 @media (max-width: 1000px) { .testi-slide { flex-basis: 52%; } }
 @media (max-width: 640px) { .testi-slide { flex-basis: 86%; } .testimonials { padding: 56px 0 64px; } }
@@ -390,7 +390,7 @@ html:not([lang="zz"]) .promo-foot button { font-size: 12px !important; padding: 
 .shop .product-card-info h3 { font-size: 18px !important; }
 .shop-more { display: flex; justify-content: center; margin-top: 36px; }
 
-.film-slides { position: relative !important; inset: auto !important; aspect-ratio: 16 / 9; max-height: 380px; width: 100%; border-radius: var(--pro-radius); background: #1c120d; }
+.film-slides { position: relative !important; inset: auto !important; aspect-ratio: 16 / 9; max-height: 380px; width: 100%; border-radius: var(--pro-radius); background: #12140f; }
 
 /* Product popup: straight photo, background follows the photo colour */
 .product-modal-picture > img, .product-modal-picture > svg.product-modal-art { width: 100%; height: 100%; max-height: none; object-fit: contain; transform: none; filter: none; }

@@ -16,7 +16,12 @@ export const policies = ['Arrive 10 minutes early to unwind', 'Free rescheduling
 
 // Normal services and consultations are edited by the admin (admin panel -> Services & Pricing). `price` is the price AFTER the
 // active promotional discount; `basePrice` is the base fee, shown struck through when a promo is running.
-const SERVICE_IMG: Record<string, string> = { 'body-massage': 'close', 'normal-facial': 'facial', 'hydra-facial': 'facial2', 'beauty-consultation': 'reception' }
+const SERVICE_IMG: Record<string, string> = {
+  'body-massage': 'head-massage', 'normal-facial': 'facial', 'hydra-facial': 'hydra-facial', 'herbal-glow-facial': 'herbal-mask',
+  'brightening-facial': 'facial2', 'anti-ageing-facial': 'back', 'beauty-consultation': 'reception',
+}
+// Bridal packages: one picture each (a value starting with / is a full image path).
+const BRIDAL_IMG: Record<string, string> = { 'bridal-silver': 'bridal-veil', 'bridal-gold': 'bridal-saree', 'bridal-platinum': '/assets/services-hero/sh-bridal.webp', 'bridal-trial': 'close' }
 const promoTag = (type?: 'flat' | 'percent', v = 0) => (v > 0 ? (type === 'flat' ? `₹${v} off` : `${v}% off`) : undefined)
 const baseServices = (): Service[] => getSiteConfig().services.filter((s) => s.active).map((s) => ({
   id: s.id, name: s.name, category: s.category as Category, duration: s.duration, price: promoPrice(s.price, s.discountType, s.discountValue),
@@ -27,13 +32,13 @@ const baseServices = (): Service[] => getSiteConfig().services.filter((s) => s.a
 const bridalServices = (): Service[] => getSiteConfig().bridalPackages.map((b) => ({
   id: b.id, name: `Bridal Makeup – ${b.name}`, category: 'Bridal Makeup' as Category, duration: b.duration,
   price: promoPrice(b.price, b.discountType, b.discountValue), basePrice: (b.discountValue ?? 0) > 0 ? b.price : undefined, promo: promoTag(b.discountType, b.discountValue), care: b.care || undefined,
-  img: 'facial2', popular: b.popular, desc: b.features.join(' · '),
+  img: BRIDAL_IMG[b.id] ?? 'bridal-saree', popular: b.popular, desc: b.features.join(' · '),
 }))
 export const services: Service[] = [...baseServices(), ...bridalServices()]
 
 /** Admin switch: service prices are hidden on the public site unless the admin turns them on. */
 export const servicePricesVisible = () => getSiteConfig().showServicePrices
-export const img = (k: string) => `/img/${k}.jpg`
+export const img = (k: string) => (k.startsWith('/') ? k : `/img/${k}.jpg`)
 const moneyLocale = () => { try { const l = localStorage.getItem('velvet-lang'); return ({ en: 'en-IN', ta: 'ta-IN', hi: 'hi-IN', ml: 'ml-IN', te: 'te-IN' } as Record<string,string>)[l || 'en'] || 'en-IN' } catch { return 'en-IN' } }
 export const money = (n: number) => '₹' + n.toLocaleString(moneyLocale())
 

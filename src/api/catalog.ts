@@ -5,10 +5,10 @@ export type Category = 'Body Massage' | 'Facial' | 'Consultation' | 'Bridal Make
 export interface Specialist { name: string; role: string; skill: string; img: string; categories: Category[]; homeVisits: boolean }
 
 export const team: Specialist[] = [
-  { name: 'Anika', role: 'Lead massage therapist', skill: 'Body massage & aromatherapy', img: 'reception', categories: ['Body Massage'], homeVisits: true },
-  { name: 'Meera', role: 'Senior therapist', skill: 'Body massage & aromatherapy', img: 'close', categories: ['Body Massage'], homeVisits: true },
-  { name: 'Isha', role: 'Senior beautician', skill: 'Facials & hydra facial', img: 'facial2', categories: ['Facial', 'Consultation', 'Bridal Makeup'], homeVisits: true },
-  { name: 'Nisha', role: 'Beauty consultant', skill: 'Skin & beauty consultation', img: 'facial', categories: ['Consultation', 'Facial', 'Bridal Makeup'], homeVisits: true },
+  { name: 'Anika', role: 'Lead massage therapist', skill: 'Body massage & aromatherapy', img: 'head-massage', categories: ['Body Massage'], homeVisits: true },
+  { name: 'Meera', role: 'Senior therapist', skill: 'Body massage & aromatherapy', img: 'foot-soak', categories: ['Body Massage'], homeVisits: true },
+  { name: 'Isha', role: 'Senior beautician', skill: 'Facials & hydra facial', img: 'hydra-facial', categories: ['Facial', 'Consultation', 'Bridal Makeup'], homeVisits: true },
+  { name: 'Nisha', role: 'Beauty consultant', skill: 'Skin & beauty consultation', img: 'bridal-saree', categories: ['Consultation', 'Facial', 'Bridal Makeup'], homeVisits: true },
 ]
 
 /** Services that cannot be done at the customer's home (needs salon equipment). Admin toggles this in Phase 4. */

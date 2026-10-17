@@ -7,36 +7,37 @@ import { useI18n } from '../i18n-site'
 import { rich } from '../rich'
 
 const journey: [string, string, string, string][] = [
-  ['2018', 'The first treatment room', 'A single suite in Coimbatore, four therapists and one belief: rest should be done properly.', 'close'],
-  ['2020', 'Our first formula', 'A body oil blended for the Abhyanga ritual. Guests kept asking where to buy it.', 'back'],
-  ['2022', 'Facials & consultations', 'Beauty experts join, so one visit can cover massage, facials and a personal skin plan.', 'facial2'],
-  ['2024', 'The Velvet collection', 'Twelve small-batch products, tested on our treatment tables before they reach a shelf.', 'facial'],
+  ['2018', 'The first treatment room', 'A single suite in Coimbatore, four therapists and one belief: rest should be done properly.', 'foot'],
+  ['2020', 'Our first formula', 'A body oil blended for the Abhyanga ritual. Guests kept asking where to buy it.', 'head-massage'],
+  ['2022', 'Facials & consultations', 'Beauty experts join, so one visit can cover massage, facials and a personal skin plan.', 'hydra-facial'],
+  ['2024', 'The Velvet collection', 'Twelve small-batch products, tested on our treatment tables before they reach a shelf.', 'herbal-mask'],
   ['2026', 'Ships across India', 'Orders tracked end to end, with the same care as a booking at our front desk.', 'reception'],
 ]
 const values: [string, string, string, string][] = [
-  ['Slow by design', 'No rushed rooms, no double bookings. Every guest gets the full hour and a quiet minute after.', 'wide', '01'],
+  ['Slow by design', 'No rushed rooms, no double bookings. Every guest gets the full hour and a quiet minute after.', 'bridal-veil', '01'],
   ['Skin first', 'Every formula is dermatologist reviewed, vegan, cruelty free and free of harsh fillers.', 'facial', '02'],
   ['Small batch', 'We pour in limited runs so each jar is fresh, fragrant and traceable to its batch.', 'close', '03'],
-  ['Genuine care', 'Certified specialists who remember your name, your allergies and your favourite tea.', 'reception', '04'],
+  ['Genuine care', 'Certified specialists who remember your name, your allergies and your favourite tea.', 'foot-soak', '04'],
 ]
 const worlds: [string, string, string, string, string][] = [
-  ['The Spa', 'Body massage and facials in a calm, women-only space.', 'wide', 'Book a ritual', '/booking'],
-  ['Consultation', 'A one-to-one beauty consultation with senior beauticians.', 'facial2', 'Book a consultation', '/booking'],
-  ['The Products', 'The exclusive Velvet collection, delivered to your door.', 'facial', 'Shop the collection', '/products'],
+  ['The Spa', 'Body massage and facials in a calm, women-only space.', 'head-massage', 'Book a ritual', '/booking'],
+  ['Consultation', 'A one-to-one beauty consultation with senior beauticians.', 'hydra-facial', 'Book a consultation', '/booking'],
+  ['The Products', 'The exclusive Velvet collection, delivered to your door.', 'herbal-mask', 'Shop the collection', '/products'],
 ]
 
 function Hero() {
   const { t, lang } = useI18n()
   const sub = lang === 'en' ? spa.sub.toLowerCase().replace(/^./, (c) => c.toUpperCase()) : t(spa.sub)
   return (
-    <section className="relative h-[100svh] min-h-[620px] overflow-hidden bg-ink text-sand">
-      <video className="absolute inset-0 h-full w-full object-cover object-[50%_35%]" src="/about-hero.mp4" autoPlay muted loop playsInline />
-      <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-black/50" />
-      <div className="absolute bottom-10 left-5 md:left-10 right-5">
-        <span className="label text-gold block fade-up">{t('About · {name}', { name: spa.name })}</span>
-        <h1 className="h text-[clamp(2.6rem,8vw,8rem)] mt-4 fade-up">{rich(t('Where beauty\nmeets *care.*'))}</h1>
-        <p className="text-xs md:text-sm max-w-md mt-5 opacity-85 fade-up">{sub}. {t('A women\'s luxury salon and a product studio under one quiet roof.')}</p>
-        <a href="#story" className="inline-block mt-8 bg-gold text-ink rounded-full px-7 py-4 label hover:bg-sand transition fade-up">{t('Our story ↓')}</a>
+    <section className="relative min-h-[88svh] pt-20 grid md:grid-cols-2 bg-[#e4e9d3] text-ink overflow-hidden">
+      <div className="relative order-2 md:order-1 flex flex-col justify-center px-5 md:px-10 pt-10 pb-20 md:pt-12 md:pb-28">
+        <span className="label block fade-up !tracking-[.28em] opacity-80">{t('About · {name}', { name: spa.name })}</span>
+        <h1 className="mt-8 fade-up text-[clamp(2.8rem,6.2vw,6.5rem)] leading-[1.02] tracking-tight" style={{ fontFamily: 'Georgia, "Times New Roman", serif' }}>{rich(t('Where beauty\nmeets *care.*'))}</h1>
+        <p className="text-sm md:text-base max-w-md mt-8 opacity-85 fade-up">{sub}. {t('A women\'s luxury salon and a product studio under one quiet roof.')}</p>
+        <a href="#story" className="inline-block self-start mt-10 text-sm hover:opacity-70 transition fade-up">{t('Our story ↓')}</a>
+      </div>
+      <div className="order-1 md:order-2 relative h-[46svh] md:h-auto">
+        <img src="/assets/hero/about-hero.webp" alt="" className="absolute inset-0 h-full w-full object-cover" fetchpriority="high" />
       </div>
     </section>
   )
@@ -53,7 +54,7 @@ function Story() {
       </div>
       <div className="relative h-[460px] md:h-[600px]">
         <Parallax speed={0.1} className="absolute left-0 top-0 w-[68%]"><Tilt max={8}><Photo k="close" className="w-full aspect-[4/5] shadow-2xl" /></Tilt></Parallax>
-        <Parallax speed={-0.1} className="absolute right-0 bottom-0 w-[55%]"><Tilt max={10}><Photo k="facial" className="w-full aspect-[4/5] shadow-2xl border-4 border-sand" /></Tilt></Parallax>
+        <Parallax speed={-0.1} className="absolute right-0 bottom-0 w-[55%]"><Tilt max={10}><Photo k="foot-soak" className="w-full aspect-[4/5] shadow-2xl border-4 border-sand" /></Tilt></Parallax>
       </div>
     </section>
   )
@@ -70,7 +71,7 @@ function Stats() {
   const s: [number, string, string][] = [[8, '+ yrs', 'Of craft'], [12, 'k+', 'Guests cared for'], [24, '', 'Treatments'], [98, '%', 'Say they return']]
   return (
     <section className="relative h-[90svh] min-h-[560px] overflow-hidden bg-ink text-sand">
-      <Parallax speed={0.08} className="absolute -inset-y-[10%] inset-x-0"><Photo k="wide" className="h-full w-full" /></Parallax>
+      <Parallax speed={0.08} className="absolute -inset-y-[10%] inset-x-0"><Photo k="bridal-saree" className="h-full w-full" /></Parallax>
       <div className="absolute inset-0 bg-black/60" />
       <div className="relative h-full flex flex-col justify-between px-5 md:px-10 pt-28 pb-10">
         <Reveal><span className="label text-gold block mb-4">{t('By the numbers')}</span><h2 className="h text-[clamp(2.4rem,6.5vw,6rem)]">{rich(t('Trusted,\none visit at a time.'))}</h2></Reveal>
@@ -100,7 +101,7 @@ function Values() {
   const { t } = useI18n()
   const [on, setOn] = useState<number | null>(null)
   return (
-    <section id="values" className="py-28 bg-[#eeede9] px-5 md:px-10">
+    <section id="values" className="py-28 bg-[#e5ead5] px-5 md:px-10">
       <Reveal><span className="label block mb-4">{t('What we stand for')}</span><h2 className="h text-[clamp(2.2rem,5vw,4.6rem)]">{rich(t('Four promises.\nHover to flip.'))}</h2></Reveal>
       <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-12">
         {values.map(([ti, d, k, n], i) => (
@@ -147,10 +148,10 @@ function Team() {
 
 function Gallery() {
   const { t } = useI18n()
-  const g = [['wide', 'The lounge'], ['close', 'Treatment suite'], ['facial', 'Facial studio'], ['foot2', 'Consultation room'], ['back', 'Body ritual'], ['reception', 'Reception']]
+  const g = [['foot-soak', 'The lounge'], ['head-massage', 'Treatment suite'], ['hydra-facial', 'Facial studio'], ['herbal-mask', 'Consultation room'], ['close', 'Body ritual'], ['reception', 'Reception']]
   const [i, setI] = useState(0)
   return (
-    <section className="py-24 bg-[#151915] text-sand overflow-hidden">
+    <section className="py-24 bg-[#171915] text-sand overflow-hidden">
       <div className="px-5 md:px-10 mb-10"><Reveal><span className="label text-gold block mb-4">{t('Inside Revathi Herbal')}</span><h2 className="h text-[clamp(2.2rem,5vw,4.6rem)]">{rich(t('A look\naround.'))}</h2></Reveal></div>
       <Coverflow items={g.map(([k, ti]) => ({ img: k, title: t(ti), sub: 'Revathi Herbal' }))} index={i} onChange={setI} />
     </section>

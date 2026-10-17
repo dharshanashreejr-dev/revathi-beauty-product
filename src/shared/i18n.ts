@@ -2,10 +2,10 @@ import { useEffect, useSyncExternalStore } from 'react'
 
 // ONE language store for the whole website (landing, products, services...).
 // Same key: localStorage "velvet-lang".
-// Full support for all 8 languages: English, Tamil, Hindi, Malayalam, Telugu, Kannada, Marathi, Bengali.
+// Full support for all 9 languages: English, Tamil, Hindi, Malayalam, Telugu, Kannada, Marathi, Bengali, Sanskrit.
 // Admin pages are excluded from language switching.
 
-export type Lang = 'en' | 'ta' | 'hi' | 'ml' | 'te' | 'kn' | 'mr' | 'bn'
+export type Lang = 'en' | 'ta' | 'hi' | 'ml' | 'te' | 'kn' | 'mr' | 'bn' | 'sa'
 export type UiLang = Lang
 export const LANGS: { code: UiLang; label: string }[] = [
   { code: 'en', label: 'EN' },
@@ -16,20 +16,26 @@ export const LANGS: { code: UiLang; label: string }[] = [
   { code: 'kn', label: 'ಕನ್ನಡ' },
   { code: 'mr', label: 'मराठी' },
   { code: 'bn', label: 'বাংলা' },
+  { code: 'sa', label: 'संस्कृतम्' },
 ]
+/** Language names written in English — used ONLY in the navbar language switch so every customer can read them. */
+export const NAV_LANG_NAMES: Record<UiLang, string> = {
+  en: 'English', ta: 'Tamil', hi: 'Hindi', ml: 'Malayalam', te: 'Telugu',
+  kn: 'Kannada', mr: 'Marathi', bn: 'Bengali', sa: 'Sanskrit',
+}
 export const LANG_LOCALES: Record<UiLang, string> = {
   en: 'en-IN', ta: 'ta-IN', hi: 'hi-IN', ml: 'ml-IN', te: 'te-IN',
-  kn: 'kn-IN', mr: 'mr-IN', bn: 'bn-IN',
+  kn: 'kn-IN', mr: 'mr-IN', bn: 'bn-IN', sa: 'sa-IN',
 }
 /** Every language is fully supported — no content fallback needed. */
 export const CONTENT_FALLBACK: Record<UiLang, Lang> = {
-  en: 'en', ta: 'ta', hi: 'hi', ml: 'ml', te: 'te', kn: 'kn', mr: 'mr', bn: 'bn',
+  en: 'en', ta: 'ta', hi: 'hi', ml: 'ml', te: 'te', kn: 'kn', mr: 'mr', bn: 'bn', sa: 'sa',
 }
 
 const KEY = 'velvet-lang'
 const EVT = 'velvet-lang-change'
 
-/** The language the visitor picked (any of the 8). */
+/** The language the visitor picked (any of the 9). */
 export function getUiLang(): UiLang {
   try {
     const s = localStorage.getItem(KEY)
@@ -37,7 +43,7 @@ export function getUiLang(): UiLang {
   } catch {}
   return 'en'
 }
-/** Content language — same as picked language (all 8 fully translated). */
+/** Content language — same as picked language (all 9 languages). */
 export const getLang = (): Lang => getUiLang()
 
 export function setLang(l: UiLang) {
@@ -58,7 +64,7 @@ export function useLang(): [Lang, (l: UiLang) => void] {
   useEffect(() => { document.documentElement.lang = getUiLang() }, [lang])
   return [lang, setLang]
 }
-/** Same as useLang — all 8 languages are fully supported. */
+/** Same as useLang — all 9 languages are supported. */
 export function useUiLang(): [UiLang, (l: UiLang) => void] {
   const lang = useSyncExternalStore(subscribe, getUiLang, () => 'en' as UiLang)
   return [lang, setLang]

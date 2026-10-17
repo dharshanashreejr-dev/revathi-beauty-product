@@ -11,7 +11,7 @@ import { log as auditLog } from './audit'
 export const GST_RATE = 18
 
 export type PayMethod = 'Cash' | 'UPI' | 'Card' | 'Razorpay'
-export type LineKind = 'product' | 'service'
+export type LineKind = 'product' | 'service' | 'custom' // custom = item typed in at the counter (no stock, not in the catalogue)
 
 export interface PosLine {
   kind: LineKind
@@ -45,6 +45,10 @@ export interface Invoice {
   cashier: string
   cashierRole: string
   notes?: string
+  /** false = bill without GST (no tax breakup, CGST / SGST are 0). Missing = with GST. */
+  withGst?: boolean
+  /** Customer GSTIN (only on bills with GST, optional). */
+  gstin?: string
 }
 
 const seed: Invoice[] = [
@@ -118,6 +122,9 @@ export interface CreateInvoiceInput {
   deductStock?: boolean
   /** Catalogue base stock lookup: id -> baseStock */
   baseStockOf?: (id: string) => number
+  /** Default true. false = bill without GST. */
+  withGst?: boolean
+  gstin?: string
 }
 
 export interface CreateInvoiceResult {
@@ -128,7 +135,10 @@ export interface CreateInvoiceResult {
 /** Create invoice, optionally deduct stock, send SMS, write audit. */
 export function createInvoice(input: CreateInvoiceInput): CreateInvoiceResult {
   if (!input.lines.length) throw new Error('Cart is empty')
-  const gst = cartGst(input.lines)
+  const gross = cartGst(input.lines)
+  const withGst = input.withGst !== false
+  // Without GST: same prices, no tax split shown or recorded.
+  const gst: GstBreakup = withGst ? gross : { taxable: gross.total, cgst: 0, sgst: 0, total: gross.total }
   const id = nextInvoiceId()
   const shortLink = `https://bill.revathi.demo/i/${id}`
   const invoice: Invoice = {
@@ -146,6 +156,8 @@ export function createInvoice(input: CreateInvoiceInput): CreateInvoiceResult {
     cashier: input.cashier,
     cashierRole: input.cashierRole,
     notes: input.notes,
+    withGst,
+    gstin: withGst && input.gstin?.trim() ? input.gstin.trim().toUpperCase() : undefined,
   }
 
   const stockErrors: string[] = []

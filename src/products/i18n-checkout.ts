@@ -115,6 +115,7 @@ const ADD_MORE: F<[string]> = {
   kn: (p) => `ಉಚಿತ ಶಿಪ್ಪಿಂಗ್‌ಗಾಗಿ ಇನ್ನೂ ${p} ಸೇರಿಸಿ`,
   mr: (p) => `मोफत शिपिंगसाठी आणखी ${p} जोडा`,
   bn: (p) => `ফ্রি শিপিংয়ের জন্য আরও ${p} যোগ করুন`,
+  sa: (p) => `निःशुल्क-प्रेषणाय अपरं ${p} योजयतु`,
 }
 const STD_FREE: F<[string]> = {
   en: (p) => `Standard shipping is complimentary above ${p}.`,
@@ -125,10 +126,11 @@ const STD_FREE: F<[string]> = {
   kn: (p) => `${p} ಮೇಲೆ ಸ್ಟ್ಯಾಂಡರ್ಡ್ ಶಿಪ್ಪಿಂಗ್ ಉಚಿತ.`,
   mr: (p) => `${p} वर स्टँडर्ड शिपिंग मोफत आहे.`,
   bn: (p) => `${p}-এর উপরে স্ট্যান্ডার্ড শিপিং ফ্রি।`,
+  sa: (p) => `${p} अधिके सामान्य-प्रेषणं निःशुल्कम्।`,
 }
 const EXTRA: F<[string]> = {
   en: (p) => `Extra ${p}`, ta: (p) => `கூடுதல் ${p}`, hi: (p) => `अतिरिक्त ${p}`, ml: (p) => `അധികം ${p}`, te: (p) => `అదనంగా ${p}`,
-  kn: (p) => `ಹೆಚ್ಚುವರಿ ${p}`, mr: (p) => `अतिरिक्त ${p}`, bn: (p) => `অতিরিক্ত ${p}`,
+  kn: (p) => `ಹೆಚ್ಚುವರಿ ${p}`, mr: (p) => `अतिरिक्त ${p}`, bn: (p) => `অতিরিক্ত ${p}`, sa: (p) => `अतिरिक्तम् ${p}`,
 }
 const SHIP_TO: F<[string, string, string]> = {
   en: (n, c, p) => `Shipping to ${n}, ${c} ${p}`,
@@ -139,10 +141,11 @@ const SHIP_TO: F<[string, string, string]> = {
   kn: (n, c, p) => `${n}, ${c} ${p} ಗೆ ಶಿಪ್ ಆಗುತ್ತದೆ`,
   mr: (n, c, p) => `${n}, ${c} ${p} येथे शिप होईल`,
   bn: (n, c, p) => `${n}, ${c} ${p}-এ শিপ হবে`,
+  sa: (n, c, p) => `${n}, ${c} ${p} इत्यत्र प्रेषयिष्यते`,
 }
 const PAY_BTN: F<[string]> = {
   en: (a) => `Pay ${a}`, ta: (a) => `${a} செலுத்துங்கள்`, hi: (a) => `${a} का भुगतान करें`, ml: (a) => `${a} അടയ്ക്കുക`, te: (a) => `${a} చెల్లించండి`,
-  kn: (a) => `${a} ಪಾವತಿಸಿ`, mr: (a) => `${a} भरा`, bn: (a) => `${a} পরিশোধ করুন`,
+  kn: (a) => `${a} ಪಾವತಿಸಿ`, mr: (a) => `${a} भरा`, bn: (a) => `${a} পরিশোধ করুন`, sa: (a) => `${a} ददातु`,
 }
 const RECEIPT: F<[string]> = {
   en: (e) => `Your order is confirmed. A receipt has been sent to ${e}.`,
@@ -153,6 +156,7 @@ const RECEIPT: F<[string]> = {
   kn: (e) => `ನಿಮ್ಮ ಆರ್ಡರ್ ದೃಢೀಕರಿಸಲಾಗಿದೆ. ರಸೀದಿ ${e} ಗೆ ಕಳುಹಿಸಲಾಗಿದೆ.`,
   mr: (e) => `तुमचा ऑर्डर कन्फर्म झाला आहे. रसीद ${e} वर पाठवली आहे.`,
   bn: (e) => `আপনার অর্ডার নিশ্চিত হয়েছে। রসিদ ${e}-এ পাঠানো হয়েছে।`,
+  sa: (e) => `भवतः आदेशः पुष्टः। रसीदः ${e} इत्यत्र प्रेषिता।`,
 }
 const INCL: F<[boolean, string, string]> = {
   en: (free, ship, fee) => `incl. shipping ${free ? 'complimentary' : ship}${fee ? ` and COD fee ${fee}` : ''}`,
@@ -163,6 +167,7 @@ const INCL: F<[boolean, string, string]> = {
   kn: (free, ship, fee) => `ಶಿಪ್ಪಿಂಗ್ ${free ? 'ಉಚಿತ' : ship}${fee ? ` ಮತ್ತು COD ಶುಲ್ಕ ${fee}` : ''} ಸೇರಿದಂತೆ`,
   mr: (free, ship, fee) => `शिपिंग ${free ? 'मोफत' : ship}${fee ? ` आणि COD शुल्क ${fee}` : ''} सह`,
   bn: (free, ship, fee) => `শিপিং ${free ? 'ফ্রি' : ship}${fee ? ` এবং COD ফি ${fee}` : ''} সহ`,
+  sa: (free, ship, fee) => `प्रेषणं ${free ? 'निःशुल्कम्' : ship}${fee ? ` तथा COD शुल्कं ${fee}` : ''} सहितम्`,
 }
 
 export const addMoreLabel = (p: string, lang: Lang) => call(ADD_MORE, lang, p)

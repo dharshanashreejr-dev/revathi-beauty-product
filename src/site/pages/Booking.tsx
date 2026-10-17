@@ -8,6 +8,8 @@ import { api, type BookingMode } from '../../api'
 import Calendar from '../components/Calendar'
 import { useI18n, fmtDate } from '../i18n-site'
 import { useSlotLock, mmss } from '../useSlotLock'
+import { useUiLang } from '../../shared/i18n'
+import { authT } from '../../shared/auth-text'
 
 const channels: Channel[] = ['SMS', 'WhatsApp', 'SMS + WhatsApp']
 function HoldTimer({ msLeft, dark }: { msLeft: number; dark?: boolean }) {
@@ -48,7 +50,22 @@ export default function Booking() {
   const qualified = team.filter((m) => m.categories.includes(svc.category))
   const free = f.date && f.time ? freeSpecialists(svc.category, f.date, f.time, svc.duration, undefined, f.mode) : []
   const review = api.booking.needsReview(f.mode, svc.category)
-  const total = svc.price * f.guests
+  const base = svc.price * f.guests
+  // Coupon (e.g. FIRSTSERVICE10 = 10% off a customer's first service). It is re-checked every render, so changing the service or guests updates the discount.
+  const [ui] = useUiLang()
+  const [code, setCode] = useState('')
+  const [applied, setApplied] = useState('')
+  const [cnote, setCnote] = useState<{ ok: boolean; text: string } | null>(null)
+  const cres = applied ? api.offers.validateCoupon(applied, base, 'services') : null
+  const discount = cres && cres.ok ? cres.discount : 0
+  const total = Math.max(0, base - discount)
+  const REASON: Record<string, string> = { empty: 'Enter a coupon code.', invalid: 'Invalid coupon code.', inactive: 'Invalid coupon code.', early: 'This coupon is not active yet.', expired: 'This coupon has expired.', scope: 'This coupon does not apply to service bookings.', 'used-up': 'This coupon has been fully used.', login: 'Please log in to use this coupon.', 'not-first-order': 'This coupon is only for your first product order.', 'not-first-service': 'This coupon is only for your first service booking.', 'need-booking': 'Book a service first to use this coupon.', 'has-order': 'This coupon is only for customers who have not bought products yet.' }
+  const applyCoupon = () => requireLogin(() => {
+    const r = api.offers.validateCoupon(code, base, 'services')
+    if (r.ok) { setApplied(r.code); setCnote({ ok: true, text: authT('Coupon {code} applied. You save {amount}.', ui, { code: r.code, amount: money(r.discount) }) }) }
+    else { setApplied(''); setCnote({ ok: false, text: r.reason === 'min' ? authT('Add items worth {amount} more to use this coupon.', ui, { amount: money((r.min ?? 0) - base) }) : authT(REASON[r.reason] ?? 'Invalid coupon code.', ui) }) }
+  })
+  const clearCoupon = () => { setApplied(''); setCode(''); setCnote(null) }
 
   const set = (k: string, v: string | number | boolean) => setF((p) => {
     const n = { ...p, [k]: v } as typeof p
@@ -81,9 +98,11 @@ export default function Booking() {
     const lock = api.booking.getMyLock()
     if (f.time && (!lock || lock.date !== f.date || lock.time !== f.time)) { x.time = 'Your held slot expired. Please pick a time again.'; setF((p) => ({ ...p, time: '' })) }
     setErr(x); if (Object.keys(x).length || !lock) return
-    const res = api.booking.submitBooking({ serviceId: svc.id, serviceName: svc.name, category: svc.category, duration: svc.duration, date: f.date, time: f.time, specialists: [], guests: f.guests, name: f.name, phone: f.phone, email: f.email, notes: f.notes, channel: f.channel, remind: f.remind, total, mode: f.mode,
+    if (applied && !(cres && cres.ok)) { setCnote({ ok: false, text: authT(cres && !cres.ok ? (REASON[cres.reason] ?? 'Invalid coupon code.') : 'Invalid coupon code.', ui) }); setApplied(''); return }
+    const res = api.booking.submitBooking({ serviceId: svc.id, serviceName: svc.name, category: svc.category, duration: svc.duration, date: f.date, time: f.time, specialists: [], guests: f.guests, name: f.name, phone: f.phone, email: f.email, notes: f.notes, channel: f.channel, remind: f.remind, total, mode: f.mode, coupon: applied || undefined, discount: discount || undefined,
       address: f.mode === 'home' ? { line1: f.line1.trim(), city: f.city.trim(), state: f.state.trim(), pin: f.pin.trim() } : undefined }, lock.id)
     if (!res.ok) { setErr({ time: 'Your held slot expired. Please pick a time again.' }); setF((p) => ({ ...p, time: '' })); return }
+    if (applied) api.offers.redeemCoupon(applied)
     sessionStorage.setItem('serene-last', res.booking.ref); nav('/success')
   }
   const E = ({ k }: { k: string }) => err[k] ? <p className="text-[11px] text-red-700 mt-2">{t(err[k])}</p> : null
@@ -152,7 +171,19 @@ export default function Booking() {
             <h3 className="h text-2xl">{t(svc.name)}</h3><p className="opacity-70">{t(svc.category)} · {mins(svc.duration)}</p>
             <div className="border-t border-sand/20 pt-3 space-y-2">
               {[['Place', f.mode === 'home' ? t('Home visit') : t('Parlour')], ['Date', f.date ? fmtDate(f.date, lang) : '—'], ['Time', f.time || '—'], ['Specialist', f.specialist === 'auto' ? (free.slice(0, f.guests).map((m) => m.name).join(', ') || t('Auto')) : f.specialist], ['Guests', f.guests], ['Reminders', f.remind ? f.channel : t('Off')]].map(([a, b]) => <p key={a} className="flex justify-between gap-4"><span>{t(a as string)}</span><span className="text-right">{b}</span></p>)}</div>
-            {servicePricesVisible() ? <p className="flex justify-between border-t border-sand/20 pt-3 text-base"><span>{t('Total')}</span><span>{money(total)}</span></p> : <p className="border-t border-sand/20 pt-3 text-sm">{t(f.mode === 'home' ? 'Payment is made offline, after your service.' : 'Payment is made offline, at the salon, after your service.')}</p>}
+            {servicePricesVisible() ? <div className="border-t border-sand/20 pt-3 space-y-2">
+              {discount > 0 && <><p className="flex justify-between"><span>{t('Subtotal')}</span><span>{money(base)}</span></p><p className="flex justify-between text-emerald-300"><span>{authT('Coupon discount', ui)}</span><span>−{money(discount)}</span></p></>}
+              <p className="flex justify-between text-base"><span>{t('Total')}</span><span>{money(total)}</span></p></div> : <p className="border-t border-sand/20 pt-3 text-sm">{t(f.mode === 'home' ? 'Payment is made offline, after your service.' : 'Payment is made offline, at the salon, after your service.')}</p>}
+            <div className="border-t border-sand/20 pt-3">
+              <label className="label block mb-2" htmlFor="svc-coupon">{authT('Coupon code', ui)}</label>
+              <div className="flex gap-2">
+                <input id="svc-coupon" value={code} disabled={!!applied} maxLength={15} onChange={(e) => { setCode(e.target.value.toUpperCase()); setCnote(null) }} onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); if (!applied) applyCoupon() } }} placeholder="FIRSTSERVICE10" className="min-w-0 flex-1 bg-transparent border-b border-sand/40 py-2 text-sm uppercase outline-none focus:border-sand" />
+                {applied
+                  ? <button type="button" onClick={clearCoupon} className="rounded-full border border-sand/50 px-4 py-2 hover:bg-sand hover:text-ink">{authT('Remove coupon', ui)}</button>
+                  : <button type="button" onClick={applyCoupon} className="rounded-full bg-sand text-ink px-4 py-2 hover:opacity-90">{authT('Apply', ui)}</button>}
+              </div>
+              {cnote && <p className={`mt-2 ${cnote.ok ? 'text-emerald-300' : 'text-red-300'}`} role={cnote.ok ? 'status' : 'alert'}>{cnote.text}</p>}
+            </div>
             {f.time && held && <HoldTimer msLeft={msLeft} dark />}
             <button className="w-full bg-sand text-ink rounded-full py-4 label mt-3 hover:opacity-90">{t(review ? 'Send booking request' : 'Confirm booking')}</button>
             <Link to="/services#menu" className="block text-center opacity-60 hover:opacity-100 pt-1">{t('← Back to menu')}</Link><p className="opacity-50 text-center">{spa.phone}</p>

@@ -16,16 +16,16 @@ type ArtProps = {
   y?: number;
 };
 
-const ivory = "#fbf3e4";
+const ivory = "#e8edda";
 
 function Label({ x, y, w, h, line1, line2 }: { x: number; y: number; w: number; h: number; line1: string; line2: string }) {
   return (
     <g>
       <rect x={x} y={y} width={w} height={h} rx="3" fill={ivory} opacity="0.94" />
-      <text x={x + w / 2} y={y + h / 2 - 2} textAnchor="middle" fontFamily="Georgia, serif" fontSize="11" letterSpacing="1.6" fill="#422c20">
+      <text x={x + w / 2} y={y + h / 2 - 2} textAnchor="middle" fontFamily="Georgia, serif" fontSize="11" letterSpacing="1.6" fill="#2a3122">
         {line1}
       </text>
-      <text x={x + w / 2} y={y + h / 2 + 13} textAnchor="middle" fontFamily="Arial, sans-serif" fontSize="5.5" letterSpacing="1.4" fill="#806b59">
+      <text x={x + w / 2} y={y + h / 2 + 13} textAnchor="middle" fontFamily="Arial, sans-serif" fontSize="5.5" letterSpacing="1.4" fill="#6b7856">
         {line2}
       </text>
     </g>
@@ -61,13 +61,13 @@ export function ProductArt({ kind, tone, className, title, width = 300, height =
         </linearGradient>
         <linearGradient id={gold} x1="0" x2="1" y1="0" y2="0">
           <stop offset="0" stopColor={c1} />
-          <stop offset="0.35" stopColor="#f4e3bb" />
+          <stop offset="0.35" stopColor="#dee5ca" />
           <stop offset="0.7" stopColor={c1} />
-          <stop offset="1" stopColor="#5b3a26" />
+          <stop offset="1" stopColor="#343c2b" />
         </linearGradient>
         <radialGradient id={shade} cx="0.5" cy="0.5" r="0.5">
-          <stop offset="0" stopColor="#3b1f14" stopOpacity="0.34" />
-          <stop offset="1" stopColor="#3b1f14" stopOpacity="0" />
+          <stop offset="0" stopColor="#22271c" stopOpacity="0.34" />
+          <stop offset="1" stopColor="#22271c" stopOpacity="0" />
         </radialGradient>
       </defs>
       <ellipse cx="150" cy="372" rx="96" ry="12" fill={`url(#${shade})`} />
@@ -89,7 +89,7 @@ export function ProductArt({ kind, tone, className, title, width = 300, height =
           <rect x="116" y="214" width="68" height="46" rx="6" fill={`url(#${gold})`} />
           <rect x="106" y="256" width="88" height="112" rx="10" fill={`url(#${gold})`} />
           <rect x="114" y="266" width="8" height="92" rx="4" fill="#fff" opacity="0.4" />
-          <rect x="106" y="262" width="88" height="4" fill="#fbeccb" opacity="0.7" />
+          <rect x="106" y="262" width="88" height="4" fill="#e4ead4" opacity="0.7" />
         </g>
       )}
       {kind === "jar" && (
@@ -143,12 +143,12 @@ export function ProductArt({ kind, tone, className, title, width = 300, height =
       {kind === "compact" && (
         <g>
           <circle cx="150" cy="252" r="104" fill={`url(#${gold})`} />
-          <circle cx="150" cy="252" r="84" fill="#2c1b17" opacity="0.22" />
+          <circle cx="150" cy="252" r="84" fill="#1d2118" opacity="0.22" />
           <circle cx="150" cy="252" r="76" fill={c0} />
           <circle cx="150" cy="252" r="76" fill="url(#none)" />
           <path d="M96 222 Q150 190 204 222" stroke="#fff" strokeWidth="10" strokeLinecap="round" opacity="0.32" fill="none" />
           <path d="M104 270 Q150 292 196 270" stroke={c1} strokeWidth="3" strokeLinecap="round" opacity="0.4" fill="none" />
-          <rect x="128" y="146" width="44" height="10" rx="5" fill="#fbeccb" opacity="0.8" />
+          <rect x="128" y="146" width="44" height="10" rx="5" fill="#e4ead4" opacity="0.8" />
         </g>
       )}
     </svg>

@@ -28,7 +28,7 @@ function Hero() {
   }, [hover])
   return (
     <section className="relative w-full overflow-hidden bg-ink" onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}>
-      <div className="relative w-full aspect-[2352/1008] max-h-[620px]">
+      <div className="relative w-full aspect-[2352/1008] max-h-[480px]">
         {HERO_SLIDES.map((s, n) => (
           <img key={s.src} src={s.src} alt={s.alt} draggable={false} loading={n === 0 ? 'eager' : 'lazy'} className={`absolute inset-0 h-full w-full object-cover object-[50%_30%] transition-opacity duration-700 ${n === i ? 'opacity-100' : 'opacity-0'}`} />
         ))}
@@ -72,10 +72,10 @@ function Motion() {
 
 function Moments() {
   const { t } = useI18n()
-  const m = [['Morning', 'facial', 'Morning. Bright, awakening facials and a cup of ginger tea.'], ['Afternoon', 'back', 'Afternoon. A full-body massage to release the weight of a long day.'], ['Evening', 'wide', 'Evening. Slow aromatherapy massage to close the day softly.']]
+  const m = [['Morning', 'herbal-mask', 'Morning. Bright, awakening facials and a cup of ginger tea.'], ['Afternoon', 'head-massage', 'Afternoon. A full-body massage to release the weight of a long day.'], ['Evening', 'foot-soak', 'Evening. Slow aromatherapy massage to close the day softly.']]
   const [i, setI] = useState(0)
   return (
-    <section className="bg-[#151915] text-sand min-h-[100svh] grid md:grid-cols-2 items-center gap-10 px-5 md:px-10 py-28 border-t border-sand/10">
+    <section className="bg-[#171915] text-sand min-h-[100svh] grid md:grid-cols-2 items-center gap-10 px-5 md:px-10 py-28 border-t border-sand/10">
       <div>
         <span className="label block mb-5">{t('A change of mood')}</span>
         <h2 className="h text-[clamp(2.2rem,4.5vw,4.2rem)]"><Lines text={t('A ritual\nfor this\nmoment.')} /></h2>
@@ -91,7 +91,7 @@ function Moments() {
 
 function Ingredients() {
   const { t } = useI18n()
-  const s = [['Lavender', 'facial2', 'Soft doesn\'t mean simple.', 'Calming and quietly powerful. Lavender slows the breath and settles the nervous system.'], ['Rose', 'foot2', 'A petal-soft beginning.', 'Hand-picked petals for our soaks and facials, gentle on even the most sensitive skin.'], ['Sandalwood', 'back', 'Warmth that stays.', 'Creamy, grounding wood notes carried in our massage oils and ritual candles.'], ['Himalayan salt', 'close', 'Clean, mineral, honest.', 'Fine crystals polish away dullness and leave skin smooth, soft and glowing.'], ['Jasmine', 'facial', 'Light in the shadows.', 'A small white flower with an expansive presence, used in our evening rituals.']]
+  const s = [['Lavender', 'facial2', 'Soft doesn\'t mean simple.', 'Calming and quietly powerful. Lavender slows the breath and settles the nervous system.'], ['Rose', 'foot2', 'A petal-soft beginning.', 'Hand-picked petals for our soaks and facials, gentle on even the most sensitive skin.'], ['Sandalwood', 'back', 'Warmth that stays.', 'Creamy, grounding wood notes carried in our massage oils and ritual candles.'], ['Himalayan salt', 'close', 'Clean, mineral, honest.', 'Fine crystals polish away dullness and leave skin smooth, soft and glowing.'], ['Jasmine', 'foot', 'Light in the shadows.', 'A small white flower with an expansive presence, used in our evening rituals.']]
   const [i, setI] = useState(0)
   const go = (d: number) => setI((i + d + s.length) % s.length)
   return (
@@ -141,7 +141,7 @@ function Popup({ label, title, onClose, children }: { label: string; title: stri
   }, [onClose])
   return (
     <div className="fixed inset-0 z-[80] flex items-end md:items-center justify-center bg-black/60 md:p-8" onClick={onClose} role="dialog" aria-modal="true" aria-label={t(title)}>
-      <div className="flex flex-col w-full max-w-6xl max-h-[92vh] bg-[#eeede9] shadow-2xl" onClick={(e) => e.stopPropagation()}>
+      <div className="flex flex-col w-full max-w-6xl max-h-[92vh] bg-[#e5ead5] shadow-2xl" onClick={(e) => e.stopPropagation()}>
         <div className="flex items-start justify-between gap-6 px-6 md:px-10 pt-6 pb-4 border-b border-ink/10">
           <div><span className="label block mb-2">{t(label)}</span><h2 className="h text-[clamp(1.8rem,3.6vw,3.2rem)]">{t(title)}</h2></div>
           <button onClick={onClose} aria-label={t('Close')} className="shrink-0 h-10 w-10 rounded-full border border-ink/30 hover:bg-ink hover:text-sand transition text-lg leading-none">&times;</button>
@@ -164,7 +164,7 @@ function Menu() {
     { key: 'bridal' as const, title: 'Bridal Makeup', k: '', src: '/assets/services-hero/bridal.webp', count: `${pk.length} ${t('packages')}`, desc: 'Silver, Gold and Platinum bridal packages, plus a trial pack.', btn: 'View packages' },
   ]
   return (
-    <section id="menu" className="bg-[#eeede9] px-5 md:px-10 pt-24 pb-24 scroll-mt-0">
+    <section id="menu" className="bg-[#e5ead5] px-5 md:px-10 pt-24 pb-24 scroll-mt-0">
       <span className="label block mb-4">{t('The ritual menu')}</span>
       <h2 className="h text-[clamp(2.4rem,5.5vw,5rem)]">{t('Services & Consulting')}</h2>
 
@@ -247,7 +247,7 @@ function Visit() {
 
 function Marquee() {
   const { t } = useI18n()
-  const w = ['Festive holiday offers', '15% off your first visit', 'Body massage offers', 'Facial offers', 'Bridal package offers']
+  const w = ['Festive holiday offers', '10% off your first service', 'Body massage offers', 'Facial offers', 'Bridal package offers']
   return (
     <div className="bg-ink text-sand overflow-hidden pt-24 pb-3">
       <div className="flex w-max" style={{ animation: 'marquee 30s linear infinite' }}>
@@ -295,7 +295,7 @@ function Offers() {
   const { t } = useI18n()
   const o = [['First visit', '15% off your first ritual, on any treatment.', 'Claim offer', '/booking'], ['Membership', 'One ritual a month at a better price, with priority booking.', 'Ask us', '/booking'], ['Gift cards', 'Give the gift of calm, for any amount or treatment.', 'Gift a ritual', '/booking']]
   return (
-    <section className="bg-[#eeede9] px-5 md:px-10 pb-28 grid md:grid-cols-3 gap-5">
+    <section className="bg-[#e5ead5] px-5 md:px-10 pb-28 grid md:grid-cols-3 gap-5">
       {o.map(([title, d, b, to], n) => (
         <Reveal key={title} delay={n * 100}><div className="bg-ink text-sand p-7 h-full flex flex-col justify-between min-h-[250px] hover:-translate-y-1 transition duration-500">
           <div><h3 className="h text-3xl">{t(title)}</h3><p className="text-xs mt-4 opacity-75 max-w-[16rem]">{t(d)}</p></div>

@@ -32,8 +32,8 @@
 footer nav a { cursor: pointer; }
 
 .lang-select select option {
-  color: #1a1210;
-  background: #fff;
+  color: #12140f;
+  background: #eef2e4;
 }
 
 /* Indic scripts */
@@ -118,3 +118,18 @@ html:not([lang="en"]) .nav-right {
   .nav-tools .nav-profile { padding: 7px 9px; }
   .nav-profile-name { display: none; }
 }
+
+/* Navbar brand: two lines only (name + tagline) */
+.header-brand .brand-compact { padding-top: 0; justify-content: center; }
+.header-brand .brand-compact .brand-word { font-size: 20px; letter-spacing: 0.14em; margin: 0 0 0 0.14em; }
+.header-brand .brand-compact .brand-tagline { font-size: 12px; margin: 6px 0 0 0.1em; letter-spacing: 0.14em; }
+@media (max-width: 900px) {
+  .header-brand .brand-compact .brand-word { font-size: 15px; letter-spacing: 0.08em; }
+  .header-brand .brand-compact .brand-tagline { font-size: 9px; letter-spacing: 0.06em; }
+}
+
+/* Brand title on the same centre line as the nav links (nav height 73px) */
+.header .header-brand { align-self: start; height: 73px; display: flex; align-items: center; justify-content: center; padding-top: 0; }
+.header.is-scrolled .header-brand { height: 80px; transform: scale(0.92); transform-origin: center; padding-top: 0; }
+@media (max-width: 1359px) { .header .header-brand { height: 80px; } }
+@media (max-width: 799px) { .header .header-brand { height: 88px; transform: scale(0.85); transform-origin: center; } .header.is-scrolled .header-brand { height: 72px; transform: scale(0.8); } }

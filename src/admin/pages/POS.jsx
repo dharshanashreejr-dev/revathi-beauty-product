@@ -1,15 +1,17 @@
 import { useEffect, useMemo, useState } from 'react';
 import {
-  Search, Plus, Minus, Trash2, Receipt, Smartphone, CreditCard, Banknote,
-  Printer, MessageSquare, ShoppingBag, Sparkles, User, X
+  Plus, Minus, Trash2, Receipt, Smartphone, CreditCard, Banknote,
+  Printer, MessageSquare, ShoppingBag, User, X, Inbox, CalendarDays, Check
 } from 'lucide-react';
 import { useStore } from '../store.jsx';
 import { api } from '../../api';
 import { catalogue, sellable } from '../../products/data/products';
-import { SERVICES, inr } from '../data/mockData.js';
+import { inr } from '../data/mockData.js';
 import PageHeader from '../components/PageHeader.jsx';
 import Badge from '../components/Badge.jsx';
 import Modal from '../components/Modal.jsx';
+import PrintPreview from '../components/PrintPreview.jsx';
+import { buildInvoiceDocs } from '../lib/orderPrint.js';
 import { useT } from '../i18n.js';
 
 const PAY_METHODS = [
@@ -19,23 +21,31 @@ const PAY_METHODS = [
   { id: 'Razorpay', icon: CreditCard, label: 'Razorpay' },
 ];
 const GST = api.pos.GST_RATE;
+const BILLED_KEY = 'rhbc-pos-billed';
+const OPEN_APPT = ['Pending Review', 'Scheduled', 'Checked-In', 'In Session', 'Rescheduled'];
 
 export default function POS() {
-  const { user, notify, customers } = useStore();
+  const { user, notify, customers, orders, appointments, messages, markMessageRead } = useStore();
   const { t } = useT();
-  const [, tick] = useState(0);
+  const [ver, tick] = useState(0);
   const re = () => tick((n) => n + 1);
   useEffect(() => api.stock.subscribe(re), []);
+  useEffect(() => api.catalogue.subscribe(re), []);
 
-  const [tab, setTab] = useState('products'); // products | services
-  const [q, setQ] = useState('');
+  const [tab, setTab] = useState('all'); // inbox filter: all | orders | appointments | messages
   const [cart, setCart] = useState([]); // PosLine[]
   const [customerName, setCustomerName] = useState('');
   const [customerPhone, setCustomerPhone] = useState('');
   const [pay, setPay] = useState('UPI');
   const [notes, setNotes] = useState('');
   const [lastInvoice, setLastInvoice] = useState(null);
+  const [withGst, setWithGst] = useState(true); // bill type toggle: with GST / without GST
+  const [gstin, setGstin] = useState(''); // customer GSTIN (optional, with-GST bills only)
+  const [custom, setCustom] = useState({ name: '', price: '', qty: '1' }); // item typed in at the counter
+  const [printInv, setPrintInv] = useState(null);
   const [showHistory, setShowHistory] = useState(false);
+  const [sources, setSources] = useState([]); // inbox items loaded into the current bill
+  const [billed, setBilled] = useState(() => { try { return JSON.parse(localStorage.getItem(BILLED_KEY) || '[]'); } catch { return []; } });
 
   const products = useMemo(
     () =>
@@ -44,74 +54,52 @@ export default function POS() {
         return { ...p, stock };
       }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [tick]
+    [ver]
   );
 
-  const filteredProducts = products.filter(
-    (p) =>
-      p.stock > 0 &&
-      (!q.trim() ||
-        `${p.name} ${p.sku} ${p.subcategory}`.toLowerCase().includes(q.trim().toLowerCase()))
-  );
-  const filteredServices = SERVICES.filter(
-    (s) => !q.trim() || s.name.toLowerCase().includes(q.trim().toLowerCase())
-  );
+  // Inbox: online orders, appointments and staff messages that are waiting for the counter.
+  const inbox = useMemo(() => {
+    const rows = [
+      ...orders
+        .filter((o) => o.status !== 'Cancelled' && !billed.includes(o.id))
+        .map((o) => ({ key: o.id, type: 'orders', at: o.placedAt || o.date, title: o.customer, sub: o.items.map((i) => `${i.name} × ${i.qty}`).join(', '), meta: `${o.id} · ${o.status}`, total: o.total, phone: o.phone, order: o })),
+      ...appointments
+        .filter((a) => OPEN_APPT.includes(a.status) && !billed.includes(a.id))
+        .map((a) => ({ key: a.id, type: 'appointments', at: a.createdAt || a.date, title: a.customer, sub: a.service, meta: `${a.id} · ${a.date} ${a.time}`, total: a.price || 0, phone: a.phone, appt: a })),
+      ...messages.map((m) => ({ key: `msg-${m.id}`, type: 'messages', at: m.at, title: m.from || 'System', sub: m.text, meta: new Date(m.at).toLocaleString('en-IN', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' }), unread: !m.read, msgId: m.id })),
+    ];
+    const ms = (v) => (typeof v === 'number' ? v : Date.parse(v) || 0);
+    return rows.sort((x, y) => ms(y.at) - ms(x.at));
+  }, [orders, appointments, messages, billed]);
+  const count = (k) => inbox.filter((r) => k === 'all' || r.type === k).length;
+  const shown = inbox.filter((r) => tab === 'all' || r.type === tab);
 
-  const gst = api.pos.cartGst(cart);
+  const gross = api.pos.cartGst(cart);
+  // Without GST: same prices, no tax split.
+  const gst = withGst ? gross : { taxable: gross.total, cgst: 0, sgst: 0, total: gross.total };
 
-  const addProduct = (p) => {
-    if (p.stock <= 0) {
-      notify('Out of stock', 'error');
-      return;
-    }
-    setCart((c) => {
-      const i = c.findIndex((l) => l.kind === 'product' && l.id === p.id);
-      if (i >= 0) {
-        const next = [...c];
-        if (next[i].qty >= p.stock) {
-          notify('Only {n} in stock', 'error', { n: p.stock });
-          return c;
-        }
-        next[i] = { ...next[i], qty: next[i].qty + 1 };
-        return next;
-      }
-      return [
-        ...c,
-        {
-          kind: 'product',
-          id: p.id,
-          sku: p.sku,
-          name: p.name,
-          qty: 1,
-          unitPrice: p.price,
-          gstRate: GST,
-        },
-      ];
-    });
+  const addCustom = () => {
+    const name = custom.name.trim();
+    if (name.length < 2) { notify('Enter the item name.', 'error'); return; }
+    if (!/^\d+(\.\d{1,2})?$/.test(custom.price.trim()) || Number(custom.price) <= 0) { notify('Enter a valid price.', 'error'); return; }
+    if (!/^\d+$/.test(custom.qty.trim()) || Number(custom.qty) < 1 || Number(custom.qty) > 999) { notify('Enter a quantity from 1 to 999.', 'error'); return; }
+    setCart((c) => [...c, { kind: 'custom', id: `custom-${Date.now().toString(36)}`, sku: 'CUSTOM', name, qty: Number(custom.qty), unitPrice: Number(custom.price), gstRate: GST }]);
+    setCustom({ name: '', price: '', qty: '1' });
   };
 
-  const addService = (s) => {
-    setCart((c) => {
-      const key = s.name;
-      const i = c.findIndex((l) => l.kind === 'service' && l.id === key);
-      if (i >= 0) {
-        const next = [...c];
-        next[i] = { ...next[i], qty: next[i].qty + 1 };
-        return next;
-      }
-      return [
-        ...c,
-        {
-          kind: 'service',
-          id: key,
-          sku: 'SVC',
-          name: s.name,
-          qty: 1,
-          unitPrice: s.price,
-          gstRate: GST,
-        },
-      ];
-    });
+  // Loads an inbox order / appointment into the bill. Online orders already reduced stock when they were placed,
+  // so they are added as plain lines (no second stock deduction).
+  const addFromInbox = (r) => {
+    if (sources.includes(r.key)) { notify('Already added to the bill.', 'info'); return; }
+    if (r.order) {
+      setCart((c) => [...c, ...r.order.items.map((i) => ({ kind: 'custom', id: `${r.key}-${i.productId || i.name}`, sku: r.key, name: i.name, qty: i.qty, unitPrice: i.price, gstRate: GST }))]);
+    } else {
+      setCart((c) => [...c, { kind: 'service', id: `${r.key}-${r.appt.service}`, sku: r.key, name: r.appt.service, qty: 1, unitPrice: r.appt.price || 0, gstRate: GST }]);
+    }
+    if (!customerName) setCustomerName(r.title || '');
+    if (!customerPhone) setCustomerPhone(String(r.phone || '').replace(/\D/g, '').slice(-10));
+    setSources((x) => [...x, r.key]);
+    notify('Added to the bill.');
   };
 
   const setQty = (idx, qty) => {
@@ -141,6 +129,8 @@ export default function POS() {
     setCustomerName('');
     setCustomerPhone('');
     setNotes('');
+    setGstin('');
+    setSources([]);
   };
 
   const pickCustomer = (c) => {
@@ -157,6 +147,10 @@ export default function POS() {
       notify('Enter a valid 10-digit mobile number', 'error');
       return;
     }
+    if (withGst && gstin.trim() && !/^\d{2}[A-Z]{5}\d{4}[A-Z][1-9A-Z]Z[0-9A-Z]$/.test(gstin.trim().toUpperCase())) {
+      notify('Enter a valid 15-character GSTIN or leave it empty.', 'error');
+      return;
+    }
     try {
       const result = api.pos.createInvoice({
         customerName: customerName || 'Walk-in',
@@ -166,6 +160,8 @@ export default function POS() {
         cashier: user?.name || 'Staff',
         cashierRole: user?.role || 'Staff',
         notes,
+        withGst,
+        gstin,
         deductStock: true,
         baseStockOf: (id) => {
           const p = catalogue().find((x) => x.id === id);
@@ -174,6 +170,11 @@ export default function POS() {
       });
       if (result.stockErrors.length) {
         notify('Stock warning: {list}', 'info', { list: result.stockErrors.join(', ') });
+      }
+      if (sources.length) {
+        const next = [...billed, ...sources];
+        setBilled(next);
+        try { localStorage.setItem(BILLED_KEY, JSON.stringify(next)); } catch { /* storage unavailable */ }
       }
       setLastInvoice(result.invoice);
       notify('Invoice {id} created · {total}', 'success', {
@@ -203,60 +204,46 @@ export default function POS() {
       />
 
       <div className="pos-layout">
-        {/* Catalogue */}
+        {/* Inbox */}
         <div className="pos-catalogue card">
-          <div className="pos-tabs">
-            <button
-              className={tab === 'products' ? 'active' : ''}
-              onClick={() => setTab('products')}
-            >
-              <ShoppingBag size={16} /> {t('Products')}
-            </button>
-            <button
-              className={tab === 'services' ? 'active' : ''}
-              onClick={() => setTab('services')}
-            >
-              <Sparkles size={16} /> {t('Services')}
-            </button>
+          <div className="pos-tabs" style={{ flexWrap: 'wrap' }}>
+            {[['all', Inbox, 'All'], ['orders', ShoppingBag, 'Orders'], ['appointments', CalendarDays, 'Appointments'], ['messages', MessageSquare, 'Messages']].map(([id, Icon, label]) => (
+              <button key={id} type="button" className={tab === id ? 'active' : ''} onClick={() => setTab(id)}>
+                <Icon size={16} /> {t(label)} ({count(id)})
+              </button>
+            ))}
           </div>
-          <div className="search-box" style={{ marginBottom: 14 }}>
-            <Search size={17} />
-            <input
-              value={q}
-              onChange={(e) => setQ(e.target.value)}
-              placeholder={t('Search name or SKU')}
-              aria-label={t('Search catalogue')}
-            />
+
+          <div style={{ display: 'grid', gridTemplateColumns: 'minmax(140px, 2fr) minmax(80px, 1fr) 70px auto', gap: 8, marginBottom: 6 }}>
+            <input value={custom.name} onChange={(e) => setCustom({ ...custom, name: e.target.value })} onKeyDown={(e) => e.key === 'Enter' && addCustom()} placeholder={t('Item name (product or service)')} aria-label={t('Item name')} />
+            <input value={custom.price} inputMode="decimal" onChange={(e) => setCustom({ ...custom, price: e.target.value.replace(/[^\d.]/g, '') })} onKeyDown={(e) => e.key === 'Enter' && addCustom()} placeholder={t('Price (₹)')} aria-label={t('Price')} />
+            <input value={custom.qty} inputMode="numeric" onChange={(e) => setCustom({ ...custom, qty: e.target.value.replace(/\D/g, '').slice(0, 3) })} onKeyDown={(e) => e.key === 'Enter' && addCustom()} placeholder={t('Qty')} aria-label={t('Quantity')} />
+            <button type="button" className="btn btn-soft" onClick={addCustom}><Plus size={16} />{t('Add item')}</button>
           </div>
-          <div className="pos-grid">
-            {tab === 'products' &&
-              filteredProducts.slice(0, 48).map((p) => (
-                <button key={p.id} className="pos-tile" onClick={() => addProduct(p)} type="button">
-                  <strong className="pos-tile-name">{p.name}</strong>
-                  <span className="muted">{p.sku}</span>
-                  <div className="pos-tile-foot">
-                    <strong>{inr(p.price)}</strong>
-                    <Badge>{p.stock} left</Badge>
+          <p className="muted" style={{ margin: '0 0 12px', fontSize: 12.5 }}>{t('Type an item (name and price) and add it to the bill. It is billed only, not saved in the catalogue.')}</p>
+
+          <ul className="list" style={{ maxHeight: 560, overflowY: 'auto' }}>
+            {shown.map((r) => (
+              <li key={r.key} style={{ alignItems: 'flex-start', gap: 12 }}>
+                <div style={{ minWidth: 0, flex: 1 }}>
+                  <strong>{r.title}</strong>{' '}{r.unread && <Badge tone="blue">{t('New')}</Badge>}
+                  <span className="muted block" style={{ whiteSpace: 'normal' }}>{r.sub}</span>
+                  <span className="muted block" style={{ fontSize: 12 }}>{r.meta}</span>
+                </div>
+                {r.type === 'messages' ? (
+                  r.unread && <button type="button" className="btn btn-ghost small" onClick={() => markMessageRead(r.msgId)}><Check size={15} /> {t('Mark read')}</button>
+                ) : (
+                  <div style={{ textAlign: 'right' }}>
+                    <strong>{inr(r.total)}</strong>
+                    <button type="button" className="btn btn-soft small" style={{ display: 'flex', marginTop: 6 }} disabled={sources.includes(r.key)} onClick={() => addFromInbox(r)}>
+                      <Plus size={15} /> {sources.includes(r.key) ? t('Added') : t('Add to bill')}
+                    </button>
                   </div>
-                </button>
-              ))}
-            {tab === 'services' &&
-              filteredServices.map((s) => (
-                <button key={s.name} className="pos-tile" onClick={() => addService(s)} type="button">
-                  <strong className="pos-tile-name">{s.name}</strong>
-                  <span className="muted">{s.duration} min</span>
-                  <div className="pos-tile-foot">
-                    <strong>{inr(s.price)}</strong>
-                    <Badge>Service</Badge>
-                  </div>
-                </button>
-              ))}
-            {tab === 'products' && !filteredProducts.length && (
-              <p className="muted" style={{ gridColumn: '1/-1', padding: 12 }}>
-                {t('No products match')}
-              </p>
-            )}
-          </div>
+                )}
+              </li>
+            ))}
+          </ul>
+          {!shown.length && <p className="muted" style={{ padding: 12 }}>{t('Your inbox is empty. New orders, appointments and messages will appear here.')}</p>}
         </div>
 
         {/* Cart + checkout */}
@@ -270,9 +257,13 @@ export default function POS() {
                 </button>
               )}
             </div>
+            <div role="group" aria-label={t('Bill type')} style={{ display: 'flex', gap: 8, marginBottom: 12 }}>
+              <button type="button" aria-pressed={withGst} className={`btn small ${withGst ? 'btn-primary' : 'btn-ghost'}`} style={{ flex: 1 }} onClick={() => setWithGst(true)}>{t('With GST')}</button>
+              <button type="button" aria-pressed={!withGst} className={`btn small ${!withGst ? 'btn-primary' : 'btn-ghost'}`} style={{ flex: 1 }} onClick={() => setWithGst(false)}>{t('Without GST')}</button>
+            </div>
             {!cart.length ? (
               <p className="muted" style={{ padding: '12px 0' }}>
-                {t('Tap products or services to add them to the bill.')}
+                {t('Add items from the inbox or type an item to start the bill.')}
               </p>
             ) : (
               <ul className="pos-lines">
@@ -311,18 +302,22 @@ export default function POS() {
             )}
 
             <div className="pos-gst">
-              <div>
-                <span className="muted">{t('Taxable value')}</span>
-                <strong>{inr(gst.taxable)}</strong>
-              </div>
-              <div>
-                <span className="muted">CGST ({GST / 2}%)</span>
-                <strong>{inr(gst.cgst)}</strong>
-              </div>
-              <div>
-                <span className="muted">SGST ({GST / 2}%)</span>
-                <strong>{inr(gst.sgst)}</strong>
-              </div>
+              {withGst && (
+                <>
+                  <div>
+                    <span className="muted">{t('Taxable value')}</span>
+                    <strong>{inr(gst.taxable)}</strong>
+                  </div>
+                  <div>
+                    <span className="muted">CGST ({GST / 2}%)</span>
+                    <strong>{inr(gst.cgst)}</strong>
+                  </div>
+                  <div>
+                    <span className="muted">SGST ({GST / 2}%)</span>
+                    <strong>{inr(gst.sgst)}</strong>
+                  </div>
+                </>
+              )}
               <div className="pos-grand">
                 <span>{t('Grand total')}</span>
                 <strong>{inr(gst.total)}</strong>
@@ -367,6 +362,16 @@ export default function POS() {
               </button>
             </div>
 
+            {withGst && (
+              <input
+                value={gstin}
+                onChange={(e) => setGstin(e.target.value.toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 15))}
+                placeholder={t('Customer GSTIN (optional)')}
+                aria-label={t('Customer GSTIN')}
+                style={{ width: '100%', marginTop: 10 }}
+              />
+            )}
+
             <h4 className="mini-title" style={{ marginTop: 16 }}>
               {t('Payment')}
             </h4>
@@ -405,7 +410,7 @@ export default function POS() {
               {t('Charge')} {gst.total > 0 ? inr(gst.total) : ''}
             </button>
             <p className="muted" style={{ marginTop: 8, fontSize: 12.5 }}>
-              {t('Prices include 18% GST. CGST + SGST shown on the bill. SMS uses the demo outbox.')}
+              {withGst ? t('Prices include 18% GST. CGST + SGST shown on the bill. SMS uses the demo outbox.') : t('Bill without GST: same prices, no tax breakup is shown on the bill.')}
             </p>
           </div>
         </div>
@@ -424,9 +429,7 @@ export default function POS() {
               </button>
               <button
                 className="btn btn-soft"
-                onClick={() => {
-                  notify('Print preview is demo-only', 'info');
-                }}
+                onClick={() => setPrintInv(lastInvoice)}
               >
                 <Printer size={16} /> {t('Print')}
               </button>
@@ -467,18 +470,32 @@ export default function POS() {
             <div>
               <h4 className="mini-title">{t('GST breakup')}</h4>
               <ul className="list">
-                <li>
-                  <span>{t('Taxable value')}</span>
-                  <strong>{inr(lastInvoice.taxable)}</strong>
-                </li>
-                <li>
-                  <span>CGST 9%</span>
-                  <strong>{inr(lastInvoice.cgst)}</strong>
-                </li>
-                <li>
-                  <span>SGST 9%</span>
-                  <strong>{inr(lastInvoice.sgst)}</strong>
-                </li>
+                {lastInvoice.withGst !== false ? (
+                  <>
+                    <li>
+                      <span>{t('Taxable value')}</span>
+                      <strong>{inr(lastInvoice.taxable)}</strong>
+                    </li>
+                    <li>
+                      <span>CGST 9%</span>
+                      <strong>{inr(lastInvoice.cgst)}</strong>
+                    </li>
+                    <li>
+                      <span>SGST 9%</span>
+                      <strong>{inr(lastInvoice.sgst)}</strong>
+                    </li>
+                  </>
+                ) : (
+                  <li>
+                    <span className="muted">{t('Bill without GST')}</span>
+                  </li>
+                )}
+                {lastInvoice.gstin && (
+                  <li>
+                    <span>GSTIN</span>
+                    <strong>{lastInvoice.gstin}</strong>
+                  </li>
+                )}
                 <li>
                   <span>
                     <strong>{t('Total')}</strong>
@@ -498,6 +515,10 @@ export default function POS() {
             </div>
           </div>
         </Modal>
+      )}
+
+      {printInv && (
+        <PrintPreview title={t('Print bill')} subtitle={printInv.id} html={buildInvoiceDocs([printInv])} onClose={() => setPrintInv(null)} />
       )}
 
       {/* History */}
@@ -549,8 +570,8 @@ export default function POS() {
                     <td>
                       <Badge>{inv.payment}</Badge>
                     </td>
-                    <td>{inr(inv.cgst)}</td>
-                    <td>{inr(inv.sgst)}</td>
+                    <td>{inv.withGst === false ? '-' : inr(inv.cgst)}</td>
+                    <td>{inv.withGst === false ? '-' : inr(inv.sgst)}</td>
                     <td>
                       <strong>{inr(inv.total)}</strong>
                     </td>

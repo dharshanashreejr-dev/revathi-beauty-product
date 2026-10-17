@@ -1,0 +1,65 @@
+/* Light olive-green silk / drapery background — soft diagonal folds, warm glow and fine grain.
+   Painted once behind the whole page, so every section sits on the same fabric. */
+html { background: #e8eddb; }
+body { background: transparent !important; }
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: -60px;
+  z-index: -1;
+  pointer-events: none;
+  /* same pale olive-grey (#e8eddb) everywhere, with only the faintest silk fold */
+  background:
+    linear-gradient(104deg,
+      rgba(255, 255, 255, .10) 0%,
+      rgba(120, 138, 70, .04) 20%,
+      rgba(255, 255, 255, .10) 40%,
+      rgba(120, 138, 70, .04) 62%,
+      rgba(255, 255, 255, .10) 82%,
+      rgba(120, 138, 70, .04) 100%),
+    #e8eddb;
+  filter: blur(14px);
+}
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: .04;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .2  0 0 0 0 .26  0 0 0 0 .08  0 0 0 .9 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+
+/* Landing page sections that painted a flat colour now let the silk show through */
+.notes-section, .film, .spa, .shop, .salon, .closing, .hb,
+.collection-band .collection-hero,
+.salon.salon-stack .salon-banner { background: transparent !important; }
+
+/* ── Seamless cards: no box, no border, no shadow — the product sits straight on the silk ── */
+.shop .product-card,
+.pick, .spa-card,
+.product-card {
+  background: transparent !important;
+  border: 1px solid transparent !important;
+  box-shadow: none !important;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+.shop .product-card:hover,
+.product-card:hover {
+  background: rgba(255, 255, 255, .12) !important;
+  box-shadow: none !important;
+  border-color: transparent !important;
+}
+.shop .product-picture,
+.shop .product-card:nth-child(3n + 2) .product-picture,
+.shop .product-card:nth-child(3n) .product-picture,
+.product-picture { background: transparent !important; }
+/* white photo backgrounds melt into the silk (multiply), and no boxy drop-shadow */
+.shop .product-picture img,
+.product-picture img { filter: none !important; }
+.bg-white-photo { mix-blend-mode: multiply; }
+/* more landing bands that painted a flat colour */
+.picks, .arrivals, .rituals { background: transparent !important; }

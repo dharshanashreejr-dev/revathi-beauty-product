@@ -5,6 +5,8 @@ import App from './App'
 import { mountLanguageModal } from '../shared/LanguageModal'
 import { mountLogin } from '../shared/LoginModal'
 import './index.css'
+import '../shared/silk-bg.css'
+import '../shared/blendWhite'
 
 mountLanguageModal()
 mountLogin()

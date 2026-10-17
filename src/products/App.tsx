@@ -30,7 +30,7 @@ export default function App() {
     try {
       const raw = localStorage.getItem('velvet-handoff');
       if (raw) {
-        const clear = { name: 'Clear', hex: '#efe7dd' };
+        const clear = { name: 'Clear', hex: '#e3e9d3' };
         for (const i of JSON.parse(raw) as { id: string; name: string; price: number; size: string; qty: number }[]) {
           const key = `${i.id}|Clear|${i.size}`;
           const hit = saved.find(s => s.key === key);

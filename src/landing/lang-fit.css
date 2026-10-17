@@ -10,9 +10,9 @@
 html:not([lang="en"]) .hero-shade {
   /* darker left + bottom so white text stays crisp on bright photos */
   background:
-    linear-gradient(90deg, rgba(22, 9, 14, 0.66) 0%, rgba(22, 9, 14, 0.38) 42%, rgba(22, 9, 14, 0) 72%),
-    linear-gradient(0deg, rgba(22, 9, 14, 0.6) 0%, rgba(22, 9, 14, 0) 42%),
-    linear-gradient(180deg, rgba(22, 9, 14, 0.4) 0%, rgba(22, 9, 14, 0) 24%) !important;
+    linear-gradient(90deg, rgba(18, 20, 15, 0.66) 0%, rgba(18, 20, 15, 0.38) 42%, rgba(18, 20, 15, 0) 72%),
+    linear-gradient(0deg, rgba(18, 20, 15, 0.6) 0%, rgba(18, 20, 15, 0) 42%),
+    linear-gradient(180deg, rgba(18, 20, 15, 0.4) 0%, rgba(18, 20, 15, 0) 24%) !important;
 }
 html:not([lang="en"]) .hero-copy {
   top: 17% !important;
@@ -79,7 +79,7 @@ html:not([lang="en"]) .hero-wordmark span:first-child {
 
 /* ── 2. COLLECTION STATEMENT (“Touch of Jasmine…” banner) ───────── */
 html:not([lang="en"]) .collection-hero-shade {
-  background: linear-gradient(to top, rgba(22, 9, 14, 0.82) 0%, rgba(22, 9, 14, 0.5) 40%, rgba(22, 9, 14, 0.1) 70%, transparent 100%) !important;
+  background: linear-gradient(to top, rgba(18, 20, 15, 0.82) 0%, rgba(18, 20, 15, 0.5) 40%, rgba(18, 20, 15, 0.1) 70%, transparent 100%) !important;
 }
 html:not([lang="en"]) .collection-hero-copy {
   bottom: 8% !important;

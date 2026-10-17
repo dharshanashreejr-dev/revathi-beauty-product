@@ -18,6 +18,8 @@ export interface Booking {
   specialists: string[]; guests: number; name: string; phone: string; email: string; notes: string
   channel: Channel; remind: boolean; reminders: Reminder[]; status: BookingStatus; total: number
   mode: BookingMode; address?: HomeAddress; userId?: string; createdAt: string
+  /** Coupon used on this booking (e.g. FIRSTSERVICE10) and the rupees it took off. `total` is already after the discount. */
+  coupon?: string; discount?: number
   reviewNote?: string; reviewedAt?: string
   /** Set by admin / staff: Scheduled | Checked-In | In Session | Completed | Rescheduled | No-Show. The customer's tracking page follows it live. */
   adminStatus?: string
@@ -180,5 +182,5 @@ export function subscribe(cb: () => void) {
 /** Snapshot key for useSyncExternalStore: changes whenever bookings or locks change. */
 export const snapshotKey = () => raw(KEYS.bookings) + '|' + raw(KEYS.locks)
 
-const storeLocale = () => { try { const l = localStorage.getItem('velvet-lang'); return ({ en: 'en-IN', ta: 'ta-IN', hi: 'hi-IN', ml: 'ml-IN', te: 'te-IN', kn: 'kn-IN', mr: 'mr-IN', bn: 'bn-IN' } as Record<string, string>)[l || 'en'] || 'en-IN' } catch { return 'en-IN' } }
+const storeLocale = () => { try { const l = localStorage.getItem('velvet-lang'); return ({ en: 'en-IN', ta: 'ta-IN', hi: 'hi-IN', ml: 'ml-IN', te: 'te-IN', kn: 'kn-IN', mr: 'mr-IN', bn: 'bn-IN', sa: 'sa-IN' } as Record<string, string>)[l || 'en'] || 'en-IN' } catch { return 'en-IN' } }
 export const fmtDT = (iso_: string) => new Date(iso_).toLocaleString(storeLocale(), { day: 'numeric', month: 'short', hour: 'numeric', minute: '2-digit' })

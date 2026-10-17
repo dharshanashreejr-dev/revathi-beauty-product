@@ -66,7 +66,7 @@ export default function ProductModal({ product, initialColour, onClose, onAdd }:
   return (
     <div className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-black/50 p-0 backdrop-blur-sm animate-fade sm:p-6" onClick={onClose} role="dialog" aria-modal="true" aria-label={pname(product.name, lang)}>
       <div className="relative my-auto w-full max-w-6xl animate-pop overflow-hidden bg-sand sm:rounded-[2rem] ring-1 ring-gold/30" onClick={e => e.stopPropagation()}>
-        <button onClick={onClose} aria-label={mt('m_close', lang)} className="absolute right-4 top-4 z-20 flex h-10 w-10 items-center justify-center rounded-full bg-white/90 text-xl shadow transition hover:bg-white">×</button>
+        <button onClick={onClose} aria-label={mt('m_close', lang)} className="absolute right-4 top-4 z-20 flex h-10 w-10 items-center justify-center rounded-full bg-white/90 text-xl shadow transition hover:bg-paper">×</button>
 
         <div className="grid md:grid-cols-2">
           {/* Photo viewer: cursor zoom */}
@@ -113,7 +113,7 @@ export default function ProductModal({ product, initialColour, onClose, onAdd }:
 
             <p className="max-w-prose leading-relaxed text-stone-700">{ptext(product.description, lang)}</p>
 
-            <div className="grid gap-4 rounded-2xl border border-stone-200 bg-white p-5 text-sm sm:grid-cols-2">
+            <div className="grid gap-4 rounded-2xl border border-stone-200 bg-paper p-5 text-sm sm:grid-cols-2">
               <div><p className="mb-2 font-medium">{authT('Key ingredients', ui)}</p><div className="flex flex-wrap gap-2">{info.ingredients.map(x => <span key={x} className="rounded-full bg-stone-100 px-3 py-1 text-stone-700">{x}</span>)}</div></div>
               <div><p className="mb-2 font-medium">{authT('How to use', ui)}</p><p className="leading-relaxed text-stone-600">{info.how}</p></div>
             </div>
@@ -133,13 +133,13 @@ export default function ProductModal({ product, initialColour, onClose, onAdd }:
               <div className="flex flex-wrap gap-2">
                 {product.sizes.map(s => (
                   <button key={s} onClick={() => setSize(s)} aria-pressed={s === size}
-                    className={`rounded-full border px-5 py-2 text-sm transition ${s === size ? 'border-ink bg-ink text-white' : 'border-stone-300 bg-white hover:border-ink'}`}>{sizeText(s, lang)}</button>
+                    className={`rounded-full border px-5 py-2 text-sm transition ${s === size ? 'border-ink bg-ink text-white' : 'border-stone-300 bg-paper hover:border-ink'}`}>{sizeText(s, lang)}</button>
                 ))}
               </div>
             </div>
 
             <div className="flex flex-wrap items-center gap-3">
-              <div className="flex items-center rounded-full border border-stone-300 bg-white">
+              <div className="flex items-center rounded-full border border-stone-300 bg-paper">
                 <button aria-label={mt('m_dec', lang)} onClick={() => setQty(q => Math.max(1, q - 1))} className="h-11 w-11 text-lg">−</button>
                 <span className="w-8 text-center">{qty}</span>
                 <button aria-label={mt('m_inc', lang)} onClick={() => setQty(q => Math.min(Math.max(product.stock, 1), q + 1))} className="h-11 w-11 text-lg">+</button>
@@ -152,7 +152,7 @@ export default function ProductModal({ product, initialColour, onClose, onAdd }:
 
             <div className="grid grid-cols-2 gap-px overflow-hidden rounded-2xl bg-stone-200 text-sm">
               {specs.map(([k, v]) => (
-                <div key={k} className="bg-white p-3">
+                <div key={k} className="bg-paper p-3">
                   <p className="text-xs text-stone-500">{k}</p>
                   <p className="font-medium">{v}</p>
                 </div>

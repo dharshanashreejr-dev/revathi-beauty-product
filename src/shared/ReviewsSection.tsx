@@ -15,10 +15,11 @@ const L: Record<Lang, Record<string, string>> = {
   kn: { title: 'ಗ್ರಾಹಕ ವಿಮರ್ಶೆಗಳು', none: 'ಇನ್ನೂ ವಿಮರ್ಶೆಗಳಿಲ್ಲ. ಮೊದಲು ನಿಮ್ಮ ಅನುಭವವನ್ನು ಹಂಚಿಕೊಳ್ಳಿ.', write: 'ವಿಮರ್ಶೆ ಬರೆಯಿರಿ', name: 'ನಿಮ್ಮ ಹೆಸರು', rating: 'ನಿಮ್ಮ ರೇಟಿಂಗ್', text: 'ನಿಮ್ಮ ಅನುಭವವನ್ನು ಹಂಚಿಕೊಳ್ಳಿ', submit: 'ವಿಮರ್ಶೆ ಸಲ್ಲಿಸಿ', thanks: 'ಧನ್ಯವಾದಗಳು! ನಿಮ್ಮ ವಿಮರ್ಶೆ ಸೇರಿಸಲಾಗಿದೆ.', err: 'ದಯವಿಟ್ಟು ಹೆಸರು ಮತ್ತು ಸಣ್ಣ ವಿಮರ್ಶೆ ನಮೂದಿಸಿ.', avg: 'ಸರಾಸರಿ' },
   mr: { title: 'ग्राहक पुनरावलोकने', none: 'अजून पुनरावलोकने नाहीत. प्रथम तुमचा अनुभव शेअर करा.', write: 'पुनरावलोकन लिहा', name: 'तुमचे नाव', rating: 'तुमची रेटिंग', text: 'तुमचा अनुभव शेअर करा', submit: 'पुनरावलोकन सबमिट करा', thanks: 'धन्यवाद! तुमचे पुनरावलोकन जोडले आहे.', err: 'कृपया नाव आणि छोटी समीक्षा लिहा.', avg: 'सरासरी' },
   bn: { title: 'গ্রাহক পর্যালোচনা', none: 'এখনও কোনো পর্যালোচনা নেই। প্রথমে আপনার অভিজ্ঞতা শেয়ার করুন।', write: 'পর্যালোচনা লিখুন', name: 'আপনার নাম', rating: 'আপনার রেটিং', text: 'আপনার অভিজ্ঞতা শেয়ার করুন', submit: 'পর্যালোচনা জমা দিন', thanks: 'ধন্যবাদ! আপনার পর্যালোচনা যোগ করা হয়েছে।', err: 'অনুগ্রহ করে নাম ও সংক্ষিপ্ত পর্যালোচনা লিখুন।', avg: 'গড়' },
+  sa: { title: 'ग्राहक-समीक्षाः', none: 'अद्यापि काचित् समीक्षा नास्ति। भवतः अनुभवं प्रथमं साझां कुरुत।', write: 'समीक्षां लिखत', name: 'भवतः नाम', rating: 'भवतः मूल्याङ्कनम्', text: 'भवतः अनुभवं साझां कुरुत', submit: 'समीक्षां प्रेषयत', thanks: 'धन्यवादः! भवतः समीक्षा योजिता।', err: 'कृपया नाम लघु-समीक्षां च लिखत।', avg: 'मध्यमानम्' },
 }
 
 const Stars = ({ n, size = 16 }: { n: number; size?: number }) => (
-  <span aria-label={`${n} / 5`} style={{ color: '#c9a24a', fontSize: size, letterSpacing: 2 }}>{'★'.repeat(n)}<span style={{ opacity: 0.3 }}>{'★'.repeat(5 - n)}</span></span>
+  <span aria-label={`${n} / 5`} style={{ color: '#99b05b', fontSize: size, letterSpacing: 2 }}>{'★'.repeat(n)}<span style={{ opacity: 0.3 }}>{'★'.repeat(5 - n)}</span></span>
 )
 
 const GATE: Record<string, { login: string; product: string; service: string }> = {
@@ -44,9 +45,9 @@ export default function ReviewsSection({ kind, targetId, targetName, dark = fals
   const [msg, setMsg] = useState('')
   const [err, setErr] = useState('')
   const avg = list.length ? list.reduce((s, r) => s + r.rating, 0) / list.length : 0
-  const fg = dark ? '#f5ece0' : '#3b2a1e'
-  const box: React.CSSProperties = { border: `1px solid ${dark ? 'rgba(255,255,255,.2)' : '#e3d6c3'}`, borderRadius: 12, padding: '12px 14px', background: dark ? 'rgba(255,255,255,.05)' : '#fffdf9' }
-  const input: React.CSSProperties = { width: '100%', padding: '10px 12px', borderRadius: 8, border: '1px solid #d9c9b2', background: '#fff', color: '#3b2a1e', font: 'inherit', fontSize: 14 }
+  const fg = dark ? '#e4e9d3' : '#262c1f'
+  const box: React.CSSProperties = { border: `1px solid ${dark ? 'rgba(255,255,255,.2)' : '#ced8b4'}`, borderRadius: 12, padding: '12px 14px', background: dark ? 'rgba(255,255,255,.05)' : '#eaefde' }
+  const input: React.CSSProperties = { width: '100%', padding: '10px 12px', borderRadius: 8, border: '1px solid #c7d2aa', background: '#eef2e4', color: '#262c1f', font: 'inherit', fontSize: 14 }
 
   const submit = () => {
     if (f.name.trim().length < 2 || f.text.trim().length < 3) { setErr(t.err); return }
@@ -62,19 +63,19 @@ export default function ReviewsSection({ kind, targetId, targetName, dark = fals
         {access === 'login' && <button type="button" onClick={() => openLogin()} style={{ padding: '8px 16px', borderRadius: 999, border: `1px solid ${fg}`, background: 'transparent', color: fg, cursor: 'pointer', fontSize: 13 }}>{gate.login}</button>}
       </div>
       {access === 'notyet' && <p style={{ margin: '10px 0 0', fontSize: 13, opacity: 0.75 }}>{kind === 'product' ? gate.product : gate.service}</p>}
-      {msg && <p role="status" style={{ margin: '10px 0 0', fontSize: 13, color: dark ? '#b8e0b0' : '#2f6b3a' }}>{msg}</p>}
+      {msg && <p role="status" style={{ margin: '10px 0 0', fontSize: 13, color: dark ? '#cbd8a7' : '#506634' }}>{msg}</p>}
       {open && access === 'ok' && (
         <div style={{ ...box, marginTop: 12, display: 'grid', gap: 10 }}>
           <input style={input} placeholder={t.name} value={f.name} onChange={(e) => setF({ ...f, name: e.target.value })} aria-label={t.name} maxLength={40} />
           <div role="radiogroup" aria-label={t.rating} style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
             <span style={{ fontSize: 13, marginRight: 6 }}>{t.rating}</span>
             {[1, 2, 3, 4, 5].map((n) => (
-              <button key={n} type="button" role="radio" aria-checked={f.rating === n} aria-label={`${n}`} onClick={() => setF({ ...f, rating: n })} style={{ background: 'none', border: 0, cursor: 'pointer', fontSize: 24, color: n <= f.rating ? '#c9a24a' : '#bba98f', padding: 0 }}>★</button>
+              <button key={n} type="button" role="radio" aria-checked={f.rating === n} aria-label={`${n}`} onClick={() => setF({ ...f, rating: n })} style={{ background: 'none', border: 0, cursor: 'pointer', fontSize: 24, color: n <= f.rating ? '#99b05b' : '#a7b09a', padding: 0 }}>★</button>
             ))}
           </div>
           <textarea style={{ ...input, minHeight: 80, resize: 'vertical' }} placeholder={t.text} value={f.text} onChange={(e) => setF({ ...f, text: e.target.value })} aria-label={t.text} maxLength={400} />
           {err && <p role="alert" style={{ margin: 0, fontSize: 13, color: '#b3261e' }}>{err}</p>}
-          <button type="button" onClick={submit} style={{ justifySelf: 'start', padding: '10px 22px', borderRadius: 999, border: 0, background: '#3b2a1e', color: '#fffaf3', cursor: 'pointer', fontSize: 14 }}>{t.submit}</button>
+          <button type="button" onClick={submit} style={{ justifySelf: 'start', padding: '10px 22px', borderRadius: 999, border: 0, background: '#262c1f', color: '#eaefde', cursor: 'pointer', fontSize: 14 }}>{t.submit}</button>
         </div>
       )}
       <div style={{ display: 'grid', gap: 10, marginTop: 14 }}>

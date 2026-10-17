@@ -1,23 +1,22 @@
 import { useEffect, useState } from 'react';
+import { liveShopBanners } from '../../api/offers';
 
-// Auto-scrolling banner under the offers strip. Replace the images in public/assets/banners/ (or add more here).
-const SLIDES = [
-  { src: '/assets/banners/pb-best-sellers.webp', alt: 'Discover our best sellers' },
-  { src: '/assets/banners/pb-combos.webp', alt: 'Save up to 30% on curated combos' },
-];
+// Auto-scrolling banner under the offers strip. Admin can replace or delete these from Admin > Festival & Offers.
 
 export default function HeroBanner() {
+  const [SLIDES] = useState(() => liveShopBanners());
   const [i, setI] = useState(0);
   const [hover, setHover] = useState(false);
 
   useEffect(() => {
-    if (hover) return;
+    if (hover || SLIDES.length < 2) return;
     const id = window.setInterval(() => setI(n => (n + 1) % SLIDES.length), 4500);
     return () => window.clearInterval(id);
   }, [hover]);
 
+  if (SLIDES.length === 0) return null;
+
   return (
-    
       <section className="w-full" aria-roledescription="carousel">
       <div
         className="relative aspect-[2352/1008] max-h-[640px] w-full overflow-hidden bg-stone-100"

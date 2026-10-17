@@ -1,14 +1,14 @@
 /* ═══════════ THE VELVET TOUCH — luxe additions (white theme) ═══════════ */
 :root {
-  --plum: #7a2f57;
-  --gold: #b08a4a;
-  --gold-soft: #e6cf9f;
-  --paper: #ffffff;
-  --mist: #f6f4f2;
-  --wine: #5c1220;
+  --plum: #49523d;
+  --gold: #94a565;
+  --gold-soft: #c8d5a3;
+  --paper: #eef2e4;
+  --mist: #e5ebd7;
+  --wine: #272c20;
 }
 body {
-  background: #ffffff;
+  background: #eef2e4;
 }
 
 /* generic swipe (Embla) */
@@ -41,12 +41,12 @@ body {
 }
 .product-photo-fallback,
 .is-fallback {
-  filter: drop-shadow(8px 14px 10px #3b1f142b);
+  filter: drop-shadow(8px 14px 10px #20241a2b);
 }
 
 /* ───────── 02 · herbal showcase ───────── */
 .herbal {
-  background: #fff;
+  background: #eef2e4;
 }
 .herbal-strip {
   background: var(--ink);
@@ -145,7 +145,7 @@ body {
   width: 78%;
   height: 92%;
   object-fit: contain;
-  filter: drop-shadow(16px 26px 22px #2f160d4d);
+  filter: drop-shadow(16px 26px 22px #191b144d);
   transform: translateY(26px) scale(0.92) rotate(-4deg);
   opacity: 0;
   transition: transform 1.2s cubic-bezier(0.2, 0.7, 0.2, 1), opacity 0.9s;
@@ -212,7 +212,7 @@ body {
   font-size: 13px;
 }
 .herbal-slide.is-light .herbal-notes span {
-  background: #7a2f5714;
+  background: #5d6a3a14;
 }
 .herbal-cta {
   display: flex;
@@ -247,7 +247,7 @@ body {
   mix-blend-mode: normal;
 }
 .herbal-nav .swipe-arrow:hover {
-  background: #fff;
+  background: #eef2e4;
   color: var(--ink);
 }
 .herbal-dots {
@@ -263,7 +263,7 @@ body {
 }
 .herbal-dots button.is-active {
   width: 58px;
-  background: #fff;
+  background: #eef2e4;
 }
 .herbal-count {
   margin-left: auto;
@@ -274,7 +274,7 @@ body {
 /* promo cards (swipe) */
 .promo {
   padding: 90px 0 110px 6%;
-  background: #fff;
+  background: #eef2e4;
 }
 .promo-head {
   display: flex;
@@ -301,7 +301,7 @@ body {
   border-radius: 18px;
   overflow: hidden;
   padding: 26px 28px;
-  color: #1d1730;
+  color: #272c20;
   display: flex;
   flex-direction: column;
   isolation: isolate;
@@ -360,7 +360,7 @@ body {
   object-fit: contain;
   margin-left: 28%;
   transition: transform 1s cubic-bezier(0.2, 0.7, 0.2, 1);
-  filter: drop-shadow(12px 20px 16px #1d17303d);
+  filter: drop-shadow(12px 20px 16px #272c203d);
 }
 .promo-card:hover .promo-photo img,
 .promo-card:hover .promo-photo svg {
@@ -394,8 +394,8 @@ body {
   gap: 6px;
   padding: 14px 22px;
   border-radius: 100px;
-  background: #fff;
-  color: #d6246e;
+  background: #eef2e4;
+  color: #7b8a63;
   font-size: 15px;
   font-weight: 500;
   white-space: nowrap;
@@ -442,7 +442,7 @@ body {
   border-radius: 18px;
   overflow: hidden;
   min-height: 520px;
-  background: #1c120d;
+  background: #12140f;
 }
 .film-main video {
   position: absolute;
@@ -454,7 +454,7 @@ body {
 .film-shade {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top, #1a0f0ad9 0%, #1a0f0a00 55%);
+  background: linear-gradient(to top, #0f100cd9 0%, #0f100c00 55%);
 }
 .film-caption {
   position: absolute;
@@ -497,7 +497,7 @@ body {
   border-radius: 18px;
   overflow: hidden;
   min-height: 160px;
-  background: #1c120d;
+  background: #12140f;
 }
 .reel video,
 .reel img {
@@ -536,8 +536,8 @@ body {
   gap: 34px 26px;
 }
 .shop .product-card {
-  background: #fff;
-  border: 1px solid #ece6e1;
+  background: #eef2e4;
+  border: 1px solid #e5ead5;
   border-radius: 16px;
   padding: 12px 12px 22px;
   transition: transform 0.5s cubic-bezier(0.2, 0.7, 0.2, 1), box-shadow 0.5s, border-color 0.4s;
@@ -545,25 +545,25 @@ body {
 .shop .product-card:hover {
   transform: translateY(-6px);
   border-color: var(--gold-soft);
-  box-shadow: 0 30px 60px -30px #3b1f1470;
+  box-shadow: 0 30px 60px -30px #20241a70;
 }
 .shop .product-picture {
   aspect-ratio: 4 / 4.9;
   border-radius: 12px;
-  background: linear-gradient(165deg, #fbfaf9, #efeae6);
+  background: linear-gradient(165deg, #eaefde, #e4e9d3);
 }
 .shop .product-card:nth-child(3n + 2) .product-picture {
-  background: linear-gradient(165deg, #fbf3f1, #f1dedb);
+  background: linear-gradient(165deg, #eaefde, #e4e9d5);
 }
 .shop .product-card:nth-child(3n) .product-picture {
-  background: linear-gradient(165deg, #f7f3fa, #e7dcee);
+  background: linear-gradient(165deg, #eaefde, #e3e9d4);
 }
 .shop .product-art,
 .shop .product-picture img {
   width: 72%;
   height: 84%;
   object-fit: contain;
-  filter: drop-shadow(10px 18px 14px #3b1f1433);
+  filter: drop-shadow(10px 18px 14px #20241a33);
   transition: transform 1s cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 .shop .product-picture:hover img,
@@ -571,7 +571,7 @@ body {
   transform: scale(1.07) rotate(-2deg);
 }
 .shop .product-badge {
-  background: #ffffff;
+  background: #eef2e4;
   box-shadow: 0 6px 16px -8px #0003;
 }
 .shop .product-card-info,
@@ -598,8 +598,8 @@ body {
 .nine {
   position: relative;
   padding: 0 0 100px 6%;
-  color: #f4dfae;
-  background: radial-gradient(120% 90% at 50% 0%, #a3262a 0%, #861d20 45%, #5c1220 100%);
+  color: #cfdbaf;
+  background: radial-gradient(120% 90% at 50% 0%, #677356 0%, #535d46 45%, #2d3424 100%);
   overflow: hidden;
 }
 .nine-pattern {
@@ -608,8 +608,8 @@ body {
   width: 112%;
   height: 54px;
   margin-bottom: 40px;
-  background-color: #e8793a;
-  background-image: radial-gradient(circle, #f6dca0 1.6px, transparent 2.2px), radial-gradient(circle, #f6dca0 1.6px, transparent 2.2px);
+  background-color: #98a681;
+  background-image: radial-gradient(circle, #ccd9a9 1.6px, transparent 2.2px), radial-gradient(circle, #ccd9a9 1.6px, transparent 2.2px);
   background-size: 16px 16px;
   background-position: 0 0, 8px 8px;
   -webkit-mask: linear-gradient(#000, #000);
@@ -625,7 +625,7 @@ body {
   line-height: 1;
   letter-spacing: -0.02em;
   margin: 0;
-  background: linear-gradient(100deg, #d7b36a 0%, #f7e6b4 40%, #c9a15a 70%, #f1d995 100%);
+  background: linear-gradient(100deg, #aabc85 0%, #dde4c9 40%, #9fb368 70%, #c8d6a3 100%);
   background-size: 200% 100%;
   -webkit-background-clip: text;
   background-clip: text;
@@ -647,10 +647,10 @@ body {
   font-weight: 500;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: #f1d995;
+  color: #c8d6a3;
 }
 .nine-head p {
-  color: #f4dfaeb3;
+  color: #cfdbafb3;
   margin: 0 0 44px;
 }
 .nine-track {
@@ -684,7 +684,7 @@ body {
 .day-wash {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to bottom, color-mix(in srgb, var(--c) 55%, transparent) 0%, color-mix(in srgb, var(--c) 18%, transparent) 55%, #3a0a1099 100%);
+  background: linear-gradient(to bottom, color-mix(in srgb, var(--c) 55%, transparent) 0%, color-mix(in srgb, var(--c) 18%, transparent) 55%, #1c1f1699 100%);
   mix-blend-mode: multiply;
 }
 .day-card::after {
@@ -742,14 +742,14 @@ body {
   padding: 44px 6% 0 0;
 }
 .nine .swipe-arrow:hover {
-  background: #f4dfae;
-  color: #5c1220;
+  background: #cfdbaf;
+  color: #2d3424;
 }
 
 /* ───────── salon & booking: luxury motion ───────── */
 .salon {
   position: relative;
-  background: #fff;
+  background: #eef2e4;
   overflow: hidden;
 }
 .salon::before,
@@ -759,7 +759,7 @@ body {
   width: 420px;
   height: 420px;
   border-radius: 50%;
-  background: radial-gradient(circle, #e9d3dc88, transparent 70%);
+  background: radial-gradient(circle, #e0e5d288, transparent 70%);
   filter: blur(30px);
   pointer-events: none;
   animation: luxe-float 12s ease-in-out infinite;
@@ -771,7 +771,7 @@ body {
 .salon::after {
   bottom: -160px;
   left: -100px;
-  background: radial-gradient(circle, #efe0c88c, transparent 70%);
+  background: radial-gradient(circle, #e0e7ce8c, transparent 70%);
   animation-delay: -6s;
 }
 @keyframes luxe-float {
@@ -807,7 +807,7 @@ body {
 }
 @keyframes luxe-glow {
   50% {
-    box-shadow: 0 0 0 10px #b08a4a1f;
+    box-shadow: 0 0 0 10px #8899591f;
   }
 }
 .salon-photo {
@@ -820,7 +820,7 @@ body {
 }
 .salon-video-wrap {
   aspect-ratio: 16 / 10;
-  background: #1a0f0a;
+  background: #12140f;
 }
 .salon-video {
   width: 100%;
@@ -834,14 +834,14 @@ body {
   right: 0;
   bottom: 0;
   padding: 22px 24px 20px;
-  background: linear-gradient(to top, #1a0f0acc, transparent);
+  background: linear-gradient(to top, #0f100ccc, transparent);
   color: #fff;
   display: flex;
   flex-direction: column;
   gap: 4px;
 }
 .salon-video-caption .eyebrow {
-  color: #f4e3bb;
+  color: #dee5ca;
   font-size: 11px;
   letter-spacing: 0.16em;
 }
@@ -898,7 +898,7 @@ body {
 }
 .service-row:hover {
   padding-left: 18px;
-  background: linear-gradient(90deg, #b08a4a14, transparent);
+  background: linear-gradient(90deg, #88995914, transparent);
 }
 .service-row:hover::before {
   transform: scaleY(1);
@@ -954,7 +954,7 @@ body {
   }
 }
 .spa-card {
-  background: #fff;
+  background: #eef2e4;
   border-radius: 16px;
   overflow: hidden;
   display: flex;
@@ -969,7 +969,7 @@ body {
   transform: none;
 }
 .spa-card:hover {
-  box-shadow: 0 34px 60px -34px #3b1f1470;
+  box-shadow: 0 34px 60px -34px #20241a70;
   transition-delay: 0s;
 }
 .spa-swipe-foot {
@@ -990,13 +990,13 @@ body {
   height: 8px;
   border-radius: 50%;
   border: none;
-  background: #c9b8a8;
+  background: #c0cca0;
   padding: 0;
   cursor: pointer;
   transition: background 0.25s, transform 0.25s;
 }
 .spa-dot.is-active {
-  background: #3b1f14;
+  background: #22271c;
   transform: scale(1.35);
 }
 .spa-counter {
@@ -1028,7 +1028,7 @@ body {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top, #1a0f0a88, transparent 55%);
+  background: linear-gradient(to top, #0f100c88, transparent 55%);
 }
 .spa-num {
   position: absolute;
@@ -1100,7 +1100,7 @@ body {
 .spa-foot {
   margin-top: auto;
   padding-top: 14px;
-  border-top: 1px solid #eee7e2;
+  border-top: 1px solid #e4e9d8;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -1113,7 +1113,7 @@ body {
 /* ───────── 06 recommended picks ───────── */
 .picks {
   padding: 120px 0 130px 6%;
-  background: #fff;
+  background: #eef2e4;
 }
 .picks-head {
   display: grid;
@@ -1142,8 +1142,8 @@ body {
 }
 .pick {
   flex: 0 0 min(430px, 84vw);
-  background: #fff;
-  border: 1px solid #ece6e1;
+  background: #eef2e4;
+  border: 1px solid #e5ead5;
   border-radius: 20px;
   overflow: hidden;
   user-select: none;
@@ -1151,7 +1151,7 @@ body {
 .pick-stage {
   position: relative;
   height: 340px;
-  background: linear-gradient(160deg, #faf6f3, #efe7e2);
+  background: linear-gradient(160deg, #eaefde, #e6ebd6);
   overflow: hidden;
 }
 .pick-service {
@@ -1189,7 +1189,7 @@ body {
   width: 100%;
   height: 100%;
   object-fit: contain;
-  filter: drop-shadow(10px 18px 14px #3b1f1440);
+  filter: drop-shadow(10px 18px 14px #20241a40);
 }
 .pick-plus {
   position: absolute;
@@ -1202,7 +1202,7 @@ body {
   display: grid;
   place-items: center;
   border-radius: 50%;
-  background: #fff;
+  background: #eef2e4;
   color: var(--ink);
   box-shadow: 0 10px 24px -8px #0004;
   transform: scale(0) rotate(-90deg);
@@ -1261,7 +1261,7 @@ body {
   font-size: 12px;
   padding: 4px 10px;
   border-radius: 100px;
-  background: #7a2f5714;
+  background: #5d6a3a14;
   color: var(--plum);
 }
 .pick-cta {
@@ -1273,14 +1273,14 @@ body {
 .arrivals {
   position: relative;
   padding: 0 0 120px;
-  background: #fff;
+  background: #eef2e4;
   overflow: hidden;
 }
 .arrivals-head {
   position: relative;
   text-align: center;
   padding: 120px 6% 54px;
-  background: linear-gradient(to bottom, #f4e4f1 0%, #e5e3fb 60%, #ffffff 100%);
+  background: linear-gradient(to bottom, #e4ead5 0%, #e4e9d3 60%, #ffffff 100%);
 }
 .arrivals-ghost {
   position: absolute;
@@ -1328,7 +1328,7 @@ body {
   text-align: center;
   padding: 26px 16px 22px;
   border-radius: 14px;
-  background: linear-gradient(to bottom, #fff 0%, #fcf1f8 100%);
+  background: linear-gradient(to bottom, #fff 0%, #eaefde 100%);
   transition: transform 0.5s, box-shadow 0.5s;
   user-select: none;
   overflow: hidden;
@@ -1336,7 +1336,7 @@ body {
 }
 .arrival:hover {
   transform: translateY(-6px);
-  box-shadow: 0 30px 50px -34px #7a2f5780;
+  box-shadow: 0 30px 50px -34px #5d6a3a80;
 }
 .arrival-brand {
   height: 44px;
@@ -1365,7 +1365,7 @@ body {
   height: 100%;
   max-height: 100%;
   object-fit: contain;
-  filter: drop-shadow(8px 14px 12px #3b1f1433);
+  filter: drop-shadow(8px 14px 12px #20241a33);
   transition: transform 0.9s cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 .arrival:hover .arrival-photo img,
@@ -1376,7 +1376,7 @@ body {
   font-family: var(--sans);
   font-weight: 500;
   font-size: 20px;
-  color: #c4206a;
+  color: #707e5b;
   position: relative;
   z-index: 1;
   margin: 0;
@@ -1411,13 +1411,13 @@ body {
   gap: 6px;
   padding: 8px 16px;
   border-radius: 100px;
-  border: 1px solid #c4206a;
-  color: #c4206a;
+  border: 1px solid #707e5b;
+  color: #707e5b;
   font-size: 13px;
   transition: background 0.3s, color 0.3s;
 }
 .arrival-foot button:hover {
-  background: #c4206a;
+  background: #707e5b;
   color: #fff;
 }
 .arrivals-next {
@@ -1429,7 +1429,7 @@ body {
   border-radius: 50%;
   display: grid;
   place-items: center;
-  background: #fff;
+  background: #eef2e4;
   box-shadow: 0 10px 30px -8px #0004;
   z-index: 4;
 }
@@ -1536,7 +1536,7 @@ body {
 /* ═══════════ collection band (Fenty-style video + product grid) ═══════════ */
 .collection-band {
   padding: 0 0 80px;
-  background: #fff;
+  background: #eef2e4;
 }
 .collection-hero {
   position: relative;
@@ -1545,7 +1545,7 @@ body {
   min-height: 320px;
   max-height: 72vh;
   overflow: hidden;
-  background: #1a0f0a;
+  background: #12140f;
 }
 .collection-video {
   width: 100%;
@@ -1556,7 +1556,7 @@ body {
 .collection-hero-shade {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top, #1a0f0acc 0%, #1a0f0a33 45%, transparent 70%);
+  background: linear-gradient(to top, #0f100ccc 0%, #0f100c33 45%, transparent 70%);
   pointer-events: none;
 }
 .collection-hero-copy {
@@ -1569,7 +1569,7 @@ body {
   z-index: 2;
 }
 .collection-hero-copy .eyebrow {
-  color: #f4e3bb;
+  color: #dee5ca;
   letter-spacing: 0.16em;
   font-size: 11px;
 }
@@ -1589,7 +1589,7 @@ body {
   max-width: 420px;
   font-size: 15px;
   line-height: 1.55;
-  color: #f0e6dc;
+  color: #e4e9d5;
   opacity: 0.92;
   margin: 0;
 }
@@ -1606,7 +1606,7 @@ body {
   flex-direction: column;
   align-items: stretch;
   text-align: left;
-  background: #faf8f6;
+  background: #eaefde;
   border: none;
   border-radius: 14px;
   overflow: hidden;
@@ -1616,11 +1616,11 @@ body {
 }
 .collection-card:hover {
   transform: translateY(-6px);
-  box-shadow: 0 28px 50px -28px #3b1f1460;
+  box-shadow: 0 28px 50px -28px #20241a60;
 }
 .collection-card-media {
   aspect-ratio: 1;
-  background: #f3eee8;
+  background: #e6ebd7;
   display: grid;
   place-items: center;
   padding: 18px;
@@ -1646,11 +1646,11 @@ body {
   font-size: 18px;
   letter-spacing: -0.01em;
   margin: 0 0 4px;
-  color: var(--ink, #422c20);
+  color: var(--ink, #2a3122);
 }
 .collection-card-copy span {
   font-size: 13px;
-  color: var(--muted, #806b59);
+  color: var(--muted, #6b7856);
 }
 @media (max-width: 999px) {
   .collection-products {
@@ -1790,7 +1790,7 @@ body {
   min-height: 420px;
   max-height: 90vh;
   overflow: hidden;
-  background: #1a0f0a;
+  background: #12140f;
   border-radius: 0;
 }
 .salon-banner-video {
@@ -1803,7 +1803,7 @@ body {
 .salon-banner-shade {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top, #1a0f0aaa, transparent 55%);
+  background: linear-gradient(to top, #0f100caa, transparent 55%);
   pointer-events: none;
 }
 .salon-banner-copy {
@@ -1818,7 +1818,7 @@ body {
   animation: salon-in 1.2s 0.15s cubic-bezier(0.2, 0.7, 0.2, 1) both;
 }
 .salon-banner-copy .eyebrow {
-  color: #f4e3bb;
+  color: #dee5ca;
   font-size: 11px;
   letter-spacing: 0.16em;
 }
@@ -1852,7 +1852,7 @@ body {
   margin: 18px 0 16px;
 }
 .salon.salon-stack {
-  background: var(--cream, #fdfcfb);
+  background: var(--cream, #eaefde);
 }
 .collection-band .collection-card,
 .salon-banner,
@@ -1954,10 +1954,10 @@ html:not([lang="en"]) .salon-banner-copy strong {
 .film-slides > img.on { opacity: 1; }
 .film-dots { position: absolute; left: 0; right: 0; bottom: 14px; display: flex; justify-content: center; gap: 8px; z-index: 2; }
 .film-dots button { width: 8px; height: 8px; padding: 0; border-radius: 50%; background: #ffffff80; transition: width 0.3s, background 0.3s; }
-.film-dots button.on { width: 24px; border-radius: 8px; background: #fff; }
+.film-dots button.on { width: 24px; border-radius: 8px; background: #eef2e4; }
 
 /* Herbal collection: real product photos with cursor zoom */
-.herbal-zoom { position: relative; width: 100%; aspect-ratio: 1 / 1; border-radius: 22px; overflow: hidden; background: #fff; box-shadow: 0 24px 50px #2f160d33; cursor: zoom-in; opacity: 0; transform: translateY(20px); transition: opacity .9s, transform 1s; }
+.herbal-zoom { position: relative; width: 100%; aspect-ratio: 1 / 1; border-radius: 22px; overflow: hidden; background: #eef2e4; box-shadow: 0 24px 50px #191b1433; cursor: zoom-in; opacity: 0; transform: translateY(20px); transition: opacity .9s, transform 1s; }
 .herbal-slide.is-active .herbal-zoom { opacity: 1; transform: none; }
 .herbal-zoom img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .25s ease-out; user-select: none; }
 .herbal-zoom.is-zoomed img { transform: scale(2.2); }

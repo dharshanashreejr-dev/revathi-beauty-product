@@ -22,20 +22,24 @@ export default function Reviews() {
           <option value="all">All reviews</option><option value="product">Products</option><option value="service">Services</option>
         </select>
       </div>
-      <div className="card flush">
-        {rows.length === 0 && <p className="muted" style={{ padding: 22 }}>No reviews yet.</p>}
-        <ul className="list">
-          {rows.map((r) => (
-            <li key={r.id}>
-              <div>
-                <strong>{r.name}</strong> <span style={{ color: '#c9a24a' }}>{'★'.repeat(r.rating)}</span><span style={{ opacity: 0.3 }}>{'★'.repeat(5 - r.rating)}</span>
-                <span className="muted block">{r.targetName} · <Badge>{r.kind === 'product' ? 'Product' : 'Service'}</Badge> · {new Date(r.at).toLocaleDateString('en-IN')}</span>
-                <p style={{ margin: '6px 0 0' }}>{r.text}</p>
+      {rows.length === 0 && <div className="card"><p className="muted" style={{ margin: 0, padding: 8 }}>No reviews yet.</p></div>}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 16 }}>
+        {rows.map((r) => (
+          <article key={r.id} className="card" style={{ display: 'flex', flexDirection: 'column', gap: 10, padding: 18 }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 8 }}>
+              <div style={{ minWidth: 0 }}>
+                <strong style={{ display: 'block' }}>{r.name}</strong>
+                <span className="muted" style={{ fontSize: 12.5 }}>{new Date(r.at).toLocaleDateString('en-IN')}</span>
               </div>
-              <button className="icon-btn" aria-label="Delete review" onClick={() => { deleteReview(r.id); notify('Review deleted.'); }}><Trash2 size={16} /></button>
-            </li>
-          ))}
-        </ul>
+              <button className="icon-btn danger" aria-label="Delete review" title="Delete review" onClick={() => { deleteReview(r.id); notify('Review deleted.'); }}><Trash2 size={16} /></button>
+            </div>
+            <div style={{ fontSize: 17, letterSpacing: 2 }}><span style={{ color: '#99b05b' }}>{'★'.repeat(r.rating)}</span><span style={{ opacity: 0.3 }}>{'★'.repeat(5 - r.rating)}</span></div>
+            <p style={{ margin: 0, lineHeight: 1.55, flex: 1 }}>{r.text}</p>
+            <div className="muted" style={{ fontSize: 13, display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' }}>
+              <Badge>{r.kind === 'product' ? 'Product' : 'Service'}</Badge>{r.targetName}
+            </div>
+          </article>
+        ))}
       </div>
     </div>
   );

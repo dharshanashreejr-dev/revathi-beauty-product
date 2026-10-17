@@ -15,17 +15,19 @@ export default function Payment({ items, address, onBack, onPlace }: { items: Ca
   const [ui] = useUiLang();
   const [open, setOpen] = useState(false);
   const [busy, setBusy] = useState(false);
-  const sub = subtotalOf(items), ship = shipFee(sub, address.method);
+  const sub = subtotalOf(items);
   // Festival / coupon code (CRS 4.3). BACKEND: the server re-checks the code and the discount when it creates the order.
   const [code, setCode] = useState('');
-  const [applied, setApplied] = useState<{ code: string; discount: number } | null>(null);
+  const [applied, setApplied] = useState<{ code: string; discount: number; freeShip: boolean } | null>(null);
   const [note, setNote] = useState<{ ok: boolean; text: string } | null>(null);
   const discount = applied?.discount ?? 0;
+  // Free-delivery coupons (first order / booked-a-service customers) waive the whole shipping charge.
+  const ship = applied?.freeShip ? 0 : shipFee(sub, address.method);
   const total = sub - discount + ship;
-  const REASON: Record<string, string> = { empty: 'Enter a coupon code.', invalid: 'Invalid coupon code.', inactive: 'Invalid coupon code.', early: 'This coupon is not active yet.', expired: 'This coupon has expired.', scope: 'This coupon does not apply to product orders.', 'used-up': 'This coupon has been fully used.' };
+  const REASON: Record<string, string> = { empty: 'Enter a coupon code.', invalid: 'Invalid coupon code.', inactive: 'Invalid coupon code.', early: 'This coupon is not active yet.', expired: 'This coupon has expired.', scope: 'This coupon does not apply to product orders.', 'used-up': 'This coupon has been fully used.', login: 'Please log in to use this coupon.', 'not-first-order': 'This coupon is only for your first product order.', 'not-first-service': 'This coupon is only for your first service booking.', 'need-booking': 'Book a service first to use this coupon.', 'has-order': 'This coupon is only for customers who have not bought products yet.' };
   const apply = () => {
     const r = api.offers.validateCoupon(code, sub, 'products');
-    if (r.ok) { setApplied({ code: r.code, discount: r.discount }); setNote({ ok: true, text: authT('Coupon {code} applied. You save {amount}.', ui, { code: r.code, amount: formatPrice(r.discount) }) }); }
+    if (r.ok) { setApplied({ code: r.code, discount: r.discount, freeShip: r.freeShip }); setNote({ ok: true, text: r.freeShip ? authT('Coupon {code} applied. Delivery is free.', ui, { code: r.code }) : authT('Coupon {code} applied. You save {amount}.', ui, { code: r.code, amount: formatPrice(r.discount) }) }); }
     else { setApplied(null); setNote({ ok: false, text: r.reason === 'min' ? authT('Add items worth {amount} more to use this coupon.', ui, { amount: formatPrice((r.min ?? 0) - sub) }) : authT(REASON[r.reason] ?? 'Invalid coupon code.', ui) }); }
   };
   const clear = () => { setApplied(null); setNote(null); setCode(''); };
@@ -48,15 +50,15 @@ export default function Payment({ items, address, onBack, onPlace }: { items: Ca
         <div>
           <h1 className="font-serif text-5xl">{ck2('Payment|mode', lang)[0]} <span className="gold-text italic">{ck2('Payment|mode', lang)[1]}</span></h1>
           <p className="mt-2 text-sm text-stone-500">{shipToLabel(address.name, address.city, address.pin, lang)}</p>
-          <div className="mt-8 rounded-2xl border border-gold bg-white p-6 shadow-lg">
+          <div className="mt-8 rounded-2xl border border-gold bg-paper p-6 shadow-lg">
             <p className="font-medium">Razorpay</p>
             <p className="mt-1 text-sm text-stone-500">UPI · {ck('Credit / Debit card', lang)} · {ck('Net banking', lang)} · Wallets</p>
             <p className="mt-4 text-sm text-stone-600">{authT('Online payment only. Cash on delivery is not available for product orders.', ui)}</p>
           </div>
-          <div className="mt-6 rounded-2xl border border-stone-200 bg-white p-5">
+          <div className="mt-6 rounded-2xl border border-stone-200 bg-paper p-5">
             <label className="text-xs uppercase tracking-widest text-stone-500" htmlFor="coupon">{authT('Coupon code', ui)}</label>
             <div className="mt-2 flex gap-3">
-              <input id="coupon" className="field flex-1 uppercase" value={code} disabled={!!applied} maxLength={15} onChange={e => { setCode(e.target.value.toUpperCase()); setNote(null); }} onKeyDown={e => e.key === 'Enter' && !applied && apply()} placeholder="WELCOME10" />
+              <input id="coupon" className="field flex-1 uppercase" value={code} disabled={!!applied} maxLength={15} onChange={e => { setCode(e.target.value.toUpperCase()); setNote(null); }} onKeyDown={e => e.key === 'Enter' && !applied && apply()} placeholder="FIRSTORDER" />
               {applied
                 ? <button type="button" onClick={clear} className="rounded-full border border-ink px-6 text-sm transition hover:bg-ink hover:text-white">{authT('Remove coupon', ui)}</button>
                 : <button type="button" onClick={apply} className="gold-btn rounded-full px-6 text-sm">{authT('Apply', ui)}</button>}

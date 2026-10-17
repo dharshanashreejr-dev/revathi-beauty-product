@@ -11,7 +11,7 @@ export default function Categories({ active, onSelect }: Props) {
   const [lang] = useLang();
 
   return (
-    <section className="flex w-full flex-col justify-center bg-white text-white">
+    <section className="flex w-full flex-col justify-center bg-sand text-white">
       <div
         ref={ref}
         className={`grid grid-cols-1 transition-all duration-1000 ease-out md:grid-cols-3 ${
@@ -47,13 +47,13 @@ export default function Categories({ active, onSelect }: Props) {
               <button
                 onClick={() => onSelect(cat.name)}
                 aria-pressed={isActive}
-                className="btn-primary relative z-10 mt-auto rounded-full bg-white px-8 py-3 text-sm text-black"
+                className="btn-primary relative z-10 mt-auto rounded-full bg-paper px-8 py-3 text-sm text-black"
               >
                 {isActive ? VIEWING_BTN[lang](label) : SHOP_BTN[lang](label)}
               </button>
 
               <span
-                className={`absolute bottom-0 left-0 z-10 h-1 bg-white transition-all duration-700 ${
+                className={`absolute bottom-0 left-0 z-10 h-1 bg-paper transition-all duration-700 ${
                   isActive ? 'w-full' : 'w-0'
                 }`}
               />

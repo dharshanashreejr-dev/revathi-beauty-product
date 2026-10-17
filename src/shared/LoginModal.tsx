@@ -19,9 +19,9 @@ export function requireLogin(then: () => void) { if (api.auth.currentUser()) the
 const mmss = (ms: number) => { const s = Math.max(0, Math.ceil(ms / 1000)); return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}` }
 const ERR = { expired: 'OTP expired. Please resend.', wrong: 'Wrong OTP. Please try again.', locked: 'Too many wrong attempts. Please resend the OTP.', none: 'OTP expired. Please resend.' } as const
 
-const input: React.CSSProperties = { width: '100%', padding: '13px 14px', borderRadius: 12, border: '1px solid #d9c9b2', background: '#fff', color: 'inherit', fontSize: 16, outline: 'none', boxSizing: 'border-box' }
-const btn: React.CSSProperties = { width: '100%', padding: 13, borderRadius: 999, border: 0, cursor: 'pointer', background: '#3b2a1e', color: '#fffaf3', fontSize: 15, letterSpacing: '.08em' }
-const link: React.CSSProperties = { background: 'none', border: 0, cursor: 'pointer', color: '#7a5a2f', textDecoration: 'underline', fontSize: 13, padding: 4 }
+const input: React.CSSProperties = { width: '100%', padding: '13px 14px', borderRadius: 12, border: '1px solid #c7d2aa', background: '#eef2e4', color: 'inherit', fontSize: 16, outline: 'none', boxSizing: 'border-box' }
+const btn: React.CSSProperties = { width: '100%', padding: 13, borderRadius: 999, border: 0, cursor: 'pointer', background: '#262c1f', color: '#eaefde', fontSize: 15, letterSpacing: '.08em' }
+const link: React.CSSProperties = { background: 'none', border: 0, cursor: 'pointer', color: '#5d6a3a', textDecoration: 'underline', fontSize: 13, padding: 4 }
 
 function Modal({ onClose, onDone, gate }: { onClose: () => void; onDone: (u: User) => void; gate: boolean }) {
   const [lang, setL] = useState<UiLang>(getUiLang())
@@ -51,8 +51,8 @@ function Modal({ onClose, onDone, gate }: { onClose: () => void; onDone: (u: Use
 
   return (
     <div role="dialog" aria-modal="true" aria-label={t('Login to continue')} onMouseDown={(e) => e.target === e.currentTarget && onClose()}
-      style={{ position: 'fixed', inset: 0, zIndex: 2147482000, display: 'grid', placeItems: 'center', background: gate ? 'linear-gradient(160deg,#fbf3e6 0%,#f1e0c8 100%)' : 'rgba(30,20,12,.62)', backdropFilter: gate ? undefined : 'blur(6px)', padding: 16 }}>
-      <div style={{ position: 'relative', width: 'min(420px,100%)', background: '#fffaf3', color: '#3b2a1e', borderRadius: 20, padding: '30px 26px', boxShadow: '0 30px 80px rgba(0,0,0,.35)', textAlign: 'center', fontFamily: 'inherit' }}>
+      style={{ position: 'fixed', inset: 0, zIndex: 2147482000, display: 'grid', placeItems: 'center', background: gate ? 'linear-gradient(160deg,#e8edda 0%,#e1e7cf 100%)' : 'rgba(18, 20, 15,.62)', backdropFilter: gate ? undefined : 'blur(6px)', padding: 16 }}>
+      <div style={{ position: 'relative', width: 'min(420px,100%)', background: '#eaefde', color: '#262c1f', borderRadius: 20, padding: '30px 26px', boxShadow: '0 30px 80px rgba(0,0,0,.35)', textAlign: 'center', fontFamily: 'inherit' }}>
         <button type="button" onClick={onClose} aria-label="Close" style={{ position: 'absolute', top: 10, right: 14, background: 'none', border: 0, fontSize: 20, cursor: 'pointer', color: 'inherit', opacity: .6 }}>✕</button>
         <div style={{ fontSize: 11, letterSpacing: '.3em', textTransform: 'uppercase', opacity: .7 }}>REVATHI HERBAL BEAUTY CARE</div>
         <h2 style={{ margin: '10px 0 6px', fontSize: 24, fontWeight: 600 }}>{t('Login to continue')}</h2>
@@ -70,7 +70,7 @@ function Modal({ onClose, onDone, gate }: { onClose: () => void; onDone: (u: Use
         ) : (
           <>
             <p style={{ margin: '0 0 14px', fontSize: 14, opacity: .75 }}>{t('Enter the 6-digit OTP sent to +91 {phone}', { phone })}</p>
-            {demo && <p style={{ margin: '0 0 12px', padding: '8px 10px', borderRadius: 10, background: '#f3e6d0', fontSize: 13 }}>{t('Demo mode: your OTP is {otp}', { otp: demo })}</p>}
+            {demo && <p style={{ margin: '0 0 12px', padding: '8px 10px', borderRadius: 10, background: '#e3e9d3', fontSize: 13 }}>{t('Demo mode: your OTP is {otp}', { otp: demo })}</p>}
             <input style={{ ...input, textAlign: 'center', letterSpacing: '.5em', fontSize: 22 }} inputMode="numeric" autoFocus maxLength={6} aria-label="OTP" value={code}
               onChange={(e) => { setCode(e.target.value.replace(/\D/g, '')); setErr('') }} onKeyDown={(e) => e.key === 'Enter' && code.length === 6 && verify()} />
             {isNew.current && <input style={{ ...input, marginTop: 10 }} placeholder={t('Your name (optional)')} aria-label={t('Your name (optional)')} value={name} onChange={(e) => setName(e.target.value)} />}

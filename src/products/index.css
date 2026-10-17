@@ -4,7 +4,7 @@
 @tailwind utilities;
 
 html { scroll-behavior: smooth; }
-body { @apply bg-white font-sans text-ink antialiased; }
+body { @apply bg-sand font-sans text-ink antialiased; }
 
 .btn-primary {
   position: relative;
@@ -35,18 +35,18 @@ body { @apply bg-white font-sans text-ink antialiased; }
   *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
 }
 
-.gold-text { background: linear-gradient(100deg,#8a6a2f,#e6c98a 40%,#b8975a 60%,#8a6a2f); background-size: 200% auto; -webkit-background-clip: text; background-clip: text; color: transparent; animation: shimmer 6s linear infinite; }
+.gold-text { background: linear-gradient(100deg,#67763d,#c3d29a 40%,#94a565 60%,#67763d); background-size: 200% auto; -webkit-background-clip: text; background-clip: text; color: transparent; animation: shimmer 6s linear infinite; }
 @keyframes shimmer { to { background-position: 200% center; } }
 @keyframes marquee { to { transform: translateX(-50%); } }
 .marquee { animation: marquee 30s linear infinite; }
 @keyframes draw { to { stroke-dashoffset: 0; } }
 .draw { stroke-dasharray: 100; stroke-dashoffset: 100; animation: draw .9s .3s ease forwards; }
 @keyframes spark { 0% { transform: translateY(0) scale(0); opacity: 0; } 20% { opacity: 1; } 100% { transform: translateY(-120px) scale(1); opacity: 0; } }
-.spark { position: absolute; width: 6px; height: 6px; background: #d9b774; border-radius: 50%; animation: spark 3s ease-out infinite; }
-.field { width: 100%; height: 3.25rem; border-bottom: 1px solid #d6d3d1; background: transparent; padding: 0 .25rem; outline: none; transition: border-color .3s; }
-.field:focus { border-color: #b8975a; }
+.spark { position: absolute; width: 6px; height: 6px; background: #afc08d; border-radius: 50%; animation: spark 3s ease-out infinite; }
+.field { width: 100%; height: 3.25rem; border-bottom: 1px solid #cfd8b5; background: transparent; padding: 0 .25rem; outline: none; transition: border-color .3s; }
+.field:focus { border-color: #94a565; }
 .field.err { border-color: #be123c; }
-.gold-btn { background: linear-gradient(120deg,#8a6a2f,#c9a76a,#8a6a2f); color: #14110f; }
+.gold-btn { background: linear-gradient(120deg,#67763d,#a1b182,#67763d); color: #12140f; }
 
 /* Category hero vertical labels — fixed medium size across all languages */
 .cat-hero-label {

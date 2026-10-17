@@ -1,6 +1,6 @@
 import { useEffect, useState, type ComponentType, type ReactNode } from 'react'
 import { SITE } from '../site-links'
-import { LANGS, useLang, useUiLang, type UiLang } from './i18n'
+import { LANGS, NAV_LANG_NAMES, useLang, useUiLang, type UiLang } from './i18n'
 import { NAV_EXTRA } from './i18n-nav-extra'
 import { NAV_LABELS as LABELS } from './i18n-nav'
 import { openLogin, useUser } from './LoginModal'
@@ -19,20 +19,6 @@ const LEFT: [string, string][] = [['Products', SITE.products], ['Services', SITE
 const RIGHT_BASE: [string, string][] = [['About', SITE.about], ['Tracking', SITE.tracking]]
 const menuFor = (right: [string, string][]): [string, string][] => [['Home', SITE.home], ...LEFT, ...right]
 
-function Lotus() {
-  return (
-    <svg className="vt-lotus" viewBox="0 0 64 40" aria-hidden="true">
-      <g fill="none" stroke="currentColor" strokeWidth="1.15" strokeLinejoin="round" strokeLinecap="round">
-        <path d="M32 3.5C25.6 11.5 25.6 23.5 32 32.5C38.4 23.5 38.4 11.5 32 3.5Z" />
-        <path d="M32 32.5C24.6 30.6 19.4 22.8 19.8 12.6C25.2 15.4 29.6 21.6 32 32.5Z" />
-        <path d="M32 32.5C39.4 30.6 44.6 22.8 44.2 12.6C38.8 15.4 34.4 21.6 32 32.5Z" />
-        <path d="M32 32.5C22.6 33.6 13.4 29 9 20.6C17.6 19.8 26.6 24.4 32 32.5Z" />
-        <path d="M32 32.5C41.4 33.6 50.6 29 55 20.6C46.4 19.8 37.4 24.4 32 32.5Z" />
-        <path d="M21.5 36.2Q32 39.4 42.5 36.2" />
-      </g>
-    </svg>
-  )
-}
 
 const BagIcon = () => (
   <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -94,16 +80,14 @@ export default function SiteHeader({ Link = PlainLink, current, cartCount, onCar
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><path d="M3 6h18M3 12h18M3 18h18" /></svg>
         </button>
         <Link to={SITE.home} className="vt-brand" aria-label={L.HomeLink}>
-          <Lotus />
-          <span className="vt-word">REVATHI HERBAL BEAUTY CARE</span>
-<span className="vt-sub">{L.BrandSub}</span>
-<span className="vt-tagline">{L.BrandTagline ?? 'Where Nature meets beauty'}</span>
+          <span className="vt-word">REVATHI HERBAL CARE</span>
+          <span className="vt-tagline">{L.BrandTagline ?? 'Where Nature meets beauty'}</span>
         </Link>
         <div className="vt-rightwrap">
         <nav className="vt-nav vt-right" aria-label={L.SitePages}>{RIGHT.map(item)}</nav>
         <div className="vt-tools">
           <select className="vt-lang" value={ui} onChange={(e) => setLang(e.target.value as UiLang)} aria-label={L.Language}>
-            {LANGS.map((l) => <option key={l.code} value={l.code}>{l.label}</option>)}
+            {LANGS.map((l) => <option key={l.code} value={l.code}>{NAV_LANG_NAMES[l.code]}</option>)}
           </select>
           {onCart
             ? <button className="vt-bag" onClick={onCart} aria-label={`${L.Cart} (${count})`}><BagIcon /><span>({count})</span></button>
@@ -120,7 +104,7 @@ export default function SiteHeader({ Link = PlainLink, current, cartCount, onCar
           {menuFor(RIGHT).map(([t, to]) => <Link key={t} to={to} onClick={() => setOpen(false)}>{L[t] ?? t}</Link>)}
           {user ? <Link to={SITE.tracking + '?tab=profile'} onClick={() => setOpen(false)}>{who}</Link> : <a href="#" onClick={(e) => { e.preventDefault(); setOpen(false); openLogin() }}>{authT('Login', ui)}</a>}
           <select className="vt-lang vt-lang-menu" value={ui} onChange={(e) => setLang(e.target.value as UiLang)} aria-label={L.Language}>
-            {LANGS.map((l) => <option key={l.code} value={l.code}>{l.label}</option>)}
+            {LANGS.map((l) => <option key={l.code} value={l.code}>{NAV_LANG_NAMES[l.code]}</option>)}
           </select>
         </nav>
       </div>

@@ -1,6 +1,6 @@
 /* One navbar for the whole site — mirrors the landing page header. */
 .vt-header {
-  --vt-cream: #fdfcfb;
+  --vt-cream: #eaefde;
   position: fixed;
   z-index: 50;
   top: 0;
@@ -12,15 +12,15 @@
   align-items: start;
   color: var(--vt-cream);
   background: transparent;
-  text-shadow: 0 1px 12px #35201565;
+  text-shadow: 0 1px 12px #1e211865;
   font-family: 'Jost', 'DM Sans', Arial, sans-serif;
   transition: background .5s, height .5s, box-shadow .5s;
   overflow: visible;
 }
 .vt-header.is-solid {
   height: 80px;
-  background: #38271ce0;
-  box-shadow: 0 1px 0 #f4dfc91a;
+  background: #23261ce0;
+  box-shadow: 0 1px 0 #e2e8d11a;
   backdrop-filter: blur(16px);
   text-shadow: none;
 }
@@ -166,7 +166,7 @@
 }
 .vt-admin:hover {
   background: var(--vt-cream);
-  color: #422c20 !important;
+  color: #2a3122 !important;
   text-shadow: none;
 }
 
@@ -189,8 +189,8 @@
   position: fixed;
   inset: 0;
   z-index: 70;
-  background: #38271c;
-  color: #fdfcfb;
+  background: #252a1e;
+  color: #eaefde;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -233,7 +233,7 @@
   max-width: 100px;
   flex-shrink: 0;
 }
-.vt-lang option { color: #2b1d14; background: #fdfcfb; }
+.vt-lang option { color: #1b1f16; background: #eaefde; }
 .vt-lang-menu { margin: 24px auto 0; display: block; }
 
 /* Profile / Login — always last, never clipped */
@@ -312,3 +312,17 @@ html:not([lang="en"]) .vt-right { gap: 14px !important; }
 @media (max-width: 900px) {
   html:not([lang="en"]) .vt-sub { font-size: 8px; }
 }
+
+/* Navbar brand: two lines only (name + tagline) */
+.vt-brand { justify-content: center; padding-top: 0 !important; }
+.vt-brand .vt-word { font-size: 20px; letter-spacing: .14em; margin: 0 0 0 .14em; }
+.vt-brand .vt-tagline { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 12px; margin-top: 6px; letter-spacing: .12em; }
+@media (max-width: 900px) {
+  .vt-brand .vt-word { font-size: 15px; letter-spacing: .08em; }
+  .vt-brand .vt-tagline { font-size: 9px; letter-spacing: .05em; }
+}
+
+/* Brand title sits on the same centre line as the nav links (nav height 73px, 80px when solid) */
+.vt-brand { align-self: start; height: 73px; justify-content: center; }
+.vt-header.is-solid .vt-brand { height: 80px; padding-top: 0 !important; }
+@media (max-width: 1359px) { .vt-brand { height: 80px; } }

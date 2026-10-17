@@ -8,5 +8,6 @@ export const REVIEW_NAV: Record<string, { Reviews: string; Testimonials: string 
   kn: { Reviews: 'ವಿಮರ್ಶೆಗಳು', Testimonials: 'ಪ್ರಶಂಸಾಪತ್ರಗಳು' },
   mr: { Reviews: 'पुनरावलोकने', Testimonials: 'प्रशंसापत्रे' },
   bn: { Reviews: 'পর্যালোচনা', Testimonials: 'প্রশংসাপত্র' },
+  sa: { Reviews: 'समीक्षाः', Testimonials: 'प्रशंसापत्राणि' },
 }
 export const reviewNav = (lang: string, loggedIn: boolean) => (REVIEW_NAV[lang] ?? REVIEW_NAV.en)[loggedIn ? 'Reviews' : 'Testimonials']

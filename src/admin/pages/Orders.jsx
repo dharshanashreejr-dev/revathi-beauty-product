@@ -1,5 +1,5 @@
-import { useEffect, useMemo, useState } from 'react';
-import { Search, Eye, MapPin, Phone } from 'lucide-react';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { Search, Eye, MapPin, Phone, Printer, ScanLine, Camera } from 'lucide-react';
 import { useStore } from '../store.jsx';
 import { api } from '../../api';
 import { getOrders, setOrderStage, cancelOrder, updateShipping, subscribeData } from '../../site/account';
@@ -9,6 +9,8 @@ import DataTable from '../components/DataTable.jsx';
 import Badge from '../components/Badge.jsx';
 import Modal from '../components/Modal.jsx';
 import { useT } from '../i18n.js';
+import PrintPreview from '../components/PrintPreview.jsx';
+import { ORDER_PRINT_TYPES, buildOrderDocs, orderQrText, printPages, qrSvg } from '../lib/orderPrint.js';
 
 // CRS 4.4 Order Fulfilment Pipeline: Placed > Confirmed > Packed > Shipped > Delivered (or Cancelled).
 // These are the REAL orders placed from the customer shop (same store the customer's Tracking page reads).
@@ -18,6 +20,9 @@ const STAGES = ['Order placed', 'Order confirmed', 'Order packed', 'Order shippe
 const FILTERS = [...STAGES, 'Cancelled'];
 const statusOf = (o) => (o.cancelled ? 'Cancelled' : STAGES[o.stage]);
 const when = (iso) => { const d = new Date(iso); return Number.isNaN(+d) ? iso : d.toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' }); };
+const MAX_PRINT = 50; // orders per print job
+const PRINTED_KEY = 'rhbc:printed-orders';
+const loadPrinted = () => { try { return JSON.parse(localStorage.getItem(PRINTED_KEY) || '[]'); } catch { return []; } };
 const whenTime = (iso) => { const d = new Date(iso); return Number.isNaN(+d) ? iso : d.toLocaleString('en-IN', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' }); };
 
 export default function Orders() {
@@ -30,6 +35,11 @@ export default function Orders() {
   const [status, setStatus] = useState('All');
   const [openId, setOpenId] = useState(null);
   const [ship, setShip] = useState(null); // { courier, awb, eta }
+  const [sel, setSel] = useState([]); // order ids ticked for printing (max 50)
+  const [printType, setPrintType] = useState('both'); // both | slip | bill
+  const [printJob, setPrintJob] = useState(null); // { ids, type }
+  const [scanOpen, setScanOpen] = useState(false);
+  const [printed, setPrinted] = useState(loadPrinted); // ids already printed (so the next batch of 50 is easy to pick)
   const actor = user?.name || 'Admin', role = user?.role || 'Admin';
 
   const orders = getOrders();
@@ -71,9 +81,48 @@ export default function Orders() {
     notify('Shipping details saved.'); re();
   };
 
+  // ---- QR, slips and bills ----
+  const findOrder = (id) => orders.find((o) => o.id === id);
+  const jobOrders = printJob ? printJob.ids.map(findOrder).filter(Boolean) : [];
+  const jobHtml = useMemo(() => (printJob ? buildOrderDocs(printJob.ids.map(findOrder).filter(Boolean), printJob.type) : ''), [printJob]); // eslint-disable-line
+  const toggleSel = (id) => {
+    if (sel.includes(id)) { setSel(sel.filter((x) => x !== id)); return; }
+    if (sel.length >= MAX_PRINT) { notify('You can print up to 50 orders at a time.', 'error'); return; }
+    setSel([...sel, id]);
+  };
+  const selectNext = () => {
+    const fresh = rows.filter((o) => !printed.includes(o.id));
+    const pick = (fresh.length ? fresh : rows).slice(0, MAX_PRINT).map((o) => o.id);
+    setSel(pick);
+    if (!pick.length) notify('No orders to select.', 'error');
+  };
+  const startPrint = (ids, type = printType) => {
+    const list = ids.map(findOrder).filter(Boolean);
+    if (!list.length) return;
+    setPrintJob({ ids: list.map((o) => o.id), type });
+  };
+  const donePrinting = () => {
+    const ids = jobOrders.map((o) => o.id);
+    const next = [...new Set([...printed, ...ids])].slice(-2000);
+    setPrinted(next);
+    try { localStorage.setItem(PRINTED_KEY, JSON.stringify(next)); } catch { /* ignore */ }
+    api.audit.log(actor, role, 'order.status', `Printed ${printJob.type === 'both' ? 'slip + bill' : printJob.type} for ${ids.length} order(s)`, { orders: ids.length });
+    setSel((c) => c.filter((x) => !ids.includes(x)));
+  };
+  const onScanned = (o) => {
+    setScanOpen(false);
+    notify('Order {id} found. Slip and bill are ready to print.', 'success', { id: o.id });
+    setPrintJob({ ids: [o.id], type: 'both' });
+  };
+
   const summary = (o) => o.items.map((i) => `${i.name} x${i.qty}`).join(', ');
   const columns = [
-    { key: 'id', label: t('Order'), render: (o) => <strong>{o.id}</strong> },
+    { key: 'sel', label: '', width: '44px', render: (o) => <input type="checkbox" checked={sel.includes(o.id)} onClick={(e) => e.stopPropagation()} onChange={() => toggleSel(o.id)} aria-label={`Select ${o.id}`} /> },
+    { key: 'id', label: t('Order'), render: (o) => <div><strong>{o.id}</strong>{printed.includes(o.id) && <span className="muted block" style={{ fontSize: 12 }}>{t('Printed')}</span>}</div> },
+    { key: 'qr', label: t('QR'), width: '76px', render: (o) => (
+      <button type="button" className="icon-btn" title={t('Open order and QR')} aria-label={`QR ${o.id}`} onClick={(e) => { e.stopPropagation(); setOpenId(o.id); }}
+        style={{ width: 60, height: 60, padding: 2, background: '#eef2e4', border: '1px solid var(--line)' }} dangerouslySetInnerHTML={{ __html: qrSvg(orderQrText(o), 54) }} />
+    ) },
     { key: 'customer', label: t('Customer'), render: (o) => <div><strong>{o.customer || t('Customer')}</strong>{o.phone && <span className="muted block">{o.phone}</span>}</div> },
     { key: 'date', label: t('Date'), render: (o) => when(o.placed) },
     { key: 'items', label: t('Items'), render: (o) => <span className="clip" title={summary(o)}>{t('{n} item(s): {summary}', { n: o.items.reduce((s, i) => s + i.qty, 0), summary: summary(o) })}</span> },
@@ -85,7 +134,12 @@ export default function Orders() {
         {optionsFor(o)}
       </select>
     ) },
-    { key: 'view', label: '', width: '60px', render: (o) => <button className="icon-btn" onClick={(e) => { e.stopPropagation(); setOpenId(o.id); }} aria-label={t('View {id}', { id: o.id })}><Eye size={17} /></button> }
+    { key: 'view', label: '', width: '100px', render: (o) => (
+      <div className="row-actions" style={{ display: 'flex', gap: 4 }}>
+        <button className="icon-btn" onClick={(e) => { e.stopPropagation(); setOpenId(o.id); }} aria-label={t('View {id}', { id: o.id })} title={t('View')}><Eye size={17} /></button>
+        <button className="icon-btn" onClick={(e) => { e.stopPropagation(); startPrint([o.id]); }} aria-label={`${t('Print')} ${o.id}`} title={t('Print')}><Printer size={17} /></button>
+      </div>
+    ) }
   ];
 
   return (
@@ -97,11 +151,27 @@ export default function Orders() {
           <option value="All">{t('All fulfilment statuses')}</option>{FILTERS.map((s) => <option key={s} value={s}>{t(s)}</option>)}
         </select>
       </div>
+      <div className="card" style={{ padding: '12px 16px', marginBottom: 14, display: 'flex', gap: 10, flexWrap: 'wrap', alignItems: 'center' }}>
+        <strong>{t('Print slips & bills')}</strong>
+        <select value={printType} onChange={(e) => setPrintType(e.target.value)} aria-label={t('What to print')} style={{ width: 'auto' }}>
+          {ORDER_PRINT_TYPES.map(([v, l]) => <option key={v} value={v}>{t(l)}</option>)}
+        </select>
+        <button className="btn btn-ghost small" onClick={selectNext}>{t('Select next 50')}</button>
+        {sel.length > 0 && <button className="btn btn-ghost small" onClick={() => setSel([])}>{t('Clear')}</button>}
+        <span className="muted">{sel.length} / {MAX_PRINT} {t('selected')}</span>
+        <span style={{ flex: 1 }} />
+        <button className="btn btn-ghost" onClick={() => setScanOpen(true)}><ScanLine size={16} />{t('Scan QR')}</button>
+        <button className="btn btn-primary" disabled={!sel.length} onClick={() => startPrint(sel)}><Printer size={16} />{t('Print selected')} ({sel.length})</button>
+      </div>
       <div className="card flush"><DataTable columns={columns} rows={rows} onRowClick={(o) => setOpenId(o.id)} /></div>
 
       {open && ship && (
         <Modal title={t('Order {id}', { id: open.id })} subtitle={t('Placed on {date} by {customer}', { date: when(open.placed), customer: open.customer || t('Customer') })} wide onClose={() => setOpenId(null)}
-          footer={<button className="btn btn-primary" onClick={() => setOpenId(null)}>{t('Done')}</button>}>
+          footer={<>
+            <button className="btn btn-ghost" onClick={() => startPrint([open.id], 'slip')}><Printer size={16} />{t('Print slip')}</button>
+            <button className="btn btn-ghost" onClick={() => startPrint([open.id], 'bill')}><Printer size={16} />{t('Print bill')}</button>
+            <button className="btn btn-primary" onClick={() => setOpenId(null)}>{t('Done')}</button>
+          </>}>
           <div className="detail-grid">
             <div>
               <h4 className="mini-title">{t('Items')}</h4>
@@ -132,10 +202,82 @@ export default function Orders() {
               <label className="field"><span className="field-label">{t('Expected delivery')}</span><input type="date" value={ship.eta} onChange={(e) => setShip({ ...ship, eta: e.target.value })} /></label>
               <button className="btn btn-soft" onClick={saveShip} disabled={open.cancelled}>{t('Save shipping details')}</button>
               <div className="row-gap" style={{ marginTop: 14 }}><Badge>{statusOf(open)}</Badge><span className="muted">{open.payment}</span></div>
+              <h4 className="mini-title" style={{ marginTop: 16 }}>{t('Order QR')}</h4>
+              <div className="row-gap" style={{ alignItems: 'flex-start' }}>
+                <div style={{ flex: 'none', border: '1px solid var(--line)', borderRadius: 10, padding: 4, background: '#eef2e4' }} dangerouslySetInnerHTML={{ __html: qrSvg(orderQrText(open), 132) }} />
+                <p className="muted" style={{ fontSize: 12.5, margin: 0, whiteSpace: 'pre-line' }}>{orderQrText(open)}</p>
+              </div>
+              <p className="muted" style={{ fontSize: 12.5, marginTop: 8 }}>{t('Scan this QR in Order management to open the dispatch slip and bill.')}</p>
             </div>
           </div>
         </Modal>
       )}
+
+      {scanOpen && <ScanModal t={t} orders={orders} notify={notify} onFound={onScanned} onClose={() => setScanOpen(false)} />}
+      {printJob && jobOrders.length > 0 && (
+        <PrintPreview
+          title={printJob.type === 'slip' ? t('Dispatch slips') : printJob.type === 'bill' ? t('Bills') : t('Dispatch slips and bills')}
+          subtitle={t('{n} order(s), {p} page(s). Check the preview, then press Print.', { n: jobOrders.length, p: printPages(jobOrders.length, printJob.type) })}
+          html={jobHtml} onPrint={donePrinting} onClose={() => setPrintJob(null)} />
+      )}
     </div>
+  );
+}
+
+// Scan an order QR: with a USB / Bluetooth scanner (it types the QR text, click the box first), by pasting the text,
+// or with the device camera where the browser supports it (needs https or localhost).
+function ScanModal({ t, orders, notify, onFound, onClose }) {
+  const [text, setText] = useState('');
+  const [cam, setCam] = useState(false);
+  const [camErr, setCamErr] = useState('');
+  const videoRef = useRef(null);
+  const find = (raw) => { const x = String(raw || ''); return orders.find((o) => x.includes(o.id)); };
+  const submit = (raw) => { const o = find(raw); if (o) onFound(o); else notify('No order matches this QR.', 'error'); };
+
+  useEffect(() => {
+    if (!cam) return undefined;
+    let stream; let stop = false; let timer;
+    (async () => {
+      try {
+        if (!('BarcodeDetector' in window)) throw new Error('unsupported');
+        const det = new window.BarcodeDetector({ formats: ['qr_code'] });
+        stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
+        const v = videoRef.current;
+        if (!v) return;
+        v.srcObject = stream;
+        await v.play();
+        const loop = async () => {
+          if (stop) return;
+          try {
+            const codes = await det.detect(v);
+            const hit = codes.map((c) => c.rawValue).find((r) => find(r));
+            if (hit) { submit(hit); return; }
+          } catch { /* keep scanning */ }
+          timer = setTimeout(loop, 300);
+        };
+        loop();
+      } catch (e) {
+        setCamErr(e.message === 'unsupported' ? 'This browser cannot scan with the camera. Use a USB scanner or paste the QR text below.' : 'Could not open the camera. Allow camera access (the page must be on https or localhost).');
+        setCam(false);
+      }
+    })();
+    return () => { stop = true; clearTimeout(timer); if (stream) stream.getTracks().forEach((tr) => tr.stop()); };
+  }, [cam]); // eslint-disable-line
+
+  return (
+    <Modal title={t('Scan order QR')} subtitle={t('Scanning a QR opens that order\'s dispatch slip and bill, ready to print.')} onClose={onClose}
+      footer={<button className="btn btn-ghost" onClick={onClose}>{t('Close')}</button>}>
+      <label className="field"><span className="field-label">{t('Scanner box')}</span>
+        <input autoFocus value={text} onChange={(e) => setText(e.target.value)} onPaste={(e) => { const p = e.clipboardData.getData('text'); if (p) { e.preventDefault(); submit(p); } }}
+          onKeyDown={(e) => { if (e.key === 'Enter') { submit(text); setText(''); } }} placeholder={t('Click here, then scan the QR with your scanner')} />
+        <span className="field-hint">{t('A USB or Bluetooth scanner types the QR text here by itself. You can also paste it.')}</span>
+      </label>
+      <div style={{ marginTop: 12 }}>
+        {cam
+          ? <video ref={videoRef} muted playsInline style={{ width: '100%', borderRadius: 12, background: '#000', maxHeight: 320 }} />
+          : <button className="btn btn-soft" onClick={() => { setCamErr(''); setCam(true); }}><Camera size={16} />{t('Scan with camera')}</button>}
+        {camErr && <p className="muted" style={{ marginTop: 8, color: 'var(--red)' }}>{t(camErr)}</p>}
+      </div>
+    </Modal>
   );
 }

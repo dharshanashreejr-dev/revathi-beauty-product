@@ -32,7 +32,7 @@
 }
 .header-brand .brand-mark {
   color: var(--cream);
-  filter: drop-shadow(0 1px 10px #35201560);
+  filter: drop-shadow(0 1px 10px #1e211860);
 }
 .footer-top .brand-mark {
   align-items: flex-start;
@@ -144,7 +144,7 @@
   font-family: var(--serif);
   font-style: italic;
   font-size: clamp(20px, 2.2vw, 30px);
-  color: #7a4b2f;
+  color: #576148;
 }
 .intro-inner .eyebrow {
   color: var(--muted);
@@ -165,7 +165,7 @@
   height: 12px;
   margin: -6px 0 0 -6px;
   border-radius: 50%;
-  background: #f3efec;
+  background: #e8edda;
   mix-blend-mode: difference;
   pointer-events: none;
   display: none;
@@ -192,9 +192,9 @@
   height: 92px;
   margin: -46px 0 0 -46px;
   mix-blend-mode: normal;
-  background: #fdfcfbe8;
+  background: #fcfcfce8;
   backdrop-filter: blur(6px);
-  box-shadow: 0 10px 40px #42291a30;
+  box-shadow: 0 10px 40px #262a1e30;
 }
 .cursor span {
   font-size: 11px;
@@ -217,7 +217,7 @@
   will-change: transform;
 }
 .scent-card:hover {
-  box-shadow: 0 30px 60px -25px #4a25124d;
+  box-shadow: 0 30px 60px -25px #262a1e4d;
 }
 .card-media {
   position: absolute;
@@ -243,19 +243,19 @@
   filter: brightness(0.75) saturate(1.15);
 }
 .jasmine-card {
-  background: #3f2a1d;
+  background: #282e20;
   color: var(--cream);
 }
 .jasmine-card:after {
   content: "";
   position: absolute;
   inset: 40% 0 0;
-  background: linear-gradient(transparent, #24140cc0);
+  background: linear-gradient(transparent, #141610c0);
   z-index: 2;
 }
 .jasmine-card .card-tag,
 .peach-card .card-tag {
-  background: #fdfcfbe0;
+  background: #fcfcfce0;
 }
 .jasmine-card .card-plus {
   border-color: #fff7;
@@ -268,7 +268,7 @@
   opacity: 0;
   background: radial-gradient(
     circle at var(--gx, 50%) var(--gy, 50%),
-    #fff6e255,
+    #e8edda55,
     transparent 55%
   );
   transition: opacity 0.4s;
@@ -291,17 +291,17 @@
   color: var(--cream);
 }
 .mood-dusk .signature-ghost {
-  color: #ffe9d22e;
+  color: #e4ead52e;
 }
 .mood-dusk .pill.dark .pill-dot {
-  border-color: #fdfcfb55;
+  border-color: #fcfcfc55;
 }
 .mood-dusk .pill.dark:hover {
   background: var(--cream);
   color: var(--ink);
 }
 .mood-dusk .product-size {
-  color: #fbe6d1;
+  color: #e4e9d5;
 }
 .bottle-stage {
   position: relative;
@@ -320,7 +320,7 @@
   position: absolute;
   inset: 12% 8%;
   border-radius: 50%;
-  background: radial-gradient(closest-side, #fff2dc90, transparent);
+  background: radial-gradient(closest-side, #e6ecd890, transparent);
   filter: blur(20px);
   animation: halo 6s ease-in-out infinite;
   z-index: -1;
@@ -350,21 +350,21 @@
   height: 14px;
   border-radius: 50%;
   background: var(--cream);
-  box-shadow: 0 0 0 0 #fdfcfbaa;
+  box-shadow: 0 0 0 0 #fcfcfcaa;
   animation: pulse 2.2s infinite;
   transition: transform 0.3s;
 }
 .hotspot:hover .hotspot-dot,
 .hotspot.is-active .hotspot-dot {
   transform: scale(1.35);
-  background: #fff;
+  background: #eef2e4;
 }
 @keyframes pulse {
   70% {
-    box-shadow: 0 0 0 16px #fdfcfb00;
+    box-shadow: 0 0 0 16px #fcfcfc00;
   }
   100% {
-    box-shadow: 0 0 0 0 #fdfcfb00;
+    box-shadow: 0 0 0 0 #fcfcfc00;
   }
 }
 .hotspot-label {
@@ -375,12 +375,12 @@
   white-space: nowrap;
   padding: 10px 14px;
   border-radius: 10px;
-  background: #fdfcfbf0;
+  background: #fcfcfcf0;
   color: var(--ink);
   font-family: var(--serif);
   font-size: 18px;
   text-align: left;
-  box-shadow: 0 14px 40px -12px #4a25125a;
+  box-shadow: 0 14px 40px -12px #262a1e5a;
   opacity: 0;
   pointer-events: none;
   transition:
@@ -432,7 +432,7 @@
   opacity: 1;
 }
 .mood-picker button.is-active {
-  background: #fdfcfb33;
+  background: #fcfcfc33;
 }
 .mood-swatch {
   width: 20px;
@@ -468,11 +468,11 @@
 }
 .marquee-set > span:nth-child(even) {
   font-style: italic;
-  color: #e9b893;
+  color: #c3cfa4;
 }
 .marquee .brand-lotus {
   width: 0.62em;
-  color: #e9b893;
+  color: #c3cfa4;
 }
 @keyframes marquee {
   to {
@@ -500,7 +500,7 @@
   content: "";
   position: absolute;
   inset: 55% 0 0;
-  background: linear-gradient(transparent, #24140c90);
+  background: linear-gradient(transparent, #14161090);
   z-index: 1;
 }
 .composition-image .image-caption {
@@ -513,7 +513,7 @@
   right: 30px;
   bottom: 18px;
   height: 1px;
-  background: #fdfcfb40;
+  background: #fcfcfc40;
   z-index: 2;
 }
 .note-progress span {
@@ -531,7 +531,7 @@
 
 /* Moments: a pinned horizontal gallery on desktop, swipeable on touch. */
 .moments {
-  background: #2e1e15;
+  background: #1d2118;
   color: var(--cream);
   position: relative;
   overflow: hidden;
@@ -560,7 +560,7 @@
 }
 .moments-intro p {
   max-width: 330px;
-  color: #e7cdb6;
+  color: #cbd4b3;
   font-size: 16px;
 }
 .moments-arrows {
@@ -571,7 +571,7 @@
 .moments-arrows .icon-button {
   width: 54px;
   height: 54px;
-  border: 1px solid #fdfcfb55;
+  border: 1px solid #fcfcfc55;
   border-radius: 50%;
   transition:
     background 0.3s,
@@ -629,12 +629,12 @@
   font-family: var(--sans);
   font-size: 11px;
   letter-spacing: 0.14em;
-  color: #e9b893;
+  color: #c3cfa4;
 }
 .moment figcaption small {
   font-family: var(--sans);
   font-size: 11px;
-  color: #b99a82;
+  color: #a2ae8d;
 }
 .moments-progress {
   position: absolute;
@@ -642,7 +642,7 @@
   right: 6vw;
   bottom: 34px;
   height: 1px;
-  background: #fdfcfb30;
+  background: #fcfcfc30;
 }
 .moments-progress span {
   display: block;
@@ -699,7 +699,7 @@
   gap: 10px;
   padding: 7px;
   border-radius: 100px;
-  background: #fdfcfb8a;
+  background: #fcfcfc8a;
   backdrop-filter: blur(10px);
   z-index: 2;
 }

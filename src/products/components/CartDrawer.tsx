@@ -40,7 +40,7 @@ export default function CartDrawer({ open, items, onClose, onQty, onRemove, onCh
                     <p className="font-serif text-xl leading-tight">{pname(i.product.name, lang)}</p>
                     <p className="text-stone-500">{colL(i.colour.name, lang)} · {sizeText(i.size, lang)}</p>
                     <div className="mt-2 flex items-center justify-between">
-                      <div className="flex items-center rounded-full border border-stone-300 bg-white">
+                      <div className="flex items-center rounded-full border border-stone-300 bg-paper">
                         <button onClick={() => onQty(i.key, -1)} className="h-8 w-8" aria-label={ck('Decrease', lang)}>−</button><span className="w-6 text-center">{i.qty}</span><button onClick={() => onQty(i.key, 1)} className="h-8 w-8" aria-label={ck('Increase', lang)}>+</button>
                       </div>
                       <span>{formatPrice(i.product.price * i.qty)}</span>

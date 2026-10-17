@@ -67,8 +67,8 @@ export default function Dashboard({ user, onNavigate }) {
             fit="cover"
             pattern="floyd"
             pixelSize={2}
-            inkColor="#1f3a2e"
-            paperColor="#f6ece4"
+            inkColor="#2d3524"
+            paperColor="#e6ebd7"
             revealRadius={150}
             softness={0.7}
             linger={1.2}

@@ -61,7 +61,7 @@ export default function Checkout({ items, initial, onNext, onBack }: Props) {
             <h2 className="font-serif text-3xl">{ck('Shipping method', lang)}</h2>
             <div className="mt-5 grid gap-4 sm:grid-cols-2">
               {opts.map(([k, t, d]) => (
-                <button key={k} onClick={() => set('method', k)} aria-pressed={a.method === k} className={`rounded-2xl border p-5 text-left transition ${a.method === k ? 'border-gold bg-white shadow-lg' : 'border-stone-300 hover:border-gold'}`}>
+                <button key={k} onClick={() => set('method', k)} aria-pressed={a.method === k} className={`rounded-2xl border p-5 text-left transition ${a.method === k ? 'border-gold bg-paper shadow-lg' : 'border-stone-300 hover:border-gold'}`}>
                   <p className="font-medium">{ck(t, lang)}</p><p className="text-sm text-stone-500">{ck(d, lang)}</p>
                   <p className="mt-2 text-gold">{shipFee(sub, k) === 0 ? ck('Complimentary', lang) : formatPrice(shipFee(sub, k))}</p>
                 </button>

@@ -67,8 +67,9 @@ export default function ProductArt({ art, colourName, photo, className, alt }: P
       alt={alt ?? tr(GENERIC_ALT, lang)}
       loading="lazy"
       decoding="async"
+      data-product-art
       style={{ transition: 'opacity 0.35s ease' }}
-      className={`${className ?? ''} h-full w-full object-contain object-center mix-blend-multiply`}
+      className={`${className ?? ''} h-full w-full object-contain object-center`}
       onError={(e) => {
         const el = e.currentTarget;
         if (!el.src.endsWith(FALLBACK) && !el.src.startsWith('data:')) el.src = FALLBACK;

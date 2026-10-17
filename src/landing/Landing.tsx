@@ -18,9 +18,10 @@ import Lenis from "lenis";
 import { img, photos } from "./photos";
 import { SITE } from "../site-links";
 import { content } from "./content";
-import { tr, trx } from "../shared/i18n";
+import { tr, trx, NAV_LANG_NAMES } from "../shared/i18n";
 import { st } from "./i18n-sections";
-import { heroSlides, heroTicker } from "./hero-slides";
+import { heroTicker } from "./hero-slides";
+import { liveHeroSlides } from "../api/offers";
 import { addOrder } from "../site/account";
 import { NAV_LABELS } from "../shared/i18n-nav";
 import { reviewNav } from "../shared/i18n-reviews";
@@ -40,7 +41,6 @@ import {
   rupees,
   SHADES,
   type Cat,
-  LANG_LABELS,
   LANG_LOCALES,
   type Lang,
 } from "./data";
@@ -56,15 +56,16 @@ type Panel =
   | "order"
   | null;
 
-type Language = "en" | "ta" | "hi" | "ml" | "te" | "kn" | "mr" | "bn";
+type Language = "en" | "ta" | "hi" | "ml" | "te" | "kn" | "mr" | "bn" | "sa";
+const NAV_LANG_CODES = ["en", "ta", "hi", "ml", "te", "kn", "mr", "bn", "sa"] as const;
 const FREE_SHIP = 1999;
 const SHIP_FEE = 99;
 const byId = (id: string) => products.find((p) => p.id === id)!;
 const noteImages = [photos.notePeach, photos.noteJasmine, photos.noteWood];
 const moods = [
-  { key: "dusk", bg: "linear-gradient(160deg,#f3c79e 0%,#d98a5a 55%,#7a3f22 100%)" },
-  { key: "ivory", bg: "linear-gradient(160deg,#fbf4e6 0%,#efdcc3 60%,#d9b893 100%)" },
-  { key: "bloom", bg: "linear-gradient(160deg,#f8d9cf 0%,#eab49f 55%,#b8705a 100%)" },
+  { key: "dusk", bg: "linear-gradient(160deg,#c8d1ae 0%,#9eab88 55%,#505943 100%)" },
+  { key: "ivory", bg: "linear-gradient(160deg,#e8edda 0%,#dfe6cc 60%,#bfcb9e 100%)" },
+  { key: "bloom", bg: "linear-gradient(160deg,#e3e8d3 0%,#c6d0ab 55%,#86966e 100%)" },
 ] as const;
 const hotspots = [
   { x: 50, y: 12, note: 0 },
@@ -132,8 +133,24 @@ const TAGLINE: Record<Language, string> = {
   kn: "ಪ್ರಕೃತಿ ಸೌಂದರ್ಯವನ್ನು ಭೇಟಿಯಾಗುವೆಡೆ",
   mr: "जिथे निसर्ग सौंदर्याशी भेटतो",
   bn: "যেখানে প্রকৃতি সৌন্দর্যের সাথে মেশে",
+  sa: "यत्र प्रकृतिः सौन्दर्येण सह मिलति",
 };
-function Brand({ rise = false, lang }: { rise?: boolean; lang: Language }) {
+const PAYTX = {
+  method: { en: "Payment method (online)", ta: "பணம் செலுத்தும் முறை (ஆன்லைன்)", hi: "भुगतान का तरीका (ऑनलाइन)", ml: "പേയ്മെന്റ് രീതി (ഓൺലൈൻ)", te: "చెల్లింపు పద్ధతి (ఆన్‌లైన్)", kn: "ಪಾವತಿ ವಿಧಾನ (ಆನ್‌ಲೈನ್)", mr: "पेमेंट पद्धत (ऑनलाइन)", bn: "পেমেন্ট পদ্ধতি (অনলাইন)", sa: "मूल्यदान-विधिः (जालस्थम्)"},
+  card: { en: "Credit / Debit card", ta: "கிரெடிட் / டெபிட் கார்டு", hi: "क्रेडिट / डेबिट कार्ड", ml: "ക്രെഡിറ്റ് / ഡെബിറ്റ് കാർഡ്", te: "క్రెడిట్ / డెబిట్ కార్డ్", kn: "ಕ್ರೆಡಿಟ್ / ಡೆಬಿಟ್ ಕಾರ್ಡ್", mr: "क्रेडिट / डेबिट कार्ड", bn: "ক্রেডিট / ডেবিট কার্ড", sa: "क्रेडिट् / डेबिट् पत्रम्"},
+  netbanking: { en: "Net banking", ta: "நெட் பேங்கிங்", hi: "नेट बैंकिंग", ml: "നെറ്റ് ബാങ്കിംഗ്", te: "నెట్ బ్యాంకింగ్", kn: "ನೆಟ್ ಬ್ಯಾಂಕಿಂಗ್", mr: "नेट बँकिंग", bn: "নেট ব্যাংকিং", sa: "जाल-बैंकिङ्ग्"},
+  upiId: { en: "UPI ID", ta: "UPI ஐடி", hi: "UPI आईडी", ml: "UPI ഐഡി", te: "UPI ఐడి", kn: "UPI ಐಡಿ", mr: "UPI आयडी", bn: "UPI আইডি", sa: "UPI परिचयः"},
+  cardNumber: { en: "Card number", ta: "கார்டு எண்", hi: "कार्ड नंबर", ml: "കാർഡ് നമ്പർ", te: "కార్డ్ నంబర్", kn: "ಕಾರ್ಡ್ ಸಂಖ್ಯೆ", mr: "कार्ड नंबर", bn: "কার্ড নম্বর", sa: "पत्र-सङ्ख्या"},
+  bank: { en: "Bank", ta: "வங்கி", hi: "बैंक", ml: "ബാങ്ക്", te: "బ్యాంక్", kn: "ಬ್ಯಾಂಕ್", mr: "बँक", bn: "ব্যাংক", sa: "वित्तागारम्"},
+  selectBank: { en: "Select your bank", ta: "உங்கள் வங்கியைத் தேர்ந்தெடுக்கவும்", hi: "अपना बैंक चुनें", ml: "നിങ്ങളുടെ ബാങ്ക് തിരഞ്ഞെടുക്കൂ", te: "మీ బ్యాంక్‌ను ఎంచుకోండి", kn: "ನಿಮ್ಮ ಬ್ಯಾಂಕ್ ಆರಿಸಿ", mr: "तुमची बँक निवडा", bn: "আপনার ব্যাংক বেছে নিন", sa: "तव वित्तागारं चिनोतु"},
+  offline: { en: "Services are paid offline, at the salon. No online payment is needed to book.", ta: "சேவைகளுக்கான கட்டணம் சலூனில் நேரடியாகச் செலுத்தப்படும். முன்பதிவுக்கு ஆன்லைன் கட்டணம் தேவையில்லை.", hi: "सेवाओं का भुगतान सैलून में ऑफ़लाइन होता है। बुकिंग के लिए ऑनलाइन भुगतान की ज़रूरत नहीं।", ml: "സേവനങ്ങളുടെ പണം സലൂണിൽ നേരിട്ട് നൽകണം. ബുക്ക് ചെയ്യാൻ ഓൺലൈൻ പേയ്മെന്റ് ആവശ്യമില്ല.", te: "సేవలకు చెల్లింపు సెలూన్‌లో ఆఫ్‌లైన్‌లో చేయాలి. బుక్ చేయడానికి ఆన్‌లైన్ చెల్లింపు అవసరం లేదు.", kn: "ಸೇವೆಗಳ ಪಾವತಿಯನ್ನು ಸೆಲೂನ್‌ನಲ್ಲಿ ನೇರವಾಗಿ ಮಾಡಲಾಗುತ್ತದೆ. ಬುಕ್ ಮಾಡಲು ಆನ್‌ಲೈನ್ ಪಾವತಿ ಅಗತ್ಯವಿಲ್ಲ.", mr: "सेवांचे पैसे सलूनमध्ये ऑफलाइन द्यायचे आहेत. बुकिंगसाठी ऑनलाइन पेमेंटची गरज नाही.", bn: "সেবার টাকা সেলুনে সরাসরি দিতে হয়। বুক করতে অনলাইন পেমেন্ট লাগে না।", sa: "सेवाः शालूने ऑफ्लाइन दत्ताः। आरक्षणाय जाल-मूल्यदानं न आवश्यकम्।"},
+  errUpi: { en: "Enter a valid UPI ID, e.g. name@okbank", ta: "சரியான UPI ஐடியை உள்ளிடவும், எ.கா. name@okbank", hi: "सही UPI आईडी दर्ज करें, जैसे name@okbank", ml: "ശരിയായ UPI ഐഡി നൽകൂ, ഉദാ. name@okbank", te: "సరైన UPI ఐడి నమోదు చేయండి, ఉదా. name@okbank", kn: "ಮಾನ್ಯವಾದ UPI ಐಡಿ ನಮೂದಿಸಿ, ಉದಾ. name@okbank", mr: "वैध UPI आयडी टाका, उदा. name@okbank", bn: "সঠিক UPI আইডি দিন, যেমন name@okbank", sa: "वैधं UPI परिचयं प्रविशतु, यथा name@okbank"},
+  err16: { en: "Enter a 16-digit card number", ta: "16 இலக்க கார்டு எண்ணை உள்ளிடவும்", hi: "16 अंकों का कार्ड नंबर दर्ज करें", ml: "16 അക്ക കാർഡ് നമ്പർ നൽകൂ", te: "16 అంకెల కార్డ్ నంబర్ నమోదు చేయండి", kn: "16 ಅಂಕಿಯ ಕಾರ್ಡ್ ಸಂಖ್ಯೆ ನಮೂದಿಸಿ", mr: "16 अंकी कार्ड नंबर टाका", bn: "16 অঙ্কের কার্ড নম্বর দিন", sa: "१६-अङ्क-पत्र-सङ्ख्यां प्रविशतु"},
+  errExp: { en: "Expiry must be MM/YY", ta: "காலாவதி MM/YY வடிவில் இருக்க வேண்டும்", hi: "एक्सपायरी MM/YY फ़ॉर्मेट में होनी चाहिए", ml: "കാലാവധി MM/YY ഫോർമാറ്റിൽ ആയിരിക്കണം", te: "గడువు MM/YY ఫార్మాట్‌లో ఉండాలి", kn: "ಅವಧಿ MM/YY ರೂಪದಲ್ಲಿರಬೇಕು", mr: "मुदत MM/YY स्वरूपात असावी", bn: "মেয়াদ MM/YY ফরম্যাটে হতে হবে", sa: "समाप्तिः MM/YY भवेत्"},
+  errCvv: { en: "Enter the 3-digit CVV", ta: "3 இலக்க CVV-ஐ உள்ளிடவும்", hi: "3 अंकों का CVV दर्ज करें", ml: "3 അക്ക CVV നൽകൂ", te: "3 అంకెల CVV నమోదు చేయండి", kn: "3 ಅಂಕಿಯ CVV ನಮೂದಿಸಿ", mr: "3 अंकी CVV टाका", bn: "3 অঙ্কের CVV দিন", sa: "३-अङ्कं CVV प्रविशतु"},
+  colour: { en: "Colour", ta: "நிறம்", hi: "रंग", ml: "നിറം", te: "రంగు", kn: "ಬಣ್ಣ", mr: "रंग", bn: "রং", sa: "वर्णः"},
+};
+function Brand({ rise = false, lang, compact = false }: { rise?: boolean; lang: Language; compact?: boolean }) {
   const part = (cls: string, children: React.ReactNode, i: number) =>
     rise ? (
       <span className={`rise-mask ${cls}-mask`}>
@@ -143,6 +160,13 @@ function Brand({ rise = false, lang }: { rise?: boolean; lang: Language }) {
       </span>
     ) : (
       <span className={cls}>{children}</span>
+    );
+  if (compact)
+    return (
+      <span className="brand-mark brand-compact" role="img" aria-label={BRAND}>
+        <span className="brand-word" aria-hidden="true">REVATHI HERBAL CARE</span>
+        <span className="brand-tagline">{TAGLINE[lang]}</span>
+      </span>
     );
   return (
     <span className="brand-mark" role="img" aria-label={BRAND}>
@@ -211,10 +235,11 @@ function Lines({ text }: { text: string }) {
   );
 }
 export default function Home() {
+  const [slides] = useState(() => liveHeroSlides()); // admin can add / replace / delete banners
   const [lang, setLang] = useState<Language>(() => {
     try {
       const s = localStorage.getItem("velvet-lang") as Language | null;
-      if (s && ["en","ta","hi","ml","te"].includes(s)) return s;
+      if (s && ["en","ta","hi","ml","te","kn","mr","bn","sa"].includes(s)) return s;
     } catch {}
     return "en";
   }),
@@ -275,7 +300,7 @@ export default function Home() {
   const total = subtotal + shipping;
   const activeGroup = serviceGroups.find((g) => g.key === group) ?? serviceGroups[0];
   const todayStr = new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().slice(0, 10);
-  const catLabel = (c: Cat) => categories.find((x) => x.key === c)!.label[lang];
+  const catLabel = (c: Cat) => categories.find((x) => x.key === c)!.label[lang] ?? categories.find((x) => x.key === c)!.label.en;
   const notes = [
     { name: t.peach, sub: t.peachSub, copy: t.peachCopy },
     { name: t.jasmine, sub: t.jasmineSub, copy: t.jasmineCopy },
@@ -311,7 +336,7 @@ export default function Home() {
     const sync = () => {
       try {
         const s = localStorage.getItem("velvet-lang") as Language | null;
-        if (s && ["en", "ta", "hi", "ml", "te"].includes(s)) setLang(s);
+        if (s && ["en", "ta", "hi", "ml", "te", "kn", "mr", "bn", "sa"].includes(s)) setLang(s);
       } catch {}
     };
     window.addEventListener("velvet-lang-change", sync);
@@ -319,9 +344,9 @@ export default function Home() {
   }, []);
   useEffect(() => {
     // The hero glides through its images on its own until someone takes over.
-    if (!ready || slidePaused) return;
+    if (!ready || slidePaused || slides.length < 2) return;
     if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const timer = setTimeout(() => setSlide((n) => (n + 1) % heroSlides.length), 5600);
+    const timer = setTimeout(() => setSlide((n) => (n + 1) % slides.length), 5600);
     return () => clearTimeout(timer);
   }, [slide, slidePaused, ready]);
   useEffect(() => {
@@ -682,12 +707,12 @@ export default function Home() {
     if (!ok || !lines.length) return setOrderError(t.errOrder);
     // Products are sold with online payment only (no cash on delivery).
     const payErr =
-      pay.mode === "upi" ? (/^[\w.\-]{2,}@[a-z]{2,}$/i.test(pay.upi.trim()) ? "" : "Enter a valid UPI ID, e.g. name@okbank")
-      : pay.mode === "card" ? (pay.num.replace(/\s/g, "").length !== 16 ? "Enter a 16-digit card number" : !/^(0[1-9]|1[0-2])\/\d{2}$/.test(pay.exp) ? "Expiry must be MM/YY" : !/^\d{3}$/.test(pay.cvv) ? "Enter the 3-digit CVV" : "")
-      : pay.bank ? "" : "Select your bank";
+      pay.mode === "upi" ? (/^[\w.\-]{2,}@[a-z]{2,}$/i.test(pay.upi.trim()) ? "" : trx(PAYTX.errUpi, lang))
+      : pay.mode === "card" ? (pay.num.replace(/\s/g, "").length !== 16 ? trx(PAYTX.err16, lang) : !/^(0[1-9]|1[0-2])\/\d{2}$/.test(pay.exp) ? trx(PAYTX.errExp, lang) : !/^\d{3}$/.test(pay.cvv) ? trx(PAYTX.errCvv, lang) : "")
+      : pay.bank ? "" : trx(PAYTX.selectBank, lang);
     if (payErr) return setOrderError(payErr);
     const id = "VT-" + Math.floor(100000 + Math.random() * 900000);
-    const summary = lines.map((l) => `${l.p.name[lang]} × ${l.qty}`);
+    const summary = lines.map((l) => `${l.p.name[lang] ?? l.p.name.en} × ${l.qty}`);
     try {
       const prev = JSON.parse(localStorage.getItem("velvet-orders") || "[]");
       localStorage.setItem(
@@ -721,7 +746,7 @@ export default function Home() {
   }
   const searchItems = [
     ...products.map((p) => ({
-      title: p.name[lang],
+      title: p.name[lang] ?? p.name.en,
       sub: `${p.sub[lang]} · ${rupees(p.price)}`,
       keywords: `${p.name.en} ${p.name.ta} ${p.name.hi} ${p.cat} ${p.kind} ${p.copy.en}`,
       action: () => openProduct(p.id),
@@ -729,7 +754,7 @@ export default function Home() {
       image: "",
     })),
     ...allServices.map((sv) => ({
-      title: sv.name[lang],
+      title: sv.name[lang] ?? sv.name.en,
       sub: `${sv.mins} ${t.mins}${servicePricesOn() ? ` · ${rupees(sv.price)}` : ""}`,
       keywords: `${sv.name.en} ${sv.name.ta} ${sv.name.hi} ${sv.group} salon appointment treatment ${sv.desc.en}`,
       action: () => openBooking(sv.id),
@@ -783,7 +808,7 @@ export default function Home() {
         </defs>
       </svg>
       <a className="skip-link" href="#main">
-        {trx({ en: "Skip to content", ta: "உள்ளடக்கத்திற்குச் செல்", hi: "सामग्री पर जाएँ", ml: "ഉള്ളടക്കത്തിലേക്ക് പോകുക", te: "కంటెంట్‌కు వెళ్ళండి" }, lang)}
+        {trx({ en: "Skip to content", ta: "உள்ளடக்கத்திற்குச் செல்", hi: "सामग्री पर जाएँ", ml: "ഉള്ളടക്കത്തിലേക്ക് പോകുക", te: "కంటెంట్‌కు వెళ్ళండి", kn: "ವಿಷಯಕ್ಕೆ ಹೋಗಿ", mr: "मजकुराकडे जा", bn: "মূল বিষয়ে যান" }, lang)}
       </a>
       <Cursor />
       {!introSeen && <div className="intro-curtain" aria-hidden="true">
@@ -809,7 +834,7 @@ export default function Home() {
         </nav>
         <button
           className="mobile-menu icon-button"
-          aria-label={trx({ en: "Open menu", ta: "மெனுவைத் திற", hi: "मेनू खोलें", ml: "മെനു തുറക്കുക", te: "మెనూ తెరవండి" }, lang)}
+          aria-label={trx({ en: "Open menu", ta: "மெனுவைத் திற", hi: "मेनू खोलें", ml: "മെനു തുറക്കുക", te: "మెనూ తెరవండి", kn: "ಮೆನು ತೆರೆಯಿರಿ", mr: "मेनू उघडा", bn: "মেনু খুলুন" }, lang)}
           onClick={() => setPanel("menu")}
         >
           <Menu size={22} />
@@ -823,7 +848,7 @@ export default function Home() {
             go("#top");
           }}
         >
-          <Brand lang={lang} />
+          <Brand compact lang={lang} />
         </a>
         <nav className="nav-right" aria-label={NL.SitePages}>
           <a href={SITE.about}>{NL.About}</a>
@@ -849,17 +874,15 @@ export default function Home() {
                 cursor: "pointer",
               }}
             >
-              <option value="en">EN</option>
-              <option value="ta">தமிழ்</option>
-              <option value="hi">हिन्दी</option>
-              <option value="ml">മലയാളം</option>
-              <option value="te">తెలుగు</option>
+              {NAV_LANG_CODES.map((code) => (
+                <option key={code} value={code} style={{ color: "#1b1f16", background: "#eaefde" }}>{NAV_LANG_NAMES[code]}</option>
+              ))}
             </select>
           </label>
           <button
             className="icon-button"
             onClick={() => setPanel("search")}
-            aria-label={trx({ en: "Search", ta: "தேடு", hi: "खोजें", ml: "തിരയുക", te: "వెతకండి" }, lang)}
+            aria-label={trx({ en: "Search", ta: "தேடு", hi: "खोजें", ml: "തിരയുക", te: "వెతకండి", kn: "ಹುಡುಕಿ", mr: "शोधा", bn: "খুঁজুন" }, lang)}
           >
             <Search size={21} />
           </button>
@@ -891,7 +914,7 @@ export default function Home() {
             onPointerEnter={() => setSlidePaused(true)}
             onPointerLeave={() => setSlidePaused(false)}
           >
-            {heroSlides.map((sl, i) => {
+            {slides.map((sl, i) => {
               const active = slide === i;
               const runAction = () => {
                 if (sl.action === "book") return openBooking();
@@ -906,7 +929,7 @@ export default function Home() {
                   style={{ "--hb-tone": sl.tone } as React.CSSProperties}
                   role="group"
                   aria-roledescription="slide"
-                  aria-label={`${i + 1} / ${heroSlides.length}`}
+                  aria-label={`${i + 1} / ${slides.length}`}
                   aria-hidden={!active}
                 >
                   <button
@@ -924,6 +947,11 @@ export default function Home() {
                       height={sl.height}
                       {...(i === 0 ? { fetchpriority: "high" } : { loading: "lazy" as const })}
                     />
+                    {tr(sl.copy, lang) && (
+                      <span className="hb-info">
+                        <span className="hb-info-text">{tr(sl.copy, lang)}</span>
+                      </span>
+                    )}
                   </button>
                 </div>
               );
@@ -940,16 +968,16 @@ export default function Home() {
               ))}
             </div>
           </div>
-          <div className="hb-controls">
+          {slides.length > 1 && <div className="hb-controls">
             <button
               className="hb-arrow"
               aria-label={t.slidePrev}
-              onClick={() => setSlide((n) => (n + heroSlides.length - 1) % heroSlides.length)}
+              onClick={() => setSlide((n) => (n + slides.length - 1) % slides.length)}
             >
               <ArrowLeft size={16} />
             </button>
             <div className="hb-dots">
-              {heroSlides.map((_, i) => (
+              {slides.map((_, i) => (
                 <button
                   key={i}
                   aria-label={`${t.slideGo} ${i + 1}`}
@@ -964,11 +992,11 @@ export default function Home() {
             <button
               className="hb-arrow"
               aria-label={t.slideNext}
-              onClick={() => setSlide((n) => (n + 1) % heroSlides.length)}
+              onClick={() => setSlide((n) => (n + 1) % slides.length)}
             >
               <ArrowRight size={16} />
             </button>
-          </div>
+          </div>}
         </section>
         <section id="notes" className="notes-section collection-band">
           <div className="collection-hero">
@@ -998,10 +1026,10 @@ export default function Home() {
           </div>
           <div className="collection-products">
             {[
-              { id: "eclat", name: "Éclat Glow Serum", sub: "Our best-seller for glowing skin" },
-              { id: "lipstick-red", name: "Red Lipstick", sub: "4 pretty red shades" },
-              { id: "compact-powder", name: "Compact Powder", sub: "Silky pressed finish, 4 flavours" },
-              { id: "cleanser", name: "Foaming Cleanser", sub: "Gentle botanical foam, 4 flavours" },
+              { id: "eclat", name: products.find((p) => p.id === "eclat")?.name[lang] ?? "Éclat Glow Serum", sub: trx({ en: "Our best-seller for glowing skin", ta: "பளபளப்பான சருமத்திற்கான எங்கள் அதிகம் விற்பனையாகும் பொருள்", hi: "दमकती त्वचा के लिए हमारा बेस्ट-सेलर", ml: "തിളങ്ങുന്ന ചർമ്മത്തിനുള്ള ഞങ്ങളുടെ ബെസ്റ്റ് സെല്ലർ", te: "మెరిసే చర్మం కోసం మా బెస్ట్ సెల్లర్", kn: "ಹೊಳೆಯುವ ಚರ್ಮಕ್ಕಾಗಿ ನಮ್ಮ ಬೆಸ್ಟ್ ಸೆಲ್ಲರ್", mr: "तेजस्वी त्वचेसाठी आमचे बेस्ट-सेलर", bn: "উজ্জ্বল ত্বকের জন্য আমাদের সেরা বিক্রিত পণ্য", sa: "प्रभास्वराय त्वचे अस्माकं श्रेष्ठ-विक्रेता" }, lang) },
+              { id: "lipstick-red", name: products.find((p) => p.id === "lipstick-red")?.name[lang] ?? "Red Lipstick", sub: trx({ en: "4 pretty red shades", ta: "4 அழகான சிவப்பு ஷேடுகள்", hi: "4 खूबसूरत लाल शेड्स", ml: "4 മനോഹരമായ ചുവപ്പ് ഷേഡുകൾ", te: "4 అందమైన ఎరుపు షేడ్‌లు", kn: "4 ಸುಂದರ ಕೆಂಪು ಶೇಡ್‌ಗಳು", mr: "4 सुंदर लाल शेड्स", bn: "4টি সুন্দর লাল শেড", sa: "४ सुन्दराः रक्त-वर्णाः" }, lang) },
+              { id: "compact-powder", name: products.find((p) => p.id === "compact-powder")?.name[lang] ?? "Compact Powder", sub: trx({ en: "Silky pressed finish, 4 flavours", ta: "மென்மையான பிரஸ்டு பூச்சு, 4 சுவைகள்", hi: "रेशमी प्रेस्ड फ़िनिश, 4 फ्लेवर", ml: "സിൽക്കി പ്രസ്ഡ് ഫിനിഷ്, 4 ഫ്ലേവറുകൾ", te: "సిల్కీ ప్రెస్డ్ ఫినిష్, 4 ఫ్లేవర్లు", kn: "ರೇಷ್ಮೆಯಂತಹ ಪ್ರೆಸ್ಡ್ ಫಿನಿಶ್, 4 ಫ್ಲೇವರ್‌ಗಳು", mr: "रेशमी प्रेस्ड फिनिश, 4 फ्लेवर", bn: "মসৃণ প্রেসড ফিনিশ, 4টি ফ্লেভার", sa: "रेश्मी-निपीडित-समाप्तिः, ४ रसाः" }, lang) },
+              { id: "cleanser", name: products.find((p) => p.id === "cleanser")?.name[lang] ?? "Foaming Cleanser", sub: trx({ en: "Gentle botanical foam, 4 flavours", ta: "மென்மையான மூலிகை நுரை, 4 சுவைகள்", hi: "कोमल हर्बल फोम, 4 फ्लेवर", ml: "മൃദുവായ ഹെർബൽ നുര, 4 ഫ്ലേവറുകൾ", te: "మృదువైన హెర్బల్ నురగ, 4 ఫ్లేవర్లు", kn: "ಮೃದುವಾದ ಸಸ್ಯಜನ್ಯ ನೊರೆ, 4 ಫ್ಲೇವರ್‌ಗಳು", mr: "सौम्य वनस्पतीजन्य फेस, 4 फ्लेवर", bn: "কোমল ভেষজ ফেনা, 4টি ফ্লেভার", sa: "मृदु-औषधीय-फेनः, ४ रसाः" }, lang) },
             ].map((item) => (
               <button
                 key={item.id}
@@ -1044,7 +1072,7 @@ export default function Home() {
                 className={filter === c.key ? "is-active" : ""}
                 onClick={() => setFilter(c.key)}
               >
-                {c.label[lang]}
+                {c.label[lang] ?? c.label.en}
               </button>
             ))}
           </div>
@@ -1054,7 +1082,7 @@ export default function Home() {
                   <button
                     className="product-picture"
                     data-cursor={t.view}
-                    aria-label={`${t.viewDetails}: ${p.name[lang]}`}
+                    aria-label={`${t.viewDetails}: ${p.name[lang] ?? p.name.en}`}
                     onClick={() => openProduct(p.id)}
                   >
                     <span className="product-badge">{catLabel(p.cat)}</span>
@@ -1062,7 +1090,7 @@ export default function Home() {
                   </button>
                   <div className="product-card-info">
                     <div>
-                      <h3>{p.name[lang]}</h3>
+                      <h3>{p.name[lang] ?? p.name.en}</h3>
                       <span>
                         {p.sub[lang]} · {p.size}
                       </span>
@@ -1126,8 +1154,8 @@ export default function Home() {
 </div>
         <div className="footer-bottom">
           <span>© {new Date().getFullYear()} {BRAND}</span>
-          <span>{trx({ en: "THE ESSENCE OF BEAUTIFUL MOMENTS", ta: "அழகான தருணங்களின் சாரம்", hi: "सुंदर पलों का सार", ml: "സുന്ദര നിമിഷങ്ങളുടെ സാരം", te: "అందమైన క్షణాల సారం" }, lang)}</span>
-          <span>{trx({ en: "SHOP · SALON · SPA", ta: "ஷாப் · சலூன் · ஸ்பா", hi: "शॉप · सैलून · स्पा", ml: "ഷോപ്പ് · സലൂൺ · സ്പാ", te: "షాప్ · సెలూన్ · స్పా" }, lang)}</span>
+          <span>{trx({ en: "THE ESSENCE OF BEAUTIFUL MOMENTS", ta: "அழகான தருணங்களின் சாரம்", hi: "सुंदर पलों का सार", ml: "സുന്ദര നിമിഷങ്ങളുടെ സാരം", te: "అందమైన క్షణాల సారం", kn: "ಸುಂದರ ಕ್ಷಣಗಳ ಸಾರ", mr: "सुंदर क्षणांचे सार", bn: "সুন্দর মুহূর্তের সারমর্ম", sa: "सुन्दर-क्षणानां सारम्" }, lang)}</span>
+          <span>{trx({ en: "SHOP · SALON · SPA", ta: "ஷாப் · சலூன் · ஸ்பா", hi: "शॉप · सैलून · स्पा", ml: "ഷോപ്പ് · സലൂൺ · സ്പാ", te: "షాప్ · సెలూన్ · స్పా", kn: "ಶಾಪ್ · ಸೆಲೂನ್ · ಸ್ಪಾ", mr: "शॉप · सलून · स्पा", bn: "শপ · সেলুন · স্পা", sa: "विपणिः · शालून · स्पा" }, lang)}</span>
         </div>
       </footer>
       <dialog
@@ -1149,7 +1177,7 @@ export default function Home() {
             : panel === "search"
               ? t.searchTitle
               : panel === "product"
-                ? product.name[lang]
+                ? product.name[lang] ?? product.name.en
                 : panel === "booking"
                   ? t.bookingTitle
                   : BRAND
@@ -1159,7 +1187,7 @@ export default function Home() {
           <button
             className="modal-close icon-button"
             onClick={() => setPanel(null)}
-            aria-label={trx({ en: "Close", ta: "மூடு", hi: "बंद करें", ml: "അടയ്ക്കുക", te: "మూసివేయండి" }, lang)}
+            aria-label={trx({ en: "Close", ta: "மூடு", hi: "बंद करें", ml: "അടയ്ക്കുക", te: "మూసివేయండి", kn: "ಮುಚ್ಚಿ", mr: "बंद करा", bn: "বন্ধ করুন" }, lang)}
           >
             <X size={24} />
           </button>
@@ -1205,7 +1233,7 @@ export default function Home() {
             <div className="product-modal">
               <div
                 className="product-modal-picture"
-                style={{ background: picBg ?? "#f3ece4" }}
+                style={{ background: picBg ?? "#e4ead5" }}
                 onLoadCapture={(e) => {
                   const im = e.target as HTMLImageElement;
                   if (!(im instanceof HTMLImageElement)) return;
@@ -1237,16 +1265,16 @@ export default function Home() {
                 onPointerLeave={(e) => e.currentTarget.classList.remove("is-zoomed")}
               >
                 <span className="product-modal-word">{tr(product.name, lang).split(" ")[0]}</span>
-                <ProductPhoto id={product.id} shade={shade} className="product-modal-art" alt={product.name[lang]} />
+                <ProductPhoto id={product.id} shade={shade} className="product-modal-art" alt={product.name[lang] ?? product.name.en} />
               </div>
               <div className="product-modal-copy">
                 <span className="eyebrow">{catLabel(product.cat)}</span>
-                <h2>{product.name[lang]}</h2>
+                <h2>{product.name[lang] ?? product.name.en}</h2>
                 <p className="product-scent">{SHADES[product.id]?.[shade]?.sub?.[lang] ?? product.sub[lang]}</p>
                 <p>{product.copy[lang]}</p>
                 <p className="product-price">{rupees(product.price)}</p>
                 {(SHADES[product.id]?.length ?? 0) > 1 && (
-                  <div className="modal-moods modal-moods-inline" role="radiogroup" aria-label="Colour" onClick={(e) => e.stopPropagation()}>
+                  <div className="modal-moods modal-moods-inline" role="radiogroup" aria-label={trx(PAYTX.colour, lang)} onClick={(e) => e.stopPropagation()}>
                     {SHADES[product.id].map((sh, i) => (
                       <button
                         key={sh.key}
@@ -1304,13 +1332,13 @@ export default function Home() {
                         <ProductPhoto id={p.id} className="bag-art" />
                       </div>
                       <div>
-                        <h3>{p.name[lang]}</h3>
+                        <h3>{p.name[lang] ?? p.name.en}</h3>
                         <p>
                           {p.size} · {rupees(p.price)}
                         </p>
                         <div className="quantity">
                           <button
-                            aria-label={trx({ en: "Decrease quantity", ta: "அளவைக் குறை", hi: "मात्रा घटाएँ", ml: "അളവ് കുറയ്ക്കുക", te: "పరిమాణం తగ్గించు" }, lang)}
+                            aria-label={trx({ en: "Decrease quantity", ta: "அளவைக் குறை", hi: "मात्रा घटाएँ", ml: "അളവ് കുറയ്ക്കുക", te: "పరిమాణం తగ్గించు", kn: "ಪ್ರಮಾಣ ಕಡಿಮೆ ಮಾಡಿ", mr: "प्रमाण कमी करा", bn: "পরিমাণ কমান", sa: "परिमाणं न्यूनीकुरु" }, lang)}
                             onClick={() => setQty(p.id, qty - 1)}
                           >
                             <Minus size={16} />
@@ -1318,7 +1346,7 @@ export default function Home() {
                           <output>{qty}</output>
                           <button
                             disabled={qty >= 10}
-                            aria-label={trx({ en: "Increase quantity", ta: "அளவை அதிகரி", hi: "मात्रा बढ़ाएँ", ml: "അളവ് കൂട്ടുക", te: "పరిమాణం పెంచు" }, lang)}
+                            aria-label={trx({ en: "Increase quantity", ta: "அளவை அதிகரி", hi: "मात्रा बढ़ाएँ", ml: "അളവ് കൂട്ടുക", te: "పరిమాణం పెంచు", kn: "ಪ್ರಮಾಣ ಹೆಚ್ಚಿಸಿ", mr: "प्रमाण वाढवा", bn: "পরিমাণ বাড়ান", sa: "परिमाणं वर्धयतु" }, lang)}
                             onClick={() => setQty(p.id, qty + 1)}
                           >
                             <Plus size={16} />
@@ -1400,19 +1428,19 @@ export default function Home() {
               </div>
               <div className="form-stack pay-block">
                 <label className="field">
-                  <span>Payment method (online)</span>
+                  <span>{trx(PAYTX.method, lang)}</span>
                   <select value={pay.mode} onChange={(e) => setPay({ ...pay, mode: e.target.value })}>
                     <option value="upi">UPI</option>
-                    <option value="card">Credit / Debit card</option>
-                    <option value="netbanking">Net banking</option>
+                    <option value="card">{trx(PAYTX.card, lang)}</option>
+                    <option value="netbanking">{trx(PAYTX.netbanking, lang)}</option>
                   </select>
                 </label>
                 {pay.mode === "upi" && (
-                  <label className="field"><span>UPI ID</span><input placeholder="yourname@okbank" value={pay.upi} onChange={(e) => setPay({ ...pay, upi: e.target.value })} /></label>
+                  <label className="field"><span>{trx(PAYTX.upiId, lang)}</span><input placeholder="yourname@okbank" value={pay.upi} onChange={(e) => setPay({ ...pay, upi: e.target.value })} /></label>
                 )}
                 {pay.mode === "card" && (
                   <>
-                    <label className="field"><span>Card number</span><input inputMode="numeric" maxLength={19} value={pay.num} onChange={(e) => setPay({ ...pay, num: e.target.value.replace(/\D/g, "").replace(/(.{4})/g, "$1 ").trim() })} /></label>
+                    <label className="field"><span>{trx(PAYTX.cardNumber, lang)}</span><input inputMode="numeric" maxLength={19} value={pay.num} onChange={(e) => setPay({ ...pay, num: e.target.value.replace(/\D/g, "").replace(/(.{4})/g, "$1 ").trim() })} /></label>
                     <div className="field-row">
                       <label className="field"><span>MM/YY</span><input maxLength={5} value={pay.exp} onChange={(e) => setPay({ ...pay, exp: e.target.value.replace(/^(\d{2})(\d)/, "$1/$2") })} /></label>
                       <label className="field"><span>CVV</span><input type="password" inputMode="numeric" maxLength={3} value={pay.cvv} onChange={(e) => setPay({ ...pay, cvv: e.target.value.replace(/\D/g, "") })} /></label>
@@ -1420,9 +1448,9 @@ export default function Home() {
                   </>
                 )}
                 {pay.mode === "netbanking" && (
-                  <label className="field"><span>Bank</span>
+                  <label className="field"><span>{trx(PAYTX.bank, lang)}</span>
                     <select value={pay.bank} onChange={(e) => setPay({ ...pay, bank: e.target.value })}>
-                      <option value="">Select your bank</option>
+                      <option value="">{trx(PAYTX.selectBank, lang)}</option>
                       {["HDFC Bank", "ICICI Bank", "State Bank of India", "Axis Bank", "Kotak Mahindra Bank"].map((b) => <option key={b}>{b}</option>)}
                     </select>
                   </label>
@@ -1502,7 +1530,7 @@ export default function Home() {
                     <div>
                       <dt>{t.date}</dt>
                       <dd>
-                        {new Date(booked.date + "T00:00").toLocaleDateString(trx({ en: "en-IN", ta: "ta-IN", hi: "hi-IN", ml: "ml-IN", te: "te-IN" }, lang), {
+                        {new Date(booked.date + "T00:00").toLocaleDateString(trx({ en: "en-IN", ta: "ta-IN", hi: "hi-IN", ml: "ml-IN", te: "te-IN", kn: "kn-IN", mr: "mr-IN", bn: "bn-IN", sa: "sa-IN" }, lang), {
                           weekday: "long",
                           day: "numeric",
                           month: "long",
@@ -1551,10 +1579,10 @@ export default function Home() {
                       >
                         <option value="">—</option>
                         {serviceGroups.map((g) => (
-                          <optgroup key={g.key} label={g.label[lang]}>
+                          <optgroup key={g.key} label={g.label[lang] ?? g.label.en}>
                             {g.items.map((sv) => (
                               <option key={sv.id} value={sv.id}>
-                                {sv.name[lang]}{servicePricesOn() ? ` · ${rupees(sv.price)}` : ""} · {sv.mins} {t.mins}
+                                {sv.name[lang] ?? sv.name.en}{servicePricesOn() ? ` · ${rupees(sv.price)}` : ""} · {sv.mins} {t.mins}
                               </option>
                             ))}
                           </optgroup>
@@ -1602,7 +1630,7 @@ export default function Home() {
                       <span>{t.notes}</span>
                       <input value={booking.notes} onChange={(e) => setBooking({ ...booking, notes: e.target.value })} />
                     </label>
-                    <p className="bag-information">Services are paid offline, at the salon. No online payment is needed to book.</p>
+                    <p className="bag-information">{trx(PAYTX.offline, lang)}</p>
                     {bookError && (
                       <p className="form-error" role="alert">
                         {bookError}
@@ -1634,7 +1662,7 @@ export default function Home() {
               </button>
               <div className="lang-switcher" style={{ marginTop: "1.5rem", display: "flex", flexWrap: "wrap", gap: "0.5rem" }}>
                 <span className="eyebrow" style={{ width: "100%" }}>{t.language}</span>
-                {(["en", "ta", "hi", "ml", "te"] as const).map((code) => (
+                {(["en", "ta", "hi", "ml", "te", "kn", "mr", "bn", "sa"] as const).map((code) => (
                   <button
                     key={code}
                     type="button"
@@ -1643,7 +1671,7 @@ export default function Home() {
                     onClick={() => setLang(code)}
                     aria-pressed={lang === code}
                   >
-                    {LANG_LABELS[code]}
+                    {NAV_LANG_NAMES[code]}
                   </button>
                 ))}
               </div>
@@ -1675,6 +1703,15 @@ export default function Home() {
                 te: article === 0
                   ? ["సూర్యుడు అస్తమించే ముందు ప్రపంచం మృదువుగా అనిపించే క్షణం ఉంది. చర్మం వెచ్చగా కనిపిస్తుంది. రంగు సమృద్ధంగా కనిపిస్తుంది.", "REVATHI HERBAL BEAUTY CARE వద్ద మేము వెతికే గ్లో: ఎక్లా సీరం చుక్క, బుగ్గ ఎముకలపై గోల్డెన్ హైలైటర్, వెల్వెట్ లిప్. సాధారణ అడుగులు, నెమ్మదిగా.", "కొన్ని రోజులు గడిచిపోతాయి. మరికొన్ని ప్రకాశిస్తాయి."]
                   : ["సెలూన్ రోజు ఒక విరామం. రోజు ప్రశాంతంగా ఉన్నప్పుడు ఫేషియల్‌తో ప్రారంభించి, జుట్టుకు వెళ్లి, సాయంత్రం ఉంటే మేకప్‌తో ముగించండి.", "మీకు ఏమి కావాలో చెప్పండి — ట్రీట్‌మెంట్ల క్రమాన్ని మేము ప్లాన్ చేస్తాము. కన్సల్టేషన్ ఉచితం.", "మీరు ఉన్నట్టుగా రండి. అత్యంత పాలిష్డ్ మీగా వెళ్లండి."],
+                kn: article === 0
+                  ? ["ಆರೋಗ್ಯಕರ ಚರ್ಮ ಸರಳ ದಿನಚರಿಯಿಂದ ಆರಂಭವಾಗುತ್ತದೆ: ಮೃದುವಾಗಿ ಸ್ವಚ್ಛಗೊಳಿಸಿ, ಪ್ರತಿದಿನ ಮಾಯಿಶ್ಚರೈಸ್ ಮಾಡಿ ಮತ್ತು ಬಿಸಿಲಿನಿಂದ ಚರ್ಮವನ್ನು ರಕ್ಷಿಸಿ.", "ಬೇವು, ಲೋಳೆಸರ, ಅರಿಶಿನ ಮತ್ತು ಶ್ರೀಗಂಧದಂತಹ ಗಿಡಮೂಲಿಕೆ ಪದಾರ್ಥಗಳನ್ನು ತಲೆಮಾರುಗಳಿಂದ ಚರ್ಮವನ್ನು ಶಮನಗೊಳಿಸಲು ಮತ್ತು ಪೋಷಿಸಲು ಬಳಸಲಾಗುತ್ತಿದೆ. ನಿಮ್ಮ ಚರ್ಮದ ಪ್ರಕಾರಕ್ಕೆ ಹೊಂದುವ ಉತ್ಪನ್ನಗಳನ್ನು ಆರಿಸಿ, ಹೊಸದನ್ನು ಬಳಸುವ ಮೊದಲು ಪ್ಯಾಚ್ ಟೆಸ್ಟ್ ಮಾಡಿ.", "ಪ್ರಮಾಣಕ್ಕಿಂತ ನಿರಂತರತೆ ಮುಖ್ಯ."]
+                  : ["ಗಿಡಮೂಲಿಕೆ ಸ್ಪಾ ಭೇಟಿ ನಿಮ್ಮ ದಿನದ ಒಂದು ಶಾಂತ ವಿರಾಮ. ನಮ್ಮ ಥೆರಪಿಸ್ಟ್ ನಿಮ್ಮ ಚರ್ಮ ಮತ್ತು ಕೂದಲಿನ ಅಗತ್ಯಗಳನ್ನು ಅರ್ಥಮಾಡಿಕೊಳ್ಳಲು ಸಮಾಲೋಚನೆಯಿಂದ ಆರಂಭಿಸುತ್ತೇವೆ.", "ಟ್ರೀಟ್‌ಮೆಂಟ್‌ಗಳಲ್ಲಿ ನಮ್ಮದೇ ಶ್ರೇಣಿಯ ಗಿಡಮೂಲಿಕೆ ಎಣ್ಣೆಗಳು, ಪ್ಯಾಕ್‌ಗಳು ಮತ್ತು ಉತ್ಪನ್ನಗಳನ್ನು ಬಳಸಲಾಗುತ್ತದೆ; ಆತುರವೆನಿಸದ ಕ್ರಮದಲ್ಲಿ ಯೋಜಿಸಲಾಗಿದೆ.", "ವಿಶ್ರಾಂತರಾಗಿ ಬನ್ನಿ. ಉಲ್ಲಾಸದಿಂದ ಹೋಗಿ."],
+                mr: article === 0
+                  ? ["निरोगी त्वचेची सुरुवात साध्या दिनक्रमाने होते: हळुवारपणे स्वच्छ करा, दररोज मॉइश्चरायझ करा आणि उन्हापासून त्वचेचे रक्षण करा.", "कडुनिंब, कोरफड, हळद आणि चंदन यांसारखे हर्बल घटक पिढ्यानपिढ्या त्वचेला शांत करण्यासाठी आणि पोषण देण्यासाठी वापरले जात आहेत. तुमच्या त्वचेच्या प्रकाराला योग्य उत्पादने निवडा आणि कोणतेही नवे उत्पादन वापरण्यापूर्वी पॅच टेस्ट करा.", "प्रमाणापेक्षा सातत्य महत्त्वाचे."]
+                  : ["हर्बल स्पा भेट म्हणजे तुमच्या दिवसातील एक शांत विश्रांती. आमच्या थेरपिस्टला तुमच्या त्वचा आणि केसांच्या गरजा समजाव्यात म्हणून आम्ही सल्लामसलतीने सुरुवात करतो.", "ट्रीटमेंटमध्ये आमच्याच श्रेणीतील हर्बल तेले, पॅक आणि उत्पादने वापरली जातात, घाई वाटणार नाही अशा क्रमाने आखलेली.", "निवांत या. ताजेतवाने होऊन जा."],
+                bn: article === 0
+                  ? ["সুস্থ ত্বকের শুরু একটি সহজ রুটিনে: আলতো করে পরিষ্কার করুন, প্রতিদিন ময়শ্চারাইজ করুন আর রোদ থেকে ত্বক বাঁচান।", "নিম, অ্যালোভেরা, হলুদ ও চন্দনের মতো ভেষজ উপাদান বহু প্রজন্ম ধরে ত্বক শান্ত করতে ও পুষ্টি দিতে ব্যবহৃত হয়ে আসছে। আপনার ত্বকের ধরনের সঙ্গে মানানসই পণ্য বেছে নিন এবং নতুন কিছু ব্যবহারের আগে প্যাচ টেস্ট করুন।", "পরিমাণের চেয়ে নিয়মিততা বেশি জরুরি।"]
+                  : ["হার্বাল স্পা-তে যাওয়া মানে আপনার দিনের একটি শান্ত বিরতি। আমাদের থেরাপিস্ট যাতে আপনার ত্বক ও চুলের প্রয়োজন বুঝতে পারেন, তাই আমরা পরামর্শ দিয়ে শুরু করি।", "ট্রিটমেন্টে আমাদের নিজস্ব রেঞ্জের ভেষজ তেল, প্যাক ও পণ্য ব্যবহার করা হয়, এমন ক্রমে সাজানো যাতে তাড়াহুড়ো মনে না হয়।", "নিশ্চিন্তে আসুন। তরতাজা হয়ে ফিরুন।"],
               }, lang)).map((p) => (
                 <p key={p}>{p}</p>
               ))}
@@ -1696,6 +1733,10 @@ export default function Home() {
                       hi: "स्किनकेयर और मेकअप को सीधी धूप और गर्मी से दूर रखें, ढक्कन कसकर बंद करें। जार के लिए साफ हाथ या स्पैचुला उपयोग करें। ठंडी, सूखी जगह पर रखें।",
                       ml: "സ്കിൻകെയറും മേക്കപ്പും നേരിട്ടുള്ള സൂര്യപ്രകാശത്തിൽ നിന്നും ചൂടിൽ നിന്നും അകറ്റി, ക്യാപ്പുകൾ ദൃഢമായി അടച്ച് വയ്ക്കുക. ജാറുകൾക്ക് വൃത്തിയുള്ള കൈകളോ സ്പാറ്റുലയോ ഉപയോഗിക്കുക. തണുത്ത, ഉണങ്ങിയ സ്ഥലത്ത് സൂക്ഷിക്കുക.",
                       te: "స్కిన్‌కేర్ మరియు మేకప్‌ను నేరుగా సూర్యకాంతి మరియు వేడి నుండి దూరంగా ఉంచి, క్యాప్‌లను గట్టిగా మూసివేయండి. జార్‌లకు శుభ్రమైన చేతులు లేదా స్పాచులా ఉపయోగించండి. చల్లని, పొడి ప్రదేశంలో నిల్వ చేయండి.",
+                      kn: "ಸ್ಕಿನ್‌ಕೇರ್ ಮತ್ತು ಮೇಕಪ್ ಉತ್ಪನ್ನಗಳನ್ನು ನೇರ ಬಿಸಿಲು ಮತ್ತು ಶಾಖದಿಂದ ದೂರವಿಡಿ, ಮುಚ್ಚಳಗಳನ್ನು ಬಿಗಿಯಾಗಿ ಮುಚ್ಚಿ. ಜಾರ್‌ಗಳಿಗೆ ಸ್ವಚ್ಛ ಕೈ ಅಥವಾ ಸ್ವಚ್ಛ ಸ್ಪ್ಯಾಟುಲಾ ಬಳಸಿ, ಉತ್ಪನ್ನಗಳನ್ನು ತಂಪಾದ, ಒಣ ಸ್ಥಳದಲ್ಲಿ ಇಡಿ. ಶಿಫಾರಸು ಮಾಡಿದ ಬಳಕೆಯ ಅವಧಿಗಾಗಿ ಪ್ರತಿ ಉತ್ಪನ್ನದ ಲೇಬಲ್ ಪರಿಶೀಲಿಸಿ.",
+                      mr: "स्किनकेअर आणि मेकअप उत्पादने थेट ऊन आणि उष्णतेपासून दूर ठेवा, झाकणे घट्ट बंद करा. बरण्यांसाठी स्वच्छ हात किंवा स्वच्छ स्पॅटुला वापरा आणि उत्पादने थंड, कोरड्या जागी ठेवा. शिफारस केलेल्या वापर कालावधीसाठी प्रत्येक उत्पादनाचे लेबल तपासा.",
+                      bn: "স্কিনকেয়ার ও মেকআপ সরাসরি রোদ ও তাপ থেকে দূরে রাখুন, ঢাকনা শক্ত করে বন্ধ রাখুন। জারের জন্য পরিষ্কার হাত বা পরিষ্কার স্প্যাটুলা ব্যবহার করুন এবং পণ্য ঠান্ডা, শুকনো জায়গায় রাখুন। ব্যবহারের প্রস্তাবিত সময়সীমার জন্য প্রতিটি পণ্যের লেবেল দেখে নিন।",
+                      sa: "त्वक्-रक्षणं मुखाभरणं च प्रत्यक्ष-सूर्य-तापात् दूरं रक्षतु, पिधानी दृढं पिदधातु। कुप्याः कृते शुचि-हस्तं स्पैटुलां वा प्रयुङ्क्ताम्, शीते शुष्के च स्थाने निधेहि। प्रत्येकस्य उत्पादस्य लेबेले अनुशंसित-कालं पश्यतु।",
                     }, lang)
                   : trx({
                       en: "Your bag, appointments and language preference are saved only in this browser. Search is performed on this page. Clearing your browser's site data removes them.",
@@ -1703,6 +1744,10 @@ export default function Home() {
                       hi: "आपका बैग, अपॉइंटमेंट और भाषा वरीयता केवल इस ब्राउज़र में सेव होती है। खोज इसी पेज पर होती है। ब्राउज़र डेटा साफ़ करने पर वे हट जाती हैं।",
                       ml: "നിങ്ങളുടെ ബാഗ്, അപ്പോയിന്റ്മെന്റുകൾ, ഭാഷാ മുൻഗണന ഈ ബ്രൗസറിൽ മാത്രം സേവ് ചെയ്യപ്പെടും. തിരയൽ ഈ പേജിൽ നടക്കും. ബ്രൗസർ ഡാറ്റ മായ്ച്ചാൽ അവ നീക്കം ചെയ്യപ്പെടും.",
                       te: "మీ బ్యాగ్, అపాయింట్‌మెంట్లు మరియు భాషా ప్రాధాన్యత ఈ బ్రౌజర్‌లో మాత్రమే సేవ్ అవుతాయి. శోధన ఈ పేజీలో జరుగుతుంది. బ్రౌజర్ డేటా క్లియర్ చేస్తే అవి తొలగించబడతాయి.",
+                      kn: "ನಿಮ್ಮ ಬ್ಯಾಗ್, ಅಪಾಯಿಂಟ್‌ಮೆಂಟ್‌ಗಳು ಮತ್ತು ಭಾಷಾ ಆದ್ಯತೆ ಈ ಬ್ರೌಸರ್‌ನಲ್ಲಿ ಮಾತ್ರ ಉಳಿಸಲಾಗುತ್ತದೆ. ಹುಡುಕಾಟ ಈ ಪುಟದಲ್ಲೇ ನಡೆಯುತ್ತದೆ. ನಿಮ್ಮ ಬ್ರೌಸರ್‌ನ ಸೈಟ್ ಡೇಟಾ ಅಳಿಸಿದರೆ ಇವು ತೆಗೆದುಹೋಗುತ್ತವೆ.",
+                      mr: "तुमची बॅग, अपॉइंटमेंट आणि भाषेची निवड फक्त या ब्राउझरमध्ये जतन केली जाते. शोध याच पेजवर होतो. ब्राउझरचा साइट डेटा साफ केल्यास ते काढून टाकले जातात.",
+                      bn: "আপনার ব্যাগ, অ্যাপয়েন্টমেন্ট ও ভাষার পছন্দ শুধু এই ব্রাউজারে সংরক্ষিত থাকে। সার্চ এই পেজেই হয়। ব্রাউজারের সাইট ডেটা মুছলে এগুলো মুছে যায়।",
+                      sa: "तव क्रयपेटिका, नियुक्तयः भाषा-इच्छा च अस्मिन् एव ब्राउजर् मध्ये रक्षिताः। अन्वेषणम् अस्मिन् पृष्ठे एव। ब्राउजर्-दत्तानि शुद्धे सति तानि नश्यन्ति।",
                     }, lang)}
               </p>
               {article === 1 && (
@@ -1710,10 +1755,10 @@ export default function Home() {
                   className="pill dark"
                   onClick={() => {
                     update(() => ({}));
-                    setToast(trx({ en: "Your bag has been cleared.", ta: "உங்கள் பை காலி செய்யப்பட்டது.", hi: "आपका बैग खाली कर दिया गया।", ml: "നിങ്ങളുടെ ബാഗ് ക്ലിയർ ചെയ്തു.", te: "మీ బ్యాగ్ క్లియర్ చేయబడింది." }, lang));
+                    setToast(trx({ en: "Your bag has been cleared.", ta: "உங்கள் பை காலி செய்யப்பட்டது.", hi: "आपका बैग खाली कर दिया गया।", ml: "നിങ്ങളുടെ ബാഗ് ക്ലിയർ ചെയ്തു.", te: "మీ బ్యాగ్ క్లియర్ చేయబడింది.", kn: "ನಿಮ್ಮ ಬ್ಯಾಗ್ ಖಾಲಿ ಮಾಡಲಾಗಿದೆ.", mr: "तुमची बॅग रिकामी केली आहे.", bn: "আপনার ব্যাগ খালি করা হয়েছে।", sa: "तव क्रयपेटिका रिक्ता कृता।" }, lang));
                   }}
                 >
-                  {trx({ en: "Clear my bag", ta: "பையை காலி செய்", hi: "बैग खाली करें", ml: "ബാഗ് ക്ലിയർ ചെയ്യുക", te: "బ్యాగ్ క్లియర్ చేయండి" }, lang)}
+                  {trx({ en: "Clear my bag", ta: "பையை காலி செய்", hi: "बैग खाली करें", ml: "ബാഗ് ക്ലിയർ ചെയ്യുക", te: "బ్యాగ్ క్లియర్ చేయండి", kn: "ಬ್ಯಾಗ್ ಖಾಲಿ ಮಾಡಿ", mr: "बॅग रिकामी करा", bn: "ব্যাগ খালি করুন", sa: "क्रयपेटिकां रिक्तां कुरु" }, lang)}
                   <X size={16} />
                 </button>
               )}

@@ -14,12 +14,12 @@ export default function Confirmation({ order, onShop }: { order: Order; onShop: 
     <section className="relative mx-auto max-w-4xl overflow-hidden px-5 py-14 text-center sm:px-8">
       {Array.from({ length: 16 }).map((_, i) => <span key={i} className="spark" style={{ left: `${6 + i * 6}%`, top: '30%', animationDelay: `${(i % 6) * 0.45}s` }} />)}
       <Steps at={3} />
-      <svg viewBox="0 0 52 52" className="mx-auto h-24 w-24"><circle cx="26" cy="26" r="24" fill="none" stroke="#b8975a" strokeWidth="1.5" /><path className="draw" pathLength={100} d="M15 27l8 8 14-17" fill="none" stroke="#b8975a" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
+      <svg viewBox="0 0 52 52" className="mx-auto h-24 w-24"><circle cx="26" cy="26" r="24" fill="none" stroke="#94a565" strokeWidth="1.5" /><path className="draw" pathLength={100} d="M15 27l8 8 14-17" fill="none" stroke="#94a565" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
       <h1 className="animate-rise mt-6 font-serif text-6xl sm:text-7xl">{ck('Merci,', lang)} <span className="gold-text italic">{a.name.split(' ')[0]}</span></h1>
       <p className="mt-4 text-stone-600">{receiptLabel(a.email, lang)}</p>
 
       <div className="mt-10 grid gap-px overflow-hidden rounded-3xl bg-stone-200 text-left text-sm sm:grid-cols-4">
-        {[['Order number', order.id], ['Placed on', fmtOrderDate(order.date, lang)], ['Payment', ck(order.pay, lang)], ['Arrives by', fmtOrderDate(order.eta, lang)]].map(([k, v]) => <div key={k} className="bg-white p-5"><p className="text-xs uppercase tracking-widest text-stone-500">{ck(k, lang)}</p><p className="mt-1 font-medium">{v}</p></div>)}
+        {[['Order number', order.id], ['Placed on', fmtOrderDate(order.date, lang)], ['Payment', ck(order.pay, lang)], ['Arrives by', fmtOrderDate(order.eta, lang)]].map(([k, v]) => <div key={k} className="bg-paper p-5"><p className="text-xs uppercase tracking-widest text-stone-500">{ck(k, lang)}</p><p className="mt-1 font-medium">{v}</p></div>)}
       </div>
 
       <div className="mt-6 grid gap-6 rounded-3xl bg-night p-7 text-left text-stone-200 md:grid-cols-[1fr_260px]">
