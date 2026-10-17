@@ -24,17 +24,24 @@ export function orderLink(o) {
   return `${base}#/orders/${encodeURIComponent(o.id)}`;
 }
 
-/** Where the public order page lives. Set VITE_PUBLIC_URL (e.g. https://yourshop.com) in .env for the live site;
- *  otherwise the address the admin is opened on is used. A "localhost" address only works on this computer. */
+/** PUT YOUR LIVE WEBSITE ADDRESS HERE (no slash at the end), e.g. 'https://revathiherbal.com'.
+ *  Every order QR will open this address, so ANY phone on ANY network can scan it and see the order. */
+export const LIVE_URL = 'https://revathi-beauty-product-tau.vercel.app/';
+
+const isLocalUrl = (u) => /^https?:\/\/(localhost|127\.|0\.0\.0\.0|10\.|192\.168\.|172\.(1[6-9]|2\d|3[01])\.)/i.test(u);
+
+/** Address the QR points to. Order of use: LIVE_URL, then VITE_PUBLIC_URL (.env), then a saved address,
+ *  then the address the admin is open on (works only on the same WiFi when it is localhost / 192.168.x.x). */
 export function publicBase() {
   let env = '';
   try { env = (import.meta.env && import.meta.env.VITE_PUBLIC_URL) || ''; } catch { /* no env */ }
   let saved = '';
   try { saved = localStorage.getItem('rhbc:public-url') || ''; } catch { /* no storage */ }
-  const b = (env || saved || (typeof window !== 'undefined' ? window.location.origin : '')).trim();
+  const here = typeof window !== 'undefined' ? window.location.origin : '';
+  const b = (LIVE_URL || env || saved || here).trim();
   return b.replace(/\/+$/, '');
 }
-export const isLocalBase = () => /^https?:\/\/(localhost|127\.|0\.0\.0\.0)/i.test(publicBase());
+export const isLocalBase = () => isLocalUrl(publicBase());
 
 const b64 = (str) => btoa(unescape(encodeURIComponent(str))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
 const unb64 = (x) => decodeURIComponent(escape(atob(x.replace(/-/g, '+').replace(/_/g, '/'))));
