@@ -63,7 +63,8 @@ const D: Record<string, Row> = {
 
 
 // Kannada / Marathi / Bengali for the login texts.
-const EXTRA: Record<string, Partial<Record<'kn' | 'mr' | 'bn', string>>> = {
+
+  const EXTRA: Record<string, Partial<Record<'kn' | 'mr' | 'bn' | 'sa', string>>> = {
   'Login to continue': {  kn: 'ಮುಂದುವರಿಸಲು ಲಾಗಿನ್ ಮಾಡಿ', mr: 'सुरू ठेवण्यासाठी लॉगिन करा', bn: 'চালিয়ে যেতে লগইন করুন', sa: 'अनुवर्तयितुं प्रवेशं कुरुत' },
   'Send OTP': {  kn: 'OTP ಕಳುಹಿಸಿ', mr: 'OTP पाठवा', bn: 'OTP পাঠান', sa: 'OTP प्रेषयतु' },
   'Verify & continue': {  kn: 'ಪರಿಶೀಲಿಸಿ & ಮುಂದುವರಿಸಿ', mr: 'सत्यापित करा आणि सुरू ठेवा', bn: 'যাচাই করুন এবং চালিয়ে যান', sa: 'Verify & continue' },

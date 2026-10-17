@@ -39,11 +39,11 @@ export const CAT_BLURB: Record<string, Tr> = {
 
 export const CAT_NAME: Record<CategoryKey, Tr> = {
   face: { en: 'face', ta: 'முகம்', hi: 'चेहरा', ml: 'മുഖം', te: 'ముఖం' , kn: 'ಮುಖ', mr: 'चेहरा', bn: 'মুখ', sa: 'मुखम्'},
-  sa: "मुखम् — दैनिक-मार्जनात् SPF यावत् चिकित्सा-सीरम्, नेत्र-रक्षणं ओष्ठ-वर्णं च यावत् पूर्णं मुख-सम्पादनम्।",
+  
   'wellness products': { en: 'wellness products', ta: 'ஆரோக்கிய பொருட்கள்', hi: 'वेलनेस प्रोडक्ट्स', ml: 'വെൽനെസ് ഉൽപ്പന്നങ്ങൾ', te: 'వెల్నెస్ ఉత్పత్తులు' , kn: 'ವೆಲ್‌ನೆಸ್ ಉತ್ಪನ್ನಗಳು', mr: 'वेलनेस उत्पादने', bn: 'ওয়েলনেস পণ্য', sa: 'स्वास्थ्य-उत्पादाः'},
-  sa: "स्वास्थ्य-उत्पादाः",
+ 
   body: { en: 'body', ta: 'உடல்', hi: 'शरीर', ml: 'ശരീരം', te: 'శరీరం' , kn: 'ದೇಹ', mr: 'शरीर', bn: 'শরীর', sa: 'शरीरम्'},
-  sa: "शरीरम् — स्नान-एक्स्फोलियेशनतः आर्द्रीकरणं, हस्त-पाद-रक्षणं, दुर्गन्ध-नाशकं स्नानं च यावत् पूर्णं शरीर-रक्षणम्।",
+  
 }
 
 export const SHOP_BTN: Record<Lang, (n: string) => string> = {
@@ -96,7 +96,6 @@ export const SUB: Record<string, Tr> = {
   "mr": "सर्व",
   "bn": "সব",
   "sa": "सर्वम्",
-  sa: "सर्वम्"
 },
  "Cleansers": {
   "ta": "முகம் சுத்திகரிப்பு",
@@ -519,7 +518,6 @@ export const BADGE: Record<string, Tr> = {
   "mr": "बेस्टसेलर",
   "bn": "বেস্টসেলার",
   "sa": "अधिकविक्रीतम्",
-  sa: "श्रेष्ठ-विक्रयम्"
 },
  "New": {
   "ta": "புதியது",
@@ -531,7 +529,6 @@ export const BADGE: Record<string, Tr> = {
   "mr": "नवीन",
   "bn": "নতুন",
   "sa": "नूतनम्",
-  sa: "नूतनम्"
 },
  "Low stock": {
   "ta": "குறைந்த இருப்பு",
@@ -1306,13 +1303,13 @@ export const MODAL: Record<string, Tr> = {
 }
 export const mt = (k: string, lang: Lang) => tr(MODAL[k], lang)
 const VIEWS: Record<string, Tr> = {
-  hint: { en: 'Move your cursor to rotate in 3D', ta: '3D-யில் சுழற்ற கர்சரை நகர்த்துங்கள்', hi: '3D में घुमाने के लिए कर्सर हिलाएँ', ml: '3D-യിൽ തിരിക്കാൻ കഴ്സർ നീക്കുക', te: '3Dలో తిప్పడానికి కర్సర్‌ను కదిలించండి' , kn: '3D ನಲ್ಲಿ ತಿರುಗಿಸಲು ಕರ್ಸರ್ ಅನ್ನು ಚಲಿಸಿ', mr: '3D मध्ये फिरवण्यासाठी कर्सर हलवा', bn: '3D-তে ঘোরাতে কার্সর সরান'},
-  sa: "Move your cursor to rotate in 3D",
-  front: { en: 'front view', ta: 'முன் காட்சி', hi: 'सामने का दृश्य', ml: 'മുൻ കാഴ്ച', te: 'ముందు వ్యూ' , kn: 'ಮುಂಭಾಗದ ನೋಟ', mr: 'समोरचे दृश्य', bn: 'সামনের দৃশ্য'},
-  sa: "front view",
-  left: { en: 'left view', ta: 'இடது காட்சி', hi: 'बायाँ दृश्य', ml: 'ഇടത് കാഴ്ച', te: 'ఎడమ వ్యూ' , kn: 'ಎಡಭಾಗದ ನೋಟ', mr: 'डावे दृश्य', bn: 'বাম দৃশ্য'},
-  sa: "left view",
-  right: { en: 'right view', ta: 'வலது காட்சி', hi: 'दायाँ दृश्य', ml: 'വലത് കാഴ്ച', te: 'కుడి వ్యూ' , kn: 'ಬಲಭಾಗದ ನೋಟ', mr: 'उजवे दृश्य', bn: 'ডান দৃশ্য'},
-  sa: "right view",
+  hint: { en: 'Move your cursor to rotate in 3D', ta: '3D-யில் சுழற்ற கர்சரை நகர்த்துங்கள்', hi: '3D में घुमाने के लिए कर्सर हिलाएँ', ml: '3D-യിൽ തിരിക്കാൻ കഴ്സർ നീക്കുക', te: '3Dలో తిప్పడానికి కర్సర్‌ను కదిలించండి' , kn: '3D ನಲ್ಲಿ ತಿರುಗಿಸಲು ಕರ್ಸರ್ ಅನ್ನು ಚಲಿಸಿ', mr: '3D मध्ये फिरवण्यासाठी कर्सर हलवा', bn: '3D-তে ঘোরাতে কার্সর সরান',
+  sa: "Move your cursor to rotate in 3D"},
+  front: { en: 'front view', ta: 'முன் காட்சி', hi: 'सामने का दृश्य', ml: 'മുൻ കാഴ്ച', te: 'ముందు వ్యూ' , kn: 'ಮುಂಭಾಗದ ನೋಟ', mr: 'समोरचे दृश्य', bn: 'সামনের দৃশ্য',
+  sa: "front view"},
+  left: { en: 'left view', ta: 'இடது காட்சி', hi: 'बायाँ दृश्य', ml: 'ഇടത് കാഴ്ച', te: 'ఎడమ వ్యూ' , kn: 'ಎಡಭಾಗದ ನೋಟ', mr: 'डावे दृश्य', bn: 'বাম দৃশ্য',
+  sa: "left view"},
+  right: { en: 'right view', ta: 'வலது காட்சி', hi: 'दायाँ दृश्य', ml: 'വലത് കാഴ്ച', te: 'కుడి వ్యూ' , kn: 'ಬಲಭಾಗದ ನೋಟ', mr: 'उजवे दृश्य', bn: 'ডান দৃশ্য',
+  sa: "right view"},
 }
 export const viewLabel = (v: string, lang: Lang) => tr(VIEWS[v === 'live' ? 'hint' : v], lang)

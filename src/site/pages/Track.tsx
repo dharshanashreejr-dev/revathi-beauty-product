@@ -70,7 +70,7 @@ function Hero({ pr, onFind, err }: { pr: Profile; onFind: (q: string) => void; e
         </div>
       </div>
       <div className="order-1 md:order-2 relative h-[40svh] md:h-full md:absolute md:right-0 md:top-0 md:bottom-0 md:w-1/2 -mt-28 md:mt-0">
-        <img src="/assets/hero/track-hero.webp" alt="" className="absolute inset-0 h-full w-full object-cover" fetchpriority="high" />
+        <img src="/assets/hero/track-hero.webp" alt="" className="absolute inset-0 h-full w-full object-cover" fetchPriority="high" />
       </div>
     </section>
   )
