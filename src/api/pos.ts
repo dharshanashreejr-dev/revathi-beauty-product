@@ -1,6 +1,6 @@
 // POS billing + GST invoices (Phase 5).
 // BACKEND: POST /api/invoices creates the row + stock movement + audit entry in one transaction;
-//          payment verification for UPI/Card via Razorpay; short-link is a signed URL to a hosted bill page.
+//          payment verification for Card via Razorpay; short-link is a signed URL to a hosted bill page.
 import { KEYS, read, write, uid } from './storage'
 import { gstSplit } from './pricing'
 import { adjustStock, stockOverride } from './stock'
@@ -10,7 +10,7 @@ import { log as auditLog } from './audit'
 /** Standard GST rate for cosmetics & salon services in India (inclusive pricing). */
 export const GST_RATE = 18
 
-export type PayMethod = 'Cash' | 'UPI' | 'Card' | 'Razorpay'
+export type PayMethod = 'Cash' | 'Card' | 'Razorpay'
 export type LineKind = 'product' | 'service' | 'custom' // custom = item typed in at the counter (no stock, not in the catalogue)
 
 export interface PosLine {
@@ -61,7 +61,7 @@ const seed: Invoice[] = [
       { kind: 'product', id: 'p1', sku: 'RH-F-001', name: 'Rose Petal Radiance Serum', qty: 1, unitPrice: 2450, gstRate: 18 },
       { kind: 'service', id: 'svc-facial', sku: 'SVC', name: 'Normal Facial', qty: 1, unitPrice: 2200, gstRate: 18 },
     ],
-    payment: 'UPI',
+    payment: 'Razorpay',
     taxable: 3940.68,
     cgst: 354.66,
     sgst: 354.66,

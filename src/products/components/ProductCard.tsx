@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import type { Colour, Product } from '../types';
 import { useLang, trx } from '../../shared/i18n';
-import { StockLine, OutLine } from './StockNotice';
+import { StockLine, OutStamp } from './StockNotice';
 import { badge as badgeL, colour as colL, ui, offLabel } from '../i18n';
 import { discount, formatPrice } from '../data/products';
 import ProductArt from './ProductArt';
@@ -35,7 +35,7 @@ const SELLING_FAST = {
   sa: 'शीघ्रं विक्रीयते',
 };
 
-/** Product card: white = normal, yellow = selling fast (low stock), red diagonal line = out of stock. */
+/** Product card: white = normal, yellow = selling fast (low stock), red rubber stamp = out of stock. */
 export default function ProductCard({ product, index, onOpen, onQuick }: Props) {
   const [colour, setColour] = useState<Colour>(product.colours[0]);
   const [liked, setLiked] = useState(false);
@@ -55,7 +55,7 @@ export default function ProductCard({ product, index, onOpen, onQuick }: Props) 
         onClick={() => onOpen(product, colour)}
         className={`group relative flex h-full cursor-pointer flex-col overflow-hidden rounded-xl border p-3 transition duration-300 hover:bg-white/10 ${tone}`}
       >
-        {out && <OutLine />}
+        {out && <OutStamp />}
 
         <div className={`flex h-full flex-col ${out ? 'opacity-60' : ''}`}>
           {/* image */}

@@ -29,7 +29,7 @@ const seed: AuditEntry[] = [
   { id: 'aud-seed-1', at: '2026-10-09T09:12:00.000Z', actor: 'Ananya Iyer', role: 'Admin', action: 'auth.login', summary: 'Admin signed in' },
   { id: 'aud-seed-2', at: '2026-10-09T09:45:00.000Z', actor: 'Ananya Iyer', role: 'Admin', action: 'stock.adjusted', summary: 'Restocked Botanical Repair Hair Mask to 28 units', meta: { sku: 'MB-1003', next: 28 } },
   { id: 'aud-seed-3', at: '2026-10-08T16:20:00.000Z', actor: 'Meera Nair', role: 'Staff', action: 'order.status', summary: 'ORD-5004 marked as Delivered', meta: { orderId: 'ORD-5004' } },
-  { id: 'aud-seed-4', at: '2026-10-08T14:05:00.000Z', actor: 'Ananya Iyer', role: 'Admin', action: 'invoice.created', summary: 'POS invoice INV-9001 for ₹4,850 (UPI)', meta: { invoiceId: 'INV-9001', total: 4850 } },
+  { id: 'aud-seed-4', at: '2026-10-08T14:05:00.000Z', actor: 'Ananya Iyer', role: 'Admin', action: 'invoice.created', summary: 'POS invoice INV-9001 for ₹4,850 (Razorpay)', meta: { invoiceId: 'INV-9001', total: 4850 } },
   { id: 'aud-seed-5', at: '2026-10-07T11:30:00.000Z', actor: 'System', role: 'System', action: 'settings.changed', summary: 'Low-stock threshold set to 10' },
 ]
 

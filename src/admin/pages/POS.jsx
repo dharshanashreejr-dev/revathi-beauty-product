@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import {
-  Plus, Trash2, Receipt, Smartphone, CreditCard, Banknote, Printer, MessageSquare, ShoppingBag,
+  Plus, Trash2, Receipt, CreditCard, Banknote, Printer, MessageSquare, ShoppingBag,
   X, Inbox, CalendarDays, Check, Search, Camera, UserPlus, LayoutGrid
 } from 'lucide-react';
 import { useStore } from '../store.jsx';
@@ -17,7 +17,6 @@ import { useT } from '../i18n.js';
 
 const PAY_METHODS = [
   { id: 'Cash', icon: Banknote, label: 'Cash' },
-  { id: 'UPI', icon: Smartphone, label: 'UPI' },
   { id: 'Card', icon: CreditCard, label: 'Card' },
   { id: 'Razorpay', icon: CreditCard, label: 'Razorpay' },
 ];
@@ -163,7 +162,7 @@ export default function POS() {
   const [stateCode, setStateCode] = useState(DEFAULT_STATE);
   const [gstin, setGstin] = useState('');
   const [withGst, setWithGst] = useState(true);
-  const [pay, setPay] = useState('UPI');
+  const [pay, setPay] = useState('Cash');
   const [notes, setNotes] = useState('');
   const [scan, setScan] = useState('');
   const [pick, setPick] = useState(null); // { rid, field: 'name' }

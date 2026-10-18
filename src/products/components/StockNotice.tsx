@@ -37,11 +37,17 @@ export function OutCross() {
   );
 }
 
-/** One red diagonal line (top-right to bottom-left) across the whole product card when it is out of stock. */
-export function OutLine() {
+/** Rubber-stamp style "OUT OF STOCK" mark, tilted over the middle of the product card. */
+export function OutStamp() {
+  const [ui] = useUiLang();
   return (
-    <svg aria-hidden="true" viewBox="0 0 100 100" preserveAspectRatio="none" className="pointer-events-none absolute inset-0 z-20 h-full w-full">
-      <line x1="100" y1="0" x2="0" y2="100" stroke="#dc2626" strokeWidth="3" strokeLinecap="round" vectorEffect="non-scaling-stroke" opacity=".9" />
-    </svg>
+    <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-20 flex items-center justify-center">
+      <div
+        className="select-none whitespace-nowrap rounded-md border-[3px] border-double border-red-600 bg-white/40 px-4 py-1.5 text-center text-[clamp(14px,2.2vw,22px)] font-extrabold uppercase tracking-[0.18em] text-red-600 shadow-[inset_0_0_0_2px_rgba(220,38,38,0.15)]"
+        style={{ transform: 'rotate(-18deg)', opacity: 0.88, textShadow: '0 0 1px rgba(220,38,38,.6)', mixBlendMode: 'multiply' }}
+      >
+        {authT('Out of stock', ui)}
+      </div>
+    </div>
   );
 }
