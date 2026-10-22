@@ -810,7 +810,7 @@ export default function Home() {
         </defs>
       </svg>
       <a className="skip-link" href="#main">
-        {trx({ en: "Skip to content", ta: "உள்ளடக்கத்திற்குச் செல்", hi: "सामग्री पर जाएँ", ml: "ഉള്ളടക്കത്തിലേക്ക് പോകുക", te: "కంటెంట్‌కు వెళ్ళండి", kn: "ವಿಷಯಕ್ಕೆ ಹೋಗಿ", mr: "मजकुराकडे जा", bn: "মূল বিষয়ে যান" }, lang)}
+        {trx({ en: "Skip to content", ta: "உள்ளடக்கத்திற்குச் செல்", hi: "सामग्री पर जाएँ", ml: "ഉള്ളടക്കത്തിലേക്ക് പോകുക", te: "కంటెంట్‌కు వెళ్ళండి", kn: "ವಿಷಯಕ್ಕೆ ಹೋಗಿ", mr: "मजकुराकडे जा", bn: "মূল বিষয়ে যান", sa: "सामग्रीं प्रति गच्छतु" }, lang)}
       </a>
       <Cursor />
       {!introSeen && <div className="intro-curtain" aria-hidden="true">
@@ -835,7 +835,7 @@ export default function Home() {
         </nav>
         <button
           className="mobile-menu icon-button"
-          aria-label={trx({ en: "Open menu", ta: "மெனுவைத் திற", hi: "मेनू खोलें", ml: "മെനു തുറക്കുക", te: "మెనూ తెరవండి", kn: "ಮೆನು ತೆರೆಯಿರಿ", mr: "मेनू उघडा", bn: "মেনু খুলুন" }, lang)}
+          aria-label={trx({ en: "Open menu", ta: "மெனுவைத் திற", hi: "मेनू खोलें", ml: "മെനു തുറക്കുക", te: "మెనూ తెరవండి", kn: "ಮೆನು ತೆರೆಯಿರಿ", mr: "मेनू उघडा", bn: "মেনু খুলুন", sa: "सूचीम् उद्घाटयतु" }, lang)}
           onClick={() => setPanel("menu")}
         >
           <Menu size={22} />
@@ -851,6 +851,7 @@ export default function Home() {
         >
           <Brand compact lang={lang} />
         </a>
+        <div className="nav-rightwrap">
         <nav className="nav-right" aria-label={NL.SitePages}>
           <SitePillNav label={NL.SitePages} items={[{ key: "About", label: NL.About, href: SITE.about }, { key: "Tracking", label: NL.Tracking, href: SITE.tracking }, { key: "Reviews", label: reviewsLabel, href: SITE.reviews }]} />
         </nav>
@@ -881,7 +882,7 @@ export default function Home() {
           <button
             className="icon-button"
             onClick={() => setPanel("search")}
-            aria-label={trx({ en: "Search", ta: "தேடு", hi: "खोजें", ml: "തിരയുക", te: "వెతకండి", kn: "ಹುಡುಕಿ", mr: "शोधा", bn: "খুঁজুন" }, lang)}
+            aria-label={trx({ en: "Search", ta: "தேடு", hi: "खोजें", ml: "തിരയുക", te: "వెతకండి", kn: "ಹುಡುಕಿ", mr: "शोधा", bn: "খুঁজুন", sa: "अन्विष्यताम्" }, lang)}
           >
             <Search size={21} />
           </button>
@@ -901,6 +902,7 @@ export default function Home() {
               <span className="nav-profile-name">{authT("Login", lang as never)}</span>
             </button>
           )}
+        </div>
         </div>
       </header>
       <main id="main">
@@ -1183,7 +1185,7 @@ export default function Home() {
           <button
             className="modal-close icon-button"
             onClick={() => setPanel(null)}
-            aria-label={trx({ en: "Close", ta: "மூடு", hi: "बंद करें", ml: "അടയ്ക്കുക", te: "మూసివేయండి", kn: "ಮುಚ್ಚಿ", mr: "बंद करा", bn: "বন্ধ করুন" }, lang)}
+            aria-label={trx({ en: "Close", ta: "மூடு", hi: "बंद करें", ml: "അടയ്ക്കുക", te: "మూసివేయండి", kn: "ಮುಚ್ಚಿ", mr: "बंद करा", bn: "বন্ধ করুন", sa: "पिधत्ताम्" }, lang)}
           >
             <X size={24} />
           </button>
@@ -1265,9 +1267,9 @@ export default function Home() {
               </div>
               <div className="product-modal-copy">
                 <span className="eyebrow">{catLabel(product.cat)}</span>
-                <h2>{product.name[lang] ?? product.name.en}</h2>
+                <h2>{SHADES[product.id]?.[shade]?.title?.[lang] ?? product.name[lang] ?? product.name.en}</h2>
                 <p className="product-scent">{SHADES[product.id]?.[shade]?.sub?.[lang] ?? product.sub[lang]}</p>
-                <p>{product.copy[lang]}</p>
+                <p>{SHADES[product.id]?.[shade]?.copy?.[lang] ?? product.copy[lang]}</p>
                 <p className="product-price">{rupees(product.price)}</p>
                 {(SHADES[product.id]?.length ?? 0) > 1 && (
                   <div className="modal-moods modal-moods-inline" role="radiogroup" aria-label={trx(PAYTX.colour, lang)} onClick={(e) => e.stopPropagation()}>

@@ -178,8 +178,8 @@ export default function Booking() {
             <h3 className="h text-2xl">{t(svc.name)}</h3><p className="opacity-70">{t(svc.category)} · {mins(svc.duration)}</p>
             <div className="border-t border-sand/20 pt-3 space-y-2">
               {[['Place', f.mode === 'home' ? t('Home visit') : t('Parlour')], ['Date', f.date ? fmtDate(f.date, lang) : '—'], ['Time', f.time || '—'], ['Specialist', f.specialist === 'auto' ? (free.slice(0, f.guests).map((m) => m.name).join(', ') || t('Auto')) : f.specialist], ['Guests', f.guests], ['Reminders', f.remind ? f.channel : t('Off')]].map(([a, b]) => <p key={a} className="flex justify-between gap-4"><span>{t(a as string)}</span><span className="text-right">{b}</span></p>)}</div>
+            <div className="border-t border-sand/20 pt-3"><FlashBanner dark left={flashOffer.left} pct={flashOffer.pct} text={authT('Book within this time and avail a {pct}% coupon', ui)} endedText={authT('The quick-book offer has ended', ui)} /></div>
             {servicePricesVisible() ? <div className="border-t border-sand/20 pt-3 space-y-2">
-              <FlashBanner dark left={flashOffer.left} pct={flashOffer.pct} text={authT('Book within this time and get {pct}% off', ui)} endedText={authT('The quick-book offer has ended', ui)} />
               {(discount > 0 || flash > 0) && <p className="flex justify-between"><span>{t('Subtotal')}</span><span>{money(base)}</span></p>}
               {discount > 0 && <p className="flex justify-between text-emerald-300"><span>{authT('Coupon discount', ui)}</span><span>−{money(discount)}</span></p>}
               {flash > 0 && <p className="flex justify-between text-emerald-300"><span>{authT('Quick-book offer', ui)}</span><span>−{money(flash)}</span></p>}

@@ -29,10 +29,10 @@ export const flashAmount = (amount: number, active: boolean, pct = FLASH_PCT) =>
 
 export function FlashBanner({ left, pct = FLASH_PCT, text, endedText, dark = false }: { left: number; pct?: number; text: string; endedText: string; dark?: boolean }) {
   const m = Math.floor(left / 60), s = left % 60
-  const ink = dark ? '#f5f2fd' : '#4c1d92'
+  const ink = dark ? '#f3e1b0' : '#7a5a1c'
   const digit = { fontSize: 26, fontWeight: 600, textColor: ink, minDigits: 2, intro: false, duration: 0.5, stagger: 0.02, fade: 0.2 } as const
   return (
-    <div role="status" aria-live="off" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 14, flexWrap: 'wrap', padding: '12px 16px', borderRadius: 14, border: `1px solid ${dark ? 'rgba(245,242,253,.3)' : '#ddd2fb'}`, background: dark ? 'rgba(173,135,233,.14)' : '#f5f2fd', color: ink, opacity: left > 0 ? 1 : 0.65 }}>
+    <div role="status" aria-live="off" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 14, flexWrap: 'wrap', padding: '12px 16px', borderRadius: 14, border: `1px solid ${dark ? 'rgba(201,163,91,.65)' : '#c9a35b'}`, background: dark ? 'rgba(201,163,91,.14)' : '#f9f0d9', color: ink, opacity: left > 0 ? 1 : 0.65 }}>
       <span style={{ fontSize: 13, lineHeight: 1.4, flex: '1 1 180px' }}>{left > 0 ? text.replace('{pct}', String(pct)) : endedText}</span>
       <span aria-label={`${m}:${String(s).padStart(2, '0')}`} style={{ display: 'inline-flex', alignItems: 'baseline', gap: 2, fontVariantNumeric: 'tabular-nums' }}>
         <Counter value={m} {...digit} /><span style={{ fontSize: 22, fontWeight: 600 }}>:</span><Counter value={s} {...digit} />

@@ -6,6 +6,9 @@ import { mountLogin } from '../shared/LoginModal'
 import { mountButtonSparks } from '../shared/ButtonSparks';
 import './index.css';
 import '../shared/light-theme.css';
+import '../shared/navbar-final.css'
+import './products-premium.css'
+
 import '../shared/spotlight'
 import '../shared/blendWhite';
 

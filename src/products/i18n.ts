@@ -116,7 +116,8 @@ export const SUB: Record<string, Tr> = {
   "en": "Toners & Essences",
   "kn": "ಟೋನರ್‌ಗಳು & ಎಸೆನ್ಸ್‌ಗಳು",
   "mr": "टोनर आणि एसेंस",
-  "bn": "টোনার ও এসেন্স"
+  "bn": "টোনার ও এসেন্স",
+  "sa": "टोनर्-सारौ"
 },
  "Serums": {
   "ta": "சீரம்",
@@ -159,7 +160,8 @@ export const SUB: Record<string, Tr> = {
   "en": "Exfoliators",
   "kn": "ಎಕ್ಸ್‌ಫೋಲಿಯೇಟರ್‌ಗಳು",
   "mr": "एक्सफोलिएटर्स",
-  "bn": "এক্সফোলিয়েটর"
+  "bn": "এক্সফোলিয়েটর",
+  "sa": "मृत-त्वक्-अपनायकाः"
 },
  "Masks": {
   "ta": "மாஸ்க்",
@@ -214,7 +216,8 @@ export const SUB: Record<string, Tr> = {
   "kn": "ಮುಖದ ಕಲೆಗಳ ಆರೈಕೆ",
   "mr": "अ‍ॅक्ने केअर",
   "bn": "ব্রণের যত্ন",
-  sa: "मुखाङ्क-रक्षणम्"
+  sa: "मुखाङ्क-रक्षणम्",
+  "sa": "व्रण-रक्षणम्"
 },
  "Primer": {
   "ta": "ப்ரைமர்",
@@ -224,7 +227,8 @@ export const SUB: Record<string, Tr> = {
   "en": "Primer",
   "kn": "ಪ್ರೈಮರ್",
   "mr": "प्राइमर",
-  "bn": "প্রাইমার"
+  "bn": "প্রাইমার",
+  "sa": "आधार-तैलम्"
 },
  "Foundation": {
   "ta": "ஃபவுண்டேஷன்",
@@ -234,7 +238,8 @@ export const SUB: Record<string, Tr> = {
   "en": "Foundation",
   "kn": "ಫೌಂಡೇಶನ್",
   "mr": "फाउंडेशन",
-  "bn": "ফাউন্ডেশন"
+  "bn": "ফাউন্ডেশন",
+  "sa": "आधार-लेपः"
 },
  "Concealer": {
   "ta": "கன்சீலர்",
@@ -244,7 +249,8 @@ export const SUB: Record<string, Tr> = {
   "en": "Concealer",
   "kn": "ಕನ್ಸೀಲರ್",
   "mr": "कंसीलर",
-  "bn": "কনসিলার"
+  "bn": "কনসিলার",
+  "sa": "आच्छादकम्"
 },
  "Blush": {
   "ta": "ப்ளஷ்",
@@ -254,7 +260,8 @@ export const SUB: Record<string, Tr> = {
   "en": "Blush",
   "kn": "ಬ್ಲಶ್",
   "mr": "ब्लश",
-  "bn": "ব্লাশ"
+  "bn": "ব্লাশ",
+  "sa": "गण्ड-रञ्जकम्"
 },
  "Bronzer": {
   "ta": "ப்ரோன்சர்",
@@ -264,7 +271,8 @@ export const SUB: Record<string, Tr> = {
   "en": "Bronzer",
   "kn": "ಬ್ರಾನ್ಜರ್",
   "mr": "ब्रॉन्झर",
-  "bn": "ব্রোঞ্জার"
+  "bn": "ব্রোঞ্জার",
+  "sa": "ताम्र-रञ्जकम्"
 },
  "Highlighter": {
   "ta": "ஹைலைட்டர்",
@@ -274,7 +282,8 @@ export const SUB: Record<string, Tr> = {
   "en": "Highlighter",
   "kn": "ಹೈಲೈಟರ್",
   "mr": "हायलायटर",
-  "bn": "হাইলাইটার"
+  "bn": "হাইলাইটার",
+  "sa": "प्रकाशकम्"
 },
  "Mascara": {
   "ta": "மஸ்காரா",
@@ -295,7 +304,8 @@ export const SUB: Record<string, Tr> = {
   "en": "Eyeliner",
   "kn": "ಐಲೈನರ್",
   "mr": "आयलाइनर",
-  "bn": "আইলাইনার"
+  "bn": "আইলাইনার",
+  "sa": "नेत्र-रेखकम्"
 },
  "Lipstick": {
   "ta": "லிப்ஸ்டிக்",
@@ -327,7 +337,8 @@ export const SUB: Record<string, Tr> = {
   "en": "Setting Spray",
   "kn": "ಸೆಟ್ಟಿಂಗ್ ಸ್ಪ್ರೇ",
   "mr": "सेटिंग स्प्रे",
-  "bn": "সেটিং স্প্রে"
+  "bn": "সেটিং স্প্রে",
+  "sa": "स्थापन-कुहरः"
 },
  "Aromatherapy": {
   "ta": "அரோமாதெரபி",
@@ -348,7 +359,8 @@ export const SUB: Record<string, Tr> = {
   "en": "Bath Rituals",
   "kn": "ಸ್ನಾನದ ಆಚರಣೆಗಳು",
   "mr": "स्नान विधी",
-  "bn": "স্নানের রীতি"
+  "bn": "স্নানের রীতি",
+  "sa": "स्नान-विधयः"
 },
  "Candles": {
   "ta": "மெழுகுவர்த்திகள்",
@@ -369,7 +381,8 @@ export const SUB: Record<string, Tr> = {
   "en": "Sleep & Relaxation",
   "kn": "ನಿದ್ರೆ & ವಿಶ್ರಾಂತಿ",
   "mr": "झोप आणि विश्रांती",
-  "bn": "ঘুম ও বিশ্রাম"
+  "bn": "ঘুম ও বিশ্রাম",
+  "sa": "निद्रा-विश्रामौ"
 },
  "Body Recovery": {
   "ta": "உடல் மீட்பு",
@@ -379,7 +392,8 @@ export const SUB: Record<string, Tr> = {
   "en": "Body Recovery",
   "kn": "ದೇಹ ಪುನಃಪ್ರಾಪ್ತಿ",
   "mr": "शरीर पुनर्प्राप्ती",
-  "bn": "শরীর পুনরুদ্ধার"
+  "bn": "শরীর পুনরুদ্ধার",
+  "sa": "शरीर-पुनरुद्धारः"
 },
  "Hydration": {
   "ta": "நீரேற்றம்",
@@ -389,7 +403,8 @@ export const SUB: Record<string, Tr> = {
   "en": "Hydration",
   "kn": "ಜಲಾಂಶ",
   "mr": "हायड्रेशन",
-  "bn": "হাইড্রেশন"
+  "bn": "হাইড্রেশন",
+  "sa": "जलयोजनम्"
 },
  "Mindfulness": {
   "ta": "நினைவாற்றல் பயிற்சி",
@@ -399,7 +414,8 @@ export const SUB: Record<string, Tr> = {
   "en": "Mindfulness",
   "kn": "ಮನಸ್ಸಿನ ಜಾಗೃತಿ",
   "mr": "माइंडफुलनेस",
-  "bn": "মাইন্ডফুলনেস"
+  "bn": "মাইন্ডফুলনেস",
+  "sa": "सजगता"
 },
  "Body Wash": {
   "ta": "பாடி வாஷ்",
@@ -420,7 +436,8 @@ export const SUB: Record<string, Tr> = {
   "en": "Lotions & Creams",
   "kn": "ಲೋಷನ್‌ಗಳು & ಕ್ರೀಮ್‌ಗಳು",
   "mr": "लोशन आणि क्रीम",
-  "bn": "লোশন ও ক্রিম"
+  "bn": "লোশন ও ক্রিম",
+  "sa": "लोशन-लेपाः"
 },
  "Body Oils": {
   "ta": "பாடி ஆயில்",
@@ -452,7 +469,8 @@ export const SUB: Record<string, Tr> = {
   "en": "Bath & Soaks",
   "kn": "ಸ್ನಾನ & ನೆನೆಸುವಿಕೆ",
   "mr": "स्नान आणि सोक",
-  "bn": "স্নান ও সোক"
+  "bn": "স্নান ও সোক",
+  "sa": "स्नान-निमज्जनम्"
 },
  "Hand & Foot Care": {
   "ta": "கை & கால் பராமரிப்பு",
@@ -462,7 +480,8 @@ export const SUB: Record<string, Tr> = {
   "en": "Hand & Foot Care",
   "kn": "ಕೈ & ಪಾದ ಆರೈಕೆ",
   "mr": "हात आणि पाय काळजी",
-  "bn": "হাত ও পায়ের যত্ন"
+  "bn": "হাত ও পায়ের যত্ন",
+  "sa": "हस्त-पाद-रक्षणम्"
 },
  "Deodorants": {
   "ta": "டியோடரன்ட்",
@@ -483,7 +502,8 @@ export const SUB: Record<string, Tr> = {
   "en": "Body Mists",
   "kn": "ಬಾಡಿ ಮಿಸ್ಟ್‌ಗಳು",
   "mr": "बॉडी मिस्ट",
-  "bn": "বডি মিস্ট"
+  "bn": "বডি মিস্ট",
+  "sa": "शरीर-कुहराः"
 },
  "Self Tan": {
   "ta": "செல்ஃப் டான்",
@@ -493,7 +513,8 @@ export const SUB: Record<string, Tr> = {
   "en": "Self Tan",
   "kn": "ಸೆಲ್ಫ್ ಟ್ಯಾನ್",
   "mr": "सेल्फ टॅन",
-  "bn": "সেলফ ট্যান"
+  "bn": "সেলফ ট্যান",
+  "sa": "स्वयं-ताम्रीकरणम्"
 },
  "Supplements": {
   "ta": "சப்ளிமெண்ட்ஸ்",
@@ -538,7 +559,8 @@ export const BADGE: Record<string, Tr> = {
   "en": "Low stock",
   "kn": "ಕಡಿಮೆ ಸ್ಟಾಕ್",
   "mr": "कमी स्टॉक",
-  "bn": "কম স্টক"
+  "bn": "কম স্টক",
+  "sa": "अल्प-भण्डारः"
 }
 }
 export const COLOUR: Record<string, Tr> = {
@@ -550,7 +572,8 @@ export const COLOUR: Record<string, Tr> = {
   "en": "Amber",
   "kn": "ಅಂಬರ್",
   "mr": "अंबर",
-  "bn": "অ্যাম্বার"
+  "bn": "অ্যাম্বার",
+  "sa": "अम्बरम्"
 },
  "Sage": {
   "ta": "சேஜ் பச்சை",
@@ -560,7 +583,8 @@ export const COLOUR: Record<string, Tr> = {
   "en": "Sage",
   "kn": "ಸೇಜ್",
   "mr": "सेज",
-  "bn": "সেজ"
+  "bn": "সেজ",
+  "sa": "सेज-हरितम्"
 },
  "Blush": {
   "ta": "இளஞ்சிவப்பு",
@@ -570,7 +594,8 @@ export const COLOUR: Record<string, Tr> = {
   "en": "Blush",
   "kn": "ಬ್ಲಶ್",
   "mr": "ब्लश",
-  "bn": "ব্লাশ"
+  "bn": "ব্লাশ",
+  "sa": "पाटलम्"
 },
  "Clay": {
   "ta": "களிமண்",
@@ -580,7 +605,8 @@ export const COLOUR: Record<string, Tr> = {
   "en": "Clay",
   "kn": "ಕ್ಲೇ",
   "mr": "क्ले",
-  "bn": "ক্লে"
+  "bn": "ক্লে",
+  "sa": "मृत्तिका"
 },
  "Stone": {
   "ta": "கல் சாம்பல்",
@@ -590,7 +616,8 @@ export const COLOUR: Record<string, Tr> = {
   "en": "Stone",
   "kn": "ಸ್ಟೋನ್",
   "mr": "स्टोन",
-  "bn": "স্টোন"
+  "bn": "স্টোন",
+  "sa": "शिला-धूसरम्"
 },
  "Onyx": {
   "ta": "ஓனிக்ஸ்",
@@ -600,7 +627,8 @@ export const COLOUR: Record<string, Tr> = {
   "en": "Onyx",
   "kn": "ಒನಿಕ್ಸ್",
   "mr": "ऑनिक्स",
-  "bn": "অনিক্স"
+  "bn": "অনিক্স",
+  "sa": "कृष्ण-मणिः"
 },
  "Rose": {
   "ta": "ரோஜா",
@@ -610,7 +638,8 @@ export const COLOUR: Record<string, Tr> = {
   "en": "Rose",
   "kn": "ರೋಸ್",
   "mr": "रोझ",
-  "bn": "রোজ"
+  "bn": "রোজ",
+  "sa": "गुलाबः"
 },
  "Jade": {
   "ta": "ஜேட்",
@@ -620,7 +649,8 @@ export const COLOUR: Record<string, Tr> = {
   "en": "Jade",
   "kn": "ಜೇಡ್",
   "mr": "जेड",
-  "bn": "জেড"
+  "bn": "জেড",
+  "sa": "हरित-मणिः"
 },
  "Oat": {
   "ta": "ஓட்",
@@ -630,7 +660,8 @@ export const COLOUR: Record<string, Tr> = {
   "en": "Oat",
   "kn": "ಓಟ್",
   "mr": "ओट",
-  "bn": "ওট"
+  "bn": "ওট",
+  "sa": "यवः"
 },
  "Sand": {
   "ta": "மணல்",
@@ -640,7 +671,8 @@ export const COLOUR: Record<string, Tr> = {
   "en": "Sand",
   "kn": "ಸ್ಯಾಂಡ್",
   "mr": "सँड",
-  "bn": "স্যান্ড"
+  "bn": "স্যান্ড",
+  "sa": "सैकतम्"
 },
  "Cocoa": {
   "ta": "கோகோ",
@@ -650,7 +682,8 @@ export const COLOUR: Record<string, Tr> = {
   "en": "Cocoa",
   "kn": "ಕೋಕೋ",
   "mr": "कोको",
-  "bn": "কোকো"
+  "bn": "কোকো",
+  "sa": "कोको"
 },
  "Mist": {
   "ta": "மிஸ்ட் நீலம்",
@@ -660,7 +693,8 @@ export const COLOUR: Record<string, Tr> = {
   "en": "Mist",
   "kn": "ಮಿಸ್ಟ್",
   "mr": "मिस्ट",
-  "bn": "মিস্ট"
+  "bn": "মিস্ট",
+  "sa": "कुहरः"
 },
  "Plum": {
   "ta": "பிளம்",
@@ -670,7 +704,8 @@ export const COLOUR: Record<string, Tr> = {
   "en": "Plum",
   "kn": "ಪ್ಲಮ್",
   "mr": "प्लम",
-  "bn": "প্লাম"
+  "bn": "প্লাম",
+  "sa": "आलुबुखारम्"
 },
  "Nude": {
   "ta": "நியூட்",
@@ -680,7 +715,8 @@ export const COLOUR: Record<string, Tr> = {
   "en": "Nude",
   "kn": "ನ್ಯೂಡ್",
   "mr": "न्युड",
-  "bn": "নিউড"
+  "bn": "নিউড",
+  "sa": "न्यूड"
 },
  "Berry": {
   "ta": "பெர்ரி",
@@ -690,7 +726,8 @@ export const COLOUR: Record<string, Tr> = {
   "en": "Berry",
   "kn": "ಬೆರ್ರಿ",
   "mr": "बेरी",
-  "bn": "বেরি"
+  "bn": "বেরি",
+  "sa": "बेरी"
 },
  "Rouge": {
   "ta": "ரூஜ் சிவப்பு",
@@ -700,7 +737,8 @@ export const COLOUR: Record<string, Tr> = {
   "en": "Rouge",
   "kn": "ರೂಜ್",
   "mr": "रूज",
-  "bn": "রুজ"
+  "bn": "রুজ",
+  "sa": "रक्तम्"
 },
  "Peach": {
   "ta": "பீச்",
@@ -710,7 +748,8 @@ export const COLOUR: Record<string, Tr> = {
   "en": "Peach",
   "kn": "ಪೀಚ್",
   "mr": "पीच",
-  "bn": "পিচ"
+  "bn": "পিচ",
+  "sa": "आरुकम्"
 },
  "Clear": {
   "ta": "தெளிவான",
@@ -720,7 +759,8 @@ export const COLOUR: Record<string, Tr> = {
   "en": "Clear",
   "kn": "ಕ್ಲಿಯರ್",
   "mr": "क्लियर",
-  "bn": "ক্লিয়ার"
+  "bn": "ক্লিয়ার",
+  "sa": "स्वच्छम्"
 },
  "Volume Black": {
   "ta": "வால்யூம் கருப்பு",
@@ -730,7 +770,8 @@ export const COLOUR: Record<string, Tr> = {
   "kn": "ವಾಲ್ಯೂಮ್ ಕಪ್ಪು",
   "mr": "व्हॉल्यूम ब्लॅक",
   "bn": "ভলিউম কালো",
-  "en": "Volume Black"
+  "en": "Volume Black",
+  "sa": "आयतन-कृष्णम्"
  },
  "Waterproof Brown": {
   "ta": "வாட்டர்ப்ரூஃப் பழுப்பு",
@@ -740,7 +781,8 @@ export const COLOUR: Record<string, Tr> = {
   "kn": "ವಾಟರ್‌ಪ್ರೂಫ್ ಬ್ರೌನ್",
   "mr": "वॉटरप्रूफ ब्राउन",
   "bn": "ওয়াটারপ্রুফ বাদামি",
-  "en": "Waterproof Brown"
+  "en": "Waterproof Brown",
+  "sa": "जलरोधक-भूरम्"
  },
  "Green Tea": {
   "ta": "பச்சை தேநீர்",
@@ -750,7 +792,8 @@ export const COLOUR: Record<string, Tr> = {
   "kn": "ಹಸಿರು ಟೀ",
   "mr": "ग्रीन चाय",
   "bn": "সবুজ চা",
-  "en": "Green Tea"
+  "en": "Green Tea",
+  "sa": "हरित-चायम्"
  },
  "Curling Rose": {
   "ta": "கர்லிங் ரோஸ்",
@@ -760,7 +803,8 @@ export const COLOUR: Record<string, Tr> = {
   "kn": "ಕರ್ಲಿಂಗ್ ರೋಸ್",
   "mr": "कर्लिंग रोज़",
   "bn": "কার্লিং রোজ",
-  "en": "Curling Rose"
+  "en": "Curling Rose",
+  "sa": "कुण्डलन-गुलाबः"
  },
  "Mint": {
   "ta": "புதினா",
@@ -770,7 +814,8 @@ export const COLOUR: Record<string, Tr> = {
   "kn": "ಪುದೀನ",
   "mr": "पुदीना",
   "bn": "পুদিনা",
-  "en": "Mint"
+  "en": "Mint",
+  "sa": "पुदीना"
  },
  "Lemongrass": {
   "ta": "எலுமிச்சைப்புல்",
@@ -780,7 +825,8 @@ export const COLOUR: Record<string, Tr> = {
   "kn": "ಲೆಮನ್‌ಗ್ರಾಸ್",
   "mr": "लेमनग्रास",
   "bn": "লেমনগ্রাস",
-  "en": "Lemongrass"
+  "en": "Lemongrass",
+  "sa": "भूतृणम्"
  },
  "Rosemary": {
   "ta": "ரோஸ்மேரி",
@@ -790,7 +836,8 @@ export const COLOUR: Record<string, Tr> = {
   "kn": "ರೋಸ್ಮರಿ",
   "mr": "रोझमेरी",
   "bn": "রোজমেরি",
-  "en": "Rosemary"
+  "en": "Rosemary",
+  "sa": "रोज्मेरी"
  },
  "Lavender": {
   "ta": "லாவெண்டர்",
@@ -800,7 +847,8 @@ export const COLOUR: Record<string, Tr> = {
   "kn": "ಲ್ಯಾವೆಂಡರ್",
   "mr": "लैवेंडर",
   "bn": "ল্যাভেন্ডার",
-  "en": "Lavender"
+  "en": "Lavender",
+  "sa": "लवेण्डर्"
  },
  "Sandalwood & Saffron": {
   "ta": "சந்தனம் & குங்குமப்பூ",
@@ -810,7 +858,8 @@ export const COLOUR: Record<string, Tr> = {
   "kn": "ಶ್ರೀಗಂಧ & ಕೇಸರಿ",
   "mr": "चंदन & केशर",
   "bn": "চন্দন & জাফরান",
-  "en": "Sandalwood & Saffron"
+  "en": "Sandalwood & Saffron",
+  "sa": "चन्दनं केशरं च"
  },
  "Rose & Himalayan Salt": {
   "ta": "ரோஸ் & இமயமலை உப்பு",
@@ -820,7 +869,8 @@ export const COLOUR: Record<string, Tr> = {
   "kn": "ರೋಸ್ & ಹಿಮಾಲಯನ್ ಉಪ್ಪು",
   "mr": "रोज़ & हिमालयीन मीठ",
   "bn": "রোজ & হিমালয়ান লবণ",
-  "en": "Rose & Himalayan Salt"
+  "en": "Rose & Himalayan Salt",
+  "sa": "गुलाबः हिमालय-लवणं च"
  },
  "Eucalyptus & Mint": {
   "ta": "யூகலிப்டஸ் & புதினா",
@@ -830,7 +880,8 @@ export const COLOUR: Record<string, Tr> = {
   "kn": "ಯೂಕಲಿಪ್ಟಸ್ & ಪುದೀನ",
   "mr": "यूकेलिप्टस & पुदीना",
   "bn": "ইউক্যালিপটাস & পুদিনা",
-  "en": "Eucalyptus & Mint"
+  "en": "Eucalyptus & Mint",
+  "sa": "यूकेलिप्टस् पुदीना च"
  },
  "Lavender & Coconut": {
   "ta": "லாவெண்டர் & தேங்காய்",
@@ -840,7 +891,8 @@ export const COLOUR: Record<string, Tr> = {
   "kn": "ಲ್ಯಾವೆಂಡರ್ & ತೆಂಗಿನಕಾಯಿ",
   "mr": "लैवेंडर & नारळ",
   "bn": "ল্যাভেন্ডার & নারকেল",
-  "en": "Lavender & Coconut"
+  "en": "Lavender & Coconut",
+  "sa": "लवेण्डर् नारिकेलं च"
  },
  "Rose & Cucumber": {
   "ta": "ரோஸ் & வெள்ளரி",
@@ -850,7 +902,8 @@ export const COLOUR: Record<string, Tr> = {
   "kn": "ರೋಸ್ & ಸೌತೆಕಾಯಿ",
   "mr": "रोज़ & काकडी",
   "bn": "রোজ & শসা",
-  "en": "Rose & Cucumber"
+  "en": "Rose & Cucumber",
+  "sa": "गुलाबः कर्कटी च"
  },
  "Lavender & Aloe": {
   "ta": "லாவெண்டர் & கற்றாழை",
@@ -860,7 +913,8 @@ export const COLOUR: Record<string, Tr> = {
   "kn": "ಲ್ಯಾವೆಂಡರ್ & ಲೋಳೆಸರ",
   "mr": "लैवेंडर & कोरफड",
   "bn": "ল্যাভেন্ডার & অ্যালোভেরা",
-  "en": "Lavender & Aloe"
+  "en": "Lavender & Aloe",
+  "sa": "लवेण्डर् कुमारी च"
  },
  "Peach Glow": {
   "ta": "பீச் க்ளோ",
@@ -870,7 +924,8 @@ export const COLOUR: Record<string, Tr> = {
   "kn": "ಪೀಚ್ ಗ್ಲೋ",
   "mr": "पीच ग्लो",
   "bn": "পিচ গ্লো",
-  "en": "Peach Glow"
+  "en": "Peach Glow",
+  "sa": "आरु-प्रभा"
  },
  "Honey Shine": {
   "ta": "தேன் ஷைன்",
@@ -880,7 +935,8 @@ export const COLOUR: Record<string, Tr> = {
   "kn": "ಜೇನು ಶೈನ್",
   "mr": "मध शाइन",
   "bn": "মধু শাইন",
-  "en": "Honey Shine"
+  "en": "Honey Shine",
+  "sa": "मधु-प्रभा"
  },
  "Rose Nude": {
   "ta": "ரோஸ் நியூட்",
@@ -890,7 +946,8 @@ export const COLOUR: Record<string, Tr> = {
   "kn": "ರೋಸ್ ನ್ಯೂಡ್",
   "mr": "रोज़ न्यूड",
   "bn": "রোজ নিউড",
-  "en": "Rose Nude"
+  "en": "Rose Nude",
+  "sa": "गुलाब-न्यूड"
  },
  "Berry Blush": {
   "ta": "பெர்ரி ப்ளஷ்",
@@ -900,7 +957,8 @@ export const COLOUR: Record<string, Tr> = {
   "kn": "ಬೆರ್ರಿ ಬ್ಲಷ್",
   "mr": "बेरी ब्लश",
   "bn": "বেরি ব্লাশ",
-  "en": "Berry Blush"
+  "en": "Berry Blush",
+  "sa": "बेरी-गण्डरागः"
  }
 }
 export const UI: Record<string, Tr> = {
@@ -912,7 +970,8 @@ export const UI: Record<string, Tr> = {
   "te": "ఉత్పత్తులు",
   "kn": "ಉತ್ಪನ್ನಗಳು",
   "mr": "उत्पादने",
-  "bn": "পণ্য"
+  "bn": "পণ্য",
+  "sa": "उत्पादानि"
 },
  "In stock": {
   "en": "In stock",
@@ -933,7 +992,8 @@ export const UI: Record<string, Tr> = {
   "te": "సగటు ధర",
   "kn": "ಸರಾಸರಿ ಬೆಲೆ",
   "mr": "सरासरी किंमत",
-  "bn": "গড় মূল্য"
+  "bn": "গড় মূল্য",
+  "sa": "औसत-मूल्यम्"
 },
  "Subcategories": {
   "en": "Subcategories",
@@ -943,7 +1003,8 @@ export const UI: Record<string, Tr> = {
   "te": "ఉప వర్గాలు",
   "kn": "ಉಪವರ್ಗಗಳು",
   "mr": "उपश्रेण्या",
-  "bn": "উপবিভাগ"
+  "bn": "উপবিভাগ",
+  "sa": "उप-वर्गाः"
 },
  "search": {
   "en": "Search name or product ID",
@@ -986,7 +1047,8 @@ export const UI: Record<string, Tr> = {
   "te": "క్రమబద్ధీకరించండి",
   "kn": "ಉತ್ಪನ್ನಗಳನ್ನು ವಿಂಗಡಿಸಿ",
   "mr": "उत्पादने क्रमवारी लावा",
-  "bn": "পণ্য সাজান"
+  "bn": "পণ্য সাজান",
+  "sa": "उत्पादानि क्रमबद्धं कुरुत"
 },
  "featured": {
   "en": "Featured",
@@ -1029,7 +1091,8 @@ export const UI: Record<string, Tr> = {
   "te": "అత్యధిక రేటింగ్",
   "kn": "ಅಗ್ರ ರೇಟೆಡ್",
   "mr": "टॉप रेटेड",
-  "bn": "টপ রেটেড"
+  "bn": "টপ রেটেড",
+  "sa": "सर्वोच्च-मूल्याङ्कितम्"
 },
  "mostStock": {
   "en": "Most stock",
@@ -1039,7 +1102,8 @@ export const UI: Record<string, Tr> = {
   "te": "ఎక్కువ స్టాక్",
   "kn": "ಹೆಚ್ಚು ಸ್ಟಾಕ್",
   "mr": "जास्त स्टॉक",
-  "bn": "বেশি স্টক"
+  "bn": "বেশি স্টক",
+  "sa": "अधिकतम-भण्डारः"
 },
  "product": {
   "en": "product",
@@ -1049,7 +1113,8 @@ export const UI: Record<string, Tr> = {
   "te": "ఉత్పత్తి",
   "kn": "ಉತ್ಪನ್ನ",
   "mr": "प्रॉडक्ट",
-  "bn": "পণ্য"
+  "bn": "পণ্য",
+  "sa": "उत्पादम्"
 },
  "products": {
   "en": "products",
@@ -1059,7 +1124,8 @@ export const UI: Record<string, Tr> = {
   "te": "ఉత్పత్తులు",
   "kn": "ಉತ್ಪನ್ನಗಳು",
   "mr": "उत्पादने",
-  "bn": "পণ্য"
+  "bn": "পণ্য",
+  "sa": "उत्पादानि"
 },
  "none": {
   "en": "No products match your filters",
@@ -1069,7 +1135,8 @@ export const UI: Record<string, Tr> = {
   "te": "మీ ఫిల్టర్‌లకు సరిపోయే ఉత్పత్తులు లేవు",
   "kn": "ನಿಮ್ಮ ಫಿಲ್ಟರ್‌ಗಳಿಗೆ ಯಾವುದೇ ಉತ್ಪನ್ನಗಳು ಹೊಂದಿಕೆಯಾಗುವುದಿಲ್ಲ",
   "mr": "तुमच्या फिल्टरशी कोणतेही उत्पादन जुळत नाही",
-  "bn": "আপনার ফিল্টারের সাথে কোনো পণ্য মেলে না"
+  "bn": "আপনার ফিল্টারের সাথে কোনো পণ্য মেলে না",
+  "sa": "भवतः छन्नकैः सह किमपि उत्पादं न मिलति"
 },
  "clear": {
   "en": "Clear filters",
@@ -1101,7 +1168,8 @@ export const UI: Record<string, Tr> = {
   "te": "త్వరగా కార్ట్‌లో చేర్చండి",
   "kn": "ಕಾರ್ಟ್‌ಗೆ ತ್ವರಿತ ಸೇರಿಸಿ",
   "mr": "कार्टमध्ये जलद जोडा",
-  "bn": "কার্টে দ্রুত যোগ করুন"
+  "bn": "কার্টে দ্রুত যোগ করুন",
+  "sa": "शीघ्रं पेटिकायां योजयतु"
  },
  "wish": {
   "en": "Save to wishlist",
@@ -1111,7 +1179,8 @@ export const UI: Record<string, Tr> = {
   "te": "విష్‌లిస్ట్‌లో సేవ్ చేయండి",
   "kn": "ವಿಶ್‌ಲಿಸ್ಟ್‌ಗೆ ಉಳಿಸಿ",
   "mr": "विशलिस्टमध्ये सेव्ह करा",
-  "bn": "উইশলিস্টে সেভ করুন"
+  "bn": "উইশলিস্টে সেভ করুন",
+  "sa": "इच्छासूच्यां रक्षतु"
  },
  "colour": {
   "en": "Colour",
@@ -1121,7 +1190,8 @@ export const UI: Record<string, Tr> = {
   "te": "రంగు",
   "kn": "ಬಣ್ಣ",
   "mr": "रंग",
-  "bn": "রং"
+  "bn": "রং",
+  "sa": "वर्णः"
  },
  "out": {
   "en": "Out of stock",
@@ -1141,11 +1211,11 @@ export const sub = (s: string, lang: Lang) => (SUB[s] ? tr(SUB[s], lang) : s)
 export const badge = (s: string, lang: Lang) => (BADGE[s] ? tr(BADGE[s], lang) : s)
 export const colour = (s: string, lang: Lang) => (COLOUR[s] ? tr(COLOUR[s], lang) : s)
 export const ui = (k: string, lang: Lang) => tr(UI[k], lang)
-export const sizesLabel = (n: number, lang: Lang) => trx({ en: `${n} sizes`, ta: `${n} அளவுகள்`, hi: `${n} साइज़`, ml: `${n} വലുപ്പങ്ങൾ`, te: `${n} సైజులు`, kn: `${n} ಗಾತ್ರಗಳು`, mr: `${n} साइझ`, bn: `${n} সাইজ` }, lang)
-export const offLabel = (n: number, lang: Lang) => trx({ en: `${n}% off`, ta: `${n}% தள்ளுபடி`, hi: `${n}% की छूट`, ml: `${n}% കിഴിവ്`, te: `${n}% తగ్గింపు`, kn: `${n}% ರಿಯಾಯಿತಿ`, mr: `${n}% सूट`, bn: `${n}% ছাড়` }, lang)
+export const sizesLabel = (n: number, lang: Lang) => trx({ en: `${n} sizes`, ta: `${n} அளவுகள்`, hi: `${n} साइज़`, ml: `${n} വലുപ്പങ്ങൾ`, te: `${n} సైజులు`, kn: `${n} ಗಾತ್ರಗಳು`, mr: `${n} साइझ`, bn: `${n} সাইজ`, sa: `${n} परिमाणानि` }, lang)
+export const offLabel = (n: number, lang: Lang) => trx({ en: `${n}% off`, ta: `${n}% தள்ளுபடி`, hi: `${n}% की छूट`, ml: `${n}% കിഴിവ്`, te: `${n}% తగ్గింపు`, kn: `${n}% ರಿಯಾಯಿತಿ`, mr: `${n}% सूट`, bn: `${n}% ছাড়`, sa: `${n}% न्यूनता` }, lang)
 export const stockLabel = (n: number, lang: Lang) => n === 0 ? ui('out', lang) : n <= 10
-  ? trx({ en: `Only ${n} left`, ta: `${n} மட்டுமே உள்ளன`, hi: `सिर्फ़ ${n} बचे`, ml: `${n} മാത്രം ബാക്കി`, te: `${n} మాత్రమే ఉన్నాయి`, kn: `ಕೇವಲ ${n} ಉಳಿದಿವೆ`, mr: `फक्त ${n} शिल्लक`, bn: `মাত্র ${n} বাকি` }, lang)
-  : trx({ en: `In stock · ${n} units`, ta: `இருப்பில் · ${n} எண்ணிக்கை`, hi: `स्टॉक में · ${n} यूनिट`, ml: `സ്റ്റോക്കിൽ · ${n} എണ്ണം`, te: `స్టాక్‌లో · ${n} యూనిట్లు`, kn: `ಸ್ಟಾಕ್‌ನಲ್ಲಿ · ${n} ಯೂನಿಟ್`, mr: `स्टॉकमध्ये · ${n} युनिट`, bn: `স্টকে · ${n} ইউনিট` }, lang)
+  ? trx({ en: `Only ${n} left`, ta: `${n} மட்டுமே உள்ளன`, hi: `सिर्फ़ ${n} बचे`, ml: `${n} മാത്രം ബാക്കി`, te: `${n} మాత్రమే ఉన్నాయి`, kn: `ಕೇವಲ ${n} ಉಳಿದಿವೆ`, mr: `फक्त ${n} शिल्लक`, bn: `মাত্র ${n} বাকি`, sa: `केवलं ${n} अवशिष्टानि` }, lang)
+  : trx({ en: `In stock · ${n} units`, ta: `இருப்பில் · ${n} எண்ணிக்கை`, hi: `स्टॉक में · ${n} यूनिट`, ml: `സ്റ്റോക്കിൽ · ${n} എണ്ണം`, te: `స్టాక్‌లో · ${n} యూనిట్లు`, kn: `ಸ್ಟಾಕ್‌ನಲ್ಲಿ · ${n} ಯೂನಿಟ್`, mr: `स्टॉकमध्ये · ${n} युनिट`, bn: `স্টকে · ${n} ইউনিট`, sa: `भण्डारे · ${n} एककानि` }, lang)
 
 export const MODAL: Record<string, Tr> = {
  "m_close": {
@@ -1167,7 +1237,8 @@ export const MODAL: Record<string, Tr> = {
   "te": "ప్రొడక్ట్ ID",
   "kn": "ಉತ್ಪನ್ನ ID",
   "mr": "प्रॉडक्ट ID",
-  "bn": "পণ্য ID"
+  "bn": "পণ্য ID",
+  "sa": "उत्पाद-ID"
  },
  "m_sku": {
   "en": "SKU",
@@ -1177,7 +1248,8 @@ export const MODAL: Record<string, Tr> = {
   "te": "SKU",
   "kn": "SKU",
   "mr": "SKU",
-  "bn": "SKU"
+  "bn": "SKU",
+  "sa": "SKU"
  },
  "m_cat": {
   "en": "Category",
@@ -1187,7 +1259,8 @@ export const MODAL: Record<string, Tr> = {
   "te": "వర్గం",
   "kn": "ವರ್ಗ",
   "mr": "श्रेणी",
-  "bn": "বিভাগ"
+  "bn": "বিভাগ",
+  "sa": "वर्गः"
  },
  "m_sub": {
   "en": "Subcategory",
@@ -1197,7 +1270,8 @@ export const MODAL: Record<string, Tr> = {
   "te": "ఉప వర్గం",
   "kn": "ಉಪವರ್ಗ",
   "mr": "उपश्रेणी",
-  "bn": "উপবিভাগ"
+  "bn": "উপবিভাগ",
+  "sa": "उप-वर्गः"
 },
  "m_mat": {
   "en": "Material",
@@ -1207,7 +1281,8 @@ export const MODAL: Record<string, Tr> = {
   "te": "మెటీరియల్",
   "kn": "ವಸ್ತು",
   "mr": "मटेरियल",
-  "bn": "উপাদান"
+  "bn": "উপাদান",
+  "sa": "सामग्री"
 },
  "m_wt": {
   "en": "Weight",
@@ -1217,7 +1292,8 @@ export const MODAL: Record<string, Tr> = {
   "te": "బరువు",
   "kn": "ತೂಕ",
   "mr": "वजन",
-  "bn": "ওজন"
+  "bn": "ওজন",
+  "sa": "भारः"
 },
  "m_col": {
   "en": "Colour",
@@ -1227,7 +1303,8 @@ export const MODAL: Record<string, Tr> = {
   "te": "రంగు",
   "kn": "ಬಣ್ಣ",
   "mr": "रंग",
-  "bn": "রং"
+  "bn": "রং",
+  "sa": "वर्णः"
  },
  "m_size": {
   "en": "Size",
@@ -1237,7 +1314,8 @@ export const MODAL: Record<string, Tr> = {
   "te": "సైజు",
   "kn": "ಗಾತ್ರ",
   "mr": "साइज",
-  "bn": "সাইজ"
+  "bn": "সাইজ",
+  "sa": "आकारः"
 },
  "m_reviews": {
   "en": "reviews",
@@ -1247,7 +1325,8 @@ export const MODAL: Record<string, Tr> = {
   "te": "సమీక్షలు",
   "kn": "ವಿಮರ್ಶೆಗಳು",
   "mr": "रिव्ह्यूज",
-  "bn": "রিভিউ"
+  "bn": "রিভিউ",
+  "sa": "समीक्षाः"
 },
  "m_save": {
   "en": "Save",
@@ -1257,7 +1336,8 @@ export const MODAL: Record<string, Tr> = {
   "te": "ఆదా",
   "kn": "ಉಳಿಸಿ",
   "mr": "सेव्ह करा",
-  "bn": "সেভ করুন"
+  "bn": "সেভ করুন",
+  "sa": "रक्षणम्"
 },
  "m_units": {
   "en": "of 100 units",
@@ -1267,7 +1347,8 @@ export const MODAL: Record<string, Tr> = {
   "te": "100 లో యూనిట్లు",
   "kn": "100 ಘಟಕಗಳಲ್ಲಿ",
   "mr": "१०० युनिटंपैकी",
-  "bn": "১০০ ইউনিটের মধ্যে"
+  "bn": "১০০ ইউনিটের মধ্যে",
+  "sa": "१०० एककेषु"
 },
  "m_dec": {
   "en": "Decrease",
@@ -1277,7 +1358,8 @@ export const MODAL: Record<string, Tr> = {
   "te": "తగ్గించు",
   "kn": "ಕಡಿಮೆ ಮಾಡಿ",
   "mr": "कमी करा",
-  "bn": "কমান"
+  "bn": "কমান",
+  "sa": "न्यूनीकरोतु"
 },
  "m_inc": {
   "en": "Increase",
@@ -1287,7 +1369,8 @@ export const MODAL: Record<string, Tr> = {
   "te": "పెంచు",
   "kn": "ಹೆಚ್ಚಿಸಿ",
   "mr": "वाढवा",
-  "bn": "বাড়ান"
+  "bn": "বাড়ান",
+  "sa": "वर्धयतु"
 },
  "m_add": {
   "en": "Add to cart",
@@ -1303,13 +1386,13 @@ export const MODAL: Record<string, Tr> = {
 }
 export const mt = (k: string, lang: Lang) => tr(MODAL[k], lang)
 const VIEWS: Record<string, Tr> = {
-  hint: { en: 'Move your cursor to rotate in 3D', ta: '3D-யில் சுழற்ற கர்சரை நகர்த்துங்கள்', hi: '3D में घुमाने के लिए कर्सर हिलाएँ', ml: '3D-യിൽ തിരിക്കാൻ കഴ്സർ നീക്കുക', te: '3Dలో తిప్పడానికి కర్సర్‌ను కదిలించండి' , kn: '3D ನಲ್ಲಿ ತಿರುಗಿಸಲು ಕರ್ಸರ್ ಅನ್ನು ಚಲಿಸಿ', mr: '3D मध्ये फिरवण्यासाठी कर्सर हलवा', bn: '3D-তে ঘোরাতে কার্সর সরান',
+  hint: { en: 'Move your cursor to rotate in 3D', ta: '3D-யில் சுழற்ற கர்சரை நகர்த்துங்கள்', hi: '3D में घुमाने के लिए कर्सर हिलाएँ', ml: '3D-യിൽ തിരിക്കാൻ കഴ്സർ നീക്കുക', te: '3Dలో తిప్పడానికి కర్సర్‌ను కదిలించండి' , kn: '3D ನಲ್ಲಿ ತಿರುಗಿಸಲು ಕರ್ಸರ್ ಅನ್ನು ಚಲಿಸಿ', mr: '3D मध्ये फिरवण्यासाठी कर्सर हलवा', bn: '3D-তে ঘোরাতে কার্সর সরান', sa: '3D-रूपेण भ्रामयितुं सूचकं चालयत',
   sa: "Move your cursor to rotate in 3D"},
-  front: { en: 'front view', ta: 'முன் காட்சி', hi: 'सामने का दृश्य', ml: 'മുൻ കാഴ്ച', te: 'ముందు వ్యూ' , kn: 'ಮುಂಭಾಗದ ನೋಟ', mr: 'समोरचे दृश्य', bn: 'সামনের দৃশ্য',
+  front: { en: 'front view', ta: 'முன் காட்சி', hi: 'सामने का दृश्य', ml: 'മുൻ കാഴ്ച', te: 'ముందు వ్యూ' , kn: 'ಮುಂಭಾಗದ ನೋಟ', mr: 'समोरचे दृश्य', bn: 'সামনের দৃশ্য', sa: 'अग्र-दृश्यम्',
   sa: "front view"},
-  left: { en: 'left view', ta: 'இடது காட்சி', hi: 'बायाँ दृश्य', ml: 'ഇടത് കാഴ്ച', te: 'ఎడమ వ్యూ' , kn: 'ಎಡಭಾಗದ ನೋಟ', mr: 'डावे दृश्य', bn: 'বাম দৃশ্য',
+  left: { en: 'left view', ta: 'இடது காட்சி', hi: 'बायाँ दृश्य', ml: 'ഇടത് കാഴ്ച', te: 'ఎడమ వ్యూ' , kn: 'ಎಡಭಾಗದ ನೋಟ', mr: 'डावे दृश्य', bn: 'বাম দৃশ্য', sa: 'वाम-दृश्यम्',
   sa: "left view"},
-  right: { en: 'right view', ta: 'வலது காட்சி', hi: 'दायाँ दृश्य', ml: 'വലത് കാഴ്ച', te: 'కుడి వ్యూ' , kn: 'ಬಲಭಾಗದ ನೋಟ', mr: 'उजवे दृश्य', bn: 'ডান দৃশ্য',
+  right: { en: 'right view', ta: 'வலது காட்சி', hi: 'दायाँ दृश्य', ml: 'വലത് കാഴ്ച', te: 'కుడి వ్యూ' , kn: 'ಬಲಭಾಗದ ನೋಟ', mr: 'उजवे दृश्य', bn: 'ডান দৃশ্য', sa: 'दक्षिण-दृश्यम्',
   sa: "right view"},
 }
 export const viewLabel = (v: string, lang: Lang) => tr(VIEWS[v === 'live' ? 'hint' : v], lang)

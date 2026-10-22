@@ -1,0 +1,47 @@
+/* ===== Neat structured navbar (landing) =====
+   [ Products  Services ]   LOGO   [ About  Tracking  Reviews ........ Lang  Search  Bag  Profile ]
+   Links sit in one group, tools in another, and the Profile button is always
+   the last item at the far right end of the bar. Tablet / mobile keep their own rules. */
+.nav-rightwrap { display: contents; }
+
+@media (min-width: 1051px) {
+  html .header {
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr) !important;
+  }
+  html .header .nav-left {
+    justify-content: flex-end;
+    padding-right: clamp(16px, 2vw, 36px) !important;
+    gap: clamp(16px, 1.6vw, 28px) !important;
+  }
+  html .header .nav-rightwrap {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: clamp(14px, 1.6vw, 28px);
+    min-width: 0;
+    height: 73px;
+    padding-right: clamp(16px, 2vw, 32px);
+  }
+  .header.is-scrolled .nav-rightwrap { height: 80px; }
+  html .header .nav-right {
+    flex: 0 1 auto;
+    height: auto;
+    padding: 0 0 0 clamp(16px, 2vw, 36px) !important;
+    gap: clamp(14px, 1.5vw, 24px) !important;
+  }
+  html .header .nav-tools {
+    position: static !important;
+    top: auto !important;
+    right: auto !important;
+    margin-left: auto;
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    gap: clamp(8px, .9vw, 14px) !important;
+  }
+  html .header .nav-tools .lang-select { margin-left: 0 !important; }
+  html .header .nav-tools .nav-profile {
+    order: 99;
+    margin-left: clamp(2px, .6vw, 10px);
+  }
+}

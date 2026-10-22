@@ -52,7 +52,7 @@ export default function Payment({ items, address, onBack, onPlace }: { items: Ca
       <Steps at={2} />
       <div className="grid gap-10 lg:grid-cols-[1fr_380px]">
         <div>
-          <div className="mb-8"><FlashBanner left={flashOffer.left} pct={flashOffer.pct} text={authT('Pay within this time and get {pct}% off your order', ui)} endedText={authT('The quick-pay offer has ended', ui)} /></div>
+          <div className="mb-8"><FlashBanner left={flashOffer.left} pct={flashOffer.pct} text={authT('Pay within this time and avail a {pct}% coupon on your order', ui)} endedText={authT('The quick-pay offer has ended', ui)} /></div>
           <h1 className="font-serif text-5xl">{ck2('Payment|mode', lang)[0]} <span className="gold-text italic">{ck2('Payment|mode', lang)[1]}</span></h1>
           <p className="mt-2 text-sm text-stone-500">{shipToLabel(address.name, address.city, address.pin, lang)}</p>
           <div className="mt-8 rounded-2xl border border-gold bg-paper p-6 shadow-lg">

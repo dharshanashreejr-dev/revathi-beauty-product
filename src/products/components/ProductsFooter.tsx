@@ -3,10 +3,10 @@ import { useLang, trx } from '../../shared/i18n';
 
 const NAV = [
   { label: { en: 'Home', ta: 'முகப்பு', hi: 'होम', ml: 'ഹോം', te: 'హోమ్', kn: 'ಮುಖಪುಟ', mr: 'होम', bn: 'হোম', sa: 'गृहम्' }, href: SITE.home },
-  { label: { en: 'Products', ta: 'பொருட்கள்', hi: 'उत्पाद', ml: 'ഉൽപ്പന്നങ്ങൾ', te: 'ఉత్పత్తులు', kn: 'ಉತ್ಪನ್ನಗಳು', mr: 'उत्पादने', bn: 'পণ্য' }, href: SITE.products },
-  { label: { en: 'Services', ta: 'சேவைகள்', hi: 'सेवाएँ', ml: 'സേവനങ്ങൾ', te: 'సేవలు', kn: 'ಸೇವೆಗಳು', mr: 'सेवा', bn: 'সেবা' }, href: SITE.services },
-  { label: { en: 'About', ta: 'எங்களை பற்றி', hi: 'हमारे बारे में', ml: 'ഞങ്ങളെ കുറിച്ച്', te: 'మా గురించి', kn: 'ನಮ್ಮ ಬಗ್ಗೆ', mr: 'आमच्याबद्दल', bn: 'আমাদের সম্পর্কে' }, href: SITE.about },
-  { label: { en: 'Track my orders', ta: 'ஆர்டர்களை கண்காணி', hi: 'ऑर्डर ट्रैक करें', ml: 'ഓർഡറുകൾ ട്രാക്ക് ചെയ്യുക', te: 'ఆర్డర్లను ట్రాక్ చేయండి', kn: 'ಆರ್ಡರ್‌ಗಳನ್ನು ಟ್ರ್ಯಾಕ್ ಮಾಡಿ', mr: 'ऑर्डर ट्रॅक करा', bn: 'অর্ডার ট্র্যাক করুন' }, href: SITE.tracking },
+  { label: { en: 'Products', ta: 'பொருட்கள்', hi: 'उत्पाद', ml: 'ഉൽപ്പന്നങ്ങൾ', te: 'ఉత్పత్తులు', kn: 'ಉತ್ಪನ್ನಗಳು', mr: 'उत्पादने', bn: 'পণ্য', sa: 'उत्पादानि' }, href: SITE.products },
+  { label: { en: 'Services', ta: 'சேவைகள்', hi: 'सेवाएँ', ml: 'സേവനങ്ങൾ', te: 'సేవలు', kn: 'ಸೇವೆಗಳು', mr: 'सेवा', bn: 'সেবা', sa: 'सेवाः' }, href: SITE.services },
+  { label: { en: 'About', ta: 'எங்களை பற்றி', hi: 'हमारे बारे में', ml: 'ഞങ്ങളെ കുറിച്ച്', te: 'మా గురించి', kn: 'ನಮ್ಮ ಬಗ್ಗೆ', mr: 'आमच्याबद्दल', bn: 'আমাদের সম্পর্কে', sa: 'अस्माकम् विषये' }, href: SITE.about },
+  { label: { en: 'Track my orders', ta: 'ஆர்டர்களை கண்காணி', hi: 'ऑर्डर ट्रैक करें', ml: 'ഓർഡറുകൾ ട്രാക്ക് ചെയ്യുക', te: 'ఆర్డర్లను ట్రాక్ చేయండి', kn: 'ಆರ್ಡರ್‌ಗಳನ್ನು ಟ್ರ್ಯಾಕ್ ಮಾಡಿ', mr: 'ऑर्डर ट्रॅक करा', bn: 'অর্ডার ট্র্যাক করুন', sa: 'आदेश-अनुसरणम्' }, href: SITE.tracking },
 ];
 const LINE = {
   en: 'Luxury beauty salon for women. Shop and salon.',

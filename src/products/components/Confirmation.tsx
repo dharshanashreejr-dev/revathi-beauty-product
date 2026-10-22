@@ -37,7 +37,7 @@ export default function Confirmation({ order, onShop }: { order: Order; onShop: 
         <div className="space-y-2 border-t border-white/10 pt-5 text-sm md:border-l md:border-t-0 md:pl-6 md:pt-0">
           <p className="text-xs uppercase tracking-widest text-gold">{ck('Delivering to', lang)}</p>
           <p>{a.name}<br />{a.line1}{a.line2 && `, ${a.line2}`}<br />{a.city}, {a.state} {a.pin}<br />{a.phone}</p>
-          <p className="pt-3 font-serif text-3xl"><Counter value={order.total} locale="en-IN" format={{ style: 'currency', currency: 'INR', maximumFractionDigits: 0 }} fontSize="inherit" fontWeight="inherit" textColor="#ad87e9" duration={0.8} intro={false} fade={0.25} /></p>
+          <p className="pt-3 font-serif text-3xl"><Counter value={order.total} locale="en-IN" format={{ style: 'currency', currency: 'INR', maximumFractionDigits: 0 }} fontSize="inherit" fontWeight={700} textColor="#f0cf7a" duration={0.8} intro={false} fade={0.25} /></p>
           <p className="text-xs text-stone-400">{inclLabel(order.shipping === 0, formatPrice(order.shipping), order.fee ? formatPrice(order.fee) : '', lang)}</p>
         </div>
       </div>

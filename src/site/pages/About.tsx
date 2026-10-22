@@ -201,4 +201,4 @@ function Visit() {
   )
 }
 
-export default function About() { return <main><Hero /><Story /><Strip /><Stats /><Journey /><Values /><Worlds /><Team /><Gallery /><Visit /></main> }
+export default function About() { return <main className="about-page"><Hero /><Story /><Strip /><Stats /><Journey /><Values /><Worlds /><Team /><Gallery /><Visit /></main> }

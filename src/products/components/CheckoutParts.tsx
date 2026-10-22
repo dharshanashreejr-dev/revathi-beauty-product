@@ -49,7 +49,7 @@ export function Summary({ items, subtotal, shipping, fee = 0, discount = 0, flas
         {flash > 0 && <div className="flex justify-between text-emerald-300"><dt>{authT('Quick-pay offer', ui)}</dt><dd>−{formatPrice(flash)}</dd></div>}
         <div className="flex justify-between"><dt>{ck('Shipping', lang)}</dt><dd>{shipping === null ? ck('Calculated next', lang) : shipping === 0 ? ck('Complimentary', lang) : formatPrice(shipping)}</dd></div>
         {fee > 0 && <div className="flex justify-between"><dt>{ck('Cash on delivery fee', lang)}</dt><dd>{formatPrice(fee)}</dd></div>}
-        <div className="flex justify-between border-t border-white/10 pt-3 text-lg text-white"><dt>{ck('Total', lang)}</dt><dd className="font-serif text-3xl"><Counter value={total} locale="en-IN" format={{ style: 'currency', currency: 'INR', maximumFractionDigits: 0 }} fontSize="inherit" fontWeight="inherit" textColor="#ad87e9" duration={0.8} intro={false} fade={0.25} /></dd></div>
+        <div className="flex justify-between border-t border-white/10 pt-3 text-lg text-white"><dt className="font-semibold text-[#f0cf7a]">{ck('Total', lang)}</dt><dd className="font-serif text-3xl font-bold"><Counter value={total} locale="en-IN" format={{ style: 'currency', currency: 'INR', maximumFractionDigits: 0 }} fontSize="inherit" fontWeight={700} textColor="#f0cf7a" duration={0.8} intro={false} fade={0.25} /></dd></div>
       </dl>
     </aside>
   );

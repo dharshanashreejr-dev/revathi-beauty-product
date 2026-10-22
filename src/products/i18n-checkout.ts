@@ -93,6 +93,86 @@ export const CK: Record<string, Tr> = {
   'yourname@okbank': t('yourname@okbank', 'yourname@okbank', 'yourname@okbank', 'yourname@okbank', 'yourname@okbank', 'yourname@okbank', 'yourname@okbank', 'yourname@okbank'),
 
 }
+
+// Sanskrit for every cart / checkout / payment text above (t() has no Sanskrit slot).
+const CK_SA: Record<string, string> = {
+  "Your cart": "भवतः पेटिका",
+  "Close cart": "पेटिकां पिधत्ताम्",
+  "Your cart is empty": "भवतः पेटिका रिक्ता अस्ति",
+  "You have unlocked complimentary shipping": "भवता निःशुल्क-प्रेषणं प्राप्तम्",
+  "Decrease": "न्यूनीकरोतु",
+  "Increase": "वर्धयतु",
+  "Remove": "अपनयतु",
+  "Subtotal": "उप-योगः",
+  "Proceed to checkout": "भुगतानाय अग्रे गच्छतु",
+  "Continue shopping": "क्रयणम् अनुवर्तयतु",
+  "Enter your full name": "भवतः पूर्णं नाम लिखत",
+  "Enter a valid email": "मान्यं ईमेल् लिखत",
+  "Enter a 10-digit mobile number": "१०-अङ्कीयां दूरभाष-सङ्ख्यां लिखत",
+  "Enter your address": "भवतः सङ्केतं लिखत",
+  "Enter city": "नगरं लिखत",
+  "Enter state": "राज्यं लिखत",
+  "Enter a 6-digit PIN": "६-अङ्कीयां पिन्-सङ्ख्यां लिखत",
+  "Delivery|details": "वितरण|विवरणम्",
+  "Full name": "पूर्णं नाम",
+  "Email": "ईमेल्",
+  "Mobile": "दूरभाषः",
+  "Address line 1": "सङ्केत-पङ्क्तिः १",
+  "Apartment, landmark (optional)": "गृहम्, चिह्नस्थानम् (ऐच्छिकम्)",
+  "City": "नगरम्",
+  "State": "राज्यम्",
+  "PIN code": "पिन्-सङ्ख्या",
+  "Shipping method": "प्रेषण-विधिः",
+  "Standard delivery": "सामान्यं वितरणम्",
+  "4 to 6 days": "४ तः ६ दिनानि",
+  "Express delivery": "शीघ्रं वितरणम्",
+  "1 to 2 days": "१ तः २ दिनानि",
+  "Complimentary": "निःशुल्कम्",
+  "← Back to shop": "← आपणं प्रति",
+  "Continue to payment": "भुगतानाय अनुवर्तयतु",
+  "Cart": "पेटिका",
+  "Details": "विवरणम्",
+  "Payment": "भुगतानम्",
+  "Confirmed": "पुष्टम्",
+  "Your order": "भवतः आदेशः",
+  "Shipping": "प्रेषणम्",
+  "Calculated next": "अग्रे गण्यते",
+  "Cash on delivery fee": "वितरण-काले नगद-भुगतान-शुल्कम्",
+  "Total": "योगः",
+  "Payment|mode": "भुगतान|रीतिः",
+  "UPI": "UPI",
+  "GPay, PhonePe, Paytm": "GPay, PhonePe, Paytm",
+  "Credit / Debit card": "क्रेडिट् / डेबिट्-पत्रम्",
+  "Visa, Mastercard, RuPay": "Visa, Mastercard, RuPay",
+  "Net banking": "नेट्-बैङ्किङ्",
+  "All major banks": "सर्वे प्रमुखाः बैङ्काः",
+  "Cash on delivery": "वितरण-काले नगद-भुगतानम्",
+  "Enter a valid UPI ID, e.g. name@okbank": "मान्यं UPI ID लिखत, यथा name@okbank",
+  "Enter a 16-digit card number": "१६-अङ्कीयां पत्र-सङ्ख्यां लिखत",
+  "Expiry must be MM/YY": "अवसानं MM/YY रूपेण भवेत्",
+  "Enter the 3-digit CVV": "३-अङ्कीयं CVV लिखत",
+  "Enter the name on card": "पत्रे विद्यमानं नाम लिखत",
+  "Select your bank": "भवतः बैङ्कं चिनुत",
+  "UPI ID": "UPI ID",
+  "Card number": "पत्र-सङ्ख्या",
+  "Expiry": "अवसानम्",
+  "Name on card": "पत्रे नाम",
+  "Bank": "बैङ्कः",
+  "Pay in cash when your order arrives. A small handling fee applies.": "आदेशे आगते नगदेन भुगतानं कुरुत। अल्पं व्यवस्था-शुल्कं भवति।",
+  "← Back to details": "← विवरणं प्रति",
+  "Place order": "आदेशं स्थापयतु",
+  "Securing your order…": "भवतः आदेशः सुरक्ष्यते…",
+  "Merci,": "धन्यवादः,",
+  "Order number": "आदेश-सङ्ख्या",
+  "Placed on": "स्थापित-दिनाङ्कः",
+  "Arrives by": "आगमन-दिनाङ्कः",
+  "Delivering to": "वितरण-स्थानम्",
+  "Qty": "मात्रा",
+  "MM/YY": "MM/YY",
+  "CVV": "CVV",
+  "yourname@okbank": "yourname@okbank",
+}
+for (const k of Object.keys(CK_SA)) CK[k] = { ...CK[k], sa: CK_SA[k] }
 
 export const ck = (s: string, lang: Lang) => (CK[s] ? tr(CK[s], lang) : s)
 /** Headings with a gold italic second part: "Delivery|details" → ['Delivery', 'details']. */
@@ -180,13 +260,13 @@ export const inclLabel = (free: boolean, ship: string, fee: string, lang: Lang) 
 
 // sizes such as "20 sachets", "12 shades" (ml / g / A5 stay as they are)
 const UNIT_WORD: Record<string, Tr> = {
-  sachets: t('sachets', 'சாஷேக்கள்', 'सैशे', 'സാഷെകൾ', 'సాషేలు', 'సాషేలు', 'सैशे', 'சாஷேக்கள்'),
-  shades: t('shades', 'நிறங்கள்', 'शेड्स', 'ഷേഡുകൾ', 'షేడ్స్', 'షేడ్స్', 'शेड्स', 'நிறங்கள்'),
+  sachets: ({ ...t('sachets', 'சாஷேக்கள்', 'सैशे', 'സാഷെകൾ', 'సాషేలు', 'ಸ್ಯಾಶೆಗಳು', 'सैशे', 'স্যাশে'), sa: 'सैशे' }),
+  shades: ({ ...t('shades', 'நிறங்கள்', 'शेड्स', 'ഷേഡുകൾ', 'షేడ్స్', 'ಛಾಯೆಗಳು', 'शेड्स', 'শেড'), sa: 'वर्णाः' }),
 }
 export const sizeText = (s: string, lang: Lang) => s.replace(/\b(sachets|shades)\b/, (w) => tr(UNIT_WORD[w], lang))
 
 /** Order dates are stored as ISO strings and formatted in the active language. */
 export const fmtOrderDate = (iso: string, lang: Lang) => {
   const d = new Date(iso)
-  return isNaN(d.getTime()) ? iso : d.toLocaleDateString(LANG_LOCALES[lang], { day: 'numeric', month: 'long', year: 'numeric' })
+  return isNaN(d.getTime()) ? iso : d.toLocaleDateString(lang === 'sa' ? 'hi-IN' : LANG_LOCALES[lang], { day: 'numeric', month: 'long', year: 'numeric' })
 }

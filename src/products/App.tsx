@@ -110,7 +110,7 @@ export default function App() {
 
 
       {page === 'shop' && (
-        <main id="top">
+        <main id="top" className="shop-page">
           <div className="overflow-hidden bg-gold py-2 text-xs uppercase tracking-[.3em] text-night">
             <div className="marquee flex w-max gap-12 whitespace-nowrap">{[...OFFERS, ...OFFERS, ...OFFERS, ...OFFERS].map((p, i) => <span key={i}>✦ {tr(p, lang)}</span>)}</div>
           </div>

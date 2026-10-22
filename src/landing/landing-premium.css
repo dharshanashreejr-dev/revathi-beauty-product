@@ -1,0 +1,68 @@
+/* ═══════════ Landing page — slightly bold + animated headings, violet / gold mix,
+   plus two extra brand accents: leaf green (from the Revathi logo) and blush rose ═══════════ */
+:root { --lp-gold: #a67c2e; --lp-gold-lt: #ead29a; --lp-leaf: #2f6b4a; --lp-leaf-soft: #e6f0e8; --lp-rose: #d9a5a0; }
+
+@keyframes lpRise { from { opacity: 0; transform: translateY(26px); } to { opacity: 1; transform: none; } }
+@keyframes lpShine { from { background-position: 200% 0; } to { background-position: -200% 0; } }
+
+/* 1) Headings: a little bold (medium) */
+main h2, main h3, .statement, .nine-head h2, .arrivals-head h2, .spa-head h2, .picks-head h2 { font-weight: 500; }
+.shop .product-card-info h3 { font-weight: 500; }
+
+/* 2) Headings glide in as they scroll into view (browsers without scroll-timeline simply show them) */
+@supports (animation-timeline: view()) {
+  main section:not(.hb) h2, .statement, main section:not(.hb) .eyebrow {
+    animation: lpRise linear both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 45%;
+  }
+}
+
+/* 3) Gold eyebrows on the light sections, soft gold on the dark one */
+main .eyebrow { color: var(--lp-gold); letter-spacing: .16em; font-weight: 600; }
+.nine .eyebrow, .nine-sub { color: var(--lp-gold-lt) !important; }
+
+/* 4) Nine-days band (deep violet): heading becomes shimmering gold */
+.nine-head h2 {
+  background: linear-gradient(100deg, #e9cf91 0%, #fff3cf 35%, #c9a35b 60%, #f0dca2 100%) !important;
+  background-size: 200% 100% !important;
+  -webkit-background-clip: text !important; background-clip: text !important;
+  color: transparent !important;
+}
+.nine-head h2::after { content: ''; display: block; width: 84px; height: 2px; margin: 22px auto 0; background: linear-gradient(90deg, transparent, #e9cf91, transparent); }
+
+/* 5) Gold rule under the main section headings */
+.arrivals-head h2::after, .spa-head h2::after, .picks-head h2::after {
+  content: ''; display: block; width: 72px; height: 2px; margin-top: 20px;
+  background: linear-gradient(90deg, #b8893a, #f0dca2, #b8893a, transparent);
+  background-size: 200% 100%; animation: lpShine 5s linear infinite;
+}
+.arrivals-head h2::after { margin-left: auto; margin-right: auto; }
+
+/* 6) Extra colour A — leaf green for the services (spa) and collection bands */
+.spa { border-top: 3px solid transparent; border-image: linear-gradient(90deg, var(--lp-leaf), #c9a35b 60%, transparent) 1; }
+.spa .eyebrow, .herbal .eyebrow { color: var(--lp-leaf) !important; }
+.spa-card:hover, .spa .pick:hover { border-color: var(--lp-leaf) !important; box-shadow: 0 22px 44px -24px rgba(47, 107, 74, .5) !important; }
+.spa-card:hover h3 { color: var(--lp-leaf); transition: color .4s; }
+.herbal-variant.is-active { border-color: var(--lp-leaf) !important; }
+
+/* 7) Extra colour B — blush rose touches for "picks" */
+.picks .pick:hover, .picks article:hover { border-color: var(--lp-rose) !important; box-shadow: 0 22px 44px -24px rgba(217, 165, 160, .7) !important; }
+.picks .eyebrow { color: #b4736c !important; }
+
+/* 8) Shop product cards: gold frame, gold price */
+.shop .product-card { border: 1px solid rgba(201, 163, 91, .4) !important; border-radius: 10px; transition: border-color .4s, box-shadow .4s, transform .4s; }
+.shop .product-card:hover { border-color: #c9a35b !important; box-shadow: 0 22px 44px -24px rgba(148, 112, 43, .5) !important; }
+.shop .product-card:hover h3 { color: #94702b; }
+.shop .product-card-info strong { color: #94702b !important; }
+
+/* 9) Testimonials + footer */
+.testimonials h2 { font-weight: 500; }
+.testimonials h2::after { content: ''; display: block; width: 72px; height: 2px; margin: 18px auto 0; background: linear-gradient(90deg, transparent, #c9a35b, transparent); }
+footer h3, footer h4 { color: var(--lp-gold) !important; font-weight: 500; letter-spacing: .12em; }
+footer a { transition: color .3s; }
+footer a:hover { color: #94702b !important; }
+
+@media (prefers-reduced-motion: reduce) {
+  main section:not(.hb) h2, .statement, .eyebrow, .arrivals-head h2::after, .spa-head h2::after, .picks-head h2::after { animation: none !important; }
+}

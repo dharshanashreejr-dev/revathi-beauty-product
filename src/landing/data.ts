@@ -283,7 +283,7 @@ export const products: Product[] = [
       kn: "ನಾಲ್ಕು ಸಸ್ಯಜನ್ಯ ಫ್ಲೇವರ್‌ಗಳಲ್ಲಿ ರೇಷ್ಮೆಯಂತಹ ಪ್ರೆಸ್ಡ್ ಕಾಂಪ್ಯಾಕ್ಟ್ ಪೌಡರ್. ನೋಡಲು ಒಂದು ಫ್ಲೇವರ್ ಆರಿಸಿ.",
       mr: "चार वनस्पतीजन्य फ्लेवरमध्ये रेशमी प्रेस्ड कॉम्पॅक्ट पावडर. पाहण्यासाठी एक फ्लेवर निवडा.",
       bn: "চারটি ভেষজ ফ্লেভারে মসৃণ প্রেসড কমপ্যাক্ট পাউডার। দেখতে একটি ফ্লেভার বেছে নিন।",
-      sa: "A silky pressed compact powder in four botanical flavours. Pick a flavour to see it."}
+      sa: "चतुर्षु वानस्पतिक-गन्धेषु मृदुलं संहतं चूर्णम्। तद् द्रष्टुं गन्धं चिनुत।"}
   },
   {
     id: "cleanser",
@@ -322,7 +322,7 @@ export const products: Product[] = [
       kn: "ನಾಲ್ಕು ಫ್ಲೇವರ್‌ಗಳಲ್ಲಿ ಮೃದುವಾದ ಸಸ್ಯಜನ್ಯ ಫೋಮಿಂಗ್ ಕ್ಲೆನ್ಸರ್. ನೋಡಲು ಒಂದು ಫ್ಲೇವರ್ ಆರಿಸಿ.",
       mr: "चार फ्लेवरमध्ये सौम्य वनस्पतीजन्य फोमिंग क्लेंझर. पाहण्यासाठी एक फ्लेवर निवडा.",
       bn: "চারটি ফ্লেভারে কোমল ভেষজ ফোমিং ক্লেনজার। দেখতে একটি ফ্লেভার বেছে নিন।",
-      sa: "A gentle botanical foaming cleanser in four flavours. Pick a flavour to see it."}
+      sa: "चतुर्षु गन्धेषु मृदुः वानस्पतिकः फेनयुक्तः मार्जकः। तं द्रष्टुं गन्धं चिनुत।"}
   },
   {
     id: "pimple-gel",
@@ -340,7 +340,7 @@ export const products: Product[] = [
       kn: "ಪಿಂಪಲ್ ಜೆಲ್",
       mr: "पिंपल जेल",
       bn: "পিম্পল জেল",
-      sa: "Pimple Gel"
+      sa: "व्रणहर-जेलम्"
     },
     sub: {
       en: "4 flavours · Lavender, Rose, Matcha, Citrus",
@@ -361,7 +361,7 @@ export const products: Product[] = [
       kn: "ನಾಲ್ಕು ಫ್ಲೇವರ್‌ಗಳಲ್ಲಿ ಸಸ್ಯಜನ್ಯ ಸ್ಪಾಟ್-ಟ್ರೀಟ್‌ಮೆಂಟ್ ಜೆಲ್. ನೋಡಲು ಒಂದು ಫ್ಲೇವರ್ ಆರಿಸಿ.",
       mr: "चार फ्लेवरमध्ये वनस्पतीजन्य स्पॉट-ट्रीटमेंट जेल. पाहण्यासाठी एक फ्लेवर निवडा.",
       bn: "চারটি ফ্লেভারে ভেষজ স্পট-ট্রিটমেন্ট জেল। দেখতে একটি ফ্লেভার বেছে নিন।",
-      sa: "A botanical spot-treatment gel in four flavours. Pick a flavour to see it."}
+      sa: "चतुर्षु गन्धेषु वानस्पतिकं स्थानीय-चिकित्सा-जेलम्। तद् द्रष्टुं गन्धं चिनुत।"}
   },
   {
     id: "shower-gel",
@@ -400,7 +400,7 @@ export const products: Product[] = [
       kn: "ನಾಲ್ಕು ಫ್ಲೇವರ್‌ಗಳಲ್ಲಿ ಮೃದುವಾದ ಸಸ್ಯಜನ್ಯ ಶವರ್ ಜೆಲ್. ನೋಡಲು ಒಂದು ಫ್ಲೇವರ್ ಆರಿಸಿ.",
       mr: "चार फ्लेवरमध्ये सौम्य वनस्पतीजन्य शॉवर जेल. पाहण्यासाठी एक फ्लेवर निवडा.",
       bn: "চারটি ফ্লেভারে কোমল ভেষজ শাওয়ার জেল। দেখতে একটি ফ্লেভার বেছে নিন।",
-      sa: "A gentle botanical shower gel in four flavours. Pick a flavour to see it."}
+      sa: "चतुर्षु गन्धेषु मृदु वानस्पतिकं स्नान-जेलम्। तद् द्रष्टुं गन्धं चिनुत।"}
   },
   {
     id: "night-cream",
@@ -429,7 +429,7 @@ export const products: Product[] = [
       kn: "ರಾತ್ರಿಯಿಡೀ ಆರಾಮ",
       mr: "रात्रभर आराम",
       bn: "সারারাত আরাম",
-      sa: "Overnight comfort"},
+      sa: "रात्रि-सुखम्"},
     copy: {
       en: "A rich, whipped night cream that melts in and leaves skin feeling cushioned and calm by morning.",
       ta: "பணக்கார நைட் கிரீம். உருகிச் சென்று காலையில் தோலை மென்மையாகவும் அமைதியாகவும் வைக்கும்.",
@@ -439,7 +439,7 @@ export const products: Product[] = [
       kn: "ಸಮೃದ್ಧ, ವಿಪ್ಡ್ ರಾತ್ರಿ ಕ್ರೀಮ್ ಅದು ಕರಗಿ ಬೆಳಿಗ್ಗೆಯ ವೇಳೆಗೆ ಚರ್ಮವನ್ನು ಕುಷನ್ ಮತ್ತು ಶಾಂತವಾಗಿ ಅನುಭವಿಸುವಂತೆ ಬಿಡುತ್ತದೆ.",
       mr: "समृद्ध, विप्ड नाईट क्रीम जी वितळते आणि सकाळपर्यंत त्वचेला कुशन आणि शांत वाटू देते.",
       bn: "সমৃদ্ধ, হুইপড নাইট ক্রিম যা গলে যায় এবং সকালের মধ্যে ত্বককে কুশন এবং শান্ত অনুভব করায়।",
-      sa: "A rich, whipped night cream that melts in and leaves skin feeling cushioned and calm by morning."}
+      sa: "समृद्धं फेनिलं रात्रि-लेपनं यत् त्वचि लीयते, प्रभाते च त्वचं मृदुं शान्तां च करोति।"}
   },
   {
     id: "rose-mist",
@@ -449,7 +449,7 @@ export const products: Product[] = [
     price: 1350,
     size: "100 ml",
     name: {
-      en: "Rose Petal Face Mist",
+      en: "Rose Face Mist",
       ta: "ரோஜா இதழ் முக மிஸ்ட்",
       hi: "गुलाब पंखुड़ी फेस मिस्ट",
       ml: "റോസ് പെറ്റൽ ഫേസ് മിസ്റ്റ്",
@@ -468,7 +468,7 @@ export const products: Product[] = [
       kn: "ತಾಜಾ, ಯಾವಾಗ ಬೇಕಾದರೂ",
       mr: "ताजे, कधीही",
       bn: "তাজা, যেকোনো সময়",
-      sa: "Fresh, anytime"},
+      sa: "सतेजम्, सर्वदा"},
     copy: {
       en: "A fine rose mist to refresh the face, set makeup or add a touch of softness through the day.",
       ta: "முகத்தை புத்துணர்ச்சியாக்க, மேக்கப்பை அமைக்க அல்லது நாள் முழுவதும் மென்மை சேர்க்க.",
@@ -478,7 +478,7 @@ export const products: Product[] = [
       kn: "ಮುಖವನ್ನು ತಾಜಾಗೊಳಿಸಲು, ಮೇಕಪ್ ಸೆಟ್ ಮಾಡಲು ಅಥವಾ ದಿನವಿಡೀ ಮೃದುತೆಯ ಸ್ಪರ್ಶವನ್ನು ಸೇರಿಸಲು ಸೂಕ್ಷ್ಮ ರೋಸ್ ಮಿಸ್ಟ್.",
       mr: "चेहरा ताजेतवाने करण्यासाठी, मेकअप सेट करण्यासाठी किंवा दिवसभर मऊपणाचा स्पर्श जोडण्यासाठी बारीक रोझ मिस्ट.",
       bn: "মুখ সতেজ করতে, মেকআপ সেট করতে বা সারাদিন নরমতার ছোঁয়া যোগ করতে সূক্ষ্ম রোজ মিস্ট।",
-      sa: "A fine rose mist to refresh the face, set makeup or add a touch of softness through the day."}
+      sa: "सूक्ष्मः गुलाब-कुहरः यः मुखं ताजयति, मुखाभरणं स्थिरीकरोति, दिनभरं च मृदुतां योजयति।"}
   },
   {
     id: "body-butter",
@@ -507,7 +507,7 @@ export const products: Product[] = [
       kn: "ದೇಹ ಆಚರಣೆ",
       mr: "शरीर विधी",
       bn: "শরীরের রীতি",
-      sa: "Body ritual"},
+      sa: "शरीर-विधिः"},
     copy: {
       en: "A creamy, softly scented body butter that leaves skin smooth with a warm, peachy glow.",
       ta: "கிரீமி, மென்மையான வாசனையுள்ள பாடி பட்டர். தோலை மென்மையாக்கி பீச் போன்ற பிரகாசம் தரும்.",
@@ -517,7 +517,7 @@ export const products: Product[] = [
       kn: "ಕ್ರೀಮಿ, ಮೃದುವಾಗಿ ಸುಗಂಧಿತ ಬಾಡಿ ಬಟರ್ ಅದು ಚರ್ಮವನ್ನು ಬೆಚ್ಚಗಿನ, ಪೀಚಿ ಹೊಳಪಿನೊಂದಿಗೆ ಮೃದುವಾಗಿ ಬಿಡುತ್ತದೆ.",
       mr: "क्रीमी, मऊ सुगंधित बॉडी बटर जे त्वचेला उबदार, पीची चमकसह गुळगुळीत सोडते.",
       bn: "ক্রিমি, নরম সুগন্ধযুক্ত বডি বাটার যা ত্বককে উষ্ণ, পিচি উজ্জ্বলতার সাথে মসৃণ রাখে।",
-      sa: "A creamy, softly scented body butter that leaves skin smooth with a warm, peachy glow."}
+      sa: "मृदु-सुगन्धि स्निग्धं शरीर-नवनीतं यत् त्वचं मसृणां करोति, उष्णया आरु-वर्ण-आभया च योजयति।"}
   },
   {
     id: "skin-tint",
@@ -546,7 +546,7 @@ export const products: Product[] = [
       kn: "ಹಗುರ, ವೆಲ್ವೆಟ್ ಮುಕ್ತಾಯ",
       mr: "हलके, वेल्वेट फिनिश",
       bn: "হালকা, ভেলভেট ফিনিশ",
-      sa: "Light, velvet finish"},
+      sa: "लघुः, मखमल-सदृशः परिष्कारः"},
     copy: {
       en: "A lightweight tint that evens out skin and leaves a soft, velvet finish.",
       ta: "தோலை சமன் செய்து மென்மையான, இயற்கை வெல்வெட் முடிவைத் தரும் இலேசான டின்ட்.",
@@ -556,7 +556,7 @@ export const products: Product[] = [
       kn: "ಚರ್ಮವನ್ನು ಸಮಗೊಳಿಸುವ ಮತ್ತು ಮೃದು, ವೆಲ್ವೆಟ್ ಮುಕ್ತಾಯವನ್ನು ಬಿಡುವ ಹಗುರವಾದ ಟಿಂಟ್.",
       mr: "त्वचा समपातळीवर आणणारे आणि मऊ, वेल्वेट फिनिश सोडणारे हलके टिंट.",
       bn: "ত্বক সমান করে এবং নরম, ভেলভেট ফিনিশ রেখে যায় এমন হালকা টিন্ট।",
-      sa: "A lightweight tint that evens out skin and leaves a soft, velvet finish."}
+      sa: "लघु-रञ्जकं यत् त्वचं समवर्णां करोति, मृदुं मखमल-सदृशं परिष्कारं च ददाति।"}
   },
   {
     id: "cleansing-oil",
@@ -585,7 +585,7 @@ export const products: Product[] = [
       kn: "ಮೃದುವಾದ ಮೊದಲ ಹೆಜ್ಜೆ",
       mr: "मऊ पहिले पाऊल",
       bn: "মৃদু প্রথম পদক্ষেপ",
-      sa: "Gentle first step"},
+      sa: "मृदु प्रथम-सोपानम्"},
     copy: {
       en: "A silky cleansing oil that melts away makeup and the day, scented with white jasmine.",
       ta: "மேக்கப் மற்றும் நாள் முழுவதையும் உருகச் செய்யும் பட்டுபோன்ற க்ளென்சிங் ஆயில். வெள்ளை மல்லிகை வாசனை.",
@@ -595,7 +595,7 @@ export const products: Product[] = [
       kn: "ಮೇಕಪ್ ಮತ್ತು ದಿನವನ್ನು ಕರಗಿಸುವ ರೇಷ್ಮೆಯಂತಹ ಕ್ಲೆನ್ಸಿಂಗ್ ತೈಲ, ಬಿಳಿ ಮಲ್ಲಿಗೆಯ ಸುಗಂಧದೊಂದಿಗೆ.",
       mr: "मेकअप आणि दिवस वितळवणारे रेशमी क्लींजिंग तेल, पांढऱ्या जाईच्या सुगंधाने.",
       bn: "মেকআপ এবং দিন গলিয়ে দেয় এমন রেশমি ক্লিনজিং অয়েল, সাদা জুঁইয়ের সুগন্ধে।",
-      sa: "A silky cleansing oil that melts away makeup and the day, scented with white jasmine."}
+      sa: "मृदुलं मार्जन-तैलं यत् मुखाभरणं दिनश्रमं च अपनयति, श्वेत-मल्लिका-सुगन्धेन युक्तम्।"}
   },
   {
     id: "tint-powder",
@@ -624,7 +624,7 @@ export const products: Product[] = [
       kn: "3 ಛಾಯೆಗಳು · ಬೀಟ್‌ರೂಟ್, ಅರಿಶಿನ, ಇದ್ದಿಲು",
       mr: "३ शेड्स · बीटरूट, हळद, कोळसा",
       bn: "৩ শেড · বিটরুট, হলুদ, কাঠকয়লা",
-      sa: "3 shades · Beetroot, Turmeric, Charcoal"},
+      sa: "३ वर्णाः · चुकन्दरम्, हरिद्रा, काष्ठाङ्गारः"},
     copy: {
       en: "A natural tint powder in three plant-based shades: beetroot pink for cheeks and lips, turmeric gold for a warm glow and charcoal black as a natural eyeliner tint.",
       ta: "A natural tint powder in three plant-based shades: beetroot pink for cheeks and lips, turmeric gold for a warm glow and charcoal black as a natural eyeliner tint.",
@@ -634,7 +634,7 @@ export const products: Product[] = [
       kn: "ಮೂರು ಸಸ್ಯ-ಆಧಾರಿತ ಛಾಯೆಗಳಲ್ಲಿ ನೈಸರ್ಗಿಕ ಟಿಂಟ್ ಪೌಡರ್: ಗಲ್ಲಗಳು ಮತ್ತು ತುಟಿಗಳಿಗೆ ಬೀಟ್‌ರೂಟ್ ಗುಲಾಬಿ, ಬೆಚ್ಚಗಿನ ಹೊಳಪಿಗೆ ಅರಿಶಿನ ಚಿನ್ನ ಮತ್ತು ನೈಸರ್ಗಿಕ ಐಲೈನರ್ ಟಿಂಟ್ ಆಗಿ ಇದ್ದಿಲು ಕಪ್ಪು.",
       mr: "तीन वनस्पती-आधारित शेड्समध्ये नैसर्गिक टिंट पावडर: गाल आणि ओठांसाठी बीटरूट गुलाबी, उबदार चमकेसाठी हळदीचे सोने आणि नैसर्गिक आयलाइनर टिंट म्हणून कोळश्याचा काळा.",
       bn: "তিনটি উদ্ভিদ-ভিত্তিক শেডে প্রাকৃতিক টিন্ট পাউডার: গাল এবং ঠোঁটের জন্য বিটরুট গোলাপী, উষ্ণ উজ্জ্বলতার জন্য হলুদ সোনা এবং প্রাকৃতিক আইলাইনার টিন্ট হিসাবে কাঠকয়লা কালো।",
-      sa: "A natural tint powder in three plant-based shades: beetroot pink for cheeks and lips, turmeric gold for a warm glow and charcoal black as a natural eyeliner tint."}
+      sa: "त्रिषु वानस्पतिक-वर्णेषु प्राकृतिकं रञ्जन-चूर्णम्: गण्डयोः ओष्ठयोः च कृते चुकन्दर-गुलाबी, उष्णप्रभायै हरिद्रा-सुवर्णम्, प्राकृतिक-नेत्ररेखा-वर्णरूपेण काष्ठाङ्गार-कृष्णम्।"}
   },
   {
     id: "highlighter",
@@ -663,7 +663,7 @@ export const products: Product[] = [
       kn: "ಛಾಯೆ · ಶಾಂಪೇನ್ ಗೋಲ್ಡ್",
       mr: "शेड · शॅम्पेन गोल्ड",
       bn: "শেড · শ্যাম্পেন গোল্ড",
-      sa: "Shade · Champagne gold"},
+      sa: "वर्णः · शैम्पेन-सुवर्णम्"},
     copy: {
       en: "A finely milled champagne-gold highlighter for a soft, sunlit glow on cheeks and brow bones.",
       ta: "கன்னங்கள் மற்றும் புருவ எலும்புகளில் மென்மையான, சூரிய ஒளி போன்ற பிரகாசத்திற்கு.",
@@ -673,7 +673,7 @@ export const products: Product[] = [
       kn: "ಗಲ್ಲಗಳು ಮತ್ತು ಹುಬ್ಬಿನ ಮೂಳೆಗಳ ಮೇಲೆ ಮೃದು, ಸೂರ್ಯನ ಬೆಳಕಿನ ಹೊಳಪಿಗಾಗಿ ಸೂಕ್ಷ್ಮವಾಗಿ ಪುಡಿಮಾಡಿದ ಶಾಂಪೇನ್-ಗೋಲ್ಡ್ ಹೈಲೈಟರ್.",
       mr: "गाल आणि भुवयांच्या हाडांवर मऊ, सूर्यप्रकाशाची चमक मिळवण्यासाठी बारीक पीसलेला शॅम्पेन-गोल्ड हायलायटर.",
       bn: "গাল এবং ভ্রু হাড়ে নরম, সূর্যালোকের উজ্জ্বলতার জন্য সূক্ষ্মভাবে মিল্ড শ্যাম্পেন-গোল্ড হাইলাইটার।",
-      sa: "A finely milled champagne-gold highlighter for a soft, sunlit glow on cheeks and brow bones."}
+      sa: "सूक्ष्मपिष्टं शैम्पेन-सुवर्ण-प्रकाशकं गण्डयोः भ्रू-अस्थ्नोः च मृदु-सूर्यालोक-आभायै।"}
   },
   {
     id: "sandal-oil",
@@ -702,7 +702,7 @@ export const products: Product[] = [
       kn: "ಬೆಚ್ಚಗಿನ, ರೇಷ್ಮೆಯಂತಹ ಮುಕ್ತಾಯ",
       mr: "उबदार, रेशमी फिनिश",
       bn: "উষ্ণ, রেশমি ফিনিশ",
-      sa: "Warm, silky finish"},
+      sa: "उष्णः, मृदुलः परिष्कारः"},
     copy: {
       en: "A lightweight dry oil for hair ends and skin, with the quiet warmth of sandalwood.",
       ta: "முடி முனைகள் மற்றும் தோலுக்கு இலேசான ட்ரை ஆயில். சந்தனத்தின் அமைதியான வெப்பம்.",
@@ -712,7 +712,7 @@ export const products: Product[] = [
       kn: "ಕೂದಲಿನ ತುದಿಗಳು ಮತ್ತು ಚರ್ಮಕ್ಕಾಗಿ ಹಗುರವಾದ ಡ್ರೈ ತೈಲ, ಸ್ಯಾಂಡಲ್‌ವುಡ್‌ನ ನಿಶ್ಯಬ್ದ ಬೆಚ್ಚಗಿನೊಂದಿಗೆ.",
       mr: "केसांच्या टोकांसाठी आणि त्वचेसाठी हलके ड्राय तेल, चंदनाच्या शांत उबदारपणासह.",
       bn: "চুলের ডগা এবং ত্বকের জন্য হালকা ড্রাই অয়েল, চন্দনের শান্ত উষ্ণতার সাথে।",
-      sa: "A lightweight dry oil for hair ends and skin, with the quiet warmth of sandalwood."}
+      sa: "केशाग्राणां त्वचः च कृते लघु शुष्क-तैलं, चन्दनस्य शान्तया उष्णतया युक्तम्।"}
   },
   {
     id: "hair-oil",
@@ -741,7 +741,7 @@ export const products: Product[] = [
       kn: "ಹರ್ಬಲ್ · ಪೋಷಕ",
       mr: "हर्बल · पोषक",
       bn: "হার্বাল · পুষ্টিকর",
-      sa: "Herbal · Nourishing"},
+      sa: "औषधीयम् · पोषकम्"},
     copy: {
       en: "A cold-infused herbal hair oil with bhringraj, amla and hibiscus. Strengthens roots and leaves hair soft, glossy and light.",
       ta: "பிரிங்கராஜ், நெல்லிக்காய், செம்பருத்தி கொண்ட மூலிகை எண்ணெய். வேர்களை வலுப்படுத்தி முடியை மென்மையாகவும் பளபளப்பாகவும் வைக்கும்.",
@@ -751,7 +751,7 @@ export const products: Product[] = [
       kn: "ಭೃಂಗರಾಜ್, ಅಮ್ಲಾ ಮತ್ತು ಹಿಬಿಸ್ಕಸ್‌ನೊಂದಿಗೆ ತಣ್ಣನೆಯ-ಇನ್‌ಫ್ಯೂಸ್ಡ್ ಹರ್ಬಲ್ ಕೂದಲು ತೈಲ. ಬೇರುಗಳನ್ನು ಬಲಪಡಿಸುತ್ತದೆ ಮತ್ತು ಕೂದಲನ್ನು ಮೃದು, ಹೊಳಪು ಮತ್ತು ಹಗುರವಾಗಿ ಬಿಡುತ್ತದೆ.",
       mr: "भृंगराज, आवळा आणि हिबिस्कससह थंड-इन्फ्यूज्ड हर्बल केस तेल. मुळे मजबूत करते आणि केस मऊ, चमकदार आणि हलके सोडते.",
       bn: "ভৃঙ্গরাজ, আমলা এবং হিবিস্কাস সহ ঠান্ডা-ইনফিউজড হার্বাল চুলের তেল। শিকড় শক্তিশালী করে এবং চুল নরম, চকচকে এবং হালকা রাখে।",
-      sa: "A cold-infused herbal hair oil with bhringraj, amla and hibiscus. Strengthens roots and leaves hair soft, glossy and light."}
+      sa: "भृङ्गराज-आमलक-जपाकुसुमैः शीत-निष्कर्षितं औषधीय-केशतैलम्। मूलानि दृढयति, केशान् च मृदून् चिक्कणान् लघूंश्च करोति।"}
   },
   {
     id: "perfume",
@@ -780,7 +780,7 @@ export const products: Product[] = [
       kn: "ಯೂ ಡಿ ಪರ್ಫ್ಯೂಮ್",
       mr: "ओ द पर्फ्यूम",
       bn: "ও দ্য পারফিউম",
-      sa: "Eau de parfum"},
+      sa: "सुगन्धसारः"},
     copy: {
       en: "A warm botanical eau de parfum of white jasmine, sandalwood and vetiver. Soft on arrival, quietly lasting through the evening.",
       ta: "வெள்ளை மல்லிகை, சந்தனம், வெட்டிவேர். மென்மையாகத் தொடங்கி மாலை வரை நீடிக்கும்.",
@@ -790,7 +790,7 @@ export const products: Product[] = [
       kn: "ಬಿಳಿ ಮಲ್ಲಿಗೆ, ಸ್ಯಾಂಡಲ್‌ವುಡ್ ಮತ್ತು ವೆಟಿವರ್‌ನ ಬೆಚ್ಚಗಿನ ಸಸ್ಯ ಓ ಡಿ ಪರ್ಫ್ಯೂಮ್. ಬಂದಾಗ ಮೃದು, ಸಂಜೆಯವರೆಗೆ ನಿಶ್ಯಬ್ದವಾಗಿ ಉಳಿಯುತ್ತದೆ.",
       mr: "पांढरी जाई, चंदन आणि वेटीवरची उबदार वनस्पती ओ द पर्फ्यूम. येताना मऊ, संध्याकाळभर शांतपणे टिकते.",
       bn: "সাদা জুঁই, চন্দন এবং ভেটিভারের উষ্ণ বোটানিক্যাল ও দ্য পারফিউম। আসার সময় নরম, সন্ধ্যা পর্যন্ত শান্তভাবে স্থায়ী।",
-      sa: "A warm botanical eau de parfum of white jasmine, sandalwood and vetiver. Soft on arrival, quietly lasting through the evening."}
+      sa: "श्वेत-मल्लिका-चन्दन-उशीरैः युक्तः उष्णः वानस्पतिकः सुगन्धसारः। आगमने मृदुः, सायंकालपर्यन्तं शान्तं स्थायी।"}
   },
   {
     id: "herbal-shampoo",
@@ -819,7 +819,7 @@ export const products: Product[] = [
       kn: "ಮೃದು ದೈನಂದಿನ ತೊಳೆಯುವಿಕೆ",
       mr: "मऊ दैनंदिन धुणे",
       bn: "নরম দৈনন্দিন ধোয়া",
-      sa: "Gentle daily wash"},
+      sa: "मृदु दैनिक-प्रक्षालनम्"},
     copy: {
       en: "A sulphate-free shampoo with shikakai, reetha and aloe vera. Cleanses gently and leaves hair silky, shiny and easy to style.",
       ta: "சிக்காய், ரீத்தா, கற்றாழை கொண்ட சல்பேட்-இல்லா ஷாம்பு. மென்மையாக சுத்தம் செய்து முடியை பட்டுபோல வைக்கும்.",
@@ -829,7 +829,7 @@ export const products: Product[] = [
       kn: "ಶಿಕಾಕಾಯಿ, ರೀಠಾ ಮತ್ತು ಅಲೋವೆರಾದೊಂದಿಗೆ ಸಲ್ಫೇಟ್-ರಹಿತ ಶಾಂಪೂ. ಮೃದುವಾಗಿ ಸ್ವಚ್ಛಗೊಳಿಸುತ್ತದೆ ಮತ್ತು ಕೂದಲನ್ನು ರೇಷ್ಮೆಯಂತೆ, ಹೊಳಪು ಮತ್ತು ಸ್ಟೈಲ್ ಮಾಡಲು ಸುಲಭವಾಗಿ ಬಿಡುತ್ತದೆ.",
       mr: "शिकाकाई, रीठा आणि अॅलोवेरासह सल्फेट-फ्री शॅम्पू. हळूवारपणे स्वच्छ करते आणि केस रेशमी, चमकदार आणि स्टाइल करण्यास सोपे सोडते.",
       bn: "শিকাকাই, রীথা এবং অ্যালোভেরা সহ সালফেট-ফ্রি শ্যাম্পু। মৃদুভাবে পরিষ্কার করে এবং চুল রেশমি, চকচকে এবং স্টাইল করা সহজ রাখে।",
-      sa: "A sulphate-free shampoo with shikakai, reetha and aloe vera. Cleanses gently and leaves hair silky, shiny and easy to style."}
+      sa: "शिकाकाई-रीठा-कुमारी-युक्तं सल्फेट-रहितं केशधावनम्। मृदु मार्जयति, केशान् मसृणान् चिक्कणान् सुविन्यस्तुं सुकरान् च करोति।"}
   },
 ];
 
@@ -852,7 +852,7 @@ export const rituals: Ritual[] = [
   {
     id: "morning",
     when: { en: "Morning", ta: "காலை", hi: "सुबह", ml: "രാവിലെ", te: "ఉదయం" , kn: "ಬೆಳಿಗ್ಗೆ", mr: "सकाळ", bn: "সকাল",
-      sa: "Morning"},
+      sa: "प्रातः"},
     title: {
       en: "Morning Glow",
       ta: "காலை பிரகாசம்",
@@ -862,7 +862,7 @@ export const rituals: Ritual[] = [
         kn: "ಮುಂಜಾನೆ ಹೊಳಪು",
         mr: "सकाळची चमक",
         bn: "সকালের উজ্জ্বলতা",
-      sa: "Morning Glow"},
+      sa: "प्रभात-आभा"},
     copy: {
       en: "Mist, serum and a skin tint — a quick, luminous start to the day.",
       ta: "மிஸ்ட், சீரம் மற்றும் ஸ்கின் டின்ட் — விரைவான, பிரகாசமான தொடக்கம்.",
@@ -872,13 +872,13 @@ export const rituals: Ritual[] = [
       kn: "ಮಿಸ್ಟ್, ಸೀರಮ್ ಮತ್ತು ಸ್ಕಿನ್ ಟಿಂಟ್ — ದಿನಕ್ಕೆ ತ್ವರಿತ, ಪ್ರಕಾಶಮಾನವಾದ ಪ್ರಾರಂಭ.",
       mr: "मिस्ट, सीरम आणि स्किन टिंट — दिवसाला जलद, चमकदार सुरुवात.",
       bn: "মিস্ট, সিরাম এবং স্কিন টিন্ট — দিনের জন্য দ্রুত, উজ্জ্বল শুরু।",
-      sa: "Mist, serum and a skin tint — a quick, luminous start to the day."},
+      sa: "कुहरः, सीरम्, त्वग्-रञ्जकं च — दिनस्य शीघ्रः दीप्तिमान् आरम्भः।"},
     items: ["rose-mist", "eclat", "skin-tint"]
   },
   {
     id: "occasion",
     when: { en: "Occasions", ta: "விழாக்கள்", hi: "अवसर", ml: "അവസരങ്ങൾ", te: "సందర్భాలు" , kn: "ಸಂದರ್ಭಗಳು", mr: "प्रसंग", bn: "উপলক্ষ",
-      sa: "Occasions"},
+      sa: "प्रसङ्गाः"},
     title: {
       en: "Occasion Ready",
       ta: "விழாவுக்கு தயார்",
@@ -888,7 +888,7 @@ export const rituals: Ritual[] = [
         kn: "ಸಂದರ್ಭಕ್ಕೆ ಸಿದ್ಧ",
         mr: "प्रसंग तयार",
         bn: "উপলক্ষের জন্য প্রস্তুত",
-      sa: "Occasion Ready"},
+      sa: "प्रसङ्ग-सज्जम्"},
     copy: {
       en: "A velvet lip, a golden highlight and a flawless tint for the evenings that matter.",
       ta: "வெல்வெட் உதடு, தங்க ஹைலைட் மற்றும் பிழையற்ற டின்ட் — முக்கியமான மாலைகளுக்கு.",
@@ -898,13 +898,13 @@ export const rituals: Ritual[] = [
       kn: "ಮುಖ್ಯವಾದ ಸಂಜೆಗಳಿಗಾಗಿ ವೆಲ್ವೆಟ್ ತುಟಿ, ಚಿನ್ನದ ಹೈಲೈಟ್ ಮತ್ತು ನಿರ್ದೋಷ ಟಿಂಟ್.",
       mr: "महत्त्वाच्या संध्याकाळीसाठी वेल्वेट ओठ, सोन्याचा हायलाइट आणि निर्दोष टिंट.",
       bn: "গুরুত্বপূর্ণ সন্ধ্যার জন্য ভেলভেট ঠোঁট, সোনালি হাইলাইট এবং নির্দোষ টিন্ট।",
-      sa: "A velvet lip, a golden highlight and a flawless tint for the evenings that matter."},
+      sa: "मखमल-सदृशम् ओष्ठरञ्जनं, सुवर्ण-प्रकाशकं, निर्दोषं रञ्जकं च महत्त्वपूर्णानां सायंकालानां कृते।"},
     items: ["lipstick-red", "skin-tint", "highlighter"]
   },
   {
     id: "evening",
     when: { en: "Evening", ta: "மாலை", hi: "शाम", ml: "വൈകുന്നേരം", te: "సాయంత్రం" , kn: "ಸಂಜೆ", mr: "संध्याकाळ", bn: "সন্ধ্যা",
-      sa: "Evening"},
+      sa: "सायम्"},
     title: {
       en: "Evening Unwind",
       ta: "மாலை ஓய்வு",
@@ -914,7 +914,7 @@ export const rituals: Ritual[] = [
         kn: "ಸಂಜೆ ವಿಶ್ರಾಂತಿ",
         mr: "संध्याकाळची विश्रांती",
         bn: "সন্ধ্যার বিশ্রাম",
-      sa: "Evening Unwind"},
+      sa: "सायं-विश्रामः"},
     copy: {
       en: "Cleanse, soften and let the night cream and sandalwood oil do their quiet work.",
       ta: "சுத்தம் செய்து, மென்மையாக்கி, நைட் கிரீம் மற்றும் சந்தன எண்ணெய் அமைதியாக வேலை செய்யட்டும்.",
@@ -924,13 +924,13 @@ export const rituals: Ritual[] = [
       kn: "ಸ್ವಚ್ಛಗೊಳಿಸಿ, ಮೃದುಗೊಳಿಸಿ ಮತ್ತು ರಾತ್ರಿ ಕ್ರೀಮ್ ಮತ್ತು ಸ್ಯಾಂಡಲ್‌ವುಡ್ ತೈಲವನ್ನು ತಮ್ಮ ನಿಶ್ಯಬ್ದ ಕೆಲಸ ಮಾಡಲು ಬಿಡಿ.",
       mr: "स्वच्छ करा, मऊ करा आणि नाईट क्रीम आणि चंदन तेलाला त्यांचे शांत काम करू द्या.",
       bn: "পরিষ্কার করুন, নরম করুন এবং নাইট ক্রিম ও চন্দন তেলকে তাদের শান্ত কাজ করতে দিন।",
-      sa: "Cleanse, soften and let the night cream and sandalwood oil do their quiet work."},
+      sa: "मार्जयत, मृदुं कुरुत, रात्रि-लेपनं चन्दन-तैलं च स्वं शान्तं कार्यं कुर्वताम्।"},
     items: ["cleansing-oil", "night-cream", "sandal-oil"]
   },
   {
     id: "gifting",
     when: { en: "Gifting", ta: "பரிசு", hi: "उपहार", ml: "സമ്മാനം", te: "బహుమతి" , kn: "ಉಡುಗೊರೆ", mr: "भेटवस्तू", bn: "উপহার",
-      sa: "Gifting"},
+      sa: "उपहारः"},
     title: {
       en: "The Gift of Luxury",
       ta: "ஆடம்பர பரிசு",
@@ -940,7 +940,7 @@ export const rituals: Ritual[] = [
         kn: "ಐಷಾರಾಮದ ಉಡುಗೊರೆ",
         mr: "ऐश्वर्याची भेट",
         bn: "বিলাসের উপহার",
-      sa: "The Gift of Luxury"},
+      sa: "वैभवस्य उपहारः"},
     copy: {
       en: "Our signature serum, a plum-rose lip and a peach body butter — ready to give.",
       ta: "சிக்னேச்சர் சீரம், பிளம்-ரோஸ் உதடு மற்றும் பீச் பாடி பட்டர் — பரிசாகத் தயாராக.",
@@ -950,7 +950,7 @@ export const rituals: Ritual[] = [
       kn: "ನಮ್ಮ ಸಿಗ್ನೇಚರ್ ಸೀರಮ್, ಪ್ಲಮ್-ರೋಸ್ ತುಟಿ ಮತ್ತು ಪೀಚ್ ಬಾಡಿ ಬಟರ್ — ನೀಡಲು ಸಿದ್ಧ.",
       mr: "आमचे सिग्नेचर सीरम, प्लम-रोझ ओठ आणि पीच बॉडी बटर — देण्यासाठी तयार.",
       bn: "আমাদের সিগনেচার সিরাম, প্লাম-রোজ ঠোঁট এবং পিচ বডি বাটার — দেওয়ার জন্য প্রস্তুত।",
-      sa: "Our signature serum, a plum-rose lip and a peach body butter — ready to give."},
+      sa: "अस्माकं विशिष्टं सीरम्, आलुबुखार-गुलाब-ओष्ठरञ्जनं, आरु-वर्णं शरीर-नवनीतं च — दातुं सज्जम्।"},
     items: ["eclat", "lipstick-pink", "body-butter"]
   },
 ];
@@ -1103,7 +1103,7 @@ export const serviceGroups: ServiceGroup[] = [
         kn: "ನಿಮಗಾಗಿ ಸರಿಯಾದ ಚರ್ಮ ಮತ್ತು ಸೌಂದರ್ಯ ರೊಟೀನ್ ಯೋಜಿಸಲು ನಮ್ಮ ಸೌಂದರ್ಯ ತಜ್ಞರೊಂದಿಗೆ ಒಂದು-ರಿಂದ-ಒಂದು ಅಧಿವೇಶನ.",
         mr: "तुमच्यासाठी योग्य त्वचा आणि सौंदर्य दिनक्रम नियोजित करण्यासाठी आमच्या ब्युटी तज्ञाशी एक-ते-एक सत्र.",
         bn: "আপনার জন্য সঠিক ত্বক এবং সৌন্দর্য রুটিন পরিকল্পনা করতে আমাদের বিউটি বিশেষজ্ঞের সাথে এক-এক সেশন।",
-      sa: "A one-to-one session with our beauty expert to plan the right skin and beauty routine for you."},
+      sa: "भवतः कृते उचितां त्वक्-सौन्दर्य-दिनचर्यां योजयितुम् अस्माकं सौन्दर्य-विशेषज्ञेन सह एकैकं सत्रम्।"},
         mins: 30,
         price: 500,
       },
@@ -1122,7 +1122,7 @@ const extraServices: [string, Service][] = [
         kn: "ನಿಧಾನ, ಸ್ಥಿರ ಸ್ಟ್ರೋಕ್‌ಗಳೊಂದಿಗೆ ಬೆಚ್ಚಗಿನ ಹರ್ಬಲ್ ಎಣ್ಣೆಗಳು.",
         mr: "मंद, स्थिर स्ट्रोकसह उबदार हर्बल तेले.",
         bn: "ধীর, স্থির স্ট্রোক সহ উষ্ণ হার্বাল তেল।",
-      sa: "Warm herbal oils worked in with slow, steady strokes."}, mins: 60, price: 3000 }],
+      sa: "उष्णैः औषधीय-तैलैः मन्दैः स्थिरैः स्पर्शैः मर्दनम्।"}, mins: 60, price: 3000 }],
   ["massage", { id: "b5", name: { en: "Hot stone massage", ta: "ஹாட் ஸ்டோன் மசாஜ்", hi: "हॉट स्टोन मसाज", ml: "ഹോട്ട് സ്റ്റോൺ മസാജ്", te: "హాట్ స్టోన్ మసాజ్",
       kn: "ಹಾಟ್ ಸ್ಟೋನ್ ಮಸಾಜ್",
       mr: "हॉट स्टोन मसाज",
@@ -1132,7 +1132,7 @@ const extraServices: [string, Service][] = [
         kn: "ಬಿಗಿಯಾದ ಬೆನ್ನು ಮತ್ತು ಕಾಲುಗಳನ್ನು ಬಿಡುಗಡೆ ಮಾಡಲು ಬೆಚ್ಚಗಿನ ಬಸಾಲ್ಟ್ ಕಲ್ಲುಗಳು.",
         mr: "आठवलेली पाठ आणि पाय सोडण्यासाठी उबदार बसाल्ट दगड.",
         bn: "টাইট পিঠ ও পা ছেড়ে দিতে উষ্ণ বেসাল্ট পাথর।",
-      sa: "Warm basalt stones to release a tight back and legs."}, mins: 75, price: 3600 }],
+      sa: "आकुञ्चितं पृष्ठं पादौ च शिथिलीकर्तुम् उष्णाभिः बसाल्ट-शिलाभिः।"}, mins: 75, price: 3600 }],
   ["massage", { id: "b6", name: { en: "Head & shoulder massage", ta: "தலை & தோள் மசாஜ்", hi: "हेड और शोल्डर मसाज", ml: "ഹെഡ് & ഷോൾഡർ മസാജ്", te: "హెడ్ & షోల్డర్ మసాజ్",
       kn: "ತಲೆ & ಭುಜ ಮಸಾಜ್",
       mr: "डोके आणि खांदा मसाज",
@@ -1142,7 +1142,7 @@ const extraServices: [string, Service][] = [
         kn: "ತಲೆ, ಕುತ್ತಿಗೆ ಮತ್ತು ಭುಜಗಳಿಗೆ ಚಿಕ್ಕ, ಆಳವಾದ ಬಿಡುಗಡೆ.",
         mr: "डोके, मान आणि खांद्यांसाठी लहान, खोल रिलीझ.",
         bn: "মাথা, ঘাড় ও কাঁধের জন্য ছোট, গভীর রিলিজ।",
-      sa: "A short, deep release for head, neck and shoulders."}, mins: 30, price: 1200 }],
+      sa: "शिरसः, ग्रीवायाः, स्कन्धयोः च कृते लघु गभीरं शैथिल्यम्।"}, mins: 30, price: 1200 }],
   ["facial", { id: "s3", name: { en: "Gold radiance facial", ta: "கோல்ட் ரேடியன்ஸ் ஃபேஷியல்", hi: "गोल्ड रेडियंस फेशियल", ml: "ഗോൾഡ് റേഡിയൻസ് ഫേഷ്യൽ", te: "గోల్డ్ రేడియన్స్ ఫేషియల్",
       kn: "ಗೋಲ್ಡ್ ರೇಡಿಯನ್ಸ್ ಫೇಷಿಯಲ್",
       mr: "गोल्ड रेडियन्स फेशियल",
@@ -1152,7 +1152,7 @@ const extraServices: [string, Service][] = [
         kn: "ಪ್ರಕಾಶಮಾನ ಮುಕ್ತಾಯಕ್ಕಾಗಿ ಬ್ರೈಟನಿಂಗ್ ಗೋಲ್ಡ್-ಮಾಸ್ಕ್ ಫೇಶಿಯಲ್.",
         mr: "चमकदार फिनिशसाठी ब्राइटेनिंग गोल्ड-मास्क फेशियल.",
         bn: "উজ্জ্বল ফিনিশের জন্য ব্রাইটেনিং গোল্ড-মাস্ক ফেসিয়াল।",
-      sa: "A brightening gold-mask facial for a glowing finish."}, mins: 75, price: 3800 }],
+      sa: "दीप्तिमत्-परिष्काराय प्रकाशकरं सुवर्ण-मुखलेप-फेशियल्।"}, mins: 75, price: 3800 }],
   ["consult", { id: "c2", name: { en: "Skin analysis", ta: "சரும பகுப்பாய்வு", hi: "स्किन एनालिसिस", ml: "സ്കിൻ അനാലിസിസ്", te: "స్కిన్ అనాలిసిస్",
       kn: "ಚರ್ಮ ವಿಶ್ಲೇಷಣೆ",
       mr: "स्किन अॅनालिसिस",
@@ -1162,7 +1162,7 @@ const extraServices: [string, Service][] = [
         kn: "ನಿಮ್ಮ ಚರ್ಮದ ಪ್ರಕಾರ ಮತ್ತು ಕಾಳಜಿಗಳನ್ನು ನಿಕಟವಾಗಿ ನೋಡಿ, ಸ್ಪಷ್ಟ ರೊಟೀನ್‌ನೊಂದಿಗೆ.",
         mr: "तुमच्या त्वचेचा प्रकार आणि चिंता जवळून पहा, स्पष्ट दिनक्रमसह.",
         bn: "আপনার ত্বকের ধরন এবং উদ্বেগগুলি ঘনিষ্ঠভাবে দেখুন, একটি স্পষ্ট রুটিন সহ।",
-      sa: "A close look at your skin type and concerns, with a clear routine."}, mins: 30, price: 600 }],
+      sa: "भवतः त्वचः प्रकारस्य चिन्तानां च सूक्ष्म-परीक्षणं, स्पष्टया दिनचर्यया सह।"}, mins: 30, price: 600 }],
   ["consult", { id: "c3", name: { en: "Hair & scalp consultation", ta: "முடி & உச்சந்தலை ஆலோசனை", hi: "हेयर और स्कैल्प कंसल्टेशन", ml: "ഹെയർ & സ്കാൽപ് കൺസൾട്ടേഷൻ", te: "హెయిర్ & స్కాల్ప్ కన్సల్టేషన్",
       kn: "ಕೂದಲು & ತಲೆತೊಗಟೆ ಸಲಹೆ",
       mr: "केस आणि स्कॅल्प कन्सल्टेशन",
@@ -1172,17 +1172,17 @@ const extraServices: [string, Service][] = [
         kn: "ನಿಮ್ಮ ಕೂದಲು ಮತ್ತು ತಲೆತೊಗಟೆಗೆ ಏನು ಬೇಕು ಮತ್ತು ಅವುಗಳನ್ನು ಹೇಗೆ ಕಾಪಾಡುವುದು ಎಂದು ತಿಳಿಯಿರಿ.",
         mr: "तुमच्या केस आणि स्कॅल्पला काय हवे आहे आणि त्यांची काळजी कशी घ्यावी हे जाणून घ्या.",
         bn: "আপনার চুল এবং স্ক্যাল্পের কী প্রয়োজন এবং কীভাবে যত্ন নেবেন তা জানুন।",
-      sa: "Learn what your hair and scalp need, and how to care for them."}, mins: 30, price: 600 }],
+      sa: "भवतः केशानां शिरोत्वचः च किम् अपेक्षितम्, कथं च परिचर्या कार्या इति जानीत।"}, mins: 30, price: 600 }],
 ];
 for (const [key, item] of extraServices) serviceGroups.find((g) => g.key === key)!.items.push(item);
 
 // Bridal makeup packages (Silver / Gold / Platinum / Trial Pack) are edited by the admin.
 const bridalNames: Record<string, L> = {
   Silver: { en: "Bridal makeup · Silver", ta: "மணமகள் மேக்கப் · சில்வர்", hi: "ब्राइडल मेकअप · सिल्वर", ml: "ബ്രൈഡൽ മേക്കപ്പ് · സിൽവർ", te: "బ్రైడల్ మేకప్ · సిల్వర్" , kn: "ಬ್ರೈಡಲ್ ಮೇಕಪ್ · ಸಿಲ್ವರ್", mr: "ब्रायडल मेकअप · सिल्व्हर", bn: "ব্রাইডাল মেকআপ · সিলভার",
-      sa: "Bridal makeup · Silver"},
-  Gold: { en: "Bridal makeup · Gold", ta: "மணமகள் மேக்கப் · கோல்டு", hi: "ब्राइडल मेकअप · गोल्ड", ml: "ബ്രൈഡൽ മേക്കപ്പ് · ഗോൾഡ്", te: "బ్రైడల్ మేకప్ · గోల్డ్" , kn: "ಬ್ರೈಡಲ್ ಮೇಕಪ್ · ಗೋಲ್ಡ್", mr: "ब्रायडल मेकअप · गोल्ड", bn: "ব্রাইডাল মেকআপ · গোল্ড", sa: "Bridal makeup · Gold"},
-  Platinum: { en: "Bridal makeup · Platinum", ta: "மணமகள் மேக்கப் · பிளாட்டினம்", hi: "ब्राइडल मेकअप · प्लैटिनम", ml: "ബ്രൈഡൽ മേക്കപ്പ് · പ്ലാറ്റിനം", te: "బ్రైడల్ మేకప్ · ప్లాటినం" , kn: "ಬ್ರೈಡಲ್ ಮೇಕಪ್ · ಪ್ಲಾಟಿನಂ", mr: "ब्रायडल मेकअप · प्लॅटिनम", bn: "ব্রাইডাল মেকআপ · প্ল্যাটিনাম", sa: "Bridal makeup · Platinum"},
-  "Trial Pack": { en: "Bridal makeup · Trial pack", ta: "மணமகள் மேக்கப் · டிரையல் பேக்", hi: "ब्राइडल मेकअप · ट्रायल पैक", ml: "ബ്രൈഡൽ മേക്കപ്പ് · ട്രയൽ പാക്ക്", te: "బ్రైడల్ మేకప్ · ట్రయల్ ప్యాక్" , kn: "ಬ್ರೈಡಲ್ ಮೇಕಪ್ · ಟ್ರಯಲ್ ಪ್ಯಾಕ್", mr: "ब्रायडल मेकअप · ट्रायल पॅक", bn: "ব্রাইডাল মেকআপ · ট্রায়াল প্যাক", sa: "Bridal makeup · Trial pack"},
+      sa: "वधू-मुखाभरणम् · रजतम्"},
+  Gold: { en: "Bridal makeup · Gold", ta: "மணமகள் மேக்கப் · கோல்டு", hi: "ब्राइडल मेकअप · गोल्ड", ml: "ബ്രൈഡൽ മേക്കപ്പ് · ഗോൾഡ്", te: "బ్రైడల్ మేకప్ · గోల్డ్" , kn: "ಬ್ರೈಡಲ್ ಮೇಕಪ್ · ಗೋಲ್ಡ್", mr: "ब्रायडल मेकअप · गोल्ड", bn: "ব্রাইডাল মেকআপ · গোল্ড", sa: "वधू-मुखाभरणम् · सुवर्णम्"},
+  Platinum: { en: "Bridal makeup · Platinum", ta: "மணமகள் மேக்கப் · பிளாட்டினம்", hi: "ब्राइडल मेकअप · प्लैटिनम", ml: "ബ്രൈഡൽ മേക്കപ്പ് · പ്ലാറ്റിനം", te: "బ్రైడల్ మేకప్ · ప్లాటినం" , kn: "ಬ್ರೈಡಲ್ ಮೇಕಪ್ · ಪ್ಲಾಟಿನಂ", mr: "ब्रायडल मेकअप · प्लॅटिनम", bn: "ব্রাইডাল মেকআপ · প্ল্যাটিনাম", sa: "वधू-मुखाभरणम् · प्लैटिनम्"},
+  "Trial Pack": { en: "Bridal makeup · Trial pack", ta: "மணமகள் மேக்கப் · டிரையல் பேக்", hi: "ब्राइडल मेकअप · ट्रायल पैक", ml: "ബ്രൈഡൽ മേക്കപ്പ് · ട്രയൽ പാക്ക്", te: "బ్రైడల్ మేకప్ · ట్రయల్ ప్యాక్" , kn: "ಬ್ರೈಡಲ್ ಮೇಕಪ್ · ಟ್ರಯಲ್ ಪ್ಯಾಕ್", mr: "ब्रायडल मेकअप · ट्रायल पॅक", bn: "ব্রাইডাল মেকআপ · ট্রায়াল প্যাক", sa: "वधू-मुखाभरणम् · परीक्षण-संयोजनम्"},
 };
 const same = (s: string): L => ({ en: s, ta: s, hi: s, ml: s, te: s });
 serviceGroups.push({
@@ -1260,11 +1260,12 @@ const VARIANT_PHOTO: Record<string, string> = {
   cleanser: "/assets/products/cleanser/lavender.webp",
   "pimple-gel": "/assets/products/pimple-gel/lavender.webp",
   "shower-gel": "/assets/products/shower-gel/lavender.webp",
-  "skin-tint": "/assets/products/variants/blush-peach.png",
+  "skin-tint": "/assets/products/skin-tint/porcelain-light.webp",
   "tint-powder": "/assets/products/tint-powder/beetroot-pink.webp",
   "cleansing-oil": "/assets/products/cleansing-oil/jasmine.webp",
   "herbal-shampoo": "/assets/products/herbal-shampoo/hibiscus-aloe.webp",
-  highlighter: "/assets/products/variants/blush-pink.png",
+  highlighter: "/assets/products/highlighter/peach-glow.webp",
+  "hair-oil": "/assets/products/hair-scrub/herbal-hair-scrub.webp",
 };
 
 export const productPhoto = (id: string) =>
@@ -1272,7 +1273,7 @@ export const productPhoto = (id: string) =>
 
 /** One selectable colour / shade of a product. `img` is the product photo shown
  *  in the modal when the swatch is picked; `hex` is the swatch circle colour. */
-export type Shade = { key: string; name: string; hex: string; img: string; sub?: L; code?: string };
+export type Shade = { key: string; name: string; hex: string; img: string; sub?: L; code?: string; title?: L; copy?: L };
 
 const V = "/assets/products/variants/";
 const S = "/assets/products/shades/";
@@ -1291,13 +1292,13 @@ export const SHADES: Record<string, Shade[]> = {
   eclat: [
     { key: "lavender", name: "Lavender", hex: "#e1d4f8", img: SER + "lavender.webp" },
     { key: "rose", name: "Rose", hex: "#F3B9C0", img: SER + "rose.webp" },
-    { key: "matcha", name: "Matcha", hex: "#d1bbf2", img: SER + "matcha.webp" },
+    { key: "matcha", name: "Matcha", hex: "#9DBF7B", img: SER + "matcha.webp" },
     { key: "citrus", name: "Citrus", hex: "#E9A23B", img: SER + "citrus.webp" },
   ],
   "compact-powder": [
     { key: "lavender", name: "Lavender", hex: "#e1d4f8", img: CMP + "lavender.webp" },
     { key: "rose", name: "Rose", hex: "#F2C4C9", img: CMP + "rose.webp" },
-    { key: "matcha", name: "Matcha", hex: "#cdb6f1", img: CMP + "matcha.webp" },
+    { key: "matcha", name: "Matcha", hex: "#9DBF7B", img: CMP + "matcha.webp" },
     { key: "citrus", name: "Citrus", hex: "#EDB48F", img: CMP + "citrus.webp" },
   ],
   "lipstick-red": [
@@ -1316,7 +1317,7 @@ export const SHADES: Record<string, Shade[]> = {
       kn: "ಶೇಡ್ · R3 · ವೈನ್ ರೆಡ್",
       mr: "शेड · R3 · वाइन रेड",
       bn: "শেড · R3 · ওয়াইন রেড",
-      sa: "Shade · R3 · Wine Red"} },
+      sa: "वर्णः · R3 · द्राक्षारस-रक्तम्"} },
     { key: "r4", code: "R4", name: "R4 · Brick Red", hex: "#A0522D", img: LIP + "r4.webp", sub: { en: "Shade · R4 · Brick Red", ta: "ஷேட் · R4 · பிரிக் ரெட்", hi: "शेड · R4 · ब्रिक रेड", ml: "ഷേഡ് · R4 · ബ്രിക്ക് റെഡ്", te: "షేడ్ · R4 · బ్రిక్ రెడ్",
       kn: "ಶೇಡ್ · R4 · ಬ್ರಿಕ್ ರೆಡ್",
       mr: "शेड · R4 · ब्रिक रेड",
@@ -1351,17 +1352,17 @@ export const SHADES: Record<string, Shade[]> = {
       mr: "शेड · G1 · मिंट ग्रीन",
       bn: "শেড · G1 · মিন্ট গ্রিন",
       sa: "छाया · G1 · पुदीना-हरितम्"} },
-    { key: "g2", code: "G2", name: "G2 · Olive Green", hex: "#5621a6", img: LIP + "g2.webp", sub: { en: "Shade · G2 · Olive Green", ta: "ஷேட் · G2 · ஆலிவ் கிரீன்", hi: "शेड · G2 · ऑलिव ग्रीन", ml: "ഷേഡ് · G2 · ഒലിവ് ഗ്രീൻ", te: "షేడ్ · G2 · ఆలివ్ గ్రీన్",
+    { key: "g2", code: "G2", name: "G2 · Olive Green", hex: "#6B7B2E", img: LIP + "g2.webp", sub: { en: "Shade · G2 · Olive Green", ta: "ஷேட் · G2 · ஆலிவ் கிரீன்", hi: "शेड · G2 · ऑलिव ग्रीन", ml: "ഷേഡ് · G2 · ഒലിവ് ഗ്രീൻ", te: "షేడ్ · G2 · ఆలివ్ గ్రీన్",
       kn: "ಶೇಡ್ · G2 · ಆಲಿವ್ ಗ್ರೀನ್",
       mr: "शेड · G2 · ऑलिव्ह ग्रीन",
       bn: "শেড · G2 · অলিভ গ্রিন",
       sa: "छाया · G2 · जैतून-हरितम्"} },
-    { key: "g3", code: "G3", name: "G3 · Forest Green", hex: "#5420a1", img: LIP + "g3.webp", sub: { en: "Shade · G3 · Forest Green", ta: "ஷேட் · G3 · ஃபாரஸ்ட் கிரீன்", hi: "शेड · G3 · फ़ॉरेस्ट ग्रीन", ml: "ഷേഡ് · G3 · ഫോറസ്റ്റ് ഗ്രീൻ", te: "షేడ్ · G3 · ఫారెస్ట్ గ్రీన్",
+    { key: "g3", code: "G3", name: "G3 · Forest Green", hex: "#2E6B3F", img: LIP + "g3.webp", sub: { en: "Shade · G3 · Forest Green", ta: "ஷேட் · G3 · ஃபாரஸ்ட் கிரீன்", hi: "शेड · G3 · फ़ॉरेस्ट ग्रीन", ml: "ഷേഡ് · G3 · ഫോറസ്റ്റ് ഗ്രീൻ", te: "షేడ్ · G3 · ఫారెస్ట్ గ్రీన్",
       kn: "ಶೇಡ್ · G3 · ಫಾರೆಸ್ಟ್ ಗ್ರೀನ್",
       mr: "शेड · G3 · फॉरेस्ट ग्रीन",
       bn: "শেড · G3 · ফরেস্ট গ্রিন",
       sa: "छाया · G3 · वन-हरितम्"} },
-    { key: "g4", code: "G4", name: "G4 · Khaki Green", hex: "#4d1d95", img: LIP + "g4.webp", sub: { en: "Shade · G4 · Khaki Green", ta: "ஷேட் · G4 · காக்கி கிரீன்", hi: "शेड · G4 · खाकी ग्रीन", ml: "ഷേഡ് · G4 · കാക്കി ഗ്രീൻ", te: "షేడ్ · G4 · ఖాకీ గ్రీన్",
+    { key: "g4", code: "G4", name: "G4 · Khaki Green", hex: "#B5AD6B", img: LIP + "g4.webp", sub: { en: "Shade · G4 · Khaki Green", ta: "ஷேட் · G4 · காக்கி கிரீன்", hi: "शेड · G4 · खाकी ग्रीन", ml: "ഷേഡ് · G4 · കാക്കി ഗ്രീൻ", te: "షేడ్ · G4 · ఖాకీ గ్రీన్",
       kn: "ಶೇಡ್ · G4 · ಖಾಕಿ ಗ್ರೀನ್",
       mr: "शेड · G4 · खाकी ग्रीन",
       bn: "শেড · G4 · খাকি গ্রিন",
@@ -1392,13 +1393,13 @@ export const SHADES: Record<string, Shade[]> = {
   "night-cream": [
     { key: "lavender", name: "Lavender", hex: "#e2d5f8", img: MOI + "lavender.webp" },
     { key: "rose", name: "Rose", hex: "#F4C6CB", img: MOI + "rose.webp" },
-    { key: "matcha", name: "Matcha", hex: "#d3bff2", img: MOI + "matcha.webp" },
+    { key: "matcha", name: "Matcha", hex: "#9DBF7B", img: MOI + "matcha.webp" },
     { key: "citrus", name: "Citrus", hex: "#F0B27A", img: MOI + "citrus.webp" },
   ],
   cleanser: [
     { key: "lavender", name: "Lavender", hex: "#e8dffa", img: CLN + "lavender.webp" },
     { key: "rose", name: "Rose", hex: "#F2C0C8", img: CLN + "rose.webp" },
-    { key: "matcha", name: "Matcha", hex: "#c5aaef", img: CLN + "matcha.webp" },
+    { key: "matcha", name: "Matcha", hex: "#9DBF7B", img: CLN + "matcha.webp" },
     { key: "citrus", name: "Citrus", hex: "#F2B84B", img: CLN + "citrus.webp" },
   ],
   "pimple-gel": [
@@ -1414,29 +1415,28 @@ export const SHADES: Record<string, Shade[]> = {
     { key: "citrus", name: "Citrus", hex: "#F7B26B", img: SHW + "citrus.webp" },
   ],
   "skin-tint": [
-    { key: "peach", name: "Peach", hex: "#f08a7a", img: V + "blush-peach.png" },
-    { key: "pink", name: "Pink", hex: "#d9657f", img: V + "blush-pink.png" },
-    { key: "mauve", name: "Mauve", hex: "#b4607a", img: V + "blush-mauve.png" },
+    { key: "porcelain", name: "Flavour 1 · Porcelain Light", hex: "#dbbfa9", img: P + "skin-tint/porcelain-light.webp" },
+    { key: "honey", name: "Flavour 2 · Honey Medium", hex: "#c07741", img: P + "skin-tint/honey-medium.webp" },
+    { key: "almond", name: "Flavour 3 · Almond Deep", hex: "#5d3426", img: P + "skin-tint/almond-deep.webp" },
   ],
   highlighter: [
-    { key: "pink", name: "Pink", hex: "#d9657f", img: V + "blush-pink.png" },
-    { key: "peach", name: "Peach", hex: "#f08a7a", img: V + "blush-peach.png" },
-    { key: "mauve", name: "Mauve", hex: "#b4607a", img: V + "blush-mauve.png" },
+    { key: "peach", name: "Flavour 1 · Peach Glow", hex: "#ecb090", img: P + "highlighter/peach-glow.webp" },
+    { key: "champagne", name: "Flavour 2 · Pink Champagne", hex: "#e1a0a9", img: P + "highlighter/pink-champagne.webp" },
   ],
   "rose-mist": [
-    { key: "classic", name: "Classic White", hex: "#f7f4fd", img: P + "rose-mist.webp" },
-    { key: "blush", name: "Blush", hex: "#ecb0ba", img: S + "rose-mist-blush.webp" },
-    { key: "sage", name: "Sage", hex: "#decff7", img: S + "rose-mist-sage.webp" },
-    { key: "sky", name: "Sky", hex: "#b0caea", img: S + "rose-mist-sky.webp" },
+    { key: "rose", name: "Rose", hex: "#e8a0ae", img: P + "face-mist/rose.webp", title: { en: "Rose Face Mist" }, sub: { en: "Fresh, anytime" }, copy: { en: "A fine rose mist with real rose petals to refresh the face, set makeup or add a touch of softness through the day." } },
+    { key: "green-tea", name: "Green Tea", hex: "#8fb06a", img: P + "face-mist/green-tea.webp", title: { en: "Green Tea Face Mist" }, sub: { en: "Fresh, calming" }, copy: { en: "A light green tea face mist that refreshes tired skin and leaves it feeling cool and clear." } },
+    { key: "cucumber", name: "Cucumber", hex: "#b9d6a0", img: P + "face-mist/cucumber.webp", title: { en: "Cucumber Face Mist" }, sub: { en: "Cool, hydrating" }, copy: { en: "A cooling cucumber face mist that hydrates and soothes skin, ideal on warm days." } },
+    { key: "sandalwood", name: "Sandalwood", hex: "#c9a574", img: P + "face-mist/sandalwood.webp", title: { en: "Sandalwood Face Mist" }, sub: { en: "Hydrating, calming" }, copy: { en: "A calming face mist made with real sandalwood chips for soft, hydrated skin." } },
   ],
   "body-butter": [
     { key: "amber", name: "Amber", hex: "#a8651e", img: P + "body-butter.webp" },
-    { key: "green", name: "Forest Green", hex: "#5822aa", img: S + "body-butter-green.webp" },
+    { key: "green", name: "Forest Green", hex: "#2E6B3F", img: S + "body-butter-green.webp" },
     { key: "rose", name: "Rose", hex: "#96465a", img: S + "body-butter-rose.webp" },
     { key: "blue", name: "Midnight Blue", hex: "#3c5a8c", img: S + "body-butter-blue.webp" },
   ],
   "cleansing-oil": [
-    { key: "jasmine", name: "Jasmine", hex: "#d7c5f4", img: P + "cleansing-oil/jasmine.webp" },
+    { key: "jasmine", name: "Jasmine", hex: "#F1E6B5", img: P + "cleansing-oil/jasmine.webp" },
   ],
   "tint-powder": [
     { key: "beetroot", name: "Beetroot Pink", hex: "#c4607a", img: P + "tint-powder/beetroot-pink.webp" },
@@ -1444,28 +1444,24 @@ export const SHADES: Record<string, Shade[]> = {
     { key: "charcoal", name: "Charcoal Black", hex: "#2b2b2b", img: P + "tint-powder/charcoal-black.webp" },
   ],
   "sandal-oil": [
-    { key: "amber", name: "Amber", hex: "#a8651e", img: P + "sandal-oil.webp" },
-    { key: "green", name: "Forest Green", hex: "#5822aa", img: S + "sandal-oil-green.webp" },
-    { key: "rose", name: "Rose", hex: "#96465a", img: S + "sandal-oil-rose.webp" },
-    { key: "blue", name: "Midnight Blue", hex: "#3c5a8c", img: S + "sandal-oil-blue.webp" },
+    { key: "rose", name: "Flavour 2 · Rose Sandalwood", hex: "#c9788a", img: P + "sandal-oil/rose.webp" },
+    { key: "lavender", name: "Flavour 3 · Lavender Sandalwood", hex: "#7a5a9e", img: P + "sandal-oil/lavender.webp" },
+    { key: "vanilla", name: "Flavour 4 · Vanilla Sandalwood", hex: "#c99b5a", img: P + "sandal-oil/vanilla.webp" },
   ],
   "hair-oil": [
-    { key: "green", name: "Avocado", hex: "#a880e8", img: P + "hair-oil.webp" },
-    { key: "rose", name: "Rose", hex: "#d96f94", img: S + "hair-oil-rose.webp" },
-    { key: "lilac", name: "Lilac", hex: "#dcccf6", img: S + "hair-oil-lilac.webp" },
-    { key: "periwinkle", name: "Periwinkle", hex: "#3f5bb0", img: S + "hair-oil-periwinkle.webp" },
+    { key: "scrub", name: "Herbal Hair Scrub", hex: "#4a5a2e", img: P + "hair-scrub/herbal-hair-scrub.webp" },
   ],
   perfume: [
     { key: "amber", name: "Amber", hex: "#e8946a", img: P + "perfume.webp" },
     { key: "rose", name: "Rose", hex: "#e8969f", img: S + "perfume-rose.webp" },
-    { key: "jade", name: "Jade", hex: "#c9b0f0", img: S + "perfume-jade.webp" },
+    { key: "jade", name: "Jade", hex: "#4FB287", img: S + "perfume-jade.webp" },
     { key: "violet", name: "Violet", hex: "#d6c4f4", img: S + "perfume-violet.webp" },
   ],
   "herbal-shampoo": [
     { key: "hibiscus", name: "Hibiscus & Aloe Vera", hex: "#d97a95", img: P + "herbal-shampoo/hibiscus-aloe.webp" },
-    { key: "neem", name: "Neem & Tea Tree", hex: "#5e18f0", img: P + "herbal-shampoo/neem-tea-tree.webp" },
+    { key: "neem", name: "Neem & Tea Tree", hex: "#6B9A55", img: P + "herbal-shampoo/neem-tea-tree.webp" },
     { key: "coconut", name: "Coconut Milk & Fenugreek", hex: "#c9964f", img: P + "herbal-shampoo/coconut-fenugreek.webp" },
-    { key: "amla", name: "Amla & Reetha", hex: "#9059ea", img: P + "herbal-shampoo/amla-reetha.webp" },
+    { key: "amla", name: "Amla & Reetha", hex: "#8A9A4B", img: P + "herbal-shampoo/amla-reetha.webp" },
   ],
 };
 

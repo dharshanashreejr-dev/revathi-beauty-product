@@ -206,3 +206,222 @@ article.animate-rise { min-width: 0; }
 .specialist-card { opacity: 1 !important; transform: none; }
 .specialists.is-in .specialist-card { transform: none; }
 .specialist-media { background: #e6dafc; min-height: 200px; }
+
+
+/* ═══════════ Accent colours: Champagne Gold + Blush Rose ═══════════
+   Additive only: backgrounds, main text, header and buttons keep the Lavender / Deep Purple look.
+   Change a colour here once and it updates everywhere below. */
+:root {
+  --ac-gold: #c9a35b;        /* champagne gold (fills, lines, rings) */
+  --ac-gold-deep: #94702b;   /* darker gold, readable as small text on light bands */
+  --ac-gold-soft: #f3e7cb;
+  --ac-blush: #ebc4c0;       /* blush rose (soft glows, highlights) */
+  --ac-blush-soft: #f9e9e7;
+}
+
+/* Product badges (Bestseller / New): gold with deep purple text */
+[data-product-img] > span.absolute:not(.rounded-full) {
+  background: linear-gradient(135deg, #e3c887 0%, var(--ac-gold) 55%, #b88f45 100%) !important;
+  color: var(--lt-deep) !important;
+  box-shadow: 0 4px 12px rgba(201, 163, 91, .38);
+}
+
+/* Selected shade swatch ring */
+.ring-clay { --tw-ring-color: var(--ac-gold) !important; }
+
+/* Small eyebrow labels on the light sections */
+.collection-band .eyebrow, .herbal .eyebrow, .shop .eyebrow, .film .eyebrow,
+.picks .eyebrow, .rituals .eyebrow, .testimonials .eyebrow, .spa .eyebrow { color: var(--ac-gold-deep); }
+
+/* Nav link underline */
+.vt-nav a::after, .header nav a::after { background: var(--ac-gold) !important; }
+
+/* "Book an appointment" / pill buttons: gold circle on hover */
+.pill:hover .pill-dot { border-color: var(--ac-gold); }
+.pill.dark:hover .pill-dot { background: var(--ac-gold); color: var(--lt-deep); }
+
+/* Soft blush glow when hovering cards */
+article.animate-rise:hover,
+.collection-card:hover, .promo-card:hover { box-shadow: 0 18px 40px rgba(235, 196, 192, .55), 0 0 0 1px var(--ac-blush); }
+
+/* Text selection + keyboard focus */
+::selection { background: var(--ac-blush); color: var(--lt-deep); }
+:focus-visible { outline-color: var(--ac-gold); }
+
+/* Slider dots (services film): active dot in gold */
+.film-dots button.on { background: var(--ac-gold); }
+
+
+/* ═══════════ Accent touches 1-9 (gold + blush) ═══════════ */
+
+/* 1) Rating box: stays green (meaning), star + number in champagne gold */
+article .bg-emerald-700 { color: #f6e2ae !important; }
+
+/* 2) Offer chips + "16% off" */
+.of-pill b, .of-badge { background: var(--ac-blush) !important; color: var(--lt-deep) !important; }
+article .text-emerald-700 {
+  display: inline-block; padding: 1px 8px; border-radius: 999px;
+  background: var(--ac-blush-soft); color: var(--lt-deep) !important; border: 1px solid var(--ac-blush);
+}
+
+/* 3) Thin gold line under the main section headings */
+.film-head h2::after, .shop-heading h2::after {
+  content: ""; display: block; width: 44px; height: 2px; margin-top: 16px;
+  background: linear-gradient(90deg, var(--ac-gold), transparent);
+}
+
+/* 4) Old price strike-through in a soft gold-grey */
+article .line-through { color: #b6a37c !important; text-decoration-color: var(--ac-gold); }
+
+/* 5) Wishlist heart: rose outline, blush fill when liked */
+article button[aria-pressed] svg { stroke: #c9788a !important; }
+article button[aria-pressed="true"] svg { fill: var(--ac-blush) !important; stroke: #c4566b !important; }
+
+/* 6) Cart count (n): blush pill */
+.vt-bag span, .bag-button span {
+  display: inline-block; min-width: 24px; padding: 1px 7px; border-radius: 999px; text-align: center;
+  background: var(--ac-blush); color: var(--lt-deep); font-weight: 700; line-height: 1.5;
+}
+
+/* 7) Filter / category chips on the products page: selected = blush with gold edge */
+#products button[aria-pressed="true"].rounded-full {
+  background: var(--ac-blush) !important; color: var(--lt-deep) !important; border-color: var(--ac-gold) !important;
+}
+#products button[aria-pressed="false"].rounded-full:hover { border-color: var(--ac-gold) !important; }
+
+/* 8) Review cards: blush top edge, gold stars */
+.testi-card { border-top: 3px solid var(--ac-blush); }
+.testi-stars { color: var(--ac-gold) !important; }
+
+/* 9) Footer: gold line on top */
+footer { border-top: 2px solid var(--ac-gold); }
+
+
+/* ═══════════ Gold pass 2: stars, running strips, cards/numbers, "care." + username ═══════════ */
+
+/* The project's Tailwind "gold" was really lavender (#c4b5fd): make every gold utility true champagne gold */
+.text-gold { color: var(--ac-gold) !important; }
+.bg-gold { background-color: var(--ac-gold) !important; }
+.border-gold { border-color: var(--ac-gold) !important; }
+
+/* 1) Review stars (Reviews page cards, "Customer reviews" list, review forms, landing testimonials) */
+[aria-label$="/ 5"] { color: var(--ac-gold) !important; }
+.testi-stars, .testi-stars i { color: var(--ac-gold) !important; }
+
+/* 2) Running strips */
+div:has(> .marquee) {                                   /* About page: Body Massage • Facial • ... */
+  background: linear-gradient(90deg, #b8903f, #e3c887 50%, #b8903f) !important;
+  color: var(--lt-deep) !important; border-color: transparent !important;
+}
+div:has(> .marquee) i { background: var(--lt-deep) !important; }
+.hb-ticker {                                            /* Landing: offers ticker under the hero */
+  background: linear-gradient(90deg, #d9b76d, #f0dca6 50%, #d9b76d) !important;
+  color: var(--lt-deep) !important; border-top: 0 !important;
+}
+.rv-marquee { border-top: 2px solid var(--ac-gold); border-bottom: 2px solid var(--ac-gold); }
+
+/* 3) Cards + words: stats cards, journey cards, flip cards */
+.spot { border-color: rgba(201, 163, 91, .7) !important; }
+.spot .label { color: #f3e1b0 !important; }
+.group.bg-ink { border: 1px solid rgba(201, 163, 91, .65); }
+.group.bg-ink h3 { color: #f3e1b0; }
+.flip-face { border: 1px solid rgba(201, 163, 91, .55); }
+.flip-back h3, .flip-back .label { color: #f3e1b0; }
+
+/* 4) "care." and the user's name: gold shimmer (also the years 2018-2024 and 01-04 numbers) */
+.gold-text {
+  background-image: linear-gradient(100deg, #a67c2e 10%, #f4e0a4 35%, #c9a35b 50%, #f4e0a4 65%, #a67c2e 90%) !important;
+}
+
+
+/* ═══════════ Gold round: strip, offer cards, collection cards, header brand ═══════════ */
+
+/* 1) Running strip: gold band, deep-purple text */
+.herbal-strip { background: linear-gradient(90deg, #d9b872 0%, var(--ac-gold) 50%, #d9b872 100%) !important; color: var(--lt-deep) !important; font-weight: 600; }
+
+/* 1b) Gap between the tags line ("... WARM") and the herbal-infused pill */
+.herbal-info .eyebrow { display: inline-block; margin-right: 26px; margin-bottom: 6px; }
+
+/* 2) "Current offers" cards: light gold with deep-purple text */
+.promo-card { background: linear-gradient(170deg, #f8eccb 0%, #ecd599 100%) !important; color: var(--lt-deep) !important; border: 1px solid rgba(201, 163, 91, .6); }
+.promo-card h4 { color: var(--lt-deep) !important; text-shadow: none !important; }
+.promo-brand { background: var(--ac-gold) !important; color: var(--lt-deep) !important; }
+.promo-chips i { color: var(--lt-deep) !important; background: rgba(148, 112, 43, .14) !important; border: 1px solid rgba(148, 112, 43, .45) !important; }
+.promo-foot { background: linear-gradient(to top, rgba(236, 213, 153, .98) 0%, rgba(236, 213, 153, .75) 55%, transparent 100%) !important; }
+.promo-foot strong, .promo-foot span { color: var(--lt-deep) !important; text-shadow: none !important; }
+.promo-foot button { background: var(--lt-deep) !important; color: #f3e1b0 !important; }
+.promo-foot button:hover { background: #5b2bb0 !important; color: #fff !important; }
+
+/* 3) Collection cards (Bestseller / New / lipstick / powder / cleanser): gold name + line */
+.collection-card-copy h3 { color: var(--ac-gold-deep) !important; }
+.collection-card-copy span { color: #a8812f !important; }
+
+/* 4) Header brand name + tagline in gold */
+.vt-header .vt-brand .vt-word { color: #9a7424 !important; }
+.vt-header .vt-brand .vt-tagline { color: var(--ac-gold-deep) !important; opacity: 1; }
+
+
+/* 4) Header links, language box, cart and profile button: gold instead of violet */
+.vt-header .vt-nav a,
+.vt-header .vt-rightwrap a,
+.vt-header .vt-rightwrap button,
+.vt-header .vt-tools a,
+.vt-header .vt-tools button,
+.vt-header .vt-lang,
+.vt-header .vt-profile,
+.vt-header .vt-profile-name { color: #9a7424 !important; }
+.vt-header .vt-lang,
+.vt-header .vt-admin,
+.vt-header .vt-profile { border-color: rgba(154, 116, 36, .55) !important; }
+.vt-header .vt-bag svg, .vt-header .vt-profile svg, .vt-header .vt-lang { stroke: currentColor; }
+.vt-header .vt-nav a:hover { color: #7a5a1c !important; }
+
+
+/* ═══════════ Round 3: landing navbar (gold, no overlap, same spacing in every language), strips, no gap under navbar ═══════════ */
+.nav-rightwrap { display: contents; }
+
+/* 1) Remaining violet in the navbar -> gold */
+html:not(#a) body .header .header-brand .brand-word { color: #9a7424 !important; }
+html:not(#a) body .header .header-brand .brand-tagline,
+html:not(#a) body .header .header-brand .brand-sub { color: var(--ac-gold-deep) !important; opacity: 1; }
+html:not(#a) body .header nav a,
+html:not(#a) body .header .nav-tools button,
+html:not(#a) body .header .nav-tools select,
+html:not(#a) body .header .nav-profile-name,
+html:not(#a) body .header .bag-button { color: #9a7424 !important; }
+html:not(#a) body .header .nav-tools select,
+html:not(#a) body .header .nav-profile { border-color: rgba(154, 116, 36, .55) !important; }
+html:not(#a) body .header nav a:hover { color: #7a5a1c !important; }
+.bag-button span, .vt-bag span { color: #6b4e12 !important; }
+
+/* 2) Running strips: gold band with dark gold-brown text (no violet) */
+.herbal-strip, .hb-ticker, div:has(> .marquee) { color: #3d2a08 !important; }
+div:has(> .marquee) i { background: #3d2a08 !important; }
+
+/* 3) Landing navbar: one flex row, fixed gaps, nothing can overlap (same spacing in every language) */
+@media (min-width: 1051px) {
+  html:not(#a) body .header { display: flex !important; align-items: center !important; justify-content: center !important; gap: clamp(18px, 2vw, 40px) !important; padding: 0 clamp(12px, 1.5vw, 28px) !important; height: 84px !important; }
+  html:not(#a) body .header.is-scrolled { height: 72px !important; }
+  html:not(#a) body .header nav { height: auto !important; flex: 0 0 auto; padding: 0 !important; gap: clamp(16px, 1.7vw, 30px) !important; font-size: 11.5px !important; letter-spacing: .08em !important; }
+  html:not(#a) body .header nav a { font-size: 11.5px !important; letter-spacing: .08em !important; padding: 10px 0 !important; white-space: nowrap; }
+  html:not(#a) body .header .header-brand { flex: 0 0 auto; height: auto !important; align-self: center !important; margin: 0 !important; padding: 0 !important; transform: none !important; white-space: nowrap; }
+  html:not(#a) body .header .nav-rightwrap { display: flex !important; align-items: center; gap: clamp(16px, 1.7vw, 30px); flex: 0 1 auto; min-width: 0; }
+  html:not(#a) body .header .nav-tools { position: static !important; top: auto !important; right: auto !important; display: flex !important; align-items: center; gap: 10px !important; margin: 0 !important; flex: 0 0 auto; }
+  html:not(#a) body .header .lang-select { margin: 0 !important; }
+  html:not(#a) body .header .lang-select select { width: 104px !important; min-width: 104px !important; max-width: 104px !important; text-overflow: ellipsis; font-size: 10px !important; letter-spacing: .04em !important; }
+  html:not(#a) body .header .nav-tools .nav-profile { max-width: none; }
+}
+/* laptop widths: same compact steps for every language */
+@media (min-width: 1051px) and (max-width: 1450px) {
+  html:not(#a) body .header .nav-profile-name { display: none !important; }
+  html:not(#a) body .header .nav-tools .nav-profile { padding: 8px 10px !important; }
+}
+@media (min-width: 1051px) and (max-width: 1280px) {
+  html:not(#a) body .header nav a { font-size: 10.5px !important; letter-spacing: .05em !important; }
+  html:not(#a) body .header .header-brand .brand-word { font-size: 16px !important; letter-spacing: .1em !important; }
+  html:not(#a) body .header .header-brand .brand-tagline { font-size: 10px !important; letter-spacing: .06em !important; }
+  html:not(#a) body .header .lang-select select { width: 90px !important; min-width: 90px !important; max-width: 90px !important; }
+}
+
+/* 4) No violet gap between the navbar and the hero (hero starts exactly under the 84px navbar) */
+html:not(#a) body .hb { padding-top: 84px !important; }

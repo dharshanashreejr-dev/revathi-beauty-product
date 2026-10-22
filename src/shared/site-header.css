@@ -379,3 +379,16 @@ html:not([lang="en"]) .vt-right { gap: 14px !important; }
   .vt-header .vt-brand { height: 73px; }
   .vt-header.is-solid .vt-brand { height: 80px; }
 }
+
+/* ===== Structured navbar: links grouped, tools grouped, Profile always the last item at the far right ===== */
+@media (min-width: 1260px) {
+  .vt-header .vt-left { flex: 1 1 0; }
+  .vt-header .vt-brand { flex: 0 0 auto; margin: 0 clamp(8px, 1vw, 20px); }
+  .vt-header .vt-rightwrap {
+    flex: 1 1 0;
+    justify-content: space-between;
+    min-width: 0;
+  }
+  .vt-header .vt-tools { margin-left: auto; }
+  .vt-header .vt-tools .vt-profile { order: 99; margin-left: clamp(2px, .6vw, 10px); }
+}

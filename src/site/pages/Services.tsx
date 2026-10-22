@@ -210,7 +210,7 @@ function ServiceReviews() {
 export default function Home() {
   const { t } = useI18n()
   return (
-    <main>
+    <main className="svc-page">
       <Hero /><Menu />
       <Team /><ServiceReviews />
       <footer className="bg-sand px-5 md:px-10 py-16 flex flex-col md:flex-row md:justify-end gap-8 items-start md:items-end">
