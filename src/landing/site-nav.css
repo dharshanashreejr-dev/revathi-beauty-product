@@ -32,8 +32,8 @@
 footer nav a { cursor: pointer; }
 
 .lang-select select option {
-  color: #12140f;
-  background: #eef2e4;
+  color: #4b1d90;
+  background: #f7f4fd;
 }
 
 /* Indic scripts */
@@ -133,3 +133,65 @@ html:not([lang="en"]) .nav-right {
 .header.is-scrolled .header-brand { height: 80px; transform: scale(0.92); transform-origin: center; padding-top: 0; }
 @media (max-width: 1359px) { .header .header-brand { height: 80px; } }
 @media (max-width: 799px) { .header .header-brand { height: 88px; transform: scale(0.85); transform-origin: center; } .header.is-scrolled .header-brand { height: 72px; transform: scale(0.8); } }
+
+/* ── Stronger language-adaptive navbar (landing only) ── */
+html:not([lang="en"]) .header {
+  grid-template-columns: 1fr minmax(140px, 240px) 1fr;
+}
+html:not([lang="en"]) .header nav {
+  gap: 14px !important;
+  font-size: 10.5px !important;
+  letter-spacing: 0 !important;
+}
+html:not([lang="en"]) .nav-left {
+  padding-right: 12px !important;
+  justify-content: flex-end;
+}
+html:not([lang="en"]) .nav-right {
+  padding-left: 12px !important;
+  padding-right: 360px !important;
+  gap: 12px !important;
+}
+html:not([lang="en"]) .header nav a {
+  white-space: nowrap;
+  font-size: 10.5px !important;
+  letter-spacing: 0 !important;
+}
+@media (max-width: 1200px) {
+  html:not([lang="en"]) .header nav { gap: 10px !important; font-size: 10px !important; }
+  html:not([lang="en"]) .nav-right { padding-right: 320px !important; }
+}
+@media (max-width: 1000px) {
+  html:not([lang="en"]) .header {
+    grid-template-columns: 1fr minmax(120px, 200px) 1fr;
+  }
+  html:not([lang="en"]) .nav-right { padding-right: 280px !important; gap: 8px !important; }
+}
+
+/* Ensure profile / login always visible on mobile (landing) */
+@media (max-width: 799px) {
+  .nav-tools .nav-admin { display: none; }
+  .nav-tools .nav-profile {
+    display: inline-flex !important;
+    padding: 6px 10px !important;
+    gap: 6px !important;
+  }
+  .nav-profile-name { display: none !important; }
+  .nav-tools { gap: 8px !important; right: 10px !important; }
+}
+
+/* Mobile panel – ensure first item (Home) is fully visible */
+.mobile-panel {
+  padding: 72px 28px 40px !important;
+  overflow-y: auto;
+  max-height: 100dvh;
+}
+.mobile-panel nav {
+  margin-top: 28px !important;
+  gap: 18px !important;
+}
+.mobile-panel nav a {
+  font-size: 32px !important;
+  line-height: 1.25 !important;
+  padding: 4px 0 !important;
+}

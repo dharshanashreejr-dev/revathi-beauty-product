@@ -63,9 +63,9 @@ export default function Login({ onSuccess }) {
           {webgpu && !shardsFailed && (
             <SafeEffect><Suspense fallback={null}>
               <AeroShards
-                backgroundColor="#1e2418"
-                shardColor="#b2b9a7"
-                accentColor="#dde4c8"
+                backgroundColor="#4b1d91"
+                shardColor="#d7c5f4"
+                accentColor="#ede5fb"
                 detail="balanced"
                 material="satin"
                 density={0.9}
@@ -89,8 +89,8 @@ export default function Login({ onSuccess }) {
               text="Revathi Herbal Beauty Care"
               layers={22}
               depth={1.6}
-              faceColor="#e6ebd7"
-              depthColor="#acb895"
+              faceColor="#f3eefc"
+              depthColor="#d1bcf2"
               tilt={6}
               fontSize="clamp(2.6rem, 5.2vw, 4.6rem)"
               fontWeight={800}

@@ -9,6 +9,7 @@ import { authT } from '../../shared/auth-text';
 import { ck, ck2, shipToLabel } from '../i18n-checkout';
 import { api } from '../../api';
 import { CouponPicker } from '../../shared/Offers';
+import { FlashBanner, flashAmount, useFlashOffer } from '../../shared/FlashOffer';
 
 // Product orders are paid ONLINE through Razorpay only (CRS 3.2 / 4.6). Pay on Delivery does not exist.
 export default function Payment({ items, address, onBack, onPlace }: { items: CartItem[]; address: Address; onBack: () => void; onPlace: (o: Order) => void }) {
@@ -24,7 +25,9 @@ export default function Payment({ items, address, onBack, onPlace }: { items: Ca
   const discount = applied?.discount ?? 0;
   // Free-delivery coupons (first order / booked-a-service customers) waive the whole shipping charge.
   const ship = applied?.freeShip ? 0 : shipFee(sub, address.method);
-  const total = sub - discount + ship;
+  const flashOffer = useFlashOffer('checkout');
+  const flash = flashAmount(sub - discount, flashOffer.active, flashOffer.pct);
+  const total = sub - discount - flash + ship;
   const REASON: Record<string, string> = { empty: 'Enter a coupon code.', invalid: 'Invalid coupon code.', inactive: 'Invalid coupon code.', early: 'This coupon is not active yet.', expired: 'This coupon has expired.', scope: 'This coupon does not apply to product orders.', 'used-up': 'This coupon has been fully used.', login: 'Please log in to use this coupon.', 'not-first-order': 'This coupon is only for your first product order.', 'not-first-service': 'This coupon is only for your first service booking.', 'need-booking': 'Book a service first to use this coupon.', 'has-order': 'This coupon is only for customers who have not bought products yet.' };
   const apply = (c: string = code) => {
     const r = api.offers.validateCoupon(c, sub, 'products');
@@ -40,7 +43,7 @@ export default function Payment({ items, address, onBack, onPlace }: { items: Ca
     // Order-success SMS (DLT template: order id, total, tracking link).
     if (applied) api.offers.redeemCoupon(applied.code);
     api.sms.sendSms('orderSuccess', address.phone, [id, total, `${location.origin}/track?tab=orders&id=${id}`]);
-    setTimeout(() => onPlace({ id, items, address, pay: `Razorpay · ${method}`, subtotal: sub, shipping: ship, fee: 0, discount, coupon: applied?.code, total, date: new Date().toISOString(), eta: eta.toISOString() }), 900);
+    setTimeout(() => onPlace({ id, items, address, pay: `Razorpay · ${method}`, subtotal: sub, shipping: ship, fee: 0, discount: discount + flash, coupon: applied?.code, total, date: new Date().toISOString(), eta: eta.toISOString() }), 900);
     void paymentId; // BACKEND: stored with the order and verified against Razorpay
   };
 
@@ -49,6 +52,7 @@ export default function Payment({ items, address, onBack, onPlace }: { items: Ca
       <Steps at={2} />
       <div className="grid gap-10 lg:grid-cols-[1fr_380px]">
         <div>
+          <div className="mb-8"><FlashBanner left={flashOffer.left} pct={flashOffer.pct} text={authT('Pay within this time and get {pct}% off your order', ui)} endedText={authT('The quick-pay offer has ended', ui)} /></div>
           <h1 className="font-serif text-5xl">{ck2('Payment|mode', lang)[0]} <span className="gold-text italic">{ck2('Payment|mode', lang)[1]}</span></h1>
           <p className="mt-2 text-sm text-stone-500">{shipToLabel(address.name, address.city, address.pin, lang)}</p>
           <div className="mt-8 rounded-2xl border border-gold bg-paper p-6 shadow-lg">
@@ -72,7 +76,7 @@ export default function Payment({ items, address, onBack, onPlace }: { items: Ca
             <button onClick={() => setOpen(true)} disabled={busy} className="btn-primary gold-btn rounded-full px-10 py-4 text-sm tracking-widest disabled:opacity-60">{authT('Pay securely with Razorpay', ui).toUpperCase()} · {formatPrice(total)}</button>
           </div>
         </div>
-        <Summary items={items} subtotal={sub} shipping={ship} discount={discount} />
+        <Summary items={items} subtotal={sub} shipping={ship} discount={discount} flash={flash} />
       </div>
       {open && <RazorpaySheet amount={total} onClose={() => setOpen(false)} onSuccess={done} />}
       {busy && (

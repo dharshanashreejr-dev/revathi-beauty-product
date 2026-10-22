@@ -4,6 +4,8 @@ import ProductsFooter from './components/ProductsFooter';
 import ProductsSection from './components/ProductsSection';
 import ProductModal from './components/ProductModal';
 import CartDrawer from './components/CartDrawer';
+import WishlistDrawer from './components/WishlistDrawer';
+import { useWishlist } from './hooks/useWishlist';
 import Checkout from './components/Checkout';
 import Payment from './components/Payment';
 import Confirmation from './components/Confirmation';
@@ -30,7 +32,7 @@ export default function App() {
     try {
       const raw = localStorage.getItem('velvet-handoff');
       if (raw) {
-        const clear = { name: 'Clear', hex: '#e3e9d3' };
+        const clear = { name: 'Clear', hex: '#f1ecfb' };
         for (const i of JSON.parse(raw) as { id: string; name: string; price: number; size: string; qty: number }[]) {
           const key = `${i.id}|Clear|${i.size}`;
           const hit = saved.find(s => s.key === key);
@@ -58,6 +60,8 @@ export default function App() {
     return { ...i, product: p, qty: p.stock > 0 ? Math.min(i.qty, p.stock) : i.qty };
   }), [cart, stockTick]);
   const [drawer, setDrawer] = useState(false);
+  const [wishOpen, setWishOpen] = useState(false);
+  const wishlist = useWishlist();
   const [address, setAddress] = useState<Address | null>(null);
   const [order, setOrder] = useState<Order | null>(null);
   const [route, setRoute] = useState(getRoute());
@@ -91,6 +95,17 @@ export default function App() {
   return (
     <div className="min-h-screen">
       <SiteHeader current="Products" solid cartCount={count} onCart={page === 'shop' ? () => setDrawer(true) : () => go('')} />
+      {page === 'shop' && (
+        <button
+          type="button"
+          onClick={() => setWishOpen(true)}
+          className="fixed bottom-6 left-6 z-40 flex items-center gap-2 rounded-full border border-clay/40 bg-paper px-4 py-3 text-sm font-semibold text-clay shadow-lg hover:bg-clay hover:text-white transition"
+          aria-label="Liked products"
+        >
+          <span aria-hidden>♥</span>
+          <span>Liked{wishlist.count ? ` (${wishlist.count})` : ''}</span>
+        </button>
+      )}
       <div className="h-20" aria-hidden="true" />
 
 
@@ -109,6 +124,8 @@ export default function App() {
 
       <ProductsFooter />
 
+      {/* Wishlist — liked products saved on this device */}
+      <WishlistDrawer open={wishOpen} onClose={() => setWishOpen(false)} onOpen={(product, colour) => setOpen({ product, colour })} onQuick={(p, c) => add(p, c, p.sizes[0], 1)} />
       <CartDrawer open={drawer} items={liveCart} onClose={() => setDrawer(false)} onQty={changeQty} onRemove={remove} onCheckout={() => { setDrawer(false); requireLogin(() => go('checkout')); }} />
       {open && <ProductModal key={open.product.id} product={open.product} initialColour={open.colour} onClose={close} onAdd={(c, s, q) => add(open.product, c, s, q)} />}
     </div>

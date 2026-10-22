@@ -1,4 +1,5 @@
 import type { CartItem } from '../types';
+import Counter from '../../shared/reactbits/Counter';
 import { formatPrice } from '../data/products';
 import { FREE_SHIP, subtotalOf } from '../lib';
 import ProductArt from './ProductArt';
@@ -51,7 +52,7 @@ export default function CartDrawer({ open, items, onClose, onQty, onRemove, onCh
               ))}
             </ul>
             <div className="space-y-4 border-t border-stone-200 p-6">
-              <div className="flex justify-between text-lg"><span>{ck('Subtotal', lang)}</span><span className="font-medium">{formatPrice(sub)}</span></div>
+              <div className="flex justify-between text-lg"><span>{ck('Subtotal', lang)}</span><span className="font-medium"><Counter value={sub} locale="en-IN" format={{ style: 'currency', currency: 'INR', maximumFractionDigits: 0 }} fontSize="inherit" fontWeight="inherit" textColor="inherit" duration={0.8} intro={false} fade={0.25} /></span></div>
               {blocked && <p className="text-sm text-red-700" role="alert">{authT('Remove out-of-stock items to continue', ui)}</p>}
               <button onClick={onCheckout} disabled={blocked} className="btn-primary gold-btn w-full rounded-full py-4 text-sm tracking-widest disabled:cursor-not-allowed disabled:opacity-50">{ckUp('Proceed to checkout', lang)}</button>
               <button onClick={onClose} className="w-full text-sm text-stone-600 underline">{ck('Continue shopping', lang)}</button>

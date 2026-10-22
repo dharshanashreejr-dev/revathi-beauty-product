@@ -5,8 +5,8 @@ export default {
     extend: {
       fontFamily: { sans: ['Outfit', 'ui-sans-serif', 'system-ui', 'sans-serif'], serif: ['Cormorant Garamond', 'Georgia', 'serif'] },
       colors: {
-        sand: '#e8eddb', paper: '#eef2e4', ink: '#1b1f16', clay: '#69783f', gold: '#8f9a5c', night: '#141810',
-        stone: { 50: '#eef2dc', 100: '#ecefdf', 200: '#d1daae', 300: '#b9c590', 400: '#8f9b6c', 500: '#5f6b46', 600: '#4a5536', 700: '#37402a', 800: '#262c1d', 900: '#1b1f16' },
+        sand: '#f4f0fc', paper: '#f7f4fd', ink: '#4b1d91', clay: '#5922ab', gold: '#c4b5fd', night: '#4b1d90',
+        stone: { 50: '#f6f2fd', 100: '#f1ebfc', 200: '#e3d7f9', 300: '#d4bff3', 400: '#8b6fd0', 500: '#7a5cc2', 600: '#6b4bb8', 700: '#5b34a8', 800: '#4c1d95', 900: '#3b1478' },
       },
       keyframes: {
         rise: { '0%': { opacity: '0', transform: 'translateY(28px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } },

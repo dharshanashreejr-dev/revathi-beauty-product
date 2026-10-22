@@ -109,11 +109,11 @@ function Arrows({ prev, next, label, lang = "en" }: { prev: () => void; next: ()
 
 /** Colour options for the bottle in the "Golden glow" showcase. The page background stays fixed; only the product colour changes. */
 const bottleColours: Record<string, [string, string][]> = {
-  eclat: [["#b3c58f", "#98ae5d"], ["#c9d6a4", "#a1b174"], ["#c3d19a", "#809764"]],
-  "night-cream": [["#c9aed3", "#7f5b93"], ["#ccd9aa", "#a1b46e"], ["#a9c4e0", "#5f86b0"]],
-  "body-butter": [["#d0dcb0", "#a4b483"], ["#cbd8a7", "#96ae52"], ["#c9d6a4", "#859867"]],
-  "hair-oil": [["#aebf9c", "#6a7951"], ["#b1c092", "#66763a"], ["#9cc3d6", "#4f86a3"]],
-  perfume: [["#c2cca5", "#747d5a"], ["#cedaad", "#a8689a"], ["#c5d49e", "#7d943f"]],
+  eclat: [["#eaa56a", "#c68a4d"], ["#e8a0b4", "#c46a86"], ["#9fd0b3", "#5f9c7a"]],
+  "night-cream": [["#c9aed3", "#7f5b93"], ["#f0c6a8", "#c98a62"], ["#a9c4e0", "#5f86b0"]],
+  "body-butter": [["#f4c1b2", "#cc7b6b"], ["#f6dd9a", "#c9a23f"], ["#b8d8b0", "#6f9c63"]],
+  "hair-oil": [["#aebf9c", "#5f7d4d"], ["#d8b27a", "#8a5f2b"], ["#9cc3d6", "#4f86a3"]],
+  perfume: [["#d4b6a6", "#8b6753"], ["#e6b8d4", "#a8689a"], ["#f0d58a", "#b08a2a"]],
 };
 
 /** Product photo that zooms in under the cursor (no extra angle views). */

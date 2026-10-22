@@ -10,6 +10,7 @@ import { useI18n, fmtDate } from '../i18n-site'
 import { useSlotLock, mmss } from '../useSlotLock'
 import { useUiLang } from '../../shared/i18n'
 import { authT } from '../../shared/auth-text'
+import { FlashBanner, flashAmount, useFlashOffer } from '../../shared/FlashOffer'
 import { CouponPicker } from '../../shared/Offers'
 
 const channels: Channel[] = ['SMS', 'WhatsApp', 'SMS + WhatsApp']
@@ -59,7 +60,9 @@ export default function Booking() {
   const [cnote, setCnote] = useState<{ ok: boolean; text: string } | null>(null)
   const cres = applied ? api.offers.validateCoupon(applied, base, 'services') : null
   const discount = cres && cres.ok ? cres.discount : 0
-  const total = Math.max(0, base - discount)
+  const flashOffer = useFlashOffer('booking')
+  const flash = flashAmount(Math.max(0, base - discount), flashOffer.active, flashOffer.pct)
+  const total = Math.max(0, base - discount - flash)
   const REASON: Record<string, string> = { empty: 'Enter a coupon code.', invalid: 'Invalid coupon code.', inactive: 'Invalid coupon code.', early: 'This coupon is not active yet.', expired: 'This coupon has expired.', scope: 'This coupon does not apply to service bookings.', 'used-up': 'This coupon has been fully used.', login: 'Please log in to use this coupon.', 'not-first-order': 'This coupon is only for your first product order.', 'not-first-service': 'This coupon is only for your first service booking.', 'need-booking': 'Book a service first to use this coupon.', 'has-order': 'This coupon is only for customers who have not bought products yet.' }
   const applyCoupon = (c: string = code) => requireLogin(() => {
     const r = api.offers.validateCoupon(c, base, 'services')
@@ -103,7 +106,7 @@ export default function Booking() {
     if (f.time && (!lock || lock.date !== f.date || lock.time !== f.time)) { x.time = 'Your held slot expired. Please pick a time again.'; setF((p) => ({ ...p, time: '' })) }
     setErr(x); if (Object.keys(x).length || !lock) return
     if (applied && !(cres && cres.ok)) { setCnote({ ok: false, text: authT(cres && !cres.ok ? (REASON[cres.reason] ?? 'Invalid coupon code.') : 'Invalid coupon code.', ui) }); setApplied(''); return }
-    const res = api.booking.submitBooking({ serviceId: svc.id, serviceName: svc.name, category: svc.category, duration: svc.duration, date: f.date, time: f.time, specialists: [], guests: f.guests, name: f.name, phone: f.phone, email: f.email, notes: f.notes, channel: f.channel, remind: f.remind, total, mode: f.mode, coupon: applied || undefined, discount: discount || undefined,
+    const res = api.booking.submitBooking({ serviceId: svc.id, serviceName: svc.name, category: svc.category, duration: svc.duration, date: f.date, time: f.time, specialists: [], guests: f.guests, name: f.name, phone: f.phone, email: f.email, notes: f.notes, channel: f.channel, remind: f.remind, total, mode: f.mode, coupon: applied || undefined, discount: (discount + flash) || undefined,
       address: f.mode === 'home' ? { line1: f.line1.trim(), city: f.city.trim(), state: f.state.trim(), pin: f.pin.trim() } : undefined }, lock.id)
     if (!res.ok) { setErr({ time: 'Your held slot expired. Please pick a time again.' }); setF((p) => ({ ...p, time: '' })); return }
     if (applied) api.offers.redeemCoupon(applied)
@@ -176,7 +179,10 @@ export default function Booking() {
             <div className="border-t border-sand/20 pt-3 space-y-2">
               {[['Place', f.mode === 'home' ? t('Home visit') : t('Parlour')], ['Date', f.date ? fmtDate(f.date, lang) : '—'], ['Time', f.time || '—'], ['Specialist', f.specialist === 'auto' ? (free.slice(0, f.guests).map((m) => m.name).join(', ') || t('Auto')) : f.specialist], ['Guests', f.guests], ['Reminders', f.remind ? f.channel : t('Off')]].map(([a, b]) => <p key={a} className="flex justify-between gap-4"><span>{t(a as string)}</span><span className="text-right">{b}</span></p>)}</div>
             {servicePricesVisible() ? <div className="border-t border-sand/20 pt-3 space-y-2">
-              {discount > 0 && <><p className="flex justify-between"><span>{t('Subtotal')}</span><span>{money(base)}</span></p><p className="flex justify-between text-emerald-300"><span>{authT('Coupon discount', ui)}</span><span>−{money(discount)}</span></p></>}
+              <FlashBanner dark left={flashOffer.left} pct={flashOffer.pct} text={authT('Book within this time and get {pct}% off', ui)} endedText={authT('The quick-book offer has ended', ui)} />
+              {(discount > 0 || flash > 0) && <p className="flex justify-between"><span>{t('Subtotal')}</span><span>{money(base)}</span></p>}
+              {discount > 0 && <p className="flex justify-between text-emerald-300"><span>{authT('Coupon discount', ui)}</span><span>−{money(discount)}</span></p>}
+              {flash > 0 && <p className="flex justify-between text-emerald-300"><span>{authT('Quick-book offer', ui)}</span><span>−{money(flash)}</span></p>}
               <p className="flex justify-between text-base"><span>{t('Total')}</span><span>{money(total)}</span></p></div> : <p className="border-t border-sand/20 pt-3 text-sm">{t(f.mode === 'home' ? 'Payment is made offline, after your service.' : 'Payment is made offline, at the salon, after your service.')}</p>}
             <div className="border-t border-sand/20 pt-3">
               <label className="label block mb-2" htmlFor="svc-coupon">{authT('Coupon code', ui)}</label>

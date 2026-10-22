@@ -1,7 +1,10 @@
 import { useState } from 'react'
 import { Link } from '../SmartLink'
 import { Reveal, Parallax } from '../components/ui'
-import { Tilt, Ring3D, Coverflow, Counter, Rail, Photo } from '../components/three'
+import { Tilt, Coverflow, Counter, Rail, Photo } from '../components/three'
+import Folder from '../../shared/reactbits/Folder'
+import PixelCard from '../../shared/reactbits/PixelCard'
+import Magnet from '../../shared/reactbits/Magnet'
 import { spa, team, amenities } from '../data'
 import { useI18n } from '../i18n-site'
 import { rich } from '../rich'
@@ -29,7 +32,7 @@ function Hero() {
   const { t, lang } = useI18n()
   const sub = lang === 'en' ? spa.sub.toLowerCase().replace(/^./, (c) => c.toUpperCase()) : t(spa.sub)
   return (
-    <section className="relative min-h-[88svh] pt-20 grid md:grid-cols-2 bg-[#e4e9d3] text-ink overflow-hidden">
+    <section className="relative min-h-[88svh] pt-20 grid md:grid-cols-2 bg-[#f1ecfb] text-ink overflow-hidden">
       <div className="relative order-2 md:order-1 flex flex-col justify-center px-5 md:px-10 pt-10 pb-20 md:pt-12 md:pb-28">
         <span className="label block fade-up !tracking-[.28em] opacity-80">{t('About · {name}', { name: spa.name })}</span>
         <h1 className="mt-8 fade-up text-[clamp(2.8rem,6.2vw,6.5rem)] leading-[1.02] tracking-tight" style={{ fontFamily: 'Georgia, "Times New Roman", serif' }}>{rich(t('Where beauty\nmeets *care.*'))}</h1>
@@ -63,7 +66,7 @@ function Story() {
 function Strip() {
   const { t } = useI18n()
   const w = ['Body Massage', 'Facial', 'Consultation', 'Beauty products', 'Women\'s luxury salon']
-  return <div className="bg-ink text-sand overflow-hidden py-5 border-y border-sand/10"><div className="flex w-max marquee">{[...w, ...w, ...w, ...w].map((x, i) => <span key={i} className="h text-3xl md:text-5xl px-6 flex items-center gap-12 whitespace-nowrap">{t(x)}<i className="h-1.5 w-1.5 rounded-full bg-gold" /></span>)}</div></div>
+  return <div className="bg-ink text-sand overflow-hidden py-2.5 border-y border-sand/10"><div className="flex w-max marquee">{[...w, ...w, ...w, ...w].map((x, i) => <span key={i} className="h text-sm md:text-xl px-4 flex items-center gap-8 whitespace-nowrap">{t(x)}<i className="h-1.5 w-1.5 rounded-full bg-gold" /></span>)}</div></div>
 }
 
 function Stats() {
@@ -74,8 +77,8 @@ function Stats() {
       <Parallax speed={0.08} className="absolute -inset-y-[10%] inset-x-0"><Photo k="bridal-saree" className="h-full w-full" /></Parallax>
       <div className="absolute inset-0 bg-black/60" />
       <div className="relative h-full flex flex-col justify-between px-5 md:px-10 pt-28 pb-10">
-        <Reveal><span className="label text-gold block mb-4">{t('By the numbers')}</span><h2 className="h text-[clamp(2.4rem,6.5vw,6rem)]">{rich(t('Trusted,\none visit at a time.'))}</h2></Reveal>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">{s.map(([n, u, l]) => <Tilt key={l} max={12} className="glass p-5"><p className="h text-4xl md:text-5xl text-gold" style={{ transform: 'translateZ(30px)' }}><Counter to={n} suffix={t(u)} /></p><p className="label mt-2">{t(l)}</p></Tilt>)}</div>
+        <Reveal><span className="label text-gold block mb-4">{t('By the numbers')}</span><h2 className="h text-[clamp(1.6rem,3.4vw,3rem)]">{rich(t('Trusted,\none visit at a time.'))}</h2></Reveal>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">{s.map(([n, u, l]) => <Tilt key={l} max={12} className="spot p-5 text-white"><p className="h text-3xl md:text-4xl text-gold" style={{ transform: 'translateZ(30px)' }}><Counter to={n} suffix={t(u)} /></p><p className="label mt-2">{t(l)}</p></Tilt>)}</div>
       </div>
     </section>
   )
@@ -101,7 +104,7 @@ function Values() {
   const { t } = useI18n()
   const [on, setOn] = useState<number | null>(null)
   return (
-    <section id="values" className="py-28 bg-[#e5ead5] px-5 md:px-10">
+    <section id="values" className="py-28 bg-[#f2ecfc] px-5 md:px-10">
       <Reveal><span className="label block mb-4">{t('What we stand for')}</span><h2 className="h text-[clamp(2.2rem,5vw,4.6rem)]">{rich(t('Four promises.\nHover to flip.'))}</h2></Reveal>
       <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-12">
         {values.map(([ti, d, k, n], i) => (
@@ -120,7 +123,7 @@ function Worlds() {
   const { t } = useI18n()
   const [a, setA] = useState(0)
   return (
-    <section className="bg-ink text-sand">
+    <section className="aurora bg-ink text-sand">
       <div className="px-5 md:px-10 pt-24 pb-10"><Reveal><span className="label text-gold block mb-4">{t('One brand, three worlds')}</span><h2 className="h text-[clamp(2.2rem,5vw,4.6rem)]">{rich(t('Pick your\nway in.'))}</h2></Reveal></div>
       <div className="flex flex-col md:flex-row h-[1020px] md:h-[78vh] md:min-h-[520px]">
         {worlds.map(([ti, d, k, cta, to], i) => (
@@ -138,10 +141,35 @@ function Worlds() {
 function Team() {
   const { t } = useI18n()
   return (
-    <section id="team" className="relative bg-ink text-sand pt-24 pb-16 overflow-hidden border-t border-sand/10">
+    <section id="team" className="aurora relative bg-ink text-sand pt-24 pb-16 overflow-hidden border-t border-sand/10">
       <div className="px-5 md:px-10 mb-6"><Reveal><span className="label text-gold block mb-4">{t('The people')}</span><h2 className="h text-[clamp(2.2rem,5vw,4.6rem)]">{rich(t('Hands you\ncan trust.'))}</h2><p className="label mt-4 opacity-60">{t('Drag the ring')}</p></Reveal></div>
-      <Ring3D items={team.map((m) => ({ img: m.img, title: m.name, sub: t(m.role) }))} />
-      <div className="px-5 md:px-10 mt-14 grid grid-cols-2 md:grid-cols-4 gap-4">{team.slice(0, 4).map((m) => <Tilt key={m.name} max={10} className="glass p-4"><p className="h text-xl">{m.name}</p><p className="label !font-medium text-gold mt-1">{t(m.role)}</p><p className="text-xs mt-2 opacity-75">{t(m.skill)}</p></Tilt>)}</div>
+      <div className="flex justify-center items-center py-10 min-h-[420px]">
+        <Folder
+          label={t('The people')}
+          color="#6d3bc4"
+          paperColor="#fbf8ff"
+          size={1.5}
+          mode="flap"
+          variant="solid"
+          layout="spread"
+          tabPosition="right"
+          openOn="click"
+          theme="dark"
+          items={team.slice(0, 6).map((m) => ({
+            content: (
+              <div style={{ position: 'absolute', inset: 0 }}>
+                <img src={`/img/${m.img}.jpg`} alt={m.name} draggable={false} style={{ width: '100%', height: '100%', objectFit: 'cover', pointerEvents: 'none' }} />
+                <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(0,0,0,.78), transparent 55%)' }} />
+                <div style={{ position: 'absolute', left: 8, bottom: 8, right: 8, color: '#fff' }}>
+                  <div style={{ fontSize: 13, fontWeight: 600, lineHeight: 1.1 }}>{m.name}</div>
+                  <div style={{ fontSize: 9, letterSpacing: '.12em', textTransform: 'uppercase', color: '#d8c2ff', marginTop: 3 }}>{t(m.role)}</div>
+                </div>
+              </div>
+            ),
+          }))}
+        />
+      </div>
+      <div className="px-5 md:px-10 mt-14 grid grid-cols-2 md:grid-cols-4 gap-4">{team.slice(0, 4).map((m, i) => <PixelCard key={m.name} variant="pink" colors="#e9d8ff,#c4a1f5,#8a52e0" glowColor="#8a52e0" gap={8} pixelSize={3} speed={40} opacity={0.55} fade={0.6} introDelay={i * 150} radius={16} theme="dark" style={{ width: '100%', height: 'auto', minHeight: 150 }}><div className="p-5 text-white w-full"><p className="h text-xl">{m.name}</p><p className="label !font-medium text-gold mt-1">{t(m.role)}</p><p className="text-xs mt-2 opacity-75">{t(m.skill)}</p></div></PixelCard>)}</div>
     </section>
   )
 }
@@ -151,7 +179,7 @@ function Gallery() {
   const g = [['foot-soak', 'The lounge'], ['head-massage', 'Treatment suite'], ['hydra-facial', 'Facial studio'], ['herbal-mask', 'Consultation room'], ['close', 'Body ritual'], ['reception', 'Reception']]
   const [i, setI] = useState(0)
   return (
-    <section className="py-24 bg-[#171915] text-sand overflow-hidden">
+    <section className="aurora py-24 bg-ink text-sand overflow-hidden">
       <div className="px-5 md:px-10 mb-10"><Reveal><span className="label text-gold block mb-4">{t('Inside Revathi Herbal')}</span><h2 className="h text-[clamp(2.2rem,5vw,4.6rem)]">{rich(t('A look\naround.'))}</h2></Reveal></div>
       <Coverflow items={g.map(([k, ti]) => ({ img: k, title: t(ti), sub: 'Revathi Herbal' }))} index={i} onChange={setI} />
     </section>
@@ -168,7 +196,7 @@ function Visit() {
         <div><h4 className="label mb-4">{t('Find us')}</h4><p className="opacity-80">{t(spa.address)}<br />{spa.phone}<br />{spa.email}</p></div>
         <div><h4 className="label mb-4">{t('Amenities')}</h4><ul className="space-y-2 opacity-80">{amenities.slice(0, 6).map((a) => <li key={a}>— {t(a)}</li>)}</ul></div>
       </div>
-      <div className="flex flex-wrap gap-3 mt-14"><Link to="/booking" className="bg-ink text-sand rounded-full px-7 py-4 label">{t('Book appointment ↗')}</Link><Link to="/products" className="border border-ink/40 rounded-full px-7 py-4 label hover:bg-ink hover:text-sand transition">{t('Shop products')}</Link><Link to="/track" className="border border-ink/40 rounded-full px-7 py-4 label hover:bg-ink hover:text-sand transition">{t('Track order')}</Link></div>
+      <div className="flex flex-wrap gap-3 mt-14"><Magnet padding={60} magnetStrength={3}><Link to="/booking" className="bg-ink text-sand rounded-full px-7 py-4 label">{t('Book appointment ↗')}</Link></Magnet><Magnet padding={60} magnetStrength={3}><Link to="/products" className="border border-ink/40 rounded-full px-7 py-4 label hover:bg-ink hover:text-sand transition">{t('Shop products')}</Link></Magnet><Magnet padding={60} magnetStrength={3}><Link to="/track" className="border border-ink/40 rounded-full px-7 py-4 label hover:bg-ink hover:text-sand transition">{t('Track order')}</Link></Magnet></div>
     </section>
   )
 }

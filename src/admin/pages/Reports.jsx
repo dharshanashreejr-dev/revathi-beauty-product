@@ -96,7 +96,7 @@ export default function Reports() {
       <div className="grid-2">
         <div className="card">
           <div className="card-head"><h3>{t('Revenue by month')}</h3><span className="muted">{t('INR, sample data')}</span></div>
-          <BarChart data={series} xKey="month" stacked series={[{ key: 'products', label: 'Product sales', color: '#acb895' }, { key: 'appointments', label: 'Appointments', color: '#2d3524' }]} />
+          <BarChart data={series} xKey="month" stacked series={[{ key: 'products', label: 'Product sales', color: '#d1bcf2' }, { key: 'appointments', label: 'Appointments', color: '#4a1c8f' }]} />
         </div>
         <div className="card">
           <div className="card-head"><h3>{t('Product sales chart')}</h3><span className="muted">{t('Revenue by product')}</span></div>

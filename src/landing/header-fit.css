@@ -1,0 +1,87 @@
+/* ═══════════════════════════════════════════════════════════════════
+   Navbar fit — Tamil / Hindi / Malayalam / Telugu / Kannada / Marathi / Bengali
+   Indic labels are much longer than English, so the old fixed
+   "padding-right: 380px" reserve for the tools was too small and the
+   links ran underneath the language box / icons / profile.
+   Now the right links + tools sit in ONE flex row (they can never overlap),
+   the grid lets the right side grow, and things compact step by step as
+   the screen gets narrower. English (html[lang="en"]) is NOT touched.
+   ═══════════════════════════════════════════════════════════════════ */
+
+.nav-rightwrap { display: contents; }
+
+@media (min-width: 1051px) {
+  html:not([lang="en"]) .header {
+    grid-template-columns: minmax(min-content, 1fr) auto minmax(max-content, 1fr);
+    column-gap: 8px;
+  }
+  html:not([lang="en"]) .header .nav-rightwrap {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 14px;
+    height: 73px;
+    min-width: 0;
+    padding-right: 16px;
+  }
+  html:not([lang="en"]) .header.is-scrolled .nav-rightwrap { height: 80px; }
+  html:not([lang="en"]) .header .nav-right {
+    flex: 0 0 auto;
+    height: auto;
+    padding: 0 !important;
+    gap: 16px !important;
+  }
+  html:not([lang="en"]) .header .nav-left { padding-right: 24px; flex-wrap: nowrap; }
+  html:not([lang="en"]) .header .nav-tools {
+    position: static !important;
+    top: auto !important;
+    right: auto !important;
+    flex: 0 0 auto;
+    gap: 10px !important;
+  }
+  html:not([lang="en"]) .header .lang-select { margin-left: 0; }
+  html:not([lang="en"]) .header .lang-select select {
+    max-width: 108px !important;
+    text-overflow: ellipsis;
+  }
+  html:not([lang="en"]) .header .nav-tools .nav-profile { max-width: 100%; }
+  html:not([lang="en"]) .header .nav-profile-name {
+    max-width: 130px !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
+}
+
+/* Brand: long Indic tagline must stay on one line and not push the links */
+html:not([lang="en"]) .header-brand { white-space: nowrap; min-width: 0; }
+html:not([lang="en"]) .header-brand .brand-compact .brand-word { font-size: 18px; letter-spacing: 0.1em; }
+html:not([lang="en"]) .header-brand .brand-compact .brand-tagline { font-size: 11px; letter-spacing: 0.02em; white-space: nowrap; }
+
+/* Step 1 — laptop widths: greeting text goes, the profile icon stays */
+@media (min-width: 1051px) and (max-width: 1420px) {
+  html:not([lang="en"]) .header .nav-profile-name { display: none; }
+  html:not([lang="en"]) .header .nav-tools .nav-profile { padding: 8px 10px; }
+}
+
+/* Step 2 — smaller laptops: tighter gaps / type */
+@media (min-width: 1051px) and (max-width: 1280px) {
+  html:not([lang="en"]) .header nav { gap: 12px !important; font-size: 10.5px; }
+  html:not([lang="en"]) .header .nav-right { gap: 12px !important; }
+  html:not([lang="en"]) .header .nav-left { padding-right: 14px; }
+  html:not([lang="en"]) .header-brand .brand-compact .brand-word { font-size: 16px; }
+  html:not([lang="en"]) .header-brand .brand-compact .brand-tagline { font-size: 10px; }
+}
+
+/* Step 3 — small laptops: search icon moves out of the bar (still in the menu / search panel) */
+@media (min-width: 1051px) and (max-width: 1150px) {
+  html:not([lang="en"]) .header .nav-tools > .icon-button { display: none; }
+  html:not([lang="en"]) .header .lang-select select { max-width: 90px !important; }
+}
+
+/* Tablet (tools sit on their own row here): no 380px reserve needed, compact links */
+@media (min-width: 800px) and (max-width: 1050px) {
+  html:not([lang="en"]) .header { grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); }
+  html:not([lang="en"]) .header .nav-right { padding-right: 0 !important; gap: 12px !important; }
+  html:not([lang="en"]) .header nav { gap: 10px !important; font-size: 10px; }
+  html:not([lang="en"]) .header-brand .brand-compact .brand-tagline { font-size: 9px; }
+}

@@ -1,0 +1,208 @@
+/* Light premium theme — Lavender #C4B5FD + Deep Purple #4C1D95.
+   Replaces the old dark silk background. Loaded last by every entry (landing, site, products). */
+:root {
+  --lt-lavender: #c4b5fd;
+  --lt-deep: #4c1d95;
+  --lt-bg: #f8f5ff;
+  --lt-bg-2: #f1ebff;
+  --lt-card: #ffffff;
+  --lt-line: rgba(76, 29, 149, .14);
+}
+html { background: var(--lt-bg); color-scheme: light; }
+body { background: var(--lt-bg) !important; color: var(--lt-deep); }
+
+/* every band / section sits on the soft light lavender — alternate bands get a slightly deeper tint */
+.collection-band, .closing, .testimonials, .herbal, .hb, .film, .spa, .salon, .shop,
+.picks, .arrivals, .rituals, .notes-section,
+section.bg-sand, footer.bg-sand, section.bg-paper, main.bg-sand {
+  background: var(--lt-bg) !important;
+}
+.picks, .rituals, .film, .testimonials, .herbal { background: var(--lt-bg-2) !important; }
+
+/* landing shop cards — same flat look as the Products page cards */
+.shop .product-card {
+  background: transparent !important;
+  border: 1px solid transparent !important;
+  box-shadow: none !important;
+  border-radius: 12px !important;
+  padding: 12px !important;
+  transform: none !important;
+  transition: background .3s !important;
+}
+.shop .product-card:hover { background: rgba(238, 231, 252, .6) !important; transform: none !important; box-shadow: none !important; border-color: transparent !important; }
+.shop .product-picture { position: relative; background: transparent !important; aspect-ratio: 1 / 1 !important; border-radius: 8px !important; box-shadow: none !important; }
+.shop .product-art, .shop .product-picture img { width: 94% !important; height: 94% !important; object-fit: contain; filter: none !important; }
+.shop .product-badge {
+  position: absolute; right: -4px !important; left: auto !important; top: 12px !important; z-index: 2;
+  background: #4c1d95 !important; color: #fff !important; border-radius: 0 !important; box-shadow: 0 2px 6px rgba(0,0,0,.18) !important;
+  transform: skewX(-12deg); font-style: italic; font-weight: 700; font-size: 10px !important; letter-spacing: .08em; text-transform: uppercase; padding: 4px 12px !important;
+}
+.shop .product-card-info { display: flex !important; flex-direction: column !important; align-items: flex-start !important; gap: 8px !important; margin: 14px 0 0 !important; }
+.shop .product-card-info h3 { font-family: inherit !important; font-size: 15px !important; font-weight: 500; line-height: 1.35; color: var(--lt-deep); }
+.shop .product-card-info span { font-size: 12.5px; color: #6b4bb8; }
+.shop .product-card-info strong { font-size: 18px; font-weight: 600; color: var(--lt-deep); }
+.shop .product-add {
+  align-self: stretch; justify-content: center !important; gap: 8px; height: 44px; margin: 14px 0 0 !important; padding: 0 16px !important;
+  border: 1px solid var(--lt-deep) !important; border-radius: 8px !important; color: var(--lt-deep) !important; background: transparent !important; font-weight: 600; font-size: 14px !important;
+}
+.shop .product-add:hover { background: var(--lt-deep) !important; color: #fff !important; }
+.pick, .spa-card {
+  background: var(--lt-card) !important; border: 1px solid var(--lt-line) !important;
+  box-shadow: 0 6px 24px -14px rgba(76, 29, 149, .25) !important; border-radius: 18px;
+}
+/* sticky filter bars → frosted light glass */
+[class*="bg-sand/95"], [class*="bg-sand/85"], [class*="bg-sand/90"] {
+  background: rgba(248, 245, 255, .88) !important;
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+}
+
+/* ONE light navbar on every page */
+.header, .header.is-scrolled, .header:not(.is-scrolled),
+.vt-header, .vt-header.is-solid {
+  background: rgba(248, 245, 255, .92) !important;
+  color: var(--lt-deep) !important;
+  box-shadow: 0 1px 0 var(--lt-line), 0 10px 30px -18px rgba(76, 29, 149, .35) !important;
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+  text-shadow: none !important;
+}
+.header .header-shape { display: none !important; }
+.header a, .header button, .header nav, .header .nav-tools, .header .header-brand, .header .brand-mark,
+.vt-header a, .vt-header button, .vt-header .vt-word, .vt-header .vt-sub, .vt-header .vt-tagline {
+  color: var(--lt-deep) !important;
+}
+.header .nav-tools select, .vt-header .vt-lang { border-color: rgba(76, 29, 149, .35) !important; color: var(--lt-deep) !important; background: transparent; }
+.header select option, .vt-header .vt-lang option { background: #fff; color: var(--lt-deep); }
+
+/* deep-purple accent panels keep light text */
+.bg-ink { background-color: var(--lt-deep) !important; color: #f3efff; }
+.bg-ink .text-sand, .bg-ink .text-white { color: #f3efff !important; }
+/* lavender buttons keep deep text */
+.bg-gold { background-color: var(--lt-lavender) !important; color: var(--lt-deep) !important; }
+.bg-gold .text-ink { color: var(--lt-deep) !important; }
+
+/* gold accent text: deeper violet on light surfaces, lavender on deep-purple panels */
+.text-gold { color: #6d3fd0; }
+.bg-ink .text-gold, .bg-night .text-gold, .bg-ink .text-clay, .bg-night .text-clay { color: var(--lt-lavender) !important; }
+/* focus + selection in the palette */
+::selection { background: var(--lt-lavender); color: var(--lt-deep); }
+
+/* light panels nested inside a deep panel keep deep text */
+.bg-ink .bg-sand, .bg-ink .bg-paper, .bg-night .bg-sand { color: var(--lt-deep); }
+.bg-ink .bg-sand .text-gold, .bg-ink .bg-paper .text-gold { color: #6d3fd0 !important; }
+.spot-light { background: #f8f5ff; border: 1px solid rgba(196,181,253,.6); box-shadow: 0 10px 30px -18px rgba(0,0,0,.45); }
+.spot-light .opacity-40 { opacity: .55; }
+
+/* promo cards — one uniform deep-purple style, every word readable */
+.promo-card { background: linear-gradient(170deg, #5b2bb0 0%, #4c1d95 100%) !important; color: #fff !important; }
+.promo-card h4 { color: #fff !important; }
+.promo-brand { background: #c4b5fd !important; color: #4c1d95 !important; }
+.promo-chips i { color: #ede9fe !important; border-color: rgba(255,255,255,.45) !important; }
+.promo-foot strong, .promo-foot span { color: #fff !important; }
+.promo-foot button { background: #fff !important; color: #4c1d95 !important; }
+.promo-foot button:hover { background: #c4b5fd !important; }
+
+/* spotlight card — soft glow follows the cursor */
+.spot {
+  position: relative; overflow: hidden; border-radius: 16px;
+  background: linear-gradient(160deg, rgba(255,255,255,.12), rgba(255,255,255,.04));
+  border: 1px solid rgba(196,181,253,.28);
+  box-shadow: 0 14px 34px -20px rgba(0,0,0,.55);
+  transition: border-color .3s, transform .3s, box-shadow .3s;
+}
+.spot::before {
+  content: ''; position: absolute; inset: 0; pointer-events: none; opacity: 0; transition: opacity .3s;
+  background: radial-gradient(280px circle at var(--mx, 50%) var(--my, 50%), rgba(196,181,253,.38), transparent 65%);
+}
+.spot:hover::before { opacity: 1; }
+.spot:hover { border-color: rgba(196,181,253,.7); box-shadow: 0 20px 40px -18px rgba(0,0,0,.6); }
+.spot > * { position: relative; }
+
+/* animated deep-purple aurora background for dark sections */
+.aurora {
+  position: relative; overflow: hidden;
+  background-image: linear-gradient(125deg, #4c1d95 0%, #3b1478 35%, #5b2bb0 65%, #4c1d95 100%);
+  background-size: 300% 300%;
+  animation: auroraShift 16s ease-in-out infinite;
+}
+.aurora::before, .aurora::after { content: ''; position: absolute; border-radius: 50%; filter: blur(90px); pointer-events: none; z-index: 0; }
+.aurora::before { width: 520px; height: 520px; left: -120px; top: -100px; background: #c4b5fd; opacity: .3; animation: auroraA 14s ease-in-out infinite; }
+.aurora::after { width: 460px; height: 460px; right: -100px; bottom: -120px; background: #8b5cf6; opacity: .45; animation: auroraB 18s ease-in-out infinite; }
+.aurora > * { position: relative; z-index: 1; }
+@keyframes auroraShift { 0%, 100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
+@keyframes auroraA { 0%, 100% { transform: translate(0, 0) scale(1); } 50% { transform: translate(260px, 140px) scale(1.2); } }
+@keyframes auroraB { 0%, 100% { transform: translate(0, 0) scale(1); } 50% { transform: translate(-240px, -120px) scale(1.15); } }
+@media (prefers-reduced-motion: reduce) { .aurora, .aurora::before, .aurora::after { animation: none; } }
+
+
+/* ═══════════ Professional polish pass ═══════════ */
+/* clear keyboard focus in the brand colour */
+:where(a, button, input, select, textarea, [tabindex]):focus-visible {
+  outline: 2px solid var(--lt-deep); outline-offset: 3px; border-radius: 6px;
+}
+/* secondary text: readable but clearly below headings */
+.text-muted, .muted { color: #6b4bb8; }
+/* one consistent card + input feel */
+input, select, textarea { accent-color: var(--lt-deep); }
+input::placeholder, textarea::placeholder { color: #8b6fd0; opacity: 1; }
+/* crisp type rendering */
+body { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+/* gentle, consistent motion on interactive cards */
+.pick, .spa-card, .rv-card { transition: transform .3s ease, box-shadow .3s ease; }
+.pick:hover, .spa-card:hover { transform: translateY(-3px); box-shadow: 0 14px 34px -16px rgba(76, 29, 149, .35) !important; }
+@media (prefers-reduced-motion: reduce) { .pick:hover, .spa-card:hover { transform: none; } }
+
+
+/* ═══════════ Fix pass: nav, mobile header/menu, products grid, specialists ═══════════ */
+
+/* 1) Products grid — PixelCard had a fixed 300x400 size, so cards overflowed/overlapped on small screens */
+article.animate-rise > .pixel-card { width: 100%; height: 100%; display: block; box-shadow: none; }
+article.animate-rise { min-width: 0; }
+#products .grid > * { min-width: 0; }
+#products { overflow-x: clip; }
+
+/* 2) Mobile menu (all pages) — Home was cut at the top; panel now scrolls and starts below the top edge */
+.vt-panel { justify-content: flex-start; overflow-y: auto; max-height: 100dvh; padding: 76px 8vw 40px; -webkit-overflow-scrolling: touch; }
+.vt-panel nav { margin: auto 0; gap: 10px; }
+.vt-panel nav a { font-size: clamp(26px, 8vw, 36px); line-height: 1.25; padding: 3px 0; }
+.vt-close { top: 16px; right: 18px; z-index: 2; }
+
+/* 3) Mobile header — keep the cart (n) and everything on the right fully visible */
+@media (max-width: 899px) {
+  .vt-header .vt-burger { margin: 10px 0 0 6px; flex: 0 0 auto; }
+  .vt-header .vt-brand { flex: 1 1 auto; min-width: 0; margin: 0 6px; }
+  .vt-header .vt-brand .vt-word { font-size: clamp(11px, 3.3vw, 15px); letter-spacing: .05em; margin-left: 0; }
+  .vt-header .vt-brand .vt-tagline { font-size: 9px; letter-spacing: .03em; }
+  .vt-header .vt-rightwrap { flex: 0 0 auto; gap: 6px; padding-right: 10px; }
+  .vt-header .vt-tools { gap: 6px !important; }
+  .vt-header .vt-lang { max-width: 78px; padding: 5px 6px; }
+  .vt-header .vt-bag { gap: 4px; white-space: nowrap; }
+  .vt-header .vt-bag svg { width: 19px; height: 19px; }
+}
+@media (max-width: 799px) {
+  .header .nav-tools { right: 8px !important; gap: 4px !important; }
+  .header .lang-select select { max-width: 76px !important; padding: 0.3rem 0.4rem !important; }
+  .header .bag-button { gap: 4px; white-space: nowrap; }
+  .header .header-brand { max-width: 100%; }
+}
+
+/* 4) Navbar — plain links again (old look) and a shorter bar */
+.vt-header, .vt-header.is-solid { height: 72px; }
+.vt-header .vt-nav, .vt-header.is-solid .vt-nav,
+.vt-header .vt-rightwrap, .vt-header.is-solid .vt-rightwrap,
+.vt-header .vt-brand, .vt-header.is-solid .vt-brand { height: 72px; }
+.header { height: 84px; }
+.header.is-scrolled { height: 72px; }
+.header nav { height: 62px; }
+.header.is-scrolled nav { height: 72px; }
+.header .nav-tools { top: 14px; }
+.header.is-scrolled .nav-tools { top: 16px; }
+.vt-nav a, .header nav a { text-transform: uppercase; letter-spacing: .08em; font-size: 12px; }
+.vt-nav a.is-current::after, .header nav a.is-current::after { transform: scaleX(1); transform-origin: left; }
+@media (max-width: 1359px) { .vt-header, .vt-header.is-solid { height: 72px; } }
+
+/* 5) "Meet the specialists" — cards were stuck invisible (waiting for a scroll trigger); always visible now */
+.specialist-card { opacity: 1 !important; transform: none; }
+.specialists.is-in .specialist-card { transform: none; }
+.specialist-media { background: #e6dafc; min-height: 200px; }

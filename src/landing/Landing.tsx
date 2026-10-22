@@ -24,6 +24,7 @@ import { heroTicker } from "./hero-slides";
 import { liveHeroSlides } from "../api/offers";
 import { addOrder } from "../site/account";
 import { NAV_LABELS } from "../shared/i18n-nav";
+import SitePillNav from "../shared/SitePillNav";
 import { reviewNav } from "../shared/i18n-reviews";
 import { useUser } from "../shared/LoginModal";
 import ProfileMenu from "../shared/ProfileMenu";
@@ -64,9 +65,9 @@ const SHIP_FEE = 99;
 const byId = (id: string) => products.find((p) => p.id === id)!;
 const noteImages = [photos.notePeach, photos.noteJasmine, photos.noteWood];
 const moods = [
-  { key: "dusk", bg: "linear-gradient(160deg,#c8d1ae 0%,#9eab88 55%,#505943 100%)" },
-  { key: "ivory", bg: "linear-gradient(160deg,#e8edda 0%,#dfe6cc 60%,#bfcb9e 100%)" },
-  { key: "bloom", bg: "linear-gradient(160deg,#e3e8d3 0%,#c6d0ab 55%,#86966e 100%)" },
+  { key: "dusk", bg: "linear-gradient(160deg,#e1d3f8 0%,#c8aff0 55%,#4e1e96 100%)" },
+  { key: "ivory", bg: "linear-gradient(160deg,#f4f0fc 0%,#eee8fb 60%,#dac9f5 100%)" },
+  { key: "bloom", bg: "linear-gradient(160deg,#f1ebfb 0%,#dfd2f7 55%,#a981e8 100%)" },
 ] as const;
 const hotspots = [
   { x: 50, y: 12, note: 0 },
@@ -830,8 +831,7 @@ export default function Home() {
       </div>}
       <header className={`header ${sticky ? "is-scrolled" : ""}`}>
         <nav className="nav-left" aria-label={NL.SitePages}>
-          <a href={SITE.products}>{NL.Products}</a>
-          <a href={SITE.services}>{NL.Services}</a>
+          <SitePillNav label={NL.SitePages} items={[{ key: "Products", label: NL.Products, href: SITE.products }, { key: "Services", label: NL.Services, href: SITE.services }]} />
         </nav>
         <button
           className="mobile-menu icon-button"
@@ -852,9 +852,7 @@ export default function Home() {
           <Brand compact lang={lang} />
         </a>
         <nav className="nav-right" aria-label={NL.SitePages}>
-          <a href={SITE.about}>{NL.About}</a>
-          <a href={SITE.tracking}>{NL.Tracking}</a>
-<a href={SITE.reviews}>{reviewsLabel}</a>
+          <SitePillNav label={NL.SitePages} items={[{ key: "About", label: NL.About, href: SITE.about }, { key: "Tracking", label: NL.Tracking, href: SITE.tracking }, { key: "Reviews", label: reviewsLabel, href: SITE.reviews }]} />
         </nav>
         <div className="nav-tools">
           <label className="lang-select" style={{ display: "inline-flex", alignItems: "center" }}>
@@ -865,7 +863,7 @@ export default function Home() {
               aria-label={t.language}
               style={{
                 background: "transparent",
-                border: "1px solid rgba(255,255,255,0.45)",
+                border: "1px solid rgba(76, 29, 149, 0.45)",
                 borderRadius: "999px",
                 color: "inherit",
                 fontSize: "0.7rem",
@@ -876,7 +874,7 @@ export default function Home() {
               }}
             >
               {NAV_LANG_CODES.map((code) => (
-                <option key={code} value={code} style={{ color: "#1b1f16", background: "#eaefde" }}>{NAV_LANG_NAMES[code]}</option>
+                <option key={code} value={code} style={{ color: "#4b1d91", background: "#f5f2fd" }}>{NAV_LANG_NAMES[code]}</option>
               ))}
             </select>
           </label>
@@ -1231,7 +1229,7 @@ export default function Home() {
             <div className="product-modal">
               <div
                 className="product-modal-picture"
-                style={{ background: picBg ?? "#e4ead5" }}
+                style={{ background: picBg ?? "#f2ecfc" }}
                 onLoadCapture={(e) => {
                   const im = e.target as HTMLImageElement;
                   if (!(im instanceof HTMLImageElement)) return;

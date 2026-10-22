@@ -10,7 +10,7 @@ export const LOW_STOCK = 10;
 
 const palette = [
   ['#e8c9c1', '#c98f84'],
-  ['#d9e2d4', '#7f9a7b'],
+  ['#f0e9fb', '#b694eb'],
   ['#efe2cf', '#c9a24a'],
   ['#e2d6e0', '#9a7a95'],
   ['#d6e4e3', '#6f9694'],

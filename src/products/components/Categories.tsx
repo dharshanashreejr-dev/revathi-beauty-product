@@ -47,7 +47,7 @@ export default function Categories({ active, onSelect }: Props) {
               <button
                 onClick={() => onSelect(cat.name)}
                 aria-pressed={isActive}
-                className="btn-primary relative z-10 mt-auto rounded-full bg-paper px-8 py-3 text-sm text-black"
+                className="btn-primary relative z-10 mt-auto rounded-full bg-paper px-8 py-3 text-sm text-violet-100"
               >
                 {isActive ? VIEWING_BTN[lang](label) : SHOP_BTN[lang](label)}
               </button>

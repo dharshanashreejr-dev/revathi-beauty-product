@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useT } from '../i18n.js';
 
-const COLORS = ['#acb895', '#2d3524', '#8d987d', '#99b05b', '#9a7a95', '#6f9694'];
+const COLORS = ['#4c1d95', '#c4b5fd', '#7c4dd6', '#a78bfa', '#2e1065', '#8b6cf0'];
 export const chartColor = (i) => COLORS[i % COLORS.length];
 const compact = (n) => (n >= 100000 ? (n / 100000).toFixed(1) + 'L' : n >= 1000 ? (n / 1000).toFixed(0) + 'k' : String(n));
 
@@ -63,7 +63,7 @@ export function BarChart({ data, series, xKey = 'label', height = 240, stacked =
 }
 
 // Smooth area/line chart for revenue trends.
-export function AreaChart({ data, valueKey, xKey = 'label', height = 240, color = '#acb895', format = compact }) {
+export function AreaChart({ data, valueKey, xKey = 'label', height = 240, color = '#4c1d95', format = compact }) {
   const { t } = useT();
   const [hover, setHover] = useState(null);
   const w = 560, h = height, pad = { l: 44, r: 14, t: 14, b: 28 };
@@ -96,7 +96,7 @@ export function AreaChart({ data, valueKey, xKey = 'label', height = 240, color 
         {pts.map((p, i) => (
           <g key={i} onMouseEnter={() => setHover(i)} onMouseLeave={() => setHover(null)}>
             <circle cx={p[0]} cy={p[1]} r="14" fill="transparent" />
-            <circle cx={p[0]} cy={p[1]} r={hover === i ? 6 : 4} fill="#fafaf8" stroke={color} strokeWidth="2.5" />
+            <circle cx={p[0]} cy={p[1]} r={hover === i ? 6 : 4} fill="#f7f4fd" stroke={color} strokeWidth="2.5" />
             <text x={p[0]} y={h - 8} textAnchor="middle" className="axis-text">{t(String(data[i][xKey]))}</text>
           </g>
         ))}
@@ -120,7 +120,7 @@ export function Donut({ data, size = 170, centerLabel, centerValue }) {
   return (
     <div className="donut-wrap">
       <svg width={size} height={size} viewBox="0 0 170 170" role="img" aria-label={t('Distribution chart')}>
-        <circle cx="85" cy="85" r={r} fill="none" stroke="#e4e9d8" strokeWidth="22" />
+        <circle cx="85" cy="85" r={r} fill="none" stroke="#f2edfc" strokeWidth="22" />
         {data.map((d, i) => {
           const len = (d.value / total) * c;
           const el = (

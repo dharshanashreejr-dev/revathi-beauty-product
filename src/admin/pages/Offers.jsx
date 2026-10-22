@@ -290,8 +290,8 @@ function BannerPicker({ t, value, onChange, notify }) {
     <div className="field">
       <span className="field-label">{t('Offer banner')}</span>
       {value
-        ? <img src={value} alt="" style={{ width: '100%', maxHeight: 180, objectFit: 'cover', borderRadius: 10, background: '#e5ead5' }} />
-        : <div className="muted" style={{ padding: 18, border: '1px dashed #c8d1ae', borderRadius: 10, textAlign: 'center' }}>{t('No banner yet. Upload one to show this offer on the website home banner.')}</div>}
+        ? <img src={value} alt="" style={{ width: '100%', maxHeight: 180, objectFit: 'cover', borderRadius: 10, background: '#ddd2fb' }} />
+        : <div className="muted" style={{ padding: 18, border: '1px dashed #ddd2fb', borderRadius: 10, textAlign: 'center' }}>{t('No banner yet. Upload one to show this offer on the website home banner.')}</div>}
       <div style={{ display: 'flex', gap: 8, marginTop: 8, flexWrap: 'wrap' }}>
         <label className="btn btn-ghost" style={{ cursor: 'pointer' }}>
           {value ? <RefreshCw size={16} /> : <ImagePlus size={16} />}{value ? t('Replace banner') : t('Upload banner')}

@@ -3,6 +3,7 @@ import { useEffect, useRef, useState, useSyncExternalStore } from 'react'
 import { api, type User } from '../api'
 import { getUiLang, setLang, type UiLang } from './i18n'
 import { authT } from './auth-text'
+import Stepper, { Step } from './reactbits/Stepper'
 
 // Phone + SMS-OTP login popup (CRS 3.1). Mounted from every public entry point, like the language popup.
 //   requireLogin(() => doCheckout())  -> runs the action now if logged in, otherwise opens the popup first.
@@ -19,9 +20,9 @@ export function requireLogin(then: () => void) { if (api.auth.currentUser()) the
 const mmss = (ms: number) => { const s = Math.max(0, Math.ceil(ms / 1000)); return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}` }
 const ERR = { expired: 'OTP expired. Please resend.', wrong: 'Wrong OTP. Please try again.', locked: 'Too many wrong attempts. Please resend the OTP.', none: 'OTP expired. Please resend.' } as const
 
-const input: React.CSSProperties = { width: '100%', padding: '13px 14px', borderRadius: 12, border: '1px solid #c7d2aa', background: '#eef2e4', color: 'inherit', fontSize: 16, outline: 'none', boxSizing: 'border-box' }
-const btn: React.CSSProperties = { width: '100%', padding: 13, borderRadius: 999, border: 0, cursor: 'pointer', background: '#262c1f', color: '#eaefde', fontSize: 15, letterSpacing: '.08em' }
-const link: React.CSSProperties = { background: 'none', border: 0, cursor: 'pointer', color: '#5d6a3a', textDecoration: 'underline', fontSize: 13, padding: 4 }
+const input: React.CSSProperties = { width: '100%', padding: '13px 14px', borderRadius: 12, border: '1px solid #ddd2fb', background: '#ddd2fb', color: 'inherit', fontSize: 16, outline: 'none', boxSizing: 'border-box' }
+const btn: React.CSSProperties = { width: '100%', padding: 13, borderRadius: 999, border: 0, cursor: 'pointer', background: '#4c1d92', color: '#ddd2fb', fontSize: 15, letterSpacing: '.08em' }
+const link: React.CSSProperties = { background: 'none', border: 0, cursor: 'pointer', color: '#511f9c', textDecoration: 'underline', fontSize: 13, padding: 4 }
 
 function Modal({ onClose, onDone, gate }: { onClose: () => void; onDone: (u: User) => void; gate: boolean }) {
   const [lang, setL] = useState<UiLang>(getUiLang())
@@ -31,6 +32,7 @@ function Modal({ onClose, onDone, gate }: { onClose: () => void; onDone: (u: Use
   const [phone, setPhone] = useState(''), [code, setCode] = useState(''), [name, setName] = useState('')
   const [err, setErr] = useState(''), [demo, setDemo] = useState(''), [exp, setExp] = useState(0), [now, setNow] = useState(Date.now())
   const isNew = useRef(true)
+  const [otpOk, setOtpOk] = useState(false)
   useEffect(() => { if (step !== 'otp') return; const i = setInterval(() => setNow(Date.now()), 1000); return () => clearInterval(i) }, [step])
   useEffect(() => { const k = (e: KeyboardEvent) => e.key === 'Escape' && onClose(); window.addEventListener('keydown', k); return () => window.removeEventListener('keydown', k) }, [onClose])
 
@@ -38,51 +40,107 @@ function Modal({ onClose, onDone, gate }: { onClose: () => void; onDone: (u: Use
     const r = api.auth.requestOtp(phone)
     if (!r.ok) return setErr('Enter a valid 10-digit mobile number')
     isNew.current = api.auth.isNewUser(phone)
-    setErr(''); setCode(''); setDemo(r.demoOtp ?? ''); setExp(r.expiresAt ?? 0); setNow(Date.now()); setStep('otp')
+    setOtpOk(false); setErr(''); setCode(''); setDemo(r.demoOtp ?? ''); setExp(r.expiresAt ?? 0); setNow(Date.now()); setStep('otp')
   }
   const verify = () => {
     const r = api.auth.verifyOtp(phone, code, name, lang)
-    if (!r.ok) return setErr(ERR[r.error])
+    if (!r.ok) { setOtpOk(false); return setErr(ERR[r.error]) }
     if (r.user.lang && r.user.lang !== lang) setLang(r.user.lang as UiLang) // returning customer: restore their language
     else if (!r.user.lang) api.auth.updateProfile({ lang })
     onDone(r.user)
   }
   const left = exp - now
 
+  // Stepper: [Language] -> Mobile -> OTP -> Name. Language is already done when this popup is the full-page gate.
+  const shown = (key: string, fb: string) => { const v = t(key); return v === key ? fb : v }
+  const base = gate ? 2 : 1
+  const at = (step === 'phone' ? 1 : otpOk ? 3 : 2) + (gate ? 1 : 0)
+  const phoneStep = (
+    <>
+      <p style={{ margin: '0 0 14px', fontSize: 14, opacity: .75 }}>{t('Enter your mobile number. We will send a 6-digit OTP by SMS.')}</p>
+      <div style={{ display: 'flex', gap: 8 }}>
+        <span style={{ ...input, width: 64, display: 'grid', placeItems: 'center', padding: 0 }}>+91</span>
+        <input style={input} inputMode="numeric" autoFocus maxLength={10} placeholder={t('10-digit mobile number')} aria-label={t('10-digit mobile number')} value={phone}
+          onChange={(e) => { setPhone(e.target.value.replace(/\D/g, '')); setErr('') }} onKeyDown={(e) => e.key === 'Enter' && send()} />
+      </div>
+      {err && <p role="alert" style={{ color: '#a33', fontSize: 13, margin: '10px 0 0' }}>{t(err)}</p>}
+    </>
+  )
+  const otpStep = (
+    <>
+      <p style={{ margin: '0 0 14px', fontSize: 14, opacity: .75 }}>{t('Enter the 6-digit OTP sent to +91 {phone}', { phone })}</p>
+      {demo && <p style={{ margin: '0 0 12px', padding: '8px 10px', borderRadius: 10, background: '#ddd2fb', fontSize: 13 }}>{t('Demo mode: your OTP is {otp}', { otp: demo })}</p>}
+      <input style={{ ...input, textAlign: 'center', letterSpacing: '.5em', fontSize: 22 }} inputMode="numeric" autoFocus maxLength={6} aria-label="OTP" value={code}
+        onChange={(e) => { setCode(e.target.value.replace(/\D/g, '')); setErr('') }} onKeyDown={(e) => e.key === 'Enter' && code.length === 6 && goNext()} />
+      <p style={{ fontSize: 12, opacity: .7, margin: '10px 0 0' }}>{left > 0 ? t('OTP valid for {time}', { time: mmss(left) }) : t(ERR.expired)}</p>
+      {err && <p role="alert" style={{ color: '#a33', fontSize: 13, margin: '8px 0 0' }}>{t(err)}</p>}
+      <div style={{ marginTop: 8, display: 'flex', justifyContent: 'center', gap: 14 }}>
+        <button type="button" style={link} onClick={send}>{t('Resend OTP')}</button>
+        <button type="button" style={link} onClick={() => { setStep('phone'); setOtpOk(false); setErr('') }}>{t('Change number')}</button>
+      </div>
+    </>
+  )
+  const nameStep = (
+    <>
+      <p style={{ margin: '0 0 14px', fontSize: 14, opacity: .75 }}>{shown('What should we call you?', 'What should we call you?')}</p>
+      <input style={input} autoFocus placeholder={t('Your name (optional)')} aria-label={t('Your name (optional)')} value={name} onChange={(e) => setName(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && verify()} />
+    </>
+  )
+
+  // Continue button logic per step
+  function goNext() {
+    if (step === 'phone') return send()
+    if (!otpOk) {
+      if (code.length !== 6) return
+      // returning customers have no name step: verify straight away
+      if (!isNew.current) return verify()
+      setOtpOk(true); setErr('')
+      return
+    }
+    verify()
+  }
+
   return (
     <div role="dialog" aria-modal="true" aria-label={t('Login to continue')} onMouseDown={(e) => e.target === e.currentTarget && onClose()}
-      style={{ position: 'fixed', inset: 0, zIndex: 2147482000, display: 'grid', placeItems: 'center', background: gate ? 'linear-gradient(160deg,#e8edda 0%,#e1e7cf 100%)' : 'rgba(18, 20, 15,.62)', backdropFilter: gate ? undefined : 'blur(6px)', padding: 16 }}>
-      <div style={{ position: 'relative', width: 'min(420px,100%)', background: '#eaefde', color: '#262c1f', borderRadius: 20, padding: '30px 26px', boxShadow: '0 30px 80px rgba(0,0,0,.35)', textAlign: 'center', fontFamily: 'inherit' }}>
-        <button type="button" onClick={onClose} aria-label="Close" style={{ position: 'absolute', top: 10, right: 14, background: 'none', border: 0, fontSize: 20, cursor: 'pointer', color: 'inherit', opacity: .6 }}>✕</button>
-        <div style={{ fontSize: 11, letterSpacing: '.3em', textTransform: 'uppercase', opacity: .7 }}>REVATHI HERBAL BEAUTY CARE</div>
-        <h2 style={{ margin: '10px 0 6px', fontSize: 24, fontWeight: 600 }}>{t('Login to continue')}</h2>
-        {step === 'phone' ? (
-          <>
-            <p style={{ margin: '0 0 18px', fontSize: 14, opacity: .75 }}>{t('Enter your mobile number. We will send a 6-digit OTP by SMS.')}</p>
-            <div style={{ display: 'flex', gap: 8 }}>
-              <span style={{ ...input, width: 64, display: 'grid', placeItems: 'center', padding: 0 }}>+91</span>
-              <input style={input} inputMode="numeric" autoFocus maxLength={10} placeholder={t('10-digit mobile number')} aria-label={t('10-digit mobile number')} value={phone}
-                onChange={(e) => { setPhone(e.target.value.replace(/\D/g, '')); setErr('') }} onKeyDown={(e) => e.key === 'Enter' && send()} />
-            </div>
-            {err && <p role="alert" style={{ color: '#a33', fontSize: 13, margin: '10px 0 0' }}>{t(err)}</p>}
-            <button type="button" style={{ ...btn, marginTop: 18 }} onClick={send}>{t('Send OTP')}</button>
-          </>
-        ) : (
-          <>
-            <p style={{ margin: '0 0 14px', fontSize: 14, opacity: .75 }}>{t('Enter the 6-digit OTP sent to +91 {phone}', { phone })}</p>
-            {demo && <p style={{ margin: '0 0 12px', padding: '8px 10px', borderRadius: 10, background: '#e3e9d3', fontSize: 13 }}>{t('Demo mode: your OTP is {otp}', { otp: demo })}</p>}
-            <input style={{ ...input, textAlign: 'center', letterSpacing: '.5em', fontSize: 22 }} inputMode="numeric" autoFocus maxLength={6} aria-label="OTP" value={code}
-              onChange={(e) => { setCode(e.target.value.replace(/\D/g, '')); setErr('') }} onKeyDown={(e) => e.key === 'Enter' && code.length === 6 && verify()} />
-            {isNew.current && <input style={{ ...input, marginTop: 10 }} placeholder={t('Your name (optional)')} aria-label={t('Your name (optional)')} value={name} onChange={(e) => setName(e.target.value)} />}
-            <p style={{ fontSize: 12, opacity: .7, margin: '10px 0 0' }}>{left > 0 ? t('OTP valid for {time}', { time: mmss(left) }) : t(ERR.expired)}</p>
-            {err && <p role="alert" style={{ color: '#a33', fontSize: 13, margin: '8px 0 0' }}>{t(err)}</p>}
-            <button type="button" style={{ ...btn, marginTop: 16, opacity: code.length === 6 ? 1 : .55 }} disabled={code.length !== 6} onClick={verify}>{t('Verify & continue')}</button>
-            <div style={{ marginTop: 10, display: 'flex', justifyContent: 'center', gap: 14 }}>
-              <button type="button" style={link} onClick={send}>{t('Resend OTP')}</button>
-              <button type="button" style={link} onClick={() => { setStep('phone'); setErr('') }}>{t('Change number')}</button>
-            </div>
-          </>
-        )}
+      style={{ position: 'fixed', inset: 0, zIndex: 2147482000, display: 'grid', placeItems: 'center', background: gate ? 'linear-gradient(160deg,#f4f0fc 0%,#f0e9fb 100%)' : 'rgba(72, 27, 139, .62)', backdropFilter: gate ? undefined : 'blur(6px)', padding: 16, overflowY: 'auto' }}>
+      <div style={{ position: 'relative', width: 'min(460px,100%)', color: '#4c1d92', textAlign: 'center', fontFamily: 'inherit' }}>
+        <button type="button" onClick={onClose} aria-label="Close" style={{ position: 'absolute', top: 10, right: 14, zIndex: 5, background: 'none', border: 0, fontSize: 20, cursor: 'pointer', color: 'inherit', opacity: .6 }}>✕</button>
+        <Stepper
+          step={at}
+          theme="light"
+          accentColor="#4c1d92"
+          width={460}
+          radius={22}
+          indicator="numbers"
+          disableStepIndicators
+          nextButtonText={at === base + 2 || (at === base + 1 && !isNew.current) ? t('Verify & continue') : at === base ? t('Send OTP') : t('Continue')}
+          backButtonText="Back"
+          onStepChange={(n: number) => { if (n < at) { if (n === base) { setStep('phone'); setOtpOk(false) } else if (n === base + 1) setOtpOk(false); setErr('') } }}
+          onFinalStepCompleted={() => {}}
+          backButtonProps={{ style: gate && at === base ? { visibility: 'hidden' } : undefined, onClick: (e: React.MouseEvent) => {
+            if (at === base) { e.preventDefault(); return }
+            e.preventDefault()
+            if (at === base + 1) { setStep('phone'); setOtpOk(false) } else setOtpOk(false)
+            setErr('')
+          } }}
+          nextButtonProps={{ disabled: (at === base + 1 && code.length !== 6) || (at === base && phone.length < 10), onClick: (e: React.MouseEvent) => { e.preventDefault(); goNext() } }}
+          style={{ textAlign: 'center' }}
+        >
+          {gate && <Step title={shown('Language', 'Language')}><div style={{ padding: 8 }} /></Step>}
+          <Step title={shown('Mobile', 'Mobile')}>
+            <div style={{ fontSize: 11, letterSpacing: '.3em', textTransform: 'uppercase', opacity: .7 }}>REVATHI HERBAL BEAUTY CARE</div>
+            <h2 style={{ margin: '10px 0 8px', fontSize: 22, fontWeight: 600 }}>{t('Login to continue')}</h2>
+            {phoneStep}
+          </Step>
+          <Step title="OTP">
+            <h2 style={{ margin: '4px 0 8px', fontSize: 22, fontWeight: 600 }}>OTP</h2>
+            {otpStep}
+          </Step>
+          <Step title={shown('Name', 'Name')}>
+            <h2 style={{ margin: '4px 0 8px', fontSize: 22, fontWeight: 600 }}>{shown('Name', 'Name')}</h2>
+            {nameStep}
+          </Step>
+        </Stepper>
         {gate && <button type="button" style={{ ...link, marginTop: 14 }} onClick={onClose}>{t('Skip for now')}</button>}
       </div>
     </div>

@@ -1,6 +1,7 @@
 import { getOrders, emitData } from '../site/account';
 import { api } from '../api';
 import type { Order } from './types';
+import { photoFor } from './components/ProductArt';
 
 // Saves a products-page order into the Tracking page's storage (top of the list, old orders kept).
 export function saveToTracking(o: Order) {
@@ -8,7 +9,7 @@ export function saveToTracking(o: Order) {
     const t = {
       id: o.id,
       placed: o.date,
-      items: o.items.map(i => ({ pid: i.product.id, name: i.product.name, img: 'facial', qty: i.qty, price: i.product.price, size: i.size })),
+      items: o.items.map(i => ({ pid: i.product.id, name: i.product.name, img: photoFor(i.product.art, i.colour?.name, i.colour?.photo), qty: i.qty, price: i.product.price, size: i.size })),
       total: o.total,
       stage: 0,
       v: 3,

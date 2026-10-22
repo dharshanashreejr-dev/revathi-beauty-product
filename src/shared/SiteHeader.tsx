@@ -7,6 +7,7 @@ import { openLogin, useUser } from './LoginModal'
 import { authT } from './auth-text'
 import { reviewNav } from './i18n-reviews'
 import ProfileMenu, { logoutCustomer, profileHref } from './ProfileMenu'
+import SitePillNav from './SitePillNav'
 import './site-header.css'
 
 // ONE navbar for the whole website (same look as the landing page).
@@ -75,7 +76,7 @@ export default function SiteHeader({ Link = PlainLink, current, cartCount, onCar
   return (
     <>
       <header className={`vt-header ${scrolled || solid ? 'is-solid' : ''}`}>
-        <nav className="vt-nav vt-left" aria-label={L.SitePages}>{LEFT.map(item)}</nav>
+        <nav className="vt-nav vt-left" aria-label={L.SitePages}><SitePillNav Link={Link as never} current={current === 'Reviews' ? 'Testimonials' : current} items={LEFT.map(([t, to]) => ({ key: t, label: L[t] ?? t, href: to }))} label={L.SitePages} /></nav>
         <button className="vt-icon vt-burger" aria-label={L.Menu} onClick={() => setOpen(true)}>
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><path d="M3 6h18M3 12h18M3 18h18" /></svg>
         </button>
@@ -84,7 +85,7 @@ export default function SiteHeader({ Link = PlainLink, current, cartCount, onCar
           <span className="vt-tagline">{L.BrandTagline ?? 'Where Nature meets beauty'}</span>
         </Link>
         <div className="vt-rightwrap">
-        <nav className="vt-nav vt-right" aria-label={L.SitePages}>{RIGHT.map(item)}</nav>
+        <nav className="vt-nav vt-right" aria-label={L.SitePages}><SitePillNav Link={Link as never} current={current === 'Reviews' ? 'Testimonials' : current} items={RIGHT.map(([t, to]) => ({ key: t, label: L[t] ?? t, href: to }))} label={L.SitePages} /></nav>
         <div className="vt-tools">
           <select className="vt-lang" value={ui} onChange={(e) => setLang(e.target.value as UiLang)} aria-label={L.Language}>
             {LANGS.map((l) => <option key={l.code} value={l.code}>{NAV_LANG_NAMES[l.code]}</option>)}

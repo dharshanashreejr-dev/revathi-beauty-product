@@ -33,10 +33,12 @@ const nameTx = (name: string, ui: string) => NAME_I18N[name]?.[ui] ?? name
 const tx = (ui: string): T => ({ ...TXT.en, ...(TXT[ui] ?? {}) })
 
 const POOL = ['facial', 'facial2', 'back', 'close', 'foot', 'foot2', 'reception', 'wide']
+// Marquee strip: 13 different photos, ordered so similar shots (facial / massage / foot) never sit next to each other
+const STRIP = ['facial', 'back', 'foot-soak', 'bridal-saree', 'head-massage', 'reception', 'hydra-facial', 'foot', 'herbal-mask', 'close', 'facial2', 'wide', 'foot2']
 const imgFor = (r: Review) => (r.kind === 'service' ? services.find((s) => s.id === r.targetId)?.img : undefined) ?? POOL[[...r.targetId].reduce((n, c) => n + c.charCodeAt(0), 0) % POOL.length]
 
 function Stars({ n, size = 16 }: { n: number; size?: number }) {
-  return <span aria-label={`${n} / 5`} style={{ color: '#a1b182', fontSize: size, letterSpacing: 2 }}>{'★'.repeat(n)}<span style={{ opacity: 0.25 }}>{'★'.repeat(5 - n)}</span></span>
+  return <span aria-label={`${n} / 5`} style={{ color: '#c8aff0', fontSize: size, letterSpacing: 2 }}>{'★'.repeat(n)}<span style={{ opacity: 0.25 }}>{'★'.repeat(5 - n)}</span></span>
 }
 
 /** Fades / slides children in as they scroll into view. */
@@ -75,10 +77,10 @@ function Wall({ list, t, ui }: { list: Review[]; t: T; ui: string }) {
       <div className="mt-10 max-w-6xl mx-auto columns-1 md:columns-2 lg:columns-3 gap-5">
         {shown.map((r, i) => (
           <Reveal key={r.id} delay={(i % 3) * 90} className="mb-5 break-inside-avoid">
-            <article className="rv-card bg-white/25 backdrop-blur-sm rounded-2xl overflow-hidden shadow-sm border border-white/50">
+            <article className="rv-card bg-[#eee7fc]/60 backdrop-blur-sm rounded-2xl overflow-hidden shadow-sm border border-white/50">
               <div className="relative h-36 overflow-hidden">
                 <Photo k={imgFor(r)} className="rv-zoom h-full w-full" />
-                <div className="absolute inset-0 bg-gradient-to-t from-ink/70 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/65 to-transparent" />
                 <span className="label absolute left-4 top-3 bg-sand/90 text-ink rounded-full px-3 py-1 text-[10px]">{r.kind === 'product' ? t.product : t.service}</span>
                 <span className="absolute left-4 bottom-3 right-4 text-sand text-sm font-medium truncate">{nameTx(r.targetName, ui)}</span>
               </div>
@@ -86,7 +88,7 @@ function Wall({ list, t, ui }: { list: Review[]; t: T; ui: string }) {
                 <Stars n={r.rating} />
                 <p className="mt-3 text-[15px] leading-relaxed">“{r.text}”</p>
                 <div className="mt-4 flex items-center gap-3 text-sm">
-                  <span className="grid place-items-center h-9 w-9 rounded-full bg-gold/25 text-[#6a7942] font-semibold">{r.name.charAt(0).toUpperCase()}</span>
+                  <span className="grid place-items-center h-9 w-9 rounded-full bg-gold/25 text-[#5b23b0] font-semibold">{r.name.charAt(0).toUpperCase()}</span>
                   <div><strong className="block leading-tight">{r.name}</strong><span className="opacity-50 text-xs">{new Date(r.at).toLocaleDateString(ui === 'en' ? 'en-IN' : ui, { day: 'numeric', month: 'short', year: 'numeric' })}</span></div>
                 </div>
               </div>
@@ -111,7 +113,7 @@ function Composer({ item, t, uid, name, ui }: { item: { kind: 'product' | 'servi
     setText(''); setErr(''); setOk(true)
   }
   return (
-    <div className="bg-white/25 backdrop-blur-sm rounded-2xl border border-white/50 shadow-sm overflow-hidden flex flex-col sm:flex-row">
+    <div className="bg-[#eee7fc]/60 backdrop-blur-sm rounded-2xl border border-white/50 shadow-sm overflow-hidden flex flex-col sm:flex-row">
       <div className="relative sm:w-44 h-40 sm:h-auto shrink-0 overflow-hidden"><Photo k={item.img} className="rv-zoom h-full w-full" /><span className="label absolute left-3 top-3 bg-sand/90 rounded-full px-3 py-1 text-[10px]">{item.kind === 'product' ? t.product : t.service}</span></div>
       <div className="p-5 flex-1">
         <h3 className="font-medium text-lg">{nameTx(item.name, ui)}</h3>
@@ -126,7 +128,7 @@ function Composer({ item, t, uid, name, ui }: { item: { kind: 'product' | 'servi
         ) : (
           <div className="mt-3 grid gap-3">
             <div role="radiogroup" aria-label={t.rate} className="flex items-center gap-1"><span className="text-sm mr-2 opacity-70">{t.rate}</span>
-              {[1, 2, 3, 4, 5].map((n) => <button key={n} type="button" role="radio" aria-checked={rating === n} aria-label={`${n}`} onClick={() => setRating(n)} className="rv-star text-2xl leading-none" style={{ color: n <= rating ? '#a1b182' : '#c3cda9' }}>★</button>)}
+              {[1, 2, 3, 4, 5].map((n) => <button key={n} type="button" role="radio" aria-checked={rating === n} aria-label={`${n}`} onClick={() => setRating(n)} className="rv-star text-2xl leading-none" style={{ color: n <= rating ? '#c8aff0' : '#decff7' }}>★</button>)}
             </div>
             <textarea value={text} onChange={(e) => setText(e.target.value)} maxLength={400} placeholder={t.share} aria-label={t.share} className="w-full min-h-[84px] rounded-xl border border-ink/15 bg-sand/50 p-3 text-[15px] outline-none focus:border-gold" />
             {err && <p role="alert" className="text-sm text-red-700">{err}</p>}
@@ -166,7 +168,7 @@ export default function Reviews() {
   const logged = !!user
   const name = user ? (user.name?.trim() || 'Guest ' + user.phone.slice(-4)) : ''
   return (
-    <main className="bg-[#e5ead5] min-h-screen overflow-x-clip">
+    <main className="bg-[#f2ecfc] min-h-screen overflow-x-clip">
       <section className="relative pt-36 pb-20 px-5 text-center bg-ink text-sand overflow-hidden">
         <div className="rv-orb rv-orb1" /><div className="rv-orb rv-orb2" />
         <div className="relative max-w-2xl mx-auto">
@@ -183,14 +185,14 @@ export default function Reviews() {
       </section>
 
       <div className="rv-marquee" aria-hidden>
-        <div className="rv-track">{[...POOL, ...POOL].map((k, i) => <img key={i} src={`/img/${k}.jpg`} alt="" loading="lazy" />)}</div>
+        <div className="rv-track">{[...STRIP, ...STRIP].map((k, i) => <img key={i} src={`/img/${k}.jpg`} alt="" loading="lazy" />)}</div>
       </div>
 
       {logged && (
         <section className="px-5 md:px-10 pt-16 max-w-5xl mx-auto">
           <Reveal><h2 className="h text-3xl">{t.mine}</h2></Reveal>
           {items.length === 0 ? (
-            <Reveal><div className="mt-6 bg-white/25 backdrop-blur-sm rounded-2xl p-8 text-center border border-white/50"><p className="opacity-70">{t.none}</p>
+            <Reveal><div className="mt-6 bg-[#eee7fc]/60 backdrop-blur-sm rounded-2xl p-8 text-center border border-white/50"><p className="opacity-70">{t.none}</p>
               <div className="mt-5 flex gap-3 justify-center flex-wrap"><Link to="/products/" className="bg-ink text-sand rounded-full px-6 py-3 label">{t.shop}</Link><Link to="/services" className="border border-ink rounded-full px-6 py-3 label">{t.book}</Link></div></div></Reveal>
           ) : (
             <div className="mt-6 grid gap-5">{items.map((it, i) => <Reveal key={it.kind + it.id} delay={i * 70}><Composer item={it} t={t} uid={user!.id} name={name} ui={ui} /></Reveal>)}</div>

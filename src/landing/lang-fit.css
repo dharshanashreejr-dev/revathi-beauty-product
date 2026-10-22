@@ -9,10 +9,9 @@
 /* ── 1. HERO (first screen) ─────────────────────────────────────── */
 html:not([lang="en"]) .hero-shade {
   /* darker left + bottom so white text stays crisp on bright photos */
-  background:
-    linear-gradient(90deg, rgba(18, 20, 15, 0.66) 0%, rgba(18, 20, 15, 0.38) 42%, rgba(18, 20, 15, 0) 72%),
-    linear-gradient(0deg, rgba(18, 20, 15, 0.6) 0%, rgba(18, 20, 15, 0) 42%),
-    linear-gradient(180deg, rgba(18, 20, 15, 0.4) 0%, rgba(18, 20, 15, 0) 24%) !important;
+  background: linear-gradient(90deg, rgba(0, 0, 0, 0.66) 0%, rgba(0, 0, 0, 0.38) 42%, rgba(0, 0, 0, 0) 72%),
+    linear-gradient(0deg, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0) 42%),
+    linear-gradient(180deg, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0) 24%) !important;
 }
 html:not([lang="en"]) .hero-copy {
   top: 17% !important;
@@ -79,7 +78,7 @@ html:not([lang="en"]) .hero-wordmark span:first-child {
 
 /* ── 2. COLLECTION STATEMENT (“Touch of Jasmine…” banner) ───────── */
 html:not([lang="en"]) .collection-hero-shade {
-  background: linear-gradient(to top, rgba(18, 20, 15, 0.82) 0%, rgba(18, 20, 15, 0.5) 40%, rgba(18, 20, 15, 0.1) 70%, transparent 100%) !important;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.82) 0%, rgba(0, 0, 0, 0.5) 40%, rgba(0, 0, 0, 0.1) 70%, transparent 100%) !important;
 }
 html:not([lang="en"]) .collection-hero-copy {
   bottom: 8% !important;
@@ -162,3 +161,29 @@ html:not([lang="en"]) .salon-body .service-row h3 { font-size: 22px; line-height
 html:not([lang="en"]) .salon-body .service-book { white-space: nowrap; }
 html:not([lang="en"]) .product-modal-copy h2 { line-height: 1.25 !important; letter-spacing: 0 !important; font-size: clamp(26px, 2.6vw, 36px) !important; }
 html:not([lang="en"]) .product-notes span { line-height: 1.4; }
+
+/* ── Product / specialist / card text size for Indic languages ── */
+html:not([lang="en"]) .herbal-copy h3,
+html:not([lang="en"]) .card-copy h3,
+html:not([lang="en"]) .scent-card h3,
+html:not([lang="en"]) .nine-card h3 {
+  font-size: 15px !important;
+  line-height: 1.35 !important;
+  letter-spacing: 0 !important;
+}
+html:not([lang="en"]) .herbal-card,
+html:not([lang="en"]) .scent-card {
+  font-size: 13px;
+}
+html:not([lang="en"]) .specialist-info strong {
+  font-size: 16px !important;
+}
+html:not([lang="en"]) .specialist-info span {
+  font-size: 11.5px !important;
+}
+/* Keep product-style cards compact */
+html:not([lang="en"]) .product-card h3,
+html:not([lang="en"]) [class*="card"] h3 {
+  font-size: clamp(14px, 1.6vw, 17px) !important;
+  line-height: 1.3 !important;
+}

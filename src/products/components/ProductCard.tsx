@@ -9,6 +9,9 @@ import { sizeText } from '../i18n-checkout';
 import { pname } from '../i18n-names';
 import { api } from '../../api';
 import { OfferStrip } from '../../shared/Offers';
+import PixelCard from '../../shared/reactbits/PixelCard.jsx';
+import ClickSpark from '../../shared/reactbits/ClickSpark.jsx';
+import { useWishlist } from '../hooks/useWishlist';
 
 interface Props { product: Product; index: number; onOpen: (p: Product, c: Colour) => void; onQuick: (p: Product, c: Colour) => void }
 
@@ -35,11 +38,14 @@ const SELLING_FAST = {
   sa: 'शीघ्रं विक्रीयते',
 };
 
+const PIXEL_COLORS = ['#c9a227', '#5e18f0', '#ddd2fb', '#f8fafc'];
+
 /** Product card: white = normal, yellow = selling fast (low stock), red rubber stamp = out of stock. */
 export default function ProductCard({ product, index, onOpen, onQuick }: Props) {
   const [colour, setColour] = useState<Colour>(product.colours[0]);
-  const [liked, setLiked] = useState(false);
   const [lang] = useLang();
+  const { has, toggle } = useWishlist();
+  const liked = has(product.id);
   const out = product.stock === 0;
   const fast = !out && api.stock.stockState(product.stock) === 'low';
 
@@ -51,9 +57,25 @@ export default function ProductCard({ product, index, onOpen, onQuick }: Props) 
 
   return (
     <article className="animate-rise" style={{ animationDelay: `${Math.min(index, 12) * 50}ms` }}>
+      <PixelCard
+        theme="light"
+        surface="transparent"
+        colors={PIXEL_COLORS}
+        glowColor="#c9a227"
+        opacity={0.22}
+        fade={0.55}
+        gap={8}
+        speed={28}
+        pixelSize={2}
+        trigger="hover"
+        intro={index < 4}
+        introDelay={index * 80}
+        radius={12}
+        style={{ background: 'transparent', boxShadow: 'none' }}
+      >
       <div
         onClick={() => onOpen(product, colour)}
-        className={`group relative flex h-full cursor-pointer flex-col overflow-hidden rounded-xl border p-3 transition duration-300 hover:bg-white/10 ${tone}`}
+        className={`group relative flex h-full cursor-pointer flex-col overflow-hidden rounded-xl border p-3 transition duration-300 hover:bg-[#eee7fc]/60 ${tone}`}
       >
         {out && <OutStamp />}
 
@@ -119,20 +141,22 @@ export default function ProductCard({ product, index, onOpen, onQuick }: Props) 
 
             {/* actions */}
             <div className="mt-auto flex items-center gap-2 pt-1">
-              <button
-                disabled={out}
-                onClick={e => { e.stopPropagation(); if (!out) onQuick(product, colour); }}
-                className={`h-11 flex-1 rounded-lg border text-sm font-semibold transition ${out ? 'cursor-not-allowed border-stone-300 text-stone-400' : 'border-clay text-clay hover:bg-clay hover:text-white'}`}
-              >
-                {out ? ui('unavail', lang) : trx(ADD_TO_CART, lang)}
-              </button>
+              <ClickSpark sparkColor={['#5e18f0', '#c9a227']} sparkCount={7} sparkSize={11} sparkRadius={26} duration={420} style={{ flex: 1 }}>
+                <button
+                  disabled={out}
+                  onClick={e => { e.stopPropagation(); if (!out) onQuick(product, colour); }}
+                  className={`h-11 w-full rounded-lg border text-sm font-semibold transition ${out ? 'cursor-not-allowed border-stone-300 text-stone-400' : 'border-clay text-clay hover:bg-clay hover:text-white'}`}
+                >
+                  {out ? ui('unavail', lang) : trx(ADD_TO_CART, lang)}
+                </button>
+              </ClickSpark>
               <button
                 aria-label={ui('wish', lang)}
                 aria-pressed={liked}
-                onClick={e => { e.stopPropagation(); setLiked(v => !v); }}
+                onClick={e => { e.stopPropagation(); toggle(product.id); }}
                 className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full transition hover:bg-black/5"
               >
-                <svg viewBox="0 0 24 24" className="h-6 w-6" fill={liked ? '#be123c' : 'none'} stroke={liked ? '#be123c' : '#707e5b'} strokeWidth={1.6}>
+                <svg viewBox="0 0 24 24" className="h-6 w-6" fill={liked ? '#be123c' : 'none'} stroke={liked ? '#be123c' : '#5e18f0'} strokeWidth={1.6}>
                   <path d="M12 21s-7.5-4.6-9.3-9.2C1.5 8.5 3.4 5 6.9 5c2 0 3.5 1.1 5.1 3 1.6-1.9 3.1-3 5.1-3 3.5 0 5.4 3.5 4.2 6.8C19.5 16.4 12 21 12 21z" />
                 </svg>
               </button>
@@ -140,6 +164,7 @@ export default function ProductCard({ product, index, onOpen, onQuick }: Props) 
           </div>
         </div>
       </div>
+      </PixelCard>
     </article>
   );
 }

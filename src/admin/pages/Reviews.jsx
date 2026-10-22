@@ -33,7 +33,7 @@ export default function Reviews() {
               </div>
               <button className="icon-btn danger" aria-label="Delete review" title="Delete review" onClick={() => { deleteReview(r.id); notify('Review deleted.'); }}><Trash2 size={16} /></button>
             </div>
-            <div style={{ fontSize: 17, letterSpacing: 2 }}><span style={{ color: '#99b05b' }}>{'★'.repeat(r.rating)}</span><span style={{ opacity: 0.3 }}>{'★'.repeat(5 - r.rating)}</span></div>
+            <div style={{ fontSize: 17, letterSpacing: 2 }}><span style={{ color: '#ae89e9' }}>{'★'.repeat(r.rating)}</span><span style={{ opacity: 0.3 }}>{'★'.repeat(5 - r.rating)}</span></div>
             <p style={{ margin: 0, lineHeight: 1.55, flex: 1 }}>{r.text}</p>
             <div className="muted" style={{ fontSize: 13, display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' }}>
               <Badge>{r.kind === 'product' ? 'Product' : 'Service'}</Badge>{r.targetName}

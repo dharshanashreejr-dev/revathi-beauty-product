@@ -1,4 +1,5 @@
 import type { CartItem } from '../types';
+import Counter from '../../shared/reactbits/Counter';
 import { formatPrice } from '../data/products';
 import ProductArt from './ProductArt';
 import { useLang, useUiLang } from '../../shared/i18n';
@@ -23,10 +24,10 @@ export function Steps({ at }: { at: number }) {
   );
 }
 
-export function Summary({ items, subtotal, shipping, fee = 0, discount = 0 }: { items: CartItem[]; subtotal: number; shipping: number | null; fee?: number; discount?: number }) {
+export function Summary({ items, subtotal, shipping, fee = 0, discount = 0, flash = 0 }: { items: CartItem[]; subtotal: number; shipping: number | null; fee?: number; discount?: number; flash?: number }) {
   const [lang] = useLang();
   const [ui] = useUiLang();
-  const total = subtotal - discount + (shipping ?? 0) + fee;
+  const total = subtotal - discount - flash + (shipping ?? 0) + fee;
   return (
     <aside className="h-fit rounded-3xl bg-night p-7 text-stone-200 shadow-2xl lg:sticky lg:top-24">
       <h3 className="font-serif text-3xl text-white">{ck('Your order', lang)}</h3>
@@ -45,9 +46,10 @@ export function Summary({ items, subtotal, shipping, fee = 0, discount = 0 }: { 
       <dl className="mt-6 space-y-2 border-t border-white/10 pt-5 text-sm">
         <div className="flex justify-between"><dt>{ck('Subtotal', lang)}</dt><dd>{formatPrice(subtotal)}</dd></div>
         {discount > 0 && <div className="flex justify-between text-emerald-300"><dt>{authT('Coupon discount', ui)}</dt><dd>−{formatPrice(discount)}</dd></div>}
+        {flash > 0 && <div className="flex justify-between text-emerald-300"><dt>{authT('Quick-pay offer', ui)}</dt><dd>−{formatPrice(flash)}</dd></div>}
         <div className="flex justify-between"><dt>{ck('Shipping', lang)}</dt><dd>{shipping === null ? ck('Calculated next', lang) : shipping === 0 ? ck('Complimentary', lang) : formatPrice(shipping)}</dd></div>
         {fee > 0 && <div className="flex justify-between"><dt>{ck('Cash on delivery fee', lang)}</dt><dd>{formatPrice(fee)}</dd></div>}
-        <div className="flex justify-between border-t border-white/10 pt-3 text-lg text-white"><dt>{ck('Total', lang)}</dt><dd className="gold-text font-serif text-3xl">{formatPrice(total)}</dd></div>
+        <div className="flex justify-between border-t border-white/10 pt-3 text-lg text-white"><dt>{ck('Total', lang)}</dt><dd className="font-serif text-3xl"><Counter value={total} locale="en-IN" format={{ style: 'currency', currency: 'INR', maximumFractionDigits: 0 }} fontSize="inherit" fontWeight="inherit" textColor="#ad87e9" duration={0.8} intro={false} fade={0.25} /></dd></div>
       </dl>
     </aside>
   );

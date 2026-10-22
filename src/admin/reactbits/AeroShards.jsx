@@ -1234,9 +1234,9 @@ const prepareRenderGraph = async (graph, outputFormat) => {
 };
 
 export default function AeroShards({
-  backgroundColor = '#120F17',
-  shardColor = '#896ABD',
-  accentColor = '#A855F7',
+  backgroundColor = '#4b1d90',
+  shardColor = '#c4a8ef',
+  accentColor = '#d1bbf2',
   placement = 'full',
   flow = 'stream',
   material = 'pearl',
@@ -1291,9 +1291,9 @@ export default function AeroShards({
   const effectDetail = resolvedEffect === EFFECTS.none ? 1 : 0.4;
   const effectSize = resolvedEffect === EFFECTS.none ? 1 : 1.75;
   const resolvedScale = clamp(scale, 0.5, 2.5);
-  const resolvedBackground = parseColor(backgroundColor, '#120F17');
-  const resolvedShardColor = parseColor(shardColor, '#896ABD');
-  const resolvedAccentColor = parseColor(accentColor, '#A855F7');
+  const resolvedBackground = parseColor(backgroundColor, '#4b1d90');
+  const resolvedShardColor = parseColor(shardColor, '#c4a8ef');
+  const resolvedAccentColor = parseColor(accentColor, '#d1bbf2');
   const resolvedSpread = clamp(spread, 0.15, 1.1);
   const resolvedDepth = clamp(depth, 0, 1.25);
   const resolvedSpeed = clamp(speed, 0, 2);

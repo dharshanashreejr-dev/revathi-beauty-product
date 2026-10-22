@@ -1,0 +1,7 @@
+
+/* ===== React Bits PillNav inside the navbar ===== */
+.vt-nav .pill-nav, .nav-left .pill-nav, .nav-right .pill-nav { text-shadow: none; text-transform: uppercase; letter-spacing: .06em; font-family: inherit; }
+.vt-nav .pill-nav a, .header nav .pill-nav a { padding: 0 var(--pn-x); }
+.vt-nav .pill-nav a::after, .header nav .pill-nav a::after { display: none !important; }
+.vt-nav .pill-nav .pill-nav__item, .header nav .pill-nav .pill-nav__item { text-transform: uppercase; font-size: 11.5px; letter-spacing: .08em; }
+.vt-nav .pill-nav__bar { height: var(--pn-inner); }

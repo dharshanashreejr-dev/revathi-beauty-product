@@ -139,4 +139,4 @@ export function Rail({ label, children }: { label: string; children: ReactNode }
   )
 }
 
-export const Photo = ({ k, className = '', alt = '' }: { k: string; className?: string; alt?: string }) => <img src={`/img/${k}.jpg`} alt={alt} draggable={false} loading="lazy" className={`object-cover ${className}`} />
+export const Photo = ({ k, className = '', alt = '' }: { k: string; className?: string; alt?: string }) => <img src={k && (k.startsWith('/') || k.startsWith('http')) ? k : `/img/${k}.jpg`} alt={alt} draggable={false} loading="lazy" className={`object-cover ${className}`} />

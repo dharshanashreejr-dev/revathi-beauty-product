@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import Magnet from '../../shared/reactbits/Magnet';
 import { api } from '../../api';
 import type { Address, CartItem } from '../types';
 import { formatPrice } from '../data/products';
@@ -71,7 +72,7 @@ export default function Checkout({ items, initial, onNext, onBack }: Props) {
           </div>
           <div className="flex items-center justify-between">
             <button onClick={onBack} className="text-sm underline">{ck('← Back to shop', lang)}</button>
-            <button onClick={submit} className="btn-primary gold-btn rounded-full px-10 py-4 text-sm tracking-widest">{ckUp('Continue to payment', lang)}</button>
+            <Magnet padding={70} magnetStrength={3}><button onClick={submit} className="btn-primary gold-btn rounded-full px-10 py-4 text-sm tracking-widest">{ckUp('Continue to payment', lang)}</button></Magnet>
           </div>
         </div>
         <Summary items={items} subtotal={sub} shipping={shipFee(sub, a.method)} />

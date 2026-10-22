@@ -16,7 +16,7 @@ type Tab = 'orders' | 'appointments' | 'profile'
 const TABS: [Tab, string][] = [['orders', 'Orders'], ['appointments', 'Appointments'], ['profile', 'Profile']]
 
 function Chip({ text, tone }: { text: string; tone: 'gold' | 'green' | 'red' | 'grey' }) {
-  const c = { gold: 'bg-gold/20 text-[#6a7942]', green: 'bg-green-600/15 text-green-700', red: 'bg-red-600/15 text-red-700', grey: 'bg-ink/10 text-ink/70' }[tone]
+  const c = { gold: 'bg-gold text-[#4c1d95]', green: 'bg-green-600/15 text-green-700', red: 'bg-red-600/15 text-red-700', grey: 'bg-ink/10 text-ink/70' }[tone]
   return <span className={`label px-3 py-1 rounded-full ${c}`}>{text}</span>
 }
 
@@ -53,12 +53,12 @@ function Hero({ pr, onFind, err }: { pr: Profile; onFind: (q: string) => void; e
   const sub = (e: FormEvent) => { e.preventDefault(); onFind(q.trim()) }
   const orders = getMyOrders(), ap = getAppts()
   return (
-    <section className="relative min-h-[92svh] overflow-hidden bg-[#e9eedc] text-ink pt-28 pb-10 grid md:grid-cols-2 items-center">
+    <section className="relative min-h-[92svh] overflow-hidden bg-[#f5f1fc] text-ink pt-28 pb-10 grid md:grid-cols-2 items-center">
       <div className="relative px-5 md:px-10 grid gap-10 items-end order-2 md:order-1">
         <div>
           <span className="label block fade-up opacity-70">{t('Customer area · {name}', { name: spa.name })}</span>
           <h1 className="h text-[clamp(2.4rem,5.5vw,5.5rem)] mt-4 fade-up !normal-case">{rich(t('Welcome back,\n*{name}.*', { name: pr.name.split(' ')[0] }))}</h1>
-          <form onSubmit={sub} className="mt-8 flex max-w-lg bg-white/70 border border-ink/15 rounded-full p-1.5 fade-up">
+          <form onSubmit={sub} className="mt-8 flex max-w-lg bg-[#eee7fc]/70 border border-ink/15 rounded-full p-1.5 fade-up">
             <input value={q} onChange={(e) => setQ(e.target.value)} placeholder={t('Track by ID · e.g. VT-ORD-10482 or VT-APT-7731')} className="flex-1 bg-transparent px-5 text-xs outline-none placeholder:text-ink/50" />
             <button className="bg-ink text-sand rounded-full px-6 py-3 label hover:bg-gold hover:text-ink transition">{t('Track')}</button>
           </form>
@@ -66,7 +66,7 @@ function Hero({ pr, onFind, err }: { pr: Profile; onFind: (q: string) => void; e
         </div>
         <div className="grid grid-cols-3 gap-3">
           {[[orders.filter((o) => !o.cancelled && o.stage < ORDER_LAST).length, 'Active orders'], [ap.filter((a) => a.status === 'Upcoming' || a.status === 'Pending Review').length, 'Upcoming visits'], [pr.points, 'Velvet points']].map(([n, l]) => (
-            <Tilt key={l} max={14} className="bg-white/70 border border-ink/10 rounded-xl p-4"><p className="h text-3xl md:text-4xl text-ink"><Counter to={Number(n)} /></p><p className="label mt-2 !text-[.55rem]">{t(String(l))}</p></Tilt>))}
+            <Tilt key={l} max={14} className="bg-[#eee7fc]/70 border border-ink/10 rounded-xl p-4"><p className="h text-3xl md:text-4xl text-ink"><Counter to={Number(n)} /></p><p className="label mt-2 !text-[.55rem]">{t(String(l))}</p></Tilt>))}
         </div>
       </div>
       <div className="order-1 md:order-2 relative h-[40svh] md:h-full md:absolute md:right-0 md:top-0 md:bottom-0 md:w-1/2 -mt-28 md:mt-0">
@@ -82,14 +82,14 @@ function OrdersTab({ sel, setSel }: { sel: string; setSel: (s: string) => void }
   const [list, setList] = useState<Order[]>(getMyOrders)
   const cur = list.find((o) => o.id === sel) ?? list[0]
   useEffect(() => subscribeData(() => setList(getMyOrders())), []) // admin / staff updates show up here live
-  if (!cur) return <div className="bg-white/60 border border-ink/10 p-10 text-center"><p className="h text-2xl">{t('No orders yet')}</p><p className="text-sm opacity-70 mt-2">{t('Orders you place will appear here and update live as our team packs and ships them.')}</p><Link to="/products" className="inline-flex mt-6 bg-ink text-sand rounded-full px-7 py-4 label">{t('Shop products ↗')}</Link></div>
+  if (!cur) return <div className="bg-[#eee7fc]/60 border border-ink/10 p-10 text-center"><p className="h text-2xl">{t('No orders yet')}</p><p className="text-sm opacity-70 mt-2">{t('Orders you place will appear here and update live as our team packs and ships them.')}</p><Link to="/products" className="inline-flex mt-6 bg-ink text-sand rounded-full px-7 py-4 label">{t('Shop products ↗')}</Link></div>
   const eta = (o: Order) => (o.cancelled ? t('Cancelled') : o.stage === ORDER_LAST ? t('Delivered') : t('Arriving {day}', { day: fmtDay(o.eta) }))
   return (
     <div className="grid lg:grid-cols-[1fr_1.1fr] gap-8">
       <div className="space-y-5">
         {list.map((o, n) => (
           <div key={o.id} style={{ animationDelay: `${n * 80}ms` }} className="fade-up">
-            <Tilt max={5} scale={1.015} className={`bg-white/60 border transition ${o.id === cur.id ? 'border-gold shadow-xl' : 'border-ink/10'}`}>
+            <Tilt max={5} scale={1.015} className={`bg-[#eee7fc]/60 border transition ${o.id === cur.id ? 'border-gold shadow-xl' : 'border-ink/10'}`}>
               <button onClick={() => setSel(o.id)} className="w-full text-left p-4 flex gap-4">
                 <div className="relative h-24 w-20 shrink-0">{o.items.slice(0, 3).map((it, i) => <Photo key={it.pid + i} k={it.img} className="absolute h-24 w-20 border border-sand shadow-md" />).reverse().map((el, i, a) => <div key={i} className="absolute inset-0" style={{ transform: `translate(${(a.length - 1 - i) * 7}px,${(a.length - 1 - i) * -4}px)`, zIndex: i }}>{el}</div>)}</div>
                 <div className="flex-1 min-w-0">
@@ -109,7 +109,7 @@ function OrdersTab({ sel, setSel }: { sel: string; setSel: (s: string) => void }
           <p><span className="label opacity-60 block mb-1">{t('Courier')}</span>{t(cur.courier)}</p><p><span className="label opacity-60 block mb-1">{t('Tracking no.')}</span>{t(cur.awb)}</p>
           <p><span className="label opacity-60 block mb-1">{t('Placed')}</span>{fmtWhen(cur.placed)}</p><p><span className="label opacity-60 block mb-1">{t('Payment')}</span>{t(cur.payment)}</p>
         </div>
-        <div className="mt-6 bg-sand text-ink p-5"><Timeline steps={stages} current={cur.stage} times={stages.map((_, i) => { const l = cur.log.find((x) => x.stage === i); return l ? fmtWhen(l.at) : undefined })} notes={stages.map((_, i) => cur.log.find((x) => x.stage === i)?.note)} /></div>
+        <div className="spot-light mt-6 bg-sand text-ink p-5 rounded-2xl"><Timeline steps={stages} current={cur.stage} times={stages.map((_, i) => { const l = cur.log.find((x) => x.stage === i); return l ? fmtWhen(l.at) : undefined })} notes={stages.map((_, i) => cur.log.find((x) => x.stage === i)?.note)} /></div>
         <div className="mt-6 space-y-3">{cur.items.map((i, k) => <div key={i.pid + k} className="flex gap-3 items-center text-xs"><Photo k={i.img} className="h-14 w-12" /><span className="flex-1">{t(i.name)}<br /><span className="opacity-60">{t(i.size)} · {t('Qty {n}', { n: i.qty })}</span></span><span>{money(i.price * i.qty)}</span></div>)}
           <p className="flex justify-between border-t border-sand/15 pt-3 text-sm"><span>{t('Total')}</span><span>{money(cur.total)}</span></p></div>
         <p className="text-xs opacity-70 mt-4">{t('Delivering to: {address}', { address: t(cur.address) })}</p>
@@ -128,14 +128,14 @@ function ApptsTab({ sel, setSel }: { sel: string; setSel: (s: string) => void })
   const cur = list.find((a) => a.ref === sel) ?? list[0]
   const refresh = () => setList(getAppts())
   useEffect(() => subscribeData(refresh), []) // the team approving, checking in or completing shows up here live
-  if (!cur) return <div className="bg-white/60 border border-ink/10 p-10 text-center"><p className="h text-2xl">{t('No appointments yet')}</p><p className="text-sm opacity-70 mt-2">{t('Your bookings will appear here and update live as our team confirms and completes them.')}</p><Link to="/booking" className="inline-flex mt-6 bg-ink text-sand rounded-full px-7 py-4 label">{t('Book new appointment ↗')}</Link></div>
+  if (!cur) return <div className="bg-[#eee7fc]/60 border border-ink/10 p-10 text-center"><p className="h text-2xl">{t('No appointments yet')}</p><p className="text-sm opacity-70 mt-2">{t('Your bookings will appear here and update live as our team confirms and completes them.')}</p><Link to="/booking" className="inline-flex mt-6 bg-ink text-sand rounded-full px-7 py-4 label">{t('Book new appointment ↗')}</Link></div>
   const tone = (s: Appt['status']) => (s === 'Upcoming' || s === 'Pending Review' ? 'gold' : s === 'Completed' ? 'green' : 'red')
   return (
     <div className="grid lg:grid-cols-[1fr_1.1fr] gap-8">
       <div className="space-y-5">
         {list.map((a, n) => (
           <div key={a.ref} style={{ animationDelay: `${n * 80}ms` }} className="fade-up">
-            <Tilt max={5} scale={1.015} className={`bg-white/60 border overflow-hidden transition ${a.ref === cur.ref ? 'border-gold shadow-xl' : 'border-ink/10'}`}>
+            <Tilt max={5} scale={1.015} className={`bg-[#eee7fc]/60 border overflow-hidden transition ${a.ref === cur.ref ? 'border-gold shadow-xl' : 'border-ink/10'}`}>
               <button onClick={() => setSel(a.ref)} className="w-full text-left flex">
                 <Photo k={a.img} className="h-32 w-28 shrink-0" />
                 <div className="flex-1 p-4 min-w-0">
@@ -149,7 +149,7 @@ function ApptsTab({ sel, setSel }: { sel: string; setSel: (s: string) => void })
         <Link to="/booking" className="inline-flex bg-ink text-sand rounded-full px-7 py-4 label">{t('Book new appointment ↗')}</Link>
       </div>
       <aside key={cur.ref} className="pop-in bg-ink text-sand lg:sticky lg:top-24 self-start overflow-hidden">
-        <div className="relative h-44"><Photo k={cur.img} className="h-full w-full kenburns" /><div className="absolute inset-0 bg-gradient-to-t from-ink to-black/20" />
+        <div className="relative h-44"><Photo k={cur.img} className="h-full w-full kenburns" /><div className="absolute inset-0 bg-gradient-to-t from-black/70 to-black/10" />
           <div className="absolute bottom-4 left-6 right-6 flex justify-between items-end gap-3"><div><p className="label text-gold">{t(cur.category)}</p><h3 className="h text-3xl mt-1">{t(cur.service)}</h3></div><Chip text={t(cur.status)} tone={tone(cur.status)} /></div></div>
         <div className="p-6 md:p-8">
           <div className="grid grid-cols-2 gap-4 text-xs border-b border-sand/15 pb-4">
@@ -157,7 +157,7 @@ function ApptsTab({ sel, setSel }: { sel: string; setSel: (s: string) => void })
             <p><span className="label opacity-60 block mb-1">{cur.mode === 'home' ? t('Address') : t('Room')}</span>{cur.mode === 'home' && cur.address ? cur.address : t(cur.room)}</p><p><span className="label opacity-60 block mb-1">{t('Amount')}</span>{servicePricesVisible() ? t('{money} · pay at visit', { money: money(cur.price) }) : t('Pay at the salon (offline)')}</p>
           </div>
           {cur.notes && <p className="text-xs opacity-70 mt-4">{t('Note: {note}', { note: t(cur.notes) })}</p>}
-          <div className="mt-6 bg-sand text-ink p-5">{cur.status === 'Cancelled' ? <p className="text-sm">{t('This appointment was cancelled. The slot has been released.')}</p> : cur.status === 'Rejected' ? <div className="text-sm space-y-2"><p>{t('This request was not approved. The slot has been released.')}</p>{cur.reviewNote && <p className="opacity-70">{t('Reason from our team: {note}', { note: cur.reviewNote })}</p>}</div> : cur.status === 'Pending Review' ? <p className="text-sm">{t('Our team is reviewing your request. You will get an SMS once it is confirmed.')}</p> : <Timeline steps={apptStages(lang)} current={cur.stage} />}</div>
+          <div className="spot-light mt-6 bg-sand text-ink p-5 rounded-2xl">{cur.status === 'Cancelled' ? <p className="text-sm">{t('This appointment was cancelled. The slot has been released.')}</p> : cur.status === 'Rejected' ? <div className="text-sm space-y-2"><p>{t('This request was not approved. The slot has been released.')}</p>{cur.reviewNote && <p className="opacity-70">{t('Reason from our team: {note}', { note: cur.reviewNote })}</p>}</div> : cur.status === 'Pending Review' ? <p className="text-sm">{t('Our team is reviewing your request. You will get an SMS once it is confirmed.')}</p> : <Timeline steps={apptStages(lang)} current={cur.stage} />}</div>
           <div className="flex flex-wrap gap-3 mt-6">
             {cur.status === 'Upcoming' && <>
               <Link to="/booking" className="border border-sand/40 rounded-full px-6 py-3 label hover:bg-sand hover:text-ink transition">{t('Reschedule')}</Link>
@@ -190,10 +190,10 @@ function ProfileTab() {
             <div><p className="h text-2xl">{p.name}</p><p className="label !font-medium opacity-70 mt-1">{t('Member since {since} · {phone}', { since: p.since, phone: p.phone })}</p></div>
           </div>
         </Tilt>
-        <div className="bg-white/60 border border-ink/10 p-5"><div className="flex justify-between text-xs"><span className="label">{t('Progress to Velvet Platinum')}</span><span>{p.points.toLocaleString('en-IN')} / {p.nextTier.toLocaleString('en-IN')}</span></div>
+        <div className="bg-[#eee7fc]/60 border border-ink/10 p-5"><div className="flex justify-between text-xs"><span className="label">{t('Progress to Velvet Platinum')}</span><span>{p.points.toLocaleString('en-IN')} / {p.nextTier.toLocaleString('en-IN')}</span></div>
           <div className="mt-3"><Bar v={pct} /></div><p className="text-xs opacity-70 mt-3">{t('{n} points to go. Earn 1 point per ₹10 on products and spa visits.', { n: (p.nextTier - p.points).toLocaleString('en-IN') })}</p></div>
       </div>
-      <div className="bg-white/60 border border-ink/10 p-6 md:p-8">
+      <div className="bg-[#eee7fc]/60 border border-ink/10 p-6 md:p-8">
         <h3 className="h text-2xl">{t('Your details')}</h3>
         <div className="grid sm:grid-cols-2 gap-x-8 gap-y-6 mt-6">
           <label><span className="label opacity-60">{t('Full name')}</span><input className={f} value={p.name} onChange={(e) => set('name', e.target.value)} /></label>
@@ -230,14 +230,14 @@ export default function Track() {
     else setErr(q)
   }
   if (!user) return (
-    <main className="bg-[#e5ead5] min-h-screen grid place-items-center px-5 pt-28 pb-20 text-center">
+    <main className="bg-[#f2ecfc] min-h-screen grid place-items-center px-5 pt-28 pb-20 text-center">
       <div className="max-w-md"><h1 className="h text-3xl">{authT('Login to continue', ui)}</h1>
         <p className="text-sm opacity-70 mt-3">{authT('Log in to see your orders, appointments and profile.', ui)}</p>
         <button onClick={() => openLogin()} className="mt-6 bg-ink text-sand rounded-full px-8 py-4 label hover:bg-stone transition">{authT('Login', ui)}</button></div>
     </main>
   )
   return (
-    <main className="bg-[#e5ead5] min-h-screen">
+    <main className="bg-[#f2ecfc] min-h-screen">
       <Hero pr={pr} onFind={find} err={err} />
       <div id="panel" className="sticky top-0 z-30 bg-sand/85 backdrop-blur border-b border-ink/10 px-5 md:px-10 pt-14 md:pt-16">
         <div className="flex gap-8">{TABS.map(([k, l]) => <button key={k} onClick={() => go(k)} className={`label pb-4 border-b-2 transition ${tab === k ? 'border-gold' : 'border-transparent opacity-50 hover:opacity-100'}`}>{t(l)}</button>)}</div>

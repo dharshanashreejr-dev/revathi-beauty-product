@@ -79,7 +79,7 @@ function Popup({ label, title, onClose, children }: { label: string; title: stri
   }, [onClose])
   return (
     <div className="fixed inset-0 z-[80] flex items-end md:items-center justify-center bg-black/60 md:p-8" onClick={onClose} role="dialog" aria-modal="true" aria-label={t(title)}>
-      <div className="flex flex-col w-full max-w-6xl max-h-[92vh] bg-[#e5ead5] shadow-2xl" onClick={(e) => e.stopPropagation()}>
+      <div className="flex flex-col w-full max-w-6xl max-h-[92vh] bg-[#f2ecfc] shadow-2xl" onClick={(e) => e.stopPropagation()}>
         <div className="flex items-start justify-between gap-6 px-6 md:px-10 pt-6 pb-4 border-b border-ink/10">
           <div><span className="label block mb-2">{t(label)}</span><h2 className="h text-[clamp(1.8rem,3.6vw,3.2rem)]">{t(title)}</h2></div>
           <button onClick={onClose} aria-label={t('Close')} className="shrink-0 h-10 w-10 rounded-full border border-ink/30 hover:bg-ink hover:text-sand transition text-lg leading-none">&times;</button>
@@ -102,7 +102,7 @@ function Menu() {
     { key: 'bridal' as const, title: 'Bridal Makeup', k: '', src: '/assets/services-hero/bridal.webp', count: `${pk.length} ${t('packages')}`, desc: 'Silver, Gold and Platinum bridal packages, plus a trial pack.', btn: 'View packages' },
   ]
   return (
-    <section id="menu" className="bg-[#e5ead5] px-5 md:px-10 pt-24 pb-24 scroll-mt-0">
+    <section id="menu" className="bg-[#f2ecfc] px-5 md:px-10 pt-24 pb-24 scroll-mt-0">
       <Reveal>
         <span className="label block mb-4">{t('The ritual menu')}</span>
         <h2 className="h text-[clamp(2.4rem,5.5vw,5rem)]">{t('Services & Consulting')}</h2>
@@ -111,7 +111,7 @@ function Menu() {
       <div className="grid md:grid-cols-2 gap-6 mt-12">
         {big.map((c, n) => (
           <Reveal key={c.key} delay={n * 150} className="h-full">
-          <button onClick={() => setOpen(c.key)} className="group w-full text-left bg-white/60 border border-ink/15 hover:border-ink hover:-translate-y-1 hover:shadow-xl transition duration-500">
+          <button onClick={() => setOpen(c.key)} className="group w-full text-left bg-[#eee7fc]/60 border border-ink/15 hover:border-ink hover:-translate-y-1 hover:shadow-xl transition duration-500">
             <div className="overflow-hidden relative">
               {c.src ? <img src={c.src} alt={t(c.title)} loading="lazy" draggable={false} className="w-full aspect-[16/9] object-cover group-hover:scale-105 transition duration-700" /> : <Img k={c.k} alt={t(c.title)} className="w-full aspect-[16/9] group-hover:scale-105 transition duration-700" />}
             </div>
@@ -157,7 +157,7 @@ function BridalPackages() {
       <p className="text-xs max-w-xl opacity-70">{t('Pick a package, choose a date, and our team confirms your booking after a quick review.')} {t('Available at our parlour or at your home.')}</p>
       <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-8">
         {pk.map((b) => (
-          <article key={b.id} className={`flex flex-col border p-6 ${b.popular ? 'bg-ink text-sand border-ink' : 'bg-white/60 border-ink/15'}`}>
+          <article key={b.id} className={`flex flex-col border p-6 ${b.popular ? 'bg-ink text-sand border-ink' : 'bg-[#eee7fc]/60 border-ink/15'}`}>
             {b.popular && <span className="label mb-3 text-gold">{t('Most loved')}</span>}
             <h3 className="h text-2xl">{t(b.name)}</h3>
             <p className="label opacity-60 mt-2">{b.duration} {t('min')}{servicePricesVisible() && <>  {(b.discountValue ?? 0) > 0 && <s className="opacity-60 mr-1">{money(b.price)}</s>}{money(promoPrice(b.price, b.discountType, b.discountValue))}{(b.discountValue ?? 0) > 0 && <span className="text-gold">  {t(b.discountType === 'flat' ? `${b.discountValue} off` : `${b.discountValue}% off`)}</span>}</>}</p>

@@ -19,7 +19,7 @@ const L: Record<Lang, Record<string, string>> = {
 }
 
 const Stars = ({ n, size = 16 }: { n: number; size?: number }) => (
-  <span aria-label={`${n} / 5`} style={{ color: '#99b05b', fontSize: size, letterSpacing: 2 }}>{'★'.repeat(n)}<span style={{ opacity: 0.3 }}>{'★'.repeat(5 - n)}</span></span>
+  <span aria-label={`${n} / 5`} style={{ color: '#ae89e9', fontSize: size, letterSpacing: 2 }}>{'★'.repeat(n)}<span style={{ opacity: 0.3 }}>{'★'.repeat(5 - n)}</span></span>
 )
 
 const GATE: Record<string, { login: string; product: string; service: string }> = {
@@ -45,9 +45,9 @@ export default function ReviewsSection({ kind, targetId, targetName, dark = fals
   const [msg, setMsg] = useState('')
   const [err, setErr] = useState('')
   const avg = list.length ? list.reduce((s, r) => s + r.rating, 0) / list.length : 0
-  const fg = dark ? '#e4e9d3' : '#262c1f'
-  const box: React.CSSProperties = { border: `1px solid ${dark ? 'rgba(255,255,255,.2)' : '#ced8b4'}`, borderRadius: 12, padding: '12px 14px', background: dark ? 'rgba(255,255,255,.05)' : '#eaefde' }
-  const input: React.CSSProperties = { width: '100%', padding: '10px 12px', borderRadius: 8, border: '1px solid #c7d2aa', background: '#eef2e4', color: '#262c1f', font: 'inherit', fontSize: 14 }
+  const fg = dark ? '#f1ecfb' : '#4c1d92'
+  const box: React.CSSProperties = { border: `1px solid ${dark ? 'rgba(76, 29, 149, .2)' : '#ddd2fb'}`, borderRadius: 12, padding: '12px 14px', background: dark ? 'rgba(76, 29, 149, .05)' : '#ddd2fb' }
+  const input: React.CSSProperties = { width: '100%', padding: '10px 12px', borderRadius: 8, border: '1px solid #ddd2fb', background: '#ddd2fb', color: '#4c1d92', font: 'inherit', fontSize: 14 }
 
   const submit = () => {
     if (f.name.trim().length < 2 || f.text.trim().length < 3) { setErr(t.err); return }
@@ -63,19 +63,19 @@ export default function ReviewsSection({ kind, targetId, targetName, dark = fals
         {access === 'login' && <button type="button" onClick={() => openLogin()} style={{ padding: '8px 16px', borderRadius: 999, border: `1px solid ${fg}`, background: 'transparent', color: fg, cursor: 'pointer', fontSize: 13 }}>{gate.login}</button>}
       </div>
       {access === 'notyet' && <p style={{ margin: '10px 0 0', fontSize: 13, opacity: 0.75 }}>{kind === 'product' ? gate.product : gate.service}</p>}
-      {msg && <p role="status" style={{ margin: '10px 0 0', fontSize: 13, color: dark ? '#cbd8a7' : '#506634' }}>{msg}</p>}
+      {msg && <p role="status" style={{ margin: '10px 0 0', fontSize: 13, color: dark ? '#e1d3f8' : '#4d1d95' }}>{msg}</p>}
       {open && access === 'ok' && (
         <div style={{ ...box, marginTop: 12, display: 'grid', gap: 10 }}>
           <input style={input} placeholder={t.name} value={f.name} onChange={(e) => setF({ ...f, name: e.target.value })} aria-label={t.name} maxLength={40} />
           <div role="radiogroup" aria-label={t.rating} style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
             <span style={{ fontSize: 13, marginRight: 6 }}>{t.rating}</span>
             {[1, 2, 3, 4, 5].map((n) => (
-              <button key={n} type="button" role="radio" aria-checked={f.rating === n} aria-label={`${n}`} onClick={() => setF({ ...f, rating: n })} style={{ background: 'none', border: 0, cursor: 'pointer', fontSize: 24, color: n <= f.rating ? '#99b05b' : '#a7b09a', padding: 0 }}>★</button>
+              <button key={n} type="button" role="radio" aria-checked={f.rating === n} aria-label={`${n}`} onClick={() => setF({ ...f, rating: n })} style={{ background: 'none', border: 0, cursor: 'pointer', fontSize: 24, color: n <= f.rating ? '#ae89e9' : '#d0baf2', padding: 0 }}>★</button>
             ))}
           </div>
           <textarea style={{ ...input, minHeight: 80, resize: 'vertical' }} placeholder={t.text} value={f.text} onChange={(e) => setF({ ...f, text: e.target.value })} aria-label={t.text} maxLength={400} />
           {err && <p role="alert" style={{ margin: 0, fontSize: 13, color: '#b3261e' }}>{err}</p>}
-          <button type="button" onClick={submit} style={{ justifySelf: 'start', padding: '10px 22px', borderRadius: 999, border: 0, background: '#262c1f', color: '#eaefde', cursor: 'pointer', fontSize: 14 }}>{t.submit}</button>
+          <button type="button" onClick={submit} style={{ justifySelf: 'start', padding: '10px 22px', borderRadius: 999, border: 0, background: '#4c1d92', color: '#ddd2fb', cursor: 'pointer', fontSize: 14 }}>{t.submit}</button>
         </div>
       )}
       <div style={{ display: 'grid', gap: 10, marginTop: 14 }}>
