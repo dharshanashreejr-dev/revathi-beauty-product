@@ -8,8 +8,10 @@ import * as catalog from './catalog'
 import * as pos from './pos'
 import * as audit from './audit'
 import * as offers from './offers'
+import * as attendance from './attendance'
+import * as payroll from './payroll'
 import * as catalogue from './catalogue'
-export const api = { auth, sms, stock, pricing, booking, catalog, pos, audit, offers, catalogue }
+export const api = { auth, sms, stock, pricing, booking, catalog, pos, audit, offers, catalogue, attendance, payroll }
 export type { User, Address } from './auth'
 export type { SmsKey, SmsRecord } from './sms'
 export type { Booking, BookingMode, BookingStatus, SlotLock, Reminder, Channel, HomeAddress } from './booking'

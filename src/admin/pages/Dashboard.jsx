@@ -16,6 +16,7 @@ import { AreaChart, Donut, HBars } from '../components/Charts.jsx';
 import DitherVeil from '../reactbits/DitherVeil.jsx';
 import SafeEffect from '../components/SafeEffect.jsx';
 import { useT } from '../i18n.js';
+import * as att from '../../api/attendance';
 import { pname } from '../../products/i18n-names';
 
 const PERIODS = [
@@ -55,6 +56,8 @@ export default function Dashboard({ user, onNavigate }) {
   const totalRevenue = productRevenue(orders, products) + appointmentRevenue(appointments);
   const lowStock = products.filter((p) => !p.archived && p.status !== 'Draft' && p.stock <= (lowStockThreshold ?? LOW_STOCK));
   const available = staff.filter((s) => s.availability === 'Available').length;
+  try { att.seedDemoPunches((staff||[]).map(s=>({id:s.id,name:s.name}))); } catch {}
+  const presentToday = att.liveBoard(staff||[]).filter((b)=>b.status==='Present'||b.status==='Late').length;
   const todays = appointments.filter((a) => a.date === TODAY).sort((a, b) => a.time.localeCompare(b.time));
   const recentOrders = [...orders].sort((a, b) => b.date.localeCompare(a.date)).slice(0, 5);
   const actText = (a) => t(a.what, Object.fromEntries(Object.entries(a.vars || {}).map(([k, v]) => [k, t(v)])));
@@ -111,6 +114,7 @@ export default function Dashboard({ user, onNavigate }) {
         <StatCard icon={Users} label={t('Total customers')} value={customers.length} hint={t('Across all tiers')} tone="sand" />
         {isAdmin && <StatCard icon={IndianRupee} label={t('Total revenue')} value={inr(totalRevenue)} hint={t('Paid orders and services')} tone="forest" />}
         {isAdmin && <StatCard icon={AlertTriangle} label={t('Low-stock products')} value={lowStock.length} hint={t('{n} units or fewer', { n: lowStockThreshold ?? LOW_STOCK })} tone="amber" />}
+        <StatCard icon={UserCheck} label={t('Present today')} value={presentToday} hint={t('In or late right now')} tone="sage" />
         <StatCard icon={UserCheck} label={t('Available specialists')} value={available} hint={t('of {n} team members', { n: staff.length })} tone="sage" />
       </div>
 

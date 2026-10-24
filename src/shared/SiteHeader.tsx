@@ -71,34 +71,36 @@ export default function SiteHeader({ Link = PlainLink, current, cartCount, onCar
   useEffect(() => { setSaved(savedBagCount()) }, [])
   useEffect(() => { document.body.style.overflow = open ? 'hidden' : '' ; return () => { document.body.style.overflow = '' } }, [open])
   const count = cartCount ?? saved
+  // Reviews page: the link is called 'Reviews' when logged in and 'Testimonials' when not — highlight whichever one is shown
+  const cur = current === 'Reviews' || current === 'Testimonials' ? reviewKey : current
   const item = ([t, to]: [string, string]) => (
     <Link key={t} to={to} className={current === t || (current === 'Reviews' && t === 'Testimonials') ? 'is-current' : ''} aria-current={current === t ? 'page' : undefined}>{L[t] ?? t}</Link>
   )
   return (
     <>
       <header className={`vt-header ${scrolled || solid ? 'is-solid' : ''}`}>
-        <nav className="vt-nav vt-left" aria-label={L.SitePages}><SitePillNav Link={Link as never} current={current === 'Reviews' ? 'Testimonials' : current} items={LEFT.map(([t, to]) => ({ key: t, label: L[t] ?? t, href: to }))} label={L.SitePages} /></nav>
-        <button className="vt-icon vt-burger" aria-label={L.Menu} onClick={() => setOpen(true)}>
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><path d="M3 6h18M3 12h18M3 18h18" /></svg>
-        </button>
         <Link to={SITE.home} className="vt-brand" aria-label={L.HomeLink}>
           <span className="vt-word">REVATHI HERBAL CARE</span>
           <span className="vt-tagline">{L.BrandTagline ?? 'Where Nature meets beauty'}</span>
         </Link>
+        <button className="vt-icon vt-burger" aria-label={L.Menu} onClick={() => setOpen(true)}>
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><path d="M3 6h18M3 12h18M3 18h18" /></svg>
+        </button>
         <div className="vt-rightwrap">
-        <nav className="vt-nav vt-right" aria-label={L.SitePages}><SitePillNav Link={Link as never} current={current === 'Reviews' ? 'Testimonials' : current} items={RIGHT.map(([t, to]) => ({ key: t, label: L[t] ?? t, href: to }))} label={L.SitePages} /></nav>
+        <nav className="vt-nav vt-left" aria-label={L.SitePages}><SitePillNav Link={Link as never} current={cur} items={LEFT.map(([t, to]) => ({ key: t, label: L[t] ?? t, href: to }))} label={L.SitePages} /></nav>
+        <nav className="vt-nav vt-right" aria-label={L.SitePages}><SitePillNav Link={Link as never} current={cur} items={RIGHT.map(([t, to]) => ({ key: t, label: L[t] ?? t, href: to }))} label={L.SitePages} /></nav>
         <div className="vt-tools">
           <GlobalSearch variant="nav" />
-          {onCart
-            ? <button className="vt-bag" onClick={onCart} aria-label={`${L.Cart} (${count})`}><BagIcon /><span>({count})</span></button>
-            : <Link to={SITE.products} className="vt-bag" aria-label={`${L.Cart} (${count})`}><BagIcon /><span>({count})</span></Link>}
-          <div className="vt-end">
           <span className="lang-ico" title={L.Language}>
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9" /><path d="M3 12h18" /><path d="M12 3a14 14 0 0 1 0 18a14 14 0 0 1 0-18z" /></svg>
             <select className="vt-lang" value={ui} onChange={(e) => setLang(e.target.value as UiLang)} aria-label={L.Language}>
               {LANGS.map((l) => <option key={l.code} value={l.code}>{NAV_LANG_NAMES[l.code]}</option>)}
             </select>
           </span>
+          {onCart
+            ? <button className="vt-bag" onClick={onCart} aria-label={`${L.Cart} (${count})`}><BagIcon /><span>({count})</span></button>
+            : <Link to={SITE.products} className="vt-bag" aria-label={`${L.Cart} (${count})`}><BagIcon /><span>({count})</span></Link>}
+          <div className="vt-end">
           {user
             ? <ProfileMenu user={user} ui={ui} Link={Link} className="vt-admin vt-profile" nameClassName="vt-profile-name" />
             : <button type="button" className="vt-admin vt-profile" onClick={() => openLogin()} aria-label={authT('Login', ui)}><ProfileIcon /><span className="vt-profile-name">{authT('Login', ui)}</span></button>}
@@ -106,7 +108,7 @@ export default function SiteHeader({ Link = PlainLink, current, cartCount, onCar
         </div>
         </div>
       </header>
-      <div className={`vt-panel ${open ? 'is-open' : ''}`} aria-hidden={!open}>
+      <div className={`vt-panel ${open ? 'is-open' : ''}`} {...(open ? {} : ({ inert: '' } as object))}>
         <button className="vt-close" onClick={() => setOpen(false)} aria-label={L.Close}>✕</button>
         <div style={{ padding: '0 4px 16px' }}><GlobalSearch variant="hero" /></div>
         <nav aria-label={L.MenuNav}>

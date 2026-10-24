@@ -810,7 +810,7 @@ export default function Home() {
         .filter((h) => !allSearchItems.some((i) => i.keywords.toLowerCase().includes(h.title.toLowerCase())))
         .map((h) => ({
           title: h.title,
-          sub: `${h.sub} · ${h.price}`,
+          sub: h.price ? `${h.sub} · ${h.price}` : h.sub,
           keywords: h.title,
           action: () => {
             window.location.href = h.href;
@@ -864,16 +864,6 @@ export default function Home() {
         </div>
       </div>}
       <header className={`header ${sticky ? "is-scrolled" : ""}`}>
-        <nav className="nav-left" aria-label={NL.SitePages}>
-          <SitePillNav label={NL.SitePages} items={[{ key: "Products", label: NL.Products, href: SITE.products }, { key: "Services", label: NL.Services, href: SITE.services }]} />
-        </nav>
-        <button
-          className="mobile-menu icon-button"
-          aria-label={trx({ en: "Open menu", ta: "மெனுவைத் திற", hi: "मेनू खोलें", ml: "മെനു തുറക്കുക", te: "మెనూ తెరవండి", kn: "ಮೆನು ತೆರೆಯಿರಿ", mr: "मेनू उघडा", bn: "মেনু খুলুন", sa: "सूचीम् उद्घाटयतु" }, lang)}
-          onClick={() => setPanel("menu")}
-        >
-          <Menu size={22} />
-        </button>
         <a
           className="header-brand"
           href="#top"
@@ -885,7 +875,17 @@ export default function Home() {
         >
           <Brand compact lang={lang} />
         </a>
+        <button
+          className="mobile-menu icon-button"
+          aria-label={trx({ en: "Open menu", ta: "மெனுவைத் திற", hi: "मेनू खोलें", ml: "മെനു തുറക്കുക", te: "మెనూ తెరవండి", kn: "ಮೆನು ತೆರೆಯಿರಿ", mr: "मेनू उघडा", bn: "মেনু খুলুন", sa: "सूचीम् उद्घाटयतु" }, lang)}
+          onClick={() => setPanel("menu")}
+        >
+          <Menu size={22} />
+        </button>
         <div className="nav-rightwrap">
+        <nav className="nav-left" aria-label={NL.SitePages}>
+          <SitePillNav label={NL.SitePages} items={[{ key: "Products", label: NL.Products, href: SITE.products }, { key: "Services", label: NL.Services, href: SITE.services }]} />
+        </nav>
         <nav className="nav-right" aria-label={NL.SitePages}>
           <SitePillNav label={NL.SitePages} items={[{ key: "About", label: NL.About, href: SITE.about }, { key: "Tracking", label: NL.Tracking, href: SITE.tracking }, { key: "Reviews", label: reviewsLabel, href: SITE.reviews }]} />
         </nav>
@@ -961,13 +961,6 @@ export default function Home() {
                 {searchItems.slice(0, 6).map((item) => (
                   <li key={`${item.title}-${item.sub}`}>
                     <button type="button" onClick={item.action}>
-                      {item.art ? (
-                        <span className="search-art" style={{ width: 38, height: 46 }}>
-                          <ProductPhoto id={item.art.id} />
-                        </span>
-                      ) : item.image ? (
-                        <img src={item.image} alt="" />
-                      ) : null}
                       <span>
                         <strong>{item.title}</strong>
                         <small>{item.sub}</small>
@@ -1285,13 +1278,6 @@ export default function Home() {
                 {searchItems.length ? (
                   searchItems.map((item) => (
                     <button key={`${item.title}-${item.sub}`} onClick={item.action}>
-                      {item.art ? (
-                        <span className="search-art">
-                          <ProductPhoto id={item.art.id} />
-                        </span>
-                      ) : (
-                        <img src={item.image} alt="" width="75" height="90" />
-                      )}
                       <span>
                         <strong>{item.title}</strong>
                         <small>{item.sub}</small>

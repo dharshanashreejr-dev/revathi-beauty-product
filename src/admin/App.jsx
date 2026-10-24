@@ -19,6 +19,11 @@ import Reviews from './pages/Reviews.jsx';
 import Offers from './pages/Offers.jsx';
 import POS from './pages/POS.jsx';
 import AuditLog from './pages/AuditLog.jsx';
+import Attendance from './pages/Attendance.jsx';
+import Shifts from './pages/Shifts.jsx';
+import LeaveMgmt from './pages/LeaveMgmt.jsx';
+import PayrollHub from './pages/PayrollHub.jsx';
+import Devices from './pages/Devices.jsx';
 import AccessDenied from './pages/AccessDenied.jsx';
 import { useT } from './i18n.js';
 
@@ -84,7 +89,12 @@ export default function App() {
     services: <ServicesPricing {...props} />,
     offers: <Offers {...props} />,
     reviews: <Reviews {...props} />,
-    audit: <AuditLog {...props} />
+    audit: <AuditLog {...props} />,
+    attendance: <Attendance {...props} />,
+    shifts: <Shifts {...props} />,
+    leave: <LeaveMgmt {...props} />,
+    payroll: <PayrollHub {...props} />,
+    devices: <Devices {...props} />,
   };
 
   return (

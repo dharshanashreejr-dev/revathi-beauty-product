@@ -12,7 +12,7 @@ import { useT } from '../i18n.js';
 
 const SERVICE_ROLES = ['Skin Specialist', 'Hair Therapist', 'Beauty Specialist', 'Wellness Specialist'];
 const PERM_OPTIONS = ['appointments', 'customers', 'inventory', 'services', 'pos', 'all'];
-const blank = { name: '', email: '', phone: '', role: STAFF_ROLES[1], availability: 'Available', experience: '', bio: '', workstationBay: '', shiftHours: '09:00-18:00', permissions: ['appointments'], username: '', password: '' };
+const blank = { name: '', email: '', phone: '', role: STAFF_ROLES[1], availability: 'Available', experience: '', bio: '', workstationBay: '', shiftHours: '09:00-18:00', permissions: ['appointments'], username: '', password: '', baseSalary: 18000, joiningDate: '', deviceId: '', shiftId: 'SH-1', bankName: '', accountNo: '', ifsc: '' };
 
 export default function Staff({ intent, onIntentHandled }) {
   const { staff, setStaff, appointments, setAppointments, notify, user, addAudit } = useStore();
@@ -223,6 +223,16 @@ export default function Staff({ intent, onIntentHandled }) {
             <Field label={t('Role')}><select value={form.data.role} onChange={(e) => set('role', e.target.value)}>{STAFF_ROLES.map((r) => <option key={r} value={r}>{t(r)}</option>)}</select></Field>
             <Field label={t('Workstation bay')}><input value={form.data.workstationBay || ''} onChange={(e) => set('workstationBay', e.target.value)} placeholder="Bay-A1 / Front-Desk" /></Field>
             <Field label={t('Shift hours')}><input value={form.data.shiftHours || ''} onChange={(e) => set('shiftHours', e.target.value)} placeholder="09:00-18:00" /></Field>
+            {user?.role === 'Admin' && (
+              <>
+                <Field label={t('Base salary')}><input type="number" value={form.data.baseSalary ?? ''} onChange={(e) => set('baseSalary', Number(e.target.value))} /></Field>
+                <Field label={t('Joining date')}><input type="date" value={form.data.joiningDate || ''} onChange={(e) => set('joiningDate', e.target.value)} /></Field>
+                <Field label={t('Device ID')}><input value={form.data.deviceId || ''} onChange={(e) => set('deviceId', e.target.value)} placeholder="Biometric user id" /></Field>
+                <Field label={t('Bank name')}><input value={form.data.bankName || ''} onChange={(e) => set('bankName', e.target.value)} /></Field>
+                <Field label={t('Account no.')}><input value={form.data.accountNo || ''} onChange={(e) => set('accountNo', e.target.value)} /></Field>
+                <Field label={t('IFSC')}><input value={form.data.ifsc || ''} onChange={(e) => set('ifsc', e.target.value)} /></Field>
+              </>
+            )}
             <Field label={t('Experience')}><input value={form.data.experience} onChange={(e) => set('experience', e.target.value)} /></Field>
             <Field label={t('Availability')}><select value={form.data.availability} onChange={(e) => set('availability', e.target.value)}>{AVAILABILITY.map((a) => <option key={a} value={a}>{t(a)}</option>)}</select></Field>
           </div>

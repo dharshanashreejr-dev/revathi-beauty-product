@@ -25,24 +25,108 @@ html:not(#a):not(#b):not(#c) body :is(.header, .vt-header) nav a:is(:hover, :foc
 .gs-meta { font-size: 12px; color: #7a6a99; display: flex; gap: 8px; align-items: center; }
 .gs-tag { font-style: normal; font-size: 10px; text-transform: uppercase; letter-spacing: .08em; padding: 2px 8px; border-radius: 999px; background: #f6e9c2; color: #7a5a1c; }
 .gs-tag.gs-service { background: #fde8f4; color: #a21c6e; }
+.gs-tag.gs-page { background: #ece5f9; color: #4c1d92; }
 .gs-empty { padding: 14px; font-size: 13px; color: #7a6a99; }
 
 
 .gs-go { flex: none; border: 0; cursor: pointer; font: inherit; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: #3b2a07; background: linear-gradient(135deg, #b8892b, #f0d684 50%, #c9a24a); }
 
-/* navbar version: small golden bar (icon-only on laptop widths, grows on click) */
-.gs-nav { width: 38px; height: 38px; flex: 0 0 auto; z-index: 70; }
-.gs-nav .gs-box { position: absolute; right: 0; top: 0; height: 38px; width: 38px; padding: 0 10px; cursor: pointer; overflow: hidden; transition: width .3s; }
-.gs-nav input { opacity: 0; width: 0; font-size: 13px; }
-.gs-nav .gs-box:focus-within, .gs-nav.is-open .gs-box { width: 250px; cursor: text; }
-.gs-nav .gs-box:focus-within input { opacity: 1; width: auto; }
-.gs-nav .gs-list { left: auto; right: 0; width: 340px; top: 46px; }
-@media (min-width: 1500px) {
-  .gs-nav { width: 170px; }
-  .gs-nav .gs-box, .gs-nav .gs-box:focus-within { width: 170px; }
-  .gs-nav input { opacity: 1; width: auto; }
+/* navbar version: clean 38px circle icon (matches lang-ico); expands on focus */
+.gs-nav {
+  position: relative;
+  width: 38px;
+  height: 38px;
+  flex: 0 0 38px;
+  z-index: 70;
 }
-@media (max-width: 1199px) { .gs-nav { display: none; } }
+.gs-nav .gs-box {
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 38px;
+  width: 38px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  border: 1px solid color-mix(in srgb, currentColor 40%, transparent);
+  border-radius: 999px;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  overflow: hidden;
+  transition: width .28s ease, padding .28s ease, background .2s, border-color .2s;
+  box-sizing: border-box;
+}
+.gs-nav .gs-box:hover {
+  background: color-mix(in srgb, currentColor 12%, transparent);
+  border-color: currentColor;
+}
+.gs-nav .gs-ico {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  width: 38px;
+  height: 38px;
+  pointer-events: none;
+}
+.gs-nav .gs-ico svg { display: block; width: 18px; height: 18px; }
+.gs-nav input {
+  opacity: 0;
+  width: 0;
+  min-width: 0;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font-size: 13px;
+  outline: none;
+}
+.gs-nav .gs-box:focus-within,
+.gs-nav.is-expanded .gs-box,
+.gs-nav.is-open .gs-box {
+  width: 240px;
+  padding: 0 14px 0 4px;
+  justify-content: flex-start;
+  cursor: text;
+  background: color-mix(in srgb, #fff 92%, transparent);
+  border-color: #c9a24a;
+}
+.gs-nav .gs-box:focus-within input,
+.gs-nav.is-expanded .gs-box input,
+.gs-nav.is-open .gs-box input {
+  opacity: 1;
+  width: auto;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.gs-nav .gs-list {
+  left: auto;
+  right: 0;
+  width: 320px;
+  top: 46px;
+}
+/* Keep icon-only on typical laptop widths — no permanent wide bar that pushes other icons */
+@media (min-width: 1500px) {
+  .gs-nav { width: 38px; flex-basis: 38px; }
+  .gs-nav .gs-box { width: 38px; }
+  .gs-nav input { opacity: 0; width: 0; }
+  .gs-nav .gs-box:focus-within,
+  .gs-nav.is-expanded .gs-box,
+  .gs-nav.is-open .gs-box { width: 240px; }
+  .gs-nav .gs-box:focus-within input,
+  .gs-nav.is-expanded .gs-box input,
+  .gs-nav.is-open .gs-box input { opacity: 1; width: auto; }
+}
+@media (max-width: 599px) { .gs-nav { display: none; } }
+/* expanded search sits above the nav links and has a solid background so it is readable */
+.gs-nav.is-expanded .gs-box { background: #fff !important; color: #4a3610 !important; border-color: #c9a24a !important; box-shadow: 0 8px 24px rgba(122, 90, 28, .22); }
+.gs-nav.is-expanded input { color: #4a3610; }
+.gs-nav.is-expanded .gs-ico { color: #9a7424; }
+@media (max-width: 1199px) { .gs-nav.is-expanded .gs-box, .gs-nav .gs-box:focus-within { width: min(240px, 60vw); } }
 
 /* hero version: big golden bar laid over the hero image */
 .gs-hero-wrap { position: absolute; z-index: 20; left: 0; right: 0; top: 116px; display: flex; justify-content: center; padding: 0 20px; pointer-events: none; }
@@ -54,3 +138,13 @@ html:not(#a):not(#b):not(#c) body :is(.header, .vt-header) nav a:is(:hover, :foc
 .gs-hero .gs-title { font-size: 15px; }
 .vt-panel .gs-hero-wrap, .vt-panel .gs { position: static; }
 @media (max-width: 600px) { .gs-hero .gs-box { height: 48px; } .gs-hero input { font-size: 14px; } .gs-hero .gs-go { display: none; } .gs-hero-wrap { top: 100px; } }
+
+/* ── Search open: the nav links fade away so the wide search box never sits on top of them ── */
+@media (min-width: 600px) {
+  .vt-header:has(.gs-nav.is-expanded) :is(.vt-left, .vt-right),
+  .header:has(.gs-nav.is-expanded) :is(.nav-left, .nav-right) { opacity: 0; visibility: hidden; pointer-events: none; }
+  .vt-left, .vt-right, .nav-left, .nav-right { transition: opacity .2s ease, visibility .2s; }
+}
+.gs-nav.is-expanded .gs-box { width: min(440px, 62vw) !important; }
+.gs-nav.is-expanded input { font-size: 15px; }
+.gs-nav.is-expanded .gs-list { width: min(440px, 62vw); border-radius: 18px; }

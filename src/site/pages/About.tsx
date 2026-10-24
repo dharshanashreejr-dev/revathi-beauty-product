@@ -40,7 +40,7 @@ function Hero() {
         <a href="#story" className="inline-block self-start mt-10 text-sm hover:opacity-70 transition fade-up">{t('Our story ↓')}</a>
       </div>
       <div className="order-1 md:order-2 relative h-[46svh] md:h-auto">
-        <img src="/assets/hero/about-hero.webp" alt="" className="absolute inset-0 h-full w-full object-cover" fetchPriority="high" />
+        <img src="/assets/hero/about-hero.webp" alt="" className="absolute inset-0 h-full w-full object-cover" {...({ fetchpriority: "high" } as object)} />
       </div>
     </section>
   )

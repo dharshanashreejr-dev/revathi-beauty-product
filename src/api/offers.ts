@@ -31,9 +31,9 @@ const seed: Data = {
   ],
   // Exactly three customer coupons (admin can pause them, change the dates / code / usage limit, but not add or delete).
   coupons: [
-    { id: 'cpn-first-order', code: 'FIRSTORDER', type: 'freeship', value: 0, rule: 'first-order', title: 'First order: free delivery', desc: 'Customers placing their first product order get free delivery.', minOrder: 0, maxUses: 0, used: 0, scope: 'products', start: '2026-01-01', end: '2027-12-31', active: true },
-    { id: 'cpn-first-service', code: 'FIRSTSERVICE10', type: 'percent', value: 10, rule: 'first-service', title: 'First service: 10% off', desc: 'Customers booking a service for the first time get 10% off that service.', minOrder: 0, maxUses: 0, used: 0, scope: 'services', start: '2026-01-01', end: '2027-12-31', active: true },
-    { id: 'cpn-booked-ship', code: 'BOOKEDSHIP', type: 'freeship', value: 0, rule: 'booked-no-order', title: 'Booked a service: free delivery', desc: 'Customers who have booked a service but never bought products get free delivery on their first product purchase.', minOrder: 0, maxUses: 0, used: 0, scope: 'products', start: '2026-01-01', end: '2027-12-31', active: true },
+    { id: 'cpn-first-order', code: 'FIRSTORDER', type: 'freeship', value: 0, rule: 'first-order', title: 'First order: free delivery', desc: 'Customers placing their first product order get free delivery.', minOrder: 0, maxUses: 0, used: 0, scope: 'products', start: '2026-01-01', end: '2026-12-31', active: true },
+    { id: 'cpn-first-service', code: 'FIRSTSERVICE10', type: 'percent', value: 10, rule: 'first-service', title: 'First service: 10% off', desc: 'Customers booking a service for the first time get 10% off that service.', minOrder: 0, maxUses: 0, used: 0, scope: 'services', start: '2026-01-01', end: '2026-12-31', active: true },
+    { id: 'cpn-booked-ship', code: 'BOOKEDSHIP', type: 'freeship', value: 0, rule: 'booked-no-order', title: 'Booked a service: free delivery', desc: 'Customers who have booked a service but never bought products get free delivery on their first product purchase.', minOrder: 0, maxUses: 0, used: 0, scope: 'products', start: '2026-01-01', end: '2026-12-31', active: true },
   ],
   bundles: [
     { id: 'bun-1', name: 'Glow Ritual Combo', service: 'Normal Facial', product: 'Aurelia Hyaluronic Dew Serum', price: 4199, start: '2026-10-01', end: '2026-12-31', active: true },

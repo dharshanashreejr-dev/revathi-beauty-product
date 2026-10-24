@@ -1,6 +1,6 @@
 import {
   LayoutDashboard, Package, ShoppingBag, CalendarDays, Users, Boxes, BarChart3, UserCog, Sparkles, Star,
-  Receipt, Shield, Gift
+  Receipt, Shield, Gift, Clock, Wallet, Fingerprint, CalendarOff, CalendarRange
 } from 'lucide-react';
 
 export const NAV = [
@@ -15,6 +15,12 @@ export const NAV = [
   { id: 'offers', label: 'Festival & Offers', icon: Gift, roles: ['Admin'] },
   { id: 'reviews', label: 'Reviews', icon: Star, roles: ['Admin'] },
   { id: 'reports', label: 'Reports', icon: BarChart3, roles: ['Admin'] },
+  // HR
+  { id: 'attendance', label: 'Attendance', icon: Clock, roles: ['Admin', 'Staff'] },
+  { id: 'shifts', label: 'Shifts & Roster', icon: CalendarRange, roles: ['Admin', 'Staff'] },
+  { id: 'leave', label: 'Leave & Holidays', icon: CalendarOff, roles: ['Admin', 'Staff'] },
+  { id: 'payroll', label: 'Payroll', icon: Wallet, roles: ['Admin', 'Staff'] },
+  { id: 'devices', label: 'Device Settings', icon: Fingerprint, roles: ['Admin'] },
   { id: 'staff', label: 'Staff Management', icon: UserCog, roles: ['Admin'] },
   { id: 'audit', label: 'Audit log', icon: Shield, roles: ['Admin'] }
 ];

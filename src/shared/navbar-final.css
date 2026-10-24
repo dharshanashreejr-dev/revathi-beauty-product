@@ -1,11 +1,11 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap');
 /* ═══════════════════════════════════════════════════════════════════════
    FINAL NAVBAR (v2) — landing (.header) and all other pages (.vt-header).
    Desktop / laptop, EVERY language (never hides into the burger):
 
-        [ Products Services ]  LOGO  [ About Tracking Reviews  Lang Search Bag ]            (Profile)
-                         ← whole group centred on the page →                           far right end
+        LOGO (left)     [ Products Services About Tracking Reviews  Search Bag Lang Profile ] (right)
 
-   Only the Profile button sits at the far right. Mobile / tablet (< 1200px): burger layout.
+   Brand on the left; all nav links and tools on the right. Mobile / tablet (< 1200px): burger layout.
    ═══════════════════════════════════════════════════════════════════════ */
 
 /* ---------- Bar (shared) ---------- */
@@ -44,14 +44,14 @@ html:not(#a):not(#b) body :is(.header, .vt-header) :is(.header-brand, .vt-brand)
   align-self: center !important;
   display: flex !important;
   flex-direction: column !important;
-  align-items: center !important;
+  align-items: flex-start !important;
   justify-content: center !important;
   flex: 0 0 auto !important;
   height: auto !important;
   min-width: 0 !important; max-width: none !important;
   margin: 0 !important; padding: 0 !important;
   transform: none !important;
-  text-align: center !important;
+  text-align: left !important;
   white-space: nowrap !important;
 }
 html:not(#a):not(#b) body :is(.header, .vt-header) :is(.header-brand, .vt-brand) :is(.brand-word, .vt-word) { font-size: clamp(15px, 1.25vw, 20px) !important; font-weight: 500 !important; letter-spacing: .1em !important; margin: 0 0 0 .1em !important; line-height: 1.1 !important; }
@@ -66,24 +66,51 @@ html:not(#a):not(#b) body :is(.header, .vt-header) .pm { display: inline-flex !i
 html:not(#a):not(#b) body :is(.header, .vt-header) .pm-menu { right: 0 !important; left: auto !important; }
 html:not(#a):not(#b) body :is(.header, .vt-header) :is(.mobile-menu, .vt-burger) { display: none !important; }
 
-/* ═════════ Desktop / laptop: centred group, profile alone at the far right ═════════ */
+/* ═════════ Desktop / laptop: one neat row — brand, then links, then tools ═════════ */
 @media (min-width: 1200px) {
   html:not(#a):not(#b) body :is(.header, .vt-header) {
     display: flex !important;
-    justify-content: center !important;
-    gap: clamp(10px, 1vw, 22px) !important;
-    padding: 0 clamp(90px, 7vw, 120px) 0 calc(clamp(90px, 7vw, 120px) + 50px) !important;   /* group sits a little right of centre */
+    justify-content: flex-start !important;
+    align-items: center !important;
+    gap: clamp(18px, 1.8vw, 32px) !important;
+    padding: 0 clamp(28px, 3.5vw, 56px) !important;
   }
-  html:not(#a):not(#b) body :is(.header, .vt-header) :is(.nav-rightwrap, .vt-rightwrap), html:not(#a):not(#b) body :is(.header, .vt-header) :is(.nav-tools, .vt-tools) { display: contents !important; }  /* links, lang, search, bag become direct items of the centred row */
-  html:not(#a):not(#b) body :is(.header, .vt-header) :is(.nav-left, .vt-left), html:not(#a):not(#b) body :is(.header, .vt-header) :is(.nav-right, .vt-right) { flex: 0 0 auto !important; justify-content: center !important; }
+  html:not(#a):not(#b) body :is(.header, .vt-header) :is(.header-brand, .vt-brand) {
+    order: 0 !important;
+    margin: 0 !important;
+    flex: 0 0 auto !important;
+    padding-right: clamp(8px, 1vw, 16px) !important;
+  }
+  html:not(#a):not(#b) body :is(.header, .vt-header) :is(.nav-rightwrap, .vt-rightwrap) {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    flex: 1 1 auto !important;
+    gap: clamp(14px, 1.5vw, 28px) !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+  }
+  html:not(#a):not(#b) body :is(.header, .vt-header) :is(.nav-tools, .vt-tools) {
+    display: flex !important;
+    align-items: center !important;
+    gap: clamp(8px, 1vw, 14px) !important;
+    flex: 0 0 auto !important;
+    margin-left: auto !important; /* icons sit at the trailing end of the row */
+  }
+  html:not(#a):not(#b) body :is(.header, .vt-header) :is(.nav-left, .vt-left), html:not(#a):not(#b) body :is(.header, .vt-header) :is(.nav-right, .vt-right) {
+    flex: 0 0 auto !important;
+    justify-content: flex-start !important;
+    padding: 0 !important;
+    gap: clamp(12px, 1.2vw, 22px) !important;
+  }
 
-  /* Profile: the only item pinned to the far right end */
+    /* Profile stays at the end of the right tools row */
   html:not(#a):not(#b) body :is(.header, .vt-header) :is(.nav-tools, .vt-tools) > :is(.nav-profile, .vt-profile),
   html:not(#a):not(#b) body :is(.header, .vt-header) .pm {
-    position: absolute !important;
-    right: clamp(20px, 2vw, 40px) !important;
-    top: 50% !important;
-    transform: translateY(-50%) !important;
+    position: static !important;
+    right: auto !important;
+    top: auto !important;
+    transform: none !important;
     order: 99;
   }
   /* inner button of the logged-in menu stays inside its wrapper */
@@ -312,4 +339,296 @@ html:not(#a):not(#b):not(#c):not(#d) body :is(.header, .vt-header) .lang-ico svg
   html:not(#a):not(#b):not(#c):not(#d) body :is(.header, .vt-header) nav { font-size: 16.5px !important; gap: 26px !important; }
   html:not([lang="en"]):not(#a):not(#b):not(#c):not(#d) body :is(.header, .vt-header) nav { font-size: 15px !important; gap: 18px !important; }
   html:not(#a):not(#b):not(#c):not(#d) body :is(.header, .vt-header) :is(.nav-tools, .vt-tools) { gap: 20px !important; }
+}
+
+/* Tool icons: clear separation, no overlap between search / lang / bag / profile */
+html:not(#a):not(#b) body :is(.header, .vt-header) :is(.nav-tools, .vt-tools) {
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  flex-wrap: nowrap !important;
+}
+html:not(#a):not(#b) body :is(.header, .vt-header) .gs-nav,
+html:not(#a):not(#b) body :is(.header, .vt-header) .lang-ico,
+html:not(#a):not(#b) body :is(.header, .vt-header) :is(.bag-button, .vt-bag),
+html:not(#a):not(#b) body :is(.header, .vt-header) :is(.icon-button) {
+  position: relative !important;
+  flex: 0 0 auto !important;
+  z-index: 1 !important;
+}
+html:not(#a):not(#b) body :is(.header, .vt-header) .gs-nav { z-index: 5 !important; }
+html:not(#a):not(#b) body :is(.header, .vt-header) .gs-nav .gs-box {
+  border-color: color-mix(in srgb, currentColor 40%, transparent) !important;
+  color: inherit !important;
+}
+html:not(#a):not(#b):not(#c) body :is(.header, .vt-header) .gs-nav .gs-box {
+  color: #9a7424 !important;
+  border-color: rgba(154, 116, 36, .55) !important;
+}
+
+
+/* Landing search icon-button — same clean circle as lang-ico */
+html:not(#a):not(#b) body .header .nav-tools > .icon-button {
+  width: 38px !important;
+  height: 38px !important;
+  min-width: 38px !important;
+  padding: 0 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border: 1px solid color-mix(in srgb, currentColor 40%, transparent) !important;
+  border-radius: 999px !important;
+  background: transparent !important;
+  flex: 0 0 38px !important;
+  position: relative !important;
+}
+html:not(#a):not(#b):not(#c) body .header .nav-tools > .icon-button {
+  color: #9a7424 !important;
+  border-color: rgba(154, 116, 36, .55) !important;
+}
+html:not(#a):not(#b) body .header .nav-tools {
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  flex-wrap: nowrap !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   NAVBAR LAYOUT FIX (desktop ≥1200px) — all pages, all languages
+   [ LOGO ]      [ Products Services About Tracking Reviews ]      [ search · lang · bag · profile ]
+   Logo at the left, links centred in the free space, tools at the far right
+   with equal gaps. Nothing is absolutely positioned any more, so nothing overlaps.
+   ═══════════════════════════════════════════════════════════════════════ */
+@media (min-width: 1200px) {
+  html:not(#a):not(#b):not(#c):not(#d):not(#e):not(#f) body :is(.header, .vt-header) {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    gap: 0 !important;
+    padding: 0 clamp(24px, 3vw, 56px) !important;
+  }
+  /* logo */
+  html:not(#a):not(#b):not(#c):not(#d):not(#e):not(#f) body :is(.header, .vt-header) :is(.header-brand, .vt-brand) {
+    flex: 0 0 auto !important;
+    margin: 0 clamp(20px, 2.5vw, 48px) 0 0 !important;
+    padding: 0 !important;
+  }
+  /* everything right of the logo */
+  html:not(#a):not(#b):not(#c):not(#d):not(#e):not(#f) body :is(.header, .vt-header) :is(.nav-rightwrap, .vt-rightwrap) {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    flex: 1 1 auto !important;
+    min-width: 0 !important;
+    gap: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    height: 100% !important;
+  }
+  /* links: the two groups sit side by side and are centred together */
+  html:not(#a):not(#b):not(#c):not(#d):not(#e):not(#f) body :is(.header, .vt-header) :is(.nav-left, .vt-left) {
+    flex: 0 0 auto !important;
+    margin: 0 clamp(8px, 1.1vw, 26px) 0 auto !important;
+    padding: 0 !important;
+  }
+  html:not(#a):not(#b):not(#c):not(#d):not(#e):not(#f) body :is(.header, .vt-header) :is(.nav-right, .vt-right) {
+    flex: 0 0 auto !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  /* tools: pushed to the far right, even gaps, never overlapping */
+  html:not(#a):not(#b):not(#c):not(#d):not(#e):not(#f) body :is(.header, .vt-header) :is(.nav-tools, .vt-tools) {
+    display: flex !important;
+    align-items: center !important;
+    flex: 0 0 auto !important;
+    flex-wrap: nowrap !important;
+    gap: clamp(10px, 1vw, 16px) !important;
+    margin: 0 0 0 auto !important;
+    padding: 0 0 0 clamp(20px, 2.5vw, 48px) !important;
+  }
+  html:not(#a):not(#b):not(#c):not(#d):not(#e):not(#f) body :is(.header, .vt-header) :is(.nav-end, .vt-end) {
+    position: static !important;
+    inset: auto !important;
+    transform: none !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: clamp(10px, 1vw, 16px) !important;
+    flex: 0 0 auto !important;
+    margin: 0 !important;
+    order: 0 !important;
+  }
+  /* every tool item keeps its own space */
+  html:not(#a):not(#b):not(#c):not(#d):not(#e):not(#f) body :is(.header, .vt-header) :is(.gs-nav, .lang-ico, .icon-button) {
+    position: relative !important;
+    flex: 0 0 38px !important;
+    width: 38px !important;
+    min-width: 38px !important;
+    margin: 0 !important;
+  }
+  html:not(#a):not(#b):not(#c):not(#d):not(#e):not(#f) body :is(.header, .vt-header) :is(.bag-button, .vt-bag) {
+    position: relative !important;
+    flex: 0 0 auto !important;
+    margin: 0 !important;
+  }
+  html:not(#a):not(#b):not(#c):not(#d):not(#e):not(#f) body :is(.header, .vt-header) :is(.pm, .nav-profile, .vt-profile) {
+    position: static !important;
+    inset: auto !important;
+    transform: none !important;
+    flex: 0 0 auto !important;
+    margin: 0 !important;
+    order: 0 !important;
+  }
+  html:not(#a):not(#b):not(#c):not(#d):not(#e):not(#f) body :is(.header, .vt-header) .pm > :is(.nav-profile, .vt-profile) { margin: 0 !important; }
+}
+
+/* ═════════ Bigger brand text (logo name + tagline), all pages ═════════ */
+html:not(#a):not(#b):not(#c):not(#d):not(#e):not(#f) body :is(.header, .vt-header) :is(.header-brand, .vt-brand) :is(.brand-word, .vt-word) {
+  font-size: clamp(19px, 1.9vw, 34px) !important;
+  letter-spacing: .1em !important;
+}
+html:not(#a):not(#b):not(#c):not(#d):not(#e):not(#f) body :is(.header, .vt-header) :is(.header-brand, .vt-brand) :is(.brand-tagline, .vt-tagline) {
+  font-size: clamp(13px, 1.2vw, 21px) !important;
+  margin-top: 6px !important;
+}
+@media (max-width: 1199px) {
+  html:not(#a):not(#b):not(#c):not(#d):not(#e):not(#f) body :is(.header, .vt-header) :is(.header-brand, .vt-brand) :is(.brand-word, .vt-word) { font-size: clamp(14px, 3.8vw, 22px) !important; }
+  html:not(#a):not(#b):not(#c):not(#d):not(#e):not(#f) body :is(.header, .vt-header) :is(.header-brand, .vt-brand) :is(.brand-tagline, .vt-tagline) { font-size: clamp(10px, 2.6vw, 14px) !important; }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   MOBILE / TABLET (<1200px): [ ☰ ]   [ logo centred ]   [ tools ]  — one row, no overlap
+   ═══════════════════════════════════════════════════════════════════════ */
+@media (max-width: 1199px) {
+  html:not(#a):not(#b):not(#c):not(#d):not(#e):not(#f) body :is(.header, .vt-header) {
+    display: grid !important;
+    grid-template-columns: 44px minmax(0, 1fr) auto !important;
+    grid-template-rows: 1fr !important;
+    align-items: center !important;
+    column-gap: 8px !important;
+    height: 72px !important;
+    padding: 0 clamp(8px, 2.4vw, 20px) !important;
+  }
+  html:not(#a):not(#b):not(#c):not(#d):not(#e):not(#f) body :is(.header, .vt-header) :is(.mobile-menu, .vt-burger) {
+    grid-column: 1 !important; grid-row: 1 !important;
+    position: static !important; margin: 0 !important;
+    width: 40px !important; height: 40px !important;
+    display: grid !important; place-items: center !important;
+    align-self: center !important; justify-self: start !important;
+  }
+  html:not(#a):not(#b):not(#c):not(#d):not(#e):not(#f) body :is(.header, .vt-header) :is(.header-brand, .vt-brand) {
+    grid-column: 2 !important; grid-row: 1 !important;
+    justify-self: center !important; align-self: center !important;
+    min-width: 0 !important; max-width: 100% !important;
+    margin: 0 !important; padding: 0 !important;
+    align-items: center !important; text-align: center !important;
+  }
+  html:not(#a):not(#b):not(#c):not(#d):not(#e):not(#f) body :is(.header, .vt-header) :is(.header-brand, .vt-brand) :is(.brand-mark, .brand-compact) {
+    display: flex !important; flex-direction: column !important; align-items: center !important;
+  }
+  html:not(#a):not(#b):not(#c):not(#d):not(#e):not(#f) body :is(.header, .vt-header) :is(.header-brand, .vt-brand) :is(.brand-word, .vt-word) {
+    font-size: clamp(11.5px, 3.3vw, 21px) !important; letter-spacing: .08em !important; margin: 0 !important; white-space: nowrap !important;
+  }
+  html:not(#a):not(#b):not(#c):not(#d):not(#e):not(#f) body :is(.header, .vt-header) :is(.header-brand, .vt-brand) :is(.brand-tagline, .vt-tagline) {
+    font-size: clamp(9px, 2.3vw, 13px) !important; letter-spacing: .06em !important; margin: 3px 0 0 !important; white-space: nowrap !important; text-align: center !important;
+  }
+  html:not(#a):not(#b):not(#c):not(#d):not(#e):not(#f) body :is(.header, .vt-header) :is(.nav-rightwrap, .vt-rightwrap) {
+    grid-column: 3 !important; grid-row: 1 !important;
+    display: flex !important; align-items: center !important; justify-content: flex-end !important;
+    margin: 0 !important; padding: 0 !important; height: auto !important; gap: 0 !important;
+  }
+  html:not(#a):not(#b):not(#c):not(#d):not(#e):not(#f) body :is(.header, .vt-header) :is(.nav-tools, .vt-tools) {
+    display: flex !important; align-items: center !important; flex-wrap: nowrap !important;
+    gap: clamp(4px, 1.4vw, 10px) !important; margin: 0 !important; padding: 0 !important; position: static !important;
+  }
+  html:not(#a):not(#b):not(#c):not(#d):not(#e):not(#f) body :is(.header, .vt-header) :is(.nav-end, .vt-end) {
+    position: static !important; transform: none !important; display: flex !important; align-items: center !important;
+    gap: clamp(4px, 1.4vw, 10px) !important; margin: 0 !important;
+  }
+  html:not(#a):not(#b):not(#c):not(#d):not(#e):not(#f) body :is(.header, .vt-header) :is(.nav-left, .vt-left, .nav-right, .vt-right) { display: none !important; }
+  html:not(#a):not(#b):not(#c):not(#d):not(#e):not(#f) body :is(.header, .vt-header) :is(.pm, .nav-profile, .vt-profile, .bag-button, .vt-bag) { position: static !important; transform: none !important; margin: 0 !important; flex: 0 0 auto !important; }
+}
+/* phones: keep only bag + profile on the bar (search & language live in the ☰ menu) */
+@media (max-width: 599px) {
+  html:not(#a):not(#b):not(#c):not(#d):not(#e):not(#f) body :is(.header, .vt-header) :is(.nav-tools, .vt-tools) > .icon-button,
+  html:not(#a):not(#b):not(#c):not(#d):not(#e):not(#f) body :is(.header, .vt-header) :is(.gs-nav, .lang-ico) { display: none !important; }
+  html:not(#a):not(#b):not(#c):not(#d):not(#e):not(#f) body :is(.header, .vt-header) { grid-template-columns: 40px minmax(0, 1fr) auto !important; column-gap: 4px !important; }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   NICER LOGO LOCKUP + REFINED BAR (all navbars)
+   name on top, tagline centred right under it, soft gold gradient, gold hairline under the bar
+   ═══════════════════════════════════════════════════════════════════════ */
+@media (min-width: 1200px) {
+  html:not(#a):not(#b):not(#c):not(#d):not(#e):not(#f) body :is(.header, .vt-header) :is(.header-brand, .vt-brand) {
+    align-items: center !important; text-align: center !important;
+  }
+  html:not(#a):not(#b):not(#c):not(#d):not(#e):not(#f) body :is(.header, .vt-header) :is(.header-brand, .vt-brand) :is(.brand-mark, .brand-compact) {
+    display: flex !important; flex-direction: column !important; align-items: center !important;
+  }
+  html:not(#a):not(#b):not(#c):not(#d):not(#e):not(#f) body :is(.header, .vt-header) :is(.header-brand, .vt-brand) :is(.brand-word, .vt-word) {
+    font-size: clamp(17px, 1.45vw, 27px) !important;
+    font-weight: 600 !important;
+    letter-spacing: .16em !important;
+    margin: 0 !important;
+    background: linear-gradient(100deg, #8a6420 0%, #c9a24a 50%, #8a6420 100%);
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent; color: transparent !important;
+  }
+  html:not(#a):not(#b):not(#c):not(#d):not(#e):not(#f) body :is(.header, .vt-header) :is(.header-brand, .vt-brand) :is(.brand-tagline, .vt-tagline) {
+    display: flex !important; align-items: center !important; justify-content: center !important; gap: 10px;
+    font-size: clamp(11px, .92vw, 16px) !important;
+    letter-spacing: .24em !important;
+    margin: 6px 0 0 !important;
+    text-indent: .24em;
+  }
+  html:not(#a):not(#b):not(#c):not(#d):not(#e):not(#f) body :is(.header, .vt-header) :is(.header-brand, .vt-brand) :is(.brand-tagline, .vt-tagline)::before,
+  html:not(#a):not(#b):not(#c):not(#d):not(#e):not(#f) body :is(.header, .vt-header) :is(.header-brand, .vt-brand) :is(.brand-tagline, .vt-tagline)::after {
+    content: ''; width: 18px; height: 1px; background: currentColor; opacity: .55; flex: none;
+  }
+  /* links: lighter weight, comfortable size */
+  html:not(#a):not(#b):not(#c):not(#d):not(#e):not(#f) body :is(.header, .vt-header) nav {
+    font-size: clamp(13px, 1.02vw, 18px) !important; letter-spacing: .1em !important; font-weight: 500;
+  }
+  html:not([lang="en"]):not(#b):not(#c):not(#d):not(#e):not(#f) body :is(.header, .vt-header) nav {
+    font-size: clamp(12px, .9vw, 16px) !important; letter-spacing: .03em !important;
+  }
+  html:not(#a):not(#b):not(#c):not(#d):not(#e):not(#f) body :is(.header, .vt-header) nav a { padding: 10px 16px !important; }
+  html:not(#a):not(#b):not(#c):not(#d):not(#e):not(#f) body :is(.header, .vt-header) :is(.nav-left, .vt-left) { margin-right: 4px !important; }
+}
+html:not(#a):not(#b):not(#c):not(#d):not(#e):not(#f) body :is(.header, .vt-header) {
+  box-shadow: 0 1px 0 rgba(154, 116, 36, .28), 0 10px 28px -14px rgba(76, 29, 149, .18) !important;
+}
+
+/* ═════════ SAME logo text on EVERY page: Cormorant Garamond, medium weight (not bold), italic tagline ═════════ */
+html:not(#a):not(#b):not(#c):not(#d):not(#e):not(#f) body :is(.header, .vt-header) :is(.header-brand, .vt-brand) :is(.brand-word, .vt-word) {
+  font-family: 'Cormorant Garamond', Georgia, serif !important;
+  font-weight: 500 !important;
+  font-style: normal !important;
+  text-transform: uppercase !important;
+  -webkit-font-smoothing: antialiased;
+}
+html:not(#a):not(#b):not(#c):not(#d):not(#e):not(#f) body :is(.header, .vt-header) :is(.header-brand, .vt-brand) :is(.brand-tagline, .vt-tagline) {
+  font-family: 'Cormorant Garamond', Georgia, serif !important;
+  font-weight: 500 !important;
+  font-style: italic !important;
+  text-transform: none !important;
+}
+
+/* same glow/shadow on the logo text on every page */
+html:not(#a):not(#b):not(#c):not(#d):not(#e):not(#f) body :is(.header, .vt-header) :is(.header-brand, .vt-brand) :is(.brand-word, .vt-word, .brand-tagline, .vt-tagline) {
+  text-shadow: none !important;
+  font-synthesis: none;
+}
+
+/* ═════════ Logo text: darker + bolder, identical on every page ═════════ */
+html:not(#a):not(#b):not(#c):not(#d):not(#e):not(#f) body :is(.header, .vt-header) :is(.header-brand, .vt-brand) :is(.brand-word, .vt-word) {
+  font-weight: 700 !important;
+  background: linear-gradient(100deg, #5e4010 0%, #8f6516 50%, #5e4010 100%) !important;
+  -webkit-background-clip: text !important; background-clip: text !important;
+  -webkit-text-fill-color: transparent !important; color: transparent !important;
+}
+html:not(#a):not(#b):not(#c):not(#d):not(#e):not(#f) body :is(.header, .vt-header) :is(.header-brand, .vt-brand) :is(.brand-tagline, .vt-tagline) {
+  font-weight: 600 !important;
+  color: #6b4a12 !important;
+  opacity: 1 !important;
 }

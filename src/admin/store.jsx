@@ -38,7 +38,7 @@ export const useStore = () => useContext(StoreContext);
 
 const digits = (p) => String(p || '').replace(/\D/g, '').slice(-10);
 const ROLE_OF = { 'Body Massage': 'Wellness Specialist', Facial: 'Skin Specialist', Consultation: 'Beauty Specialist', 'Bridal Makeup': 'Beauty Specialist' };
-const blankStaff = { email: '', phone: '', availability: 'Available', experience: '', bio: '', workstationBay: '', shiftHours: '09:00-18:00' };
+const blankStaff = { email: '', phone: '', availability: 'Available', experience: '', bio: '', workstationBay: '', shiftHours: '09:00-18:00', baseSalary: 18000, joiningDate: '', deviceId: '', shiftId: 'SH-1', bankName: '', accountNo: '', ifsc: '' };
 const initialStaff = () => [
   // the real specialist roster used by the booking page + the two panel logins
   ...team.map((m, i) => ({ ...blankStaff, id: `S-${String(i + 1).padStart(3, '0')}`, name: m.name, role: ROLE_OF[m.categories[0]] || 'Beauty Specialist', bio: m.skill, permissions: ['appointments'] })),

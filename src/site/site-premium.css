@@ -57,3 +57,11 @@ a.bg-ink:hover, button.bg-ink:hover { color: #fff !important; }
 .about-page .border-b { border-color: rgba(201, 163, 91, .4) !important; }
 
 @media (prefers-reduced-motion: reduce) { h1, h2, h3, .label { animation: none !important; } :is(.svc-page, .about-page) h2.h::after { animation: none !important; } }
+
+/* ===== Reviews page: golden text accents (like the "ann." on the Tracking page) ===== */
+.rv-gold {
+  background: linear-gradient(135deg, #b8892b 0%, #f6e6a8 48%, #c9a24a 100%);
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent; color: transparent;
+}
+.rv-gold-label { color: #e8c872 !important; letter-spacing: .22em; }

@@ -11,6 +11,13 @@ import { Link } from '../SmartLink'
 // Logged out -> "Testimonials": a read-only wall of all product and service reviews.
 
 type T = Record<string, string>
+// Last two words of the headline in gold
+const goldTail = (s: string) => {
+  const w = s.trim().split(/\s+/)
+  if (w.length < 3) return <span className="rv-gold">{s}</span>
+  return <>{w.slice(0, -2).join(' ')} <span className="rv-gold">{w.slice(-2).join(' ')}</span></>
+}
+
 const TXT: Record<string, T> = {
   en: { eyeLogged: 'Your reviews', hLogged: 'Tell us how it felt', subLogged: 'Rate the products you ordered and the services you booked. Your words help others choose.', eyeOut: 'Testimonials', hOut: 'Loved by our guests', subOut: 'Real words about our herbal products and salon services.', mine: 'Ready for your review', none: 'Order a product or book a service and it will appear here for review.', product: 'Product', service: 'Service', rate: 'Your rating', share: 'Share your experience', submit: 'Post review', done: 'Thank you! Your review is live.', yours: 'Your review', remove: 'Delete', all: 'All', products: 'Products', services: 'Services', wall: 'What everyone is saying', reviewsN: 'reviews', avg: 'average rating', five: '5-star reviews', loginCta: 'Login to write a review', loginSub: 'Ordered or booked with us? Log in to review it.', err: 'Please write at least a short review.', empty: 'No reviews yet.', shop: 'Shop products', book: 'Book a service' },
   ta: { eyeLogged: 'உங்கள் மதிப்புரைகள்', hLogged: 'உங்கள் அனுபவத்தைச் சொல்லுங்கள்', subLogged: 'நீங்கள் ஆர்டர் செய்த பொருட்களுக்கும் முன்பதிவு செய்த சேவைகளுக்கும் மதிப்பீடு அளியுங்கள்.', eyeOut: 'சான்றுகள்', hOut: 'எங்கள் விருந்தினர்களின் அன்பு', subOut: 'எங்கள் மூலிகைப் பொருட்கள் மற்றும் சலூன் சேவைகள் பற்றிய உண்மையான கருத்துகள்.', mine: 'மதிப்புரைக்குத் தயார்', none: 'பொருள் ஆர்டர் செய்தால் அல்லது சேவை முன்பதிவு செய்தால் இங்கே தோன்றும்.', product: 'பொருள்', service: 'சேவை', rate: 'உங்கள் மதிப்பீடு', share: 'உங்கள் அனுபவத்தைப் பகிருங்கள்', submit: 'மதிப்புரையை இடுக', done: 'நன்றி! உங்கள் மதிப்புரை பதிவாகிவிட்டது.', yours: 'உங்கள் மதிப்புரை', remove: 'நீக்கு', all: 'அனைத்தும்', products: 'பொருட்கள்', services: 'சேவைகள்', wall: 'அனைவரும் என்ன சொல்கிறார்கள்', reviewsN: 'மதிப்புரைகள்', avg: 'சராசரி மதிப்பீடு', five: '5-நட்சத்திர மதிப்புரைகள்', loginCta: 'மதிப்புரை எழுத உள்நுழையவும்', loginSub: 'ஆர்டர் அல்லது முன்பதிவு செய்தீர்களா? உள்நுழைந்து மதிப்புரை எழுதுங்கள்.', err: 'சிறிய மதிப்புரையாவது எழுதுங்கள்.', empty: 'இன்னும் மதிப்புரைகள் இல்லை.', shop: 'பொருட்களை வாங்க', book: 'சேவை முன்பதிவு' },
@@ -172,13 +179,13 @@ export default function Reviews() {
       <section className="relative pt-36 pb-20 px-5 text-center bg-ink text-sand overflow-hidden">
         <div className="rv-orb rv-orb1" /><div className="rv-orb rv-orb2" />
         <div className="relative max-w-2xl mx-auto">
-          <span className="label text-gold rv-rise" style={{ animationDelay: '0ms' }}>{logged ? t.eyeLogged : t.eyeOut}</span>
-          <h1 className="h text-4xl md:text-6xl mt-4 rv-rise" style={{ animationDelay: '120ms' }}>{logged ? t.hLogged : t.hOut}</h1>
+          <span className="label text-gold rv-gold-label rv-rise" style={{ animationDelay: '0ms' }}>{logged ? t.eyeLogged : t.eyeOut}</span>
+          <h1 className="h text-4xl md:text-6xl mt-4 rv-rise" style={{ animationDelay: '120ms' }}>{goldTail(logged ? t.hLogged : t.hOut)}</h1>
           <p className="mt-5 opacity-75 rv-rise" style={{ animationDelay: '240ms' }}>{logged ? t.subLogged : t.subOut}</p>
           <div className="mt-10 flex justify-center gap-8 md:gap-14 rv-rise" style={{ animationDelay: '360ms' }}>
-            <div><div className="h text-4xl text-gold"><Count to={stats.n} /></div><div className="label opacity-60 mt-1">{t.reviewsN}</div></div>
-            <div><div className="h text-4xl text-gold"><Count to={stats.avg} dec={1} /></div><div className="label opacity-60 mt-1">{t.avg}</div></div>
-            <div><div className="h text-4xl text-gold"><Count to={stats.five} /></div><div className="label opacity-60 mt-1">{t.five}</div></div>
+            <div><div className="h text-4xl text-gold rv-gold"><Count to={stats.n} /></div><div className="label opacity-60 mt-1">{t.reviewsN}</div></div>
+            <div><div className="h text-4xl text-gold rv-gold"><Count to={stats.avg} dec={1} /></div><div className="label opacity-60 mt-1">{t.avg}</div></div>
+            <div><div className="h text-4xl text-gold rv-gold"><Count to={stats.five} /></div><div className="label opacity-60 mt-1">{t.five}</div></div>
           </div>
           {!logged && <button onClick={() => openLogin()} className="mt-10 bg-gold text-ink rounded-full px-8 py-4 label hover:bg-sand transition rv-rise" style={{ animationDelay: '480ms' }}>{t.loginCta}</button>}
         </div>

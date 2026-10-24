@@ -9,6 +9,8 @@ import StatCard from '../components/StatCard.jsx';
 import Badge from '../components/Badge.jsx';
 import { BarChart, Donut, HBars, chartColor } from '../components/Charts.jsx';
 import { useT } from '../i18n.js';
+import * as att from '../../api/attendance';
+import * as pay from '../../api/payroll';
 
 const RANGES = [
   { id: '3', label: 'Last 3 months', n: 3 },
@@ -112,6 +114,23 @@ export default function Reports() {
           <div className="chip-row summary-badges">{byOrderStatus.map((s) => <span key={s.label} className="row-gap"><Badge>{s.label}</Badge><strong>{s.value}</strong></span>)}</div>
         </div>
       </div>
-    </div>
+    
+      <div className="card" style={{ marginTop: 24 }}>
+        <div className="card-head"><h3>{t('HR reports')}</h3></div>
+        <p className="muted">{t('Monthly attendance, late-comers, OT and payroll summary (mock). Export uses CSV download.')}</p>
+        <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+          <button type="button" className="btn btn-light" onClick={() => {
+            const rows = att.liveBoard(staff||[]);
+            const csv = ['Staff,Status,In,Out', ...rows.map(r => [r.name,r.status,r.inAt||'',r.outAt||''].join(','))].join('\n');
+            const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'})); a.download='attendance-today.csv'; a.click();
+          }}>{t('Export attendance CSV')}</button>
+          <button type="button" className="btn btn-light" onClick={() => {
+            const runs = pay.listRuns();
+            const csv = ['Month,Staff,Net,Status', ...runs.flatMap(r => r.lines.map(l => [r.month,l.staffName,l.net,r.status].join(',')))].join('\n');
+            const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'})); a.download='payroll-summary.csv'; a.click();
+          }}>{t('Export payroll CSV')}</button>
+        </div>
+      </div>
+</div>
   );
 }
