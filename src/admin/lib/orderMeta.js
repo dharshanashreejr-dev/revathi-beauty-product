@@ -3,8 +3,9 @@
 export const STAGES = ['Order placed', 'Order confirmed', 'Order packed', 'Order shipped', 'Order delivered'];
 export const FILTERS = [...STAGES, 'Cancelled'];
 export const statusOf = (o) => (o.cancelled ? 'Cancelled' : STAGES[o.stage]);
-export const when = (iso) => { const d = new Date(iso); return Number.isNaN(+d) ? iso : d.toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' }); };
-export const whenTime = (iso) => { const d = new Date(iso); return Number.isNaN(+d) ? iso : d.toLocaleString('en-IN', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' }); };
+const LOCALE = { en: 'en-IN', ta: 'ta-IN', hi: 'hi-IN', ml: 'ml-IN', te: 'te-IN' };
+export const when = (iso, lang = 'en') => { const d = new Date(iso); return Number.isNaN(+d) ? iso : d.toLocaleDateString(LOCALE[lang] || 'en-IN', { day: '2-digit', month: 'short', year: 'numeric' }); };
+export const whenTime = (iso, lang = 'en') => { const d = new Date(iso); return Number.isNaN(+d) ? iso : d.toLocaleString(LOCALE[lang] || 'en-IN', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' }); };
 
 const PRINTED_KEY = 'rhbc:printed-orders';
 export const loadPrinted = () => { try { return JSON.parse(localStorage.getItem(PRINTED_KEY) || '[]'); } catch { return []; } };

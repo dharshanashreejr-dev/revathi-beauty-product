@@ -233,7 +233,7 @@
   max-width: 100px;
   flex-shrink: 0;
 }
-.vt-lang option { color: #4b1d91; background: #f5f2fd; }
+.vt-lang option { color: #7a5a1c; background: #fbf7ec; }
 .vt-lang-menu { margin: 24px auto 0; display: block; }
 
 /* Profile / Login — always last, never clipped */

@@ -1,4 +1,4 @@
-import { ExternalLink, Globe, LogOut } from 'lucide-react';
+import { Globe, LogOut } from 'lucide-react';
 import { NAV } from '../nav.js';
 import Brand from './Brand.jsx';
 import Avatar from './Avatar.jsx';
@@ -32,9 +32,7 @@ export default function Sidebar({ user, page, onNavigate, onLogout, open, onClos
           <a className="nav-item" href="/" style={{ textDecoration: 'none' }}>
             <Globe size={19} /><span>{t('Back to website')}</span>
           </a>
-          <a className="nav-item" href="/manager" style={{ textDecoration: 'none' }}>
-            <ExternalLink size={19} /><span>{t('Manager console')}</span>
-          </a>
+          
           <button className="nav-item logout" onClick={onLogout}>
             <LogOut size={19} /><span>{t('Log out')}</span>
           </button>

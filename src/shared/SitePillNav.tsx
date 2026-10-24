@@ -1,4 +1,5 @@
 import type { ComponentType } from 'react'
+import './global-search.css'
 
 // Plain navbar links (the old look: simple text links + underline on hover).
 // `Link` is the page's own link component (router link on the app pages, plain <a> on the landing page).

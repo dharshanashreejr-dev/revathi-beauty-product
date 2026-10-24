@@ -72,9 +72,9 @@ html:not([lang="en"]) .header-brand .brand-compact .brand-tagline { font-size: 1
   html:not([lang="en"]) .header-brand .brand-compact .brand-tagline { font-size: 10px; }
 }
 
-/* Step 3 — small laptops: search icon moves out of the bar (still in the menu / search panel) */
+/* Step 3 — small laptops: language select shrinks; search icon stays in the bar */
 @media (min-width: 1051px) and (max-width: 1150px) {
-  html:not([lang="en"]) .header .nav-tools > .icon-button { display: none; }
+  /* search icon stays visible (it opens the site-wide search) */
   html:not([lang="en"]) .header .lang-select select { max-width: 90px !important; }
 }
 

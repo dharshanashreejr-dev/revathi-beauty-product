@@ -21,7 +21,7 @@ export default function ProductsSection({ category, onCategory, onOpen, onQuick 
   const [sub, setSub] = useState('All');
   const [sort, setSort] = useState<Sort>('featured');
   const [inStockOnly, setInStockOnly] = useState(false);
-  const [query, setQuery] = useState('');
+  const [query, setQuery] = useState(() => { try { return new URLSearchParams(location.search).get('q') ?? ''; } catch { return ''; } });
   const [stockTick, setStockTick] = useState(0);
   useEffect(() => { const bump = () => setStockTick(n => n + 1); const a = api.stock.subscribe(bump), b = api.catalogue.subscribe(bump); return () => { a(); b(); }; }, []);
 

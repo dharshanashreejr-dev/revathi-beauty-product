@@ -18,7 +18,7 @@ const addDays = (iso, n) => {
   d.setDate(d.getDate() + n);
   return d.toISOString().slice(0, 10);
 };
-const dayLabel = (iso) => new Date(iso + 'T00:00:00').toLocaleDateString('en-IN', { weekday: 'short', day: 'numeric' });
+const dayLabel = (iso, lang = 'en') => new Date(iso + 'T00:00:00').toLocaleDateString({ en: 'en-IN', ta: 'ta-IN' }[lang] || 'en-IN', { weekday: 'short', day: 'numeric' });
 const monthStart = (iso) => {
   const d = new Date(iso + 'T00:00:00');
   d.setDate(1);
@@ -31,7 +31,7 @@ const daysInMonth = (iso) => {
 
 export default function Appointments({ intent, onIntentHandled }) {
   const { appointments, setAppointments, approveAppointment, rejectAppointment, customers, staff, notify, user, sendMessage, addAudit } = useStore();
-  const { t } = useT();
+  const { t, lang } = useT();
   const [tab, setTab] = useState('schedule');
   const [viewMode, setViewMode] = useState('daily'); // daily | weekly | monthly
   const [date, setDate] = useState(TODAY);
@@ -89,7 +89,7 @@ export default function Appointments({ intent, onIntentHandled }) {
 
   const reassign = (a, sid) => {
     if (isBusy(sid, a.date, a.time, a.id)) {
-      notify(`${staffName(sid)} already has an appointment at ${a.time} on ${fmtDate(a.date)}.`, 'error');
+      notify(`${staffName(sid)} already has an appointment at ${a.time} on ${fmtDate(a.date, lang)}.`, 'error');
       return;
     }
     patch(a.id, { specialistId: sid }, `${a.id} reassigned to ${staffName(sid)}.`);
@@ -110,7 +110,7 @@ export default function Appointments({ intent, onIntentHandled }) {
       time: reschedule.time,
       specialistId: reschedule.specialistId || open.specialistId,
       status: 'Rescheduled'
-    }, `${open.id} rescheduled to ${fmtDate(reschedule.date)} ${reschedule.time}.`);
+    }, `${open.id} rescheduled to ${fmtDate(reschedule.date, lang)} ${reschedule.time}.`);
     setReschedule(null);
     setOpenId(null);
   };
@@ -159,7 +159,7 @@ export default function Appointments({ intent, onIntentHandled }) {
   const dayAppts = appointments.filter((a) => a.date === date && a.status !== 'Cancelled' && a.status !== 'No-Show');
 
   const columns = [
-    { key: 'when', label: t('Date and time'), render: (a) => <div><strong>{fmtDate(a.date)}</strong><span className="muted block">{a.time}</span></div> },
+    { key: 'when', label: t('Date and time'), render: (a) => <div><strong>{fmtDate(a.date, lang)}</strong><span className="muted block">{a.time}</span></div> },
     { key: 'customer', label: t('Customer'), render: (a) => <div><strong>{a.customer}</strong><span className="muted block">{a.id}</span></div> },
     { key: 'service', label: t('Service') },
     { key: 'specialist', label: t('Specialist'), render: (a) => staffName(a.specialistId) },
@@ -192,7 +192,7 @@ export default function Appointments({ intent, onIntentHandled }) {
       {tab !== 'schedule' && (
         <div className="filters">
           <div className="search-box"><Search size={17} /><input value={q} onChange={(e) => setQ(e.target.value)} placeholder={t('Search customer, service or ID')} aria-label={t('Search appointments')} /></div>
-          <select value={status} onChange={(e) => setStatus(e.target.value)} aria-label={t('Filter by status')}><option value="All">{t('All statuses')}</option>{APPOINTMENT_STATUSES.map((s) => <option key={s}>{s}</option>)}</select>
+          <select value={status} onChange={(e) => setStatus(e.target.value)} aria-label={t('Filter by status')}><option value="All">{t('All statuses')}</option>{APPOINTMENT_STATUSES.map((s) => <option key={s} value={s}>{t(s)}</option>)}</select>
           <select value={specialist} onChange={(e) => setSpecialist(e.target.value)} aria-label={t('Filter by specialist')}><option value="All">{t('All specialists')}</option>{specialists.map((s) => <option key={s.id} value={s.id}>{s.name}</option>)}</select>
         </div>
       )}
@@ -205,13 +205,13 @@ export default function Appointments({ intent, onIntentHandled }) {
             <div className="date-chips" style={{ flex: 1, justifyContent: 'center' }}>
               {viewMode === 'daily' && week.map((d) => (
                 <button key={d} className={`date-chip ${d === date ? 'active' : ''}`} onClick={() => setDate(d)}>
-                  <span>{dayLabel(d)}</span>
+                  <span>{dayLabel(d, lang)}</span>
                   {d === TODAY && <em>{t('Today')}</em>}
                   <i>{appointments.filter((a) => a.date === d && a.status !== 'Cancelled' && a.status !== 'No-Show').length}</i>
                 </button>
               ))}
               {viewMode === 'weekly' && (
-                <strong>{fmtDate(weekStart)} – {fmtDate(addDays(weekStart, 6))}</strong>
+                <strong>{fmtDate(weekStart, lang)} – {fmtDate(addDays(weekStart, 6))}</strong>
               )}
               {viewMode === 'monthly' && (
                 <strong>{new Date(date + 'T00:00:00').toLocaleDateString('en-IN', { month: 'long', year: 'numeric' })}</strong>
@@ -222,7 +222,7 @@ export default function Appointments({ intent, onIntentHandled }) {
 
           {viewMode === 'daily' && (
             <>
-              <h3 className="section-title">{fmtDate(date)} <span className="muted">{dayAppts.length} booked, {TIME_SLOTS.length - new Set(dayAppts.map((a) => a.time)).size} slots free</span></h3>
+              <h3 className="section-title">{fmtDate(date, lang)} <span className="muted">{t('{n} booked, {m} slots free', { n: dayAppts.length, m: TIME_SLOTS.length - new Set(dayAppts.map((a) => a.time)).size })}</span></h3>
               <div className="schedule">
                 {TIME_SLOTS.map((slot) => {
                   const items = dayAppts.filter((a) => a.time === slot);
@@ -252,7 +252,7 @@ export default function Appointments({ intent, onIntentHandled }) {
               <div />
               {weekDays.map((d) => (
                 <div key={d} style={{ textAlign: 'center', fontWeight: 600, padding: 6, background: d === TODAY ? 'var(--primary-soft, #f5f1fc)' : 'transparent', borderRadius: 6 }}>
-                  {dayLabel(d)}
+                  {dayLabel(d, lang)}
                   <div className="muted" style={{ fontSize: 12 }}>{appointments.filter((a) => a.date === d && a.status !== 'Cancelled').length} appts</div>
                 </div>
               ))}
@@ -274,7 +274,7 @@ export default function Appointments({ intent, onIntentHandled }) {
 
           {viewMode === 'monthly' && (
             <div className="month-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: 4 }}>
-              {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map((d) => <div key={d} style={{ textAlign: 'center', fontWeight: 600, padding: 6 }}>{d}</div>)}
+              {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map((d) => <div key={d} style={{ textAlign: 'center', fontWeight: 600, padding: 6 }}>{t(d)}</div>)}
               {monthCells.map((iso, i) => {
                 if (!iso) return <div key={`e-${i}`} />;
                 const count = appointments.filter((a) => a.date === iso && a.status !== 'Cancelled').length;
@@ -294,7 +294,7 @@ export default function Appointments({ intent, onIntentHandled }) {
       )}
 
       {open && !reschedule && (
-        <Modal title={`Appointment ${open.id}`} subtitle={`${open.service} on ${fmtDate(open.date)} at ${open.time}`} wide onClose={() => setOpenId(null)}
+        <Modal title={`Appointment ${open.id}`} subtitle={`${open.service} on ${fmtDate(open.date, lang)} at ${open.time}`} wide onClose={() => setOpenId(null)}
           footer={<>
             {open.status === 'Pending Review' && <><button className="btn btn-soft" onClick={() => { approveAppointment(open.id); notify(`${open.id} approved. The customer is notified.`); addAudit?.('Appointment approved', open.id, user?.name); }}>{t('Approve')}</button>
               <button className="btn btn-ghost" style={{ color: '#c62828' }} onClick={() => { rejectAppointment(open.id); notify(`${open.id} rejected.`); addAudit?.('Appointment rejected', open.id, user?.name); setOpenId(null); }}>{t('Reject')}</button></>}
@@ -316,7 +316,7 @@ export default function Appointments({ intent, onIntentHandled }) {
                 <dt>{t('Customer')}</dt><dd>{open.customer}</dd>
                 <dt>{t('Service')}</dt><dd>{open.service}</dd>
                 <dt>{t('Price')}</dt><dd>{inr(open.price || servicePrice(open.service))}</dd>
-                <dt>{t('Date')}</dt><dd>{fmtDate(open.date)}, {open.time}</dd>
+                <dt>{t('Date')}</dt><dd>{fmtDate(open.date, lang)}, {open.time}</dd>
                 <dt>{t('Specialist')}</dt><dd>{staffName(open.specialistId)}</dd>
                 <dt>{t('Notes')}</dt><dd>{open.notes || t('No notes')}</dd>
               </dl>
@@ -325,7 +325,7 @@ export default function Appointments({ intent, onIntentHandled }) {
               <h4 className="mini-title">{t('Manage')}</h4>
               <Field label={t('Status')}>
                 <select value={open.status} onChange={(e) => patch(open.id, { status: e.target.value }, `${open.id} marked as ${e.target.value}.`)}>
-                  {APPOINTMENT_STATUSES.map((s) => <option key={s}>{s}</option>)}
+                  {APPOINTMENT_STATUSES.map((s) => <option key={s} value={s}>{t(s)}</option>)}
                 </select>
               </Field>
               <Field label={t('Assigned specialist')}>

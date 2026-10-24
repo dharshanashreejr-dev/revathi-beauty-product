@@ -6,7 +6,7 @@ import { useT } from '../i18n.js';
 
 export default function AuditLog() {
   const { auditLog = [], addAudit, user, notify } = useStore();
-  const { t } = useT();
+  const { t, lang } = useT();
   const [q, setQ] = useState('');
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [drawerNote, setDrawerNote] = useState('');
@@ -58,8 +58,8 @@ export default function AuditLog() {
               <tr key={e.id}>
                 <td style={{ whiteSpace: 'nowrap' }}>{new Date(e.at).toLocaleString('en-IN')}</td>
                 <td>{e.actor}</td>
-                <td><Shield size={13} style={{ verticalAlign: 'middle' }} /> {e.action}</td>
-                <td>{e.detail}</td>
+                <td><Shield size={13} style={{ verticalAlign: 'middle' }} /> {t(e.action)}</td>
+                <td>{t(e.detail)}</td>
               </tr>
             ))}
             {rows.length === 0 && (

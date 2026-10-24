@@ -62,7 +62,7 @@ export default function Customers() {
           <div className="vip-copy">
             <span className="eyebrow"><Crown size={14} />{t('VIP spotlight')}</span>
             <h3>{topVip.name}</h3>
-            <p>Member since {fmtDate(topVip.registered)}. Total spending of {inr(topVip.spend)} across {topVip.myOrders.length} order(s) and {topVip.myAppts.length} appointment(s).</p>
+            <p>{t('Member since')} {fmtDate(topVip.registered)}. {t('Total spending')} {inr(topVip.spend)} {t('across')} {topVip.myOrders.length} {t('order(s)')} {t('and')} {topVip.myAppts.length} {t('appointment(s)')}.</p>
             <div className="banner-actions">
               <button className="btn btn-primary" onClick={() => setOpenId(topVip.id)}>{t('Open profile')}</button>
             </div>
@@ -96,9 +96,9 @@ export default function Customers() {
               <span><CalendarDays size={15} />Registered {fmtDate(open.registered)}</span>
             </div>
             <div className="profile-stats">
-              <div><strong>{open.myOrders.length}</strong><span>Orders</span></div>
-              <div><strong>{inr(open.spend)}</strong><span>Total spending</span></div>
-              <div><strong>{fmtDate(open.lastActivity)}</strong><span>Last activity</span></div>
+              <div><strong>{open.myOrders.length}</strong><span>{t('Orders')}</span></div>
+              <div><strong>{inr(open.spend)}</strong><span>{t('Total spending')}</span></div>
+              <div><strong>{fmtDate(open.lastActivity)}</strong><span>{t('Last activity')}</span></div>
             </div>
           </div>
           <div className="detail-grid">

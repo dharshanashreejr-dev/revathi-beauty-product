@@ -20,7 +20,7 @@ const MAX_PRINT = 50; // orders per print job
 
 export default function Orders({ onNavigate }) {
   const { notify, user } = useStore();
-  const { t } = useT();
+  const { t, lang } = useT();
   const [, tick] = useState(0);
   const re = () => tick((n) => n + 1);
   useEffect(() => subscribeData(re), []); // new orders from customers appear live
@@ -106,10 +106,10 @@ export default function Orders({ onNavigate }) {
         style={{ width: 88, height: 88, padding: 2, background: '#fff', border: '1px solid var(--line)' }} dangerouslySetInnerHTML={{ __html: qrSvg(orderLink(o), 82) }} />
     ) },
     { key: 'customer', label: t('Customer'), render: (o) => <div><strong>{o.customer || t('Customer')}</strong>{o.phone && <span className="muted block">{o.phone}</span>}</div> },
-    { key: 'date', label: t('Date'), render: (o) => when(o.placed) },
+    { key: 'date', label: t('Date'), render: (o) => when(o.placed, lang) },
     { key: 'items', label: t('Items'), render: (o) => <span className="clip" title={summary(o)}>{t('{n} item(s): {summary}', { n: o.items.reduce((s, i) => s + i.qty, 0), summary: summary(o) })}</span> },
     { key: 'total', label: t('Total'), render: (o) => <strong>{inr(o.total)}</strong> },
-    { key: 'payment', label: t('Payment'), render: (o) => <span className="muted">{o.payment}</span> },
+    { key: 'payment', label: t('Payment'), render: (o) => <span className="muted">{t(o.payment) !== o.payment ? t(o.payment) : o.payment}</span> },
     { key: 'status', label: t('Fulfilment'), render: (o) => (
       <select className="status-select" value={statusOf(o)} onClick={(e) => e.stopPropagation()} disabled={o.cancelled || o.stage === 4}
         onChange={(e) => change(o, e.target.value)} aria-label={t('Status for {id}', { id: o.id })}>

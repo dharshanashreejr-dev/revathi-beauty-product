@@ -25,6 +25,7 @@ import { liveHeroSlides } from "../api/offers";
 import { addOrder } from "../site/account";
 import { NAV_LABELS } from "../shared/i18n-nav";
 import SitePillNav from "../shared/SitePillNav";
+import { searchSite } from "../shared/searchIndex";
 import { reviewNav } from "../shared/i18n-reviews";
 import { useUser } from "../shared/LoginModal";
 import ProfileMenu from "../shared/ProfileMenu";
@@ -746,21 +747,37 @@ export default function Home() {
       `${BRAND}\n${t.orderNo}: ${order.id}\n\n${order.lines.join("\n")}\n\n${t.total}: ${rupees(order.total)}\n${t.purchaseInfo}\n`,
     );
   }
-  const searchItems = [
+  const pageItems = [
+    { title: NL.Products, sub: SITE.products, keywords: "products shop store buy catalogue face body wellness skincare makeup lipstick serum cream", href: SITE.products },
+    { title: NL.Services, sub: SITE.services, keywords: "services salon facial massage bridal makeup consultation treatments appointments", href: SITE.services },
+    { title: NL.About, sub: SITE.about, keywords: "about us team story contact address phone timings location", href: SITE.about },
+    { title: NL.Tracking, sub: SITE.tracking, keywords: "tracking track order status delivery appointment booking", href: SITE.tracking },
+    { title: reviewsLabel, sub: SITE.reviews, keywords: "reviews testimonials feedback ratings customers", href: SITE.reviews },
+  ].map((pg) => ({
+    title: pg.title,
+    sub: pg.sub,
+    keywords: pg.keywords,
+    action: () => {
+      window.location.href = pg.href;
+    },
+    art: null as (typeof products)[number] | null,
+    image: "",
+  }));
+  const allSearchItems = [
     ...products.map((p) => ({
       title: p.name[lang] ?? p.name.en,
       sub: `${p.sub[lang]} · ${rupees(p.price)}`,
-      keywords: `${p.name.en} ${p.name.ta} ${p.name.hi} ${p.cat} ${p.kind} ${p.copy.en}`,
+      keywords: `${p.name.en} ${p.name.ta} ${p.name.hi} ${p.sub.en} ${p.cat} ${p.kind} ${p.copy.en}`,
       action: () => openProduct(p.id),
-      art: p,
+      art: p as (typeof products)[number] | null,
       image: "",
     })),
     ...allServices.map((sv) => ({
       title: sv.name[lang] ?? sv.name.en,
       sub: `${sv.mins} ${t.mins}${servicePricesOn() ? ` · ${rupees(sv.price)}` : ""}`,
-      keywords: `${sv.name.en} ${sv.name.ta} ${sv.name.hi} ${sv.group} salon appointment treatment ${sv.desc.en}`,
+      keywords: `${sv.name.en} ${sv.name.ta} ${sv.name.hi} ${sv.group} salon appointment treatment book ${sv.desc.en}`,
       action: () => openBooking(sv.id),
-      art: null,
+      art: null as (typeof products)[number] | null,
       image: img(photos.journalTwo, "75px").src,
     })),
     {
@@ -768,7 +785,7 @@ export default function Home() {
       sub: t.notesLabel,
       keywords: "ingredients peach pêche jasmine jasmin sandalwood santal composition",
       action: () => go("#notes"),
-      art: null,
+      art: null as (typeof products)[number] | null,
       image: img(photos.notePeach, "75px").src,
     },
     {
@@ -776,16 +793,33 @@ export default function Home() {
       sub: t.story,
       keywords: "story histoire velvet touch boutique salon",
       action: () => go("#story"),
-      art: null,
+      art: null as (typeof products)[number] | null,
       image: img(photos.world, "75px").src,
     },
-  ]
-    .filter(
-      (item) =>
-        !query ||
-        (item.title + item.keywords).toLowerCase().includes(query.toLowerCase()),
-    )
-    .slice(0, query ? 12 : 7);
+    ...pageItems,
+  ];
+  // every word typed must match somewhere (name, type, category, description) - "herbal serum" works too
+  const searchWords = query.toLowerCase().split(/\s+/).filter(Boolean);
+  const baseHits = allSearchItems.filter((item) => {
+    const hay = `${item.title} ${item.sub} ${item.keywords}`.toLowerCase();
+    return searchWords.every((w) => hay.includes(w));
+  });
+  // live catalogue: products & services the admin uploaded later (and edited names/prices) are searched too
+  const liveHits = query.trim()
+    ? searchSite(query, 12)
+        .filter((h) => !allSearchItems.some((i) => i.keywords.toLowerCase().includes(h.title.toLowerCase())))
+        .map((h) => ({
+          title: h.title,
+          sub: `${h.sub} · ${h.price}`,
+          keywords: h.title,
+          action: () => {
+            window.location.href = h.href;
+          },
+          art: null as (typeof products)[number] | null,
+          image: h.image || img(h.type === "service" ? photos.journalTwo : photos.world, "75px").src,
+        }))
+    : [];
+  const searchItems = [...baseHits, ...liveHits].slice(0, query ? 14 : 7);
   return (
     <div ref={root} className={`site ${ready ? "is-ready" : "is-loading"}`}>
       <svg
@@ -856,29 +890,6 @@ export default function Home() {
           <SitePillNav label={NL.SitePages} items={[{ key: "About", label: NL.About, href: SITE.about }, { key: "Tracking", label: NL.Tracking, href: SITE.tracking }, { key: "Reviews", label: reviewsLabel, href: SITE.reviews }]} />
         </nav>
         <div className="nav-tools">
-          <label className="lang-select" style={{ display: "inline-flex", alignItems: "center" }}>
-            <span className="sr-only">{t.language}</span>
-            <select
-              value={lang}
-              onChange={(e) => setLang(e.target.value as Language)}
-              aria-label={t.language}
-              style={{
-                background: "transparent",
-                border: "1px solid rgba(76, 29, 149, 0.45)",
-                borderRadius: "999px",
-                color: "inherit",
-                fontSize: "0.7rem",
-                letterSpacing: "0.12em",
-                textTransform: "uppercase",
-                padding: "0.4rem 0.65rem",
-                cursor: "pointer",
-              }}
-            >
-              {NAV_LANG_CODES.map((code) => (
-                <option key={code} value={code} style={{ color: "#4b1d91", background: "#f5f2fd" }}>{NAV_LANG_NAMES[code]}</option>
-              ))}
-            </select>
-          </label>
           <button
             className="icon-button"
             onClick={() => setPanel("search")}
@@ -894,6 +905,20 @@ export default function Home() {
             <ShoppingBag size={21} />
             <span>({bag})</span>
           </button>
+          <div className="nav-end">
+          <label className="lang-select lang-ico" title={t.language}>
+            <span className="sr-only">{t.language}</span>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9" /><path d="M3 12h18" /><path d="M12 3a14 14 0 0 1 0 18a14 14 0 0 1 0-18z" /></svg>
+            <select
+              value={lang}
+              onChange={(e) => setLang(e.target.value as Language)}
+              aria-label={t.language}
+            >
+              {NAV_LANG_CODES.map((code) => (
+                <option key={code} value={code} style={{ color: "#7a5a1c", background: "#fbf7ec" }}>{NAV_LANG_NAMES[code]}</option>
+              ))}
+            </select>
+          </label>
           {loggedUser ? (
             <ProfileMenu user={loggedUser} ui={lang as never} className="nav-admin nav-profile" nameClassName="nav-profile-name" />
           ) : (
@@ -902,11 +927,58 @@ export default function Home() {
               <span className="nav-profile-name">{authT("Login", lang as never)}</span>
             </button>
           )}
+          </div>
         </div>
         </div>
       </header>
       <main id="main">
         <section id="top" className="hb" aria-roledescription="carousel" aria-label="REVATHI HERBAL BEAUTY CARE">
+          <form
+            className="hb-search"
+            role="search"
+            onSubmit={(e) => {
+              e.preventDefault();
+              setPanel("search");
+            }}
+          >
+            <span className="hb-rope hb-rope-l" aria-hidden="true" />
+            <span className="hb-rope hb-rope-r" aria-hidden="true" />
+            <div className="hb-search-bar">
+              <Search size={20} aria-hidden="true" />
+              <input
+                type="search"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                placeholder={trx({ en: "Search products & services — serums, facials, bridal makeup…", ta: "பொருட்கள் & சேவைகள் தேடுங்கள் — சீரம், ஃபேஷியல், மணப்பெண் மேக்கப்…", hi: "उत्पाद और सेवाएँ खोजें — सीरम, फेशियल, ब्राइडल मेकअप…" }, lang)}
+                aria-label={t.searchPlaceholder}
+              />
+              <button type="submit">
+                {trx({ en: "Search", ta: "தேடு", hi: "खोजें", ml: "തിരയുക", te: "వెతకండి", kn: "ಹುಡುಕಿ", mr: "शोधा", bn: "খুঁজুন", sa: "अन्विष्यताम्" }, lang)}
+              </button>
+            </div>
+            {query.trim() && (
+              <ul className="hb-suggest">
+                {searchItems.slice(0, 6).map((item) => (
+                  <li key={`${item.title}-${item.sub}`}>
+                    <button type="button" onClick={item.action}>
+                      {item.art ? (
+                        <span className="search-art" style={{ width: 38, height: 46 }}>
+                          <ProductPhoto id={item.art.id} />
+                        </span>
+                      ) : item.image ? (
+                        <img src={item.image} alt="" />
+                      ) : null}
+                      <span>
+                        <strong>{item.title}</strong>
+                        <small>{item.sub}</small>
+                      </span>
+                    </button>
+                  </li>
+                ))}
+                {!searchItems.length && <li className="hb-suggest-empty">{t.searchEmpty}</li>}
+              </ul>
+            )}
+          </form>
           <div
             className="hb-stage"
             onPointerEnter={() => setSlidePaused(true)}
@@ -1201,12 +1273,18 @@ export default function Home() {
                   placeholder={t.searchPlaceholder}
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" && searchItems[0]) {
+                      e.preventDefault();
+                      searchItems[0].action();
+                    }
+                  }}
                 />
               </div>
               <div className="search-results">
                 {searchItems.length ? (
                   searchItems.map((item) => (
-                    <button key={item.title} onClick={item.action}>
+                    <button key={`${item.title}-${item.sub}`} onClick={item.action}>
                       {item.art ? (
                         <span className="search-art">
                           <ProductPhoto id={item.art.id} />

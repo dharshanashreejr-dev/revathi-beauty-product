@@ -12,11 +12,12 @@ import Modal from '../components/Modal.jsx';
 import ConfirmDialog from '../components/ConfirmDialog.jsx';
 import Field from '../components/Field.jsx';
 import { useT } from '../i18n.js';
+import { pname } from '../../products/i18n-names';
 
 // CRS 4.1 Product Catalogue: this page now edits the SAME catalogue the customer shop sells (products/data/products.ts).
 // Add / edit / archive (no hard delete) / categorise / photo upload / MRP + discount + effective price. Stock changes live in Inventory (with reason tags).
 // BACKEND: GET/POST/PATCH /api/products (Admin only), archive = PATCH {archived:true}, photo = multipart upload to object storage.
-const CAT_LABEL = { face: 'Face', 'wellness products': 'Wellness', body: 'Body' };
+const CAT_KEYS = { face: 'Face', 'wellness products': 'Wellness', body: 'Body' };
 const STATUSES = ['In stock', 'Out of stock', 'Archived'];
 const blank = () => ({ name: '', category: CATEGORIES[0].name, subcategory: CATEGORIES[0].subs[0], mrp: '', discountType: 'percent', discountValue: '0', stock: '', availability: 'In stock', description: '', image: '' });
 const effOf = (d) => api.pricing.effectivePrice(Number(d.mrp) || 0, d.discountType, Number(d.discountValue) || 0);
@@ -32,7 +33,9 @@ function Thumb({ p, size = 48 }) {
 
 export default function Products({ intent, onIntentHandled }) {
   const { notify, user } = useStore();
-  const { t } = useT();
+  const { t, lang } = useT();
+  const CAT_LABEL = { face: t('Face'), 'wellness products': t('Wellness'), body: t('Body') };
+  const pName = (name) => pname(name, lang === 'ta' ? 'ta' : 'en');
   const [, tick] = useState(0);
   const re = () => tick((n) => n + 1);
   useEffect(() => { const a = api.catalogue.subscribe(re), b = api.stock.subscribe(re); return () => { a(); b(); }; }, []);
@@ -123,7 +126,7 @@ export default function Products({ intent, onIntentHandled }) {
     setToArchive(null); re();
   };
 
-  const stockCell = (p) => (p.stock === 0 ? <span className="stock-zero">{t('Out of stock')}</span> : <span className={p.stock <= api.stock.getThreshold() ? 'stock-low' : ''}>{p.stock} units</span>);
+  const stockCell = (p) => (p.stock === 0 ? <span className="stock-zero">{t('Out of stock')}</span> : <span className={p.stock <= api.stock.getThreshold() ? 'stock-low' : ''}>{p.stock} {t('units')}</span>);
   const actions = (p) => (
     <div className="row-actions" onClick={(e) => e.stopPropagation()}>
       <button className="icon-btn" onClick={() => openEdit(p)} aria-label={`Edit ${p.name}`}><Pencil size={16} /></button>
@@ -133,14 +136,14 @@ export default function Products({ intent, onIntentHandled }) {
 
   const columns = [
     { key: 'name', label: t('Product'), render: (p) => (
-      <div className="row-gap"><Thumb p={p} /><div><strong>{p.name}</strong><span className="muted block">{p.sku} - {p.subcategory}</span></div></div>
+      <div className="row-gap"><Thumb p={p} /><div><strong>{pName(p.name)}</strong><span className="muted block">{p.sku} - {t(p.subcategory) !== p.subcategory ? t(p.subcategory) : p.subcategory}</span></div></div>
     ) },
-    { key: 'category', label: t('Category'), render: (p) => CAT_LABEL[p.category] },
+    { key: 'category', label: t('Category'), render: (p) => CAT_LABEL[p.category] || p.category },
     { key: 'mrp', label: t('MRP'), render: (p) => inr(p.mrp) },
     { key: 'discount', label: t('Discount'), render: discLabel },
     { key: 'price', label: t('Selling price'), render: (p) => <strong>{inr(p.price)}</strong> },
     { key: 'stock', label: t('Stock'), render: stockCell },
-    { key: 'status', label: t('Status'), render: (p) => <Badge>{statusOf(p)}</Badge> },
+    { key: 'status', label: t('Status'), render: (p) => <Badge>{t(statusOf(p))}</Badge> },
     { key: 'actions', label: '', width: '96px', render: actions }
   ];
 
@@ -177,8 +180,8 @@ export default function Products({ intent, onIntentHandled }) {
             <article key={p.id} className="product-card" style={p.archived ? { opacity: 0.6 } : undefined}>
               <div className="product-card-art"><Thumb p={p} size={88} /></div>
               <div className="product-card-body">
-                <div className="between"><Badge>{statusOf(p)}</Badge><span className="muted">{p.sku}</span></div>
-                <h4>{p.name}</h4>
+                <div className="between"><Badge>{t(statusOf(p))}</Badge><span className="muted">{p.sku}</span></div>
+                <h4>{pName(p.name)}</h4>
                 <span className="muted">{CAT_LABEL[p.category]} · {p.subcategory}</span>
                 <div className="between"><span><strong>{inr(p.price)}</strong>{p.mrp > p.price && <s className="muted" style={{ marginLeft: 6 }}>{inr(p.mrp)}</s>}</span>{stockCell(p)}</div>
                 {actions(p)}

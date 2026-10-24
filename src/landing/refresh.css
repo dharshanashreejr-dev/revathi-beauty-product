@@ -155,15 +155,15 @@
     visibility 0s 1.45s;
 }
 
-/* Custom cursor */
+/* Custom cursor — violet hover on full navbar / links (touch & mouse) */
 .cursor {
   position: fixed;
   left: 0;
   top: 0;
   z-index: 300;
-  width: 12px;
-  height: 12px;
-  margin: -6px 0 0 -6px;
+  width: 6px;
+  height: 6px;
+  margin: -3px 0 0 -3px;
   border-radius: 50%;
   background: #4f1e99;
   mix-blend-mode: normal;
@@ -183,21 +183,22 @@
   opacity: 0;
 }
 .cursor.is-hover {
+  width: 14px;
+  height: 14px;
+  margin: -7px 0 0 -7px;
+  background: #5c2aad;
+}
+.cursor.has-label {
   width: 44px;
   height: 44px;
   margin: -22px 0 0 -22px;
-}
-.cursor.has-label {
-  width: 92px;
-  height: 92px;
-  margin: -46px 0 0 -46px;
   mix-blend-mode: normal;
   background: rgba(229, 220, 249, .62);
   backdrop-filter: blur(6px);
   box-shadow: 0 10px 40px #4c1d9530;
 }
 .cursor span {
-  font-size: 11px;
+  font-size: 8px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--ink);

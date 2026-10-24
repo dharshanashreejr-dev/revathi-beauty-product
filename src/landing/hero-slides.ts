@@ -22,7 +22,7 @@ export type HeroSlide = {
 export const heroSlides: HeroSlide[] = [
   {
     id: "festive",
-    image: "/assets/hero/hb-festive.webp",
+    image: "/assets/hero/hb-festive.jpg",
     width: 1920,
     height: 823,
     tone: "#f4f0fc",
@@ -36,7 +36,7 @@ export const heroSlides: HeroSlide[] = [
   },
   {
     id: "seasonal",
-    image: "/assets/hero/hb-seasonal.webp",
+    image: "/assets/hero/hb-seasonal.jpg",
     width: 1920,
     height: 823,
     tone: "#f7f4fd",
@@ -50,7 +50,7 @@ export const heroSlides: HeroSlide[] = [
   },
   {
     id: "brochure",
-    image: "/assets/hero/hb-service.webp",
+    image: "/assets/hero/hb-service.jpg",
     width: 1920,
     height: 823,
     tone: "#f6f4fd",
@@ -64,7 +64,7 @@ export const heroSlides: HeroSlide[] = [
   },
   {
     id: "daily",
-    image: "/assets/hero/hb-combo.webp",
+    image: "/assets/hero/hb-combo.jpg",
     width: 1920,
     height: 823,
     tone: "#f4f0fc",

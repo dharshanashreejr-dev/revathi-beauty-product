@@ -45,3 +45,20 @@
     margin-left: clamp(2px, .6vw, 10px);
   }
 }
+
+/* ===== Roomier navbar: bigger text + clear space between every word (English). Steps up with the screen width. =====
+   The old hover rule gave every link a -12px side margin, which ate the gap, so it is reset here and the space comes from padding + gap. */
+@media (min-width: 1200px) {
+  html:is([lang="en"], :not([lang])):not(#a):not(#b):not(#c) body .header nav a { margin: 0 !important; padding: 12px 10px !important; font-size: inherit !important; letter-spacing: inherit !important; }
+}
+@media (min-width: 1400px) {
+  html:is([lang="en"], :not([lang])):not(#a):not(#b):not(#c) body .header nav { font-size: 14.5px !important; letter-spacing: .09em !important; gap: 8px !important; }
+}
+@media (min-width: 1500px) {
+  html:is([lang="en"], :not([lang])):not(#a):not(#b):not(#c) body .header nav { font-size: 15.5px !important; gap: 16px !important; }
+  html:is([lang="en"], :not([lang])):not(#a):not(#b):not(#c) body .header .nav-tools { gap: 16px !important; }
+}
+@media (min-width: 1700px) {
+  html:is([lang="en"], :not([lang])):not(#a):not(#b):not(#c) body .header nav { font-size: 16.5px !important; gap: 26px !important; }
+  html:is([lang="en"], :not([lang])):not(#a):not(#b):not(#c) body .header .nav-tools { gap: 20px !important; }
+}

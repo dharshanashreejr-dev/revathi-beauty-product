@@ -21,7 +21,7 @@ const CATS = ['Body Massage', 'Facial', 'Consultation'];
 const slug = (n) => n.trim().toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 const blankService = () => ({ id: '', name: '', category: 'Facial', duration: '45', price: '', discountType: 'percent', discountValue: '0', care: '', desc: '', active: true, popular: false, signature: false });
 const toForm = (x) => ({ ...x, price: String(x.price), duration: String(x.duration), discountValue: String(x.discountValue ?? 0), discountType: x.discountType || 'percent', care: x.care || '', desc: x.desc || '', features: x.features ? x.features.join('\n') : undefined });
-const promoText = (type, v) => (!v ? 'No promotion' : type === 'percent' ? `${v}% off` : `${inr(v)} off`);
+const promoText = (type, v, t) => (!v ? t('No promotion') : type === 'percent' ? t('{n}% off', { n: v }) : t('{amount} off', { amount: inr(v) }));
 
 function validate(x, isPkg, services) {
   const e = {};
@@ -57,7 +57,7 @@ function ItemCard({ x, isPkg, t, onEdit, onDelete, onToggle }) {
     <div className="card" style={{ boxShadow: 'none', display: 'flex', flexDirection: 'column', gap: 14, height: '100%', opacity: !isPkg && !x.active ? 0.72 : 1 }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', gap: 10, alignItems: 'flex-start' }}>
         <div style={{ minWidth: 0 }}>
-          <strong style={{ fontSize: 16, display: 'block', overflowWrap: 'anywhere' }}>{x.name}</strong>
+          <strong style={{ fontSize: 16, display: 'block', overflowWrap: 'anywhere' }}>{t(x.name)}</strong>
           <span className="muted" style={{ fontSize: 12.5 }}>{isPkg ? t('Bridal Makeup package') : t(x.category)}</span>
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 6, alignItems: 'flex-end', flex: 'none' }}>
@@ -68,16 +68,16 @@ function ItemCard({ x, isPkg, t, onEdit, onDelete, onToggle }) {
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
-        <Stat label={t('Duration')} value={<span style={{ display: 'inline-flex', gap: 5, alignItems: 'center' }}><Clock size={13} />{x.duration} min</span>} />
+        <Stat label={t('Duration')} value={<span style={{ display: 'inline-flex', gap: 5, alignItems: 'center' }}><Clock size={13} />{x.duration} {t('min')}</span>} />
         <Stat label={t('Base fee')} value={inr(x.price)} />
-        <Stat label={t('Promotion')} value={promoText(x.discountType, x.discountValue)} />
+        <Stat label={t('Promotion')} value={promoText(x.discountType, x.discountValue, t)} />
         <Stat label={t('Customers pay')} value={<>{inr(eff)}{hasPromo && <s className="muted" style={{ marginLeft: 6, fontWeight: 400, fontSize: 12 }}>{inr(x.price)}</s>}</>} strong />
       </div>
 
       {isPkg
-        ? <Block label={t('Services included')}>{x.features.length ? <ul style={{ margin: 0, paddingLeft: 18 }}>{x.features.map((f) => <li key={f}>{f}</li>)}</ul> : <span className="muted">-</span>}</Block>
-        : <Block label={t('Description')}>{x.desc || <span className="muted">-</span>}</Block>}
-      <Block label={t('Pre-service care instructions')}>{x.care ? x.care : <span className="muted">{t('None added')}</span>}</Block>
+        ? <Block label={t('Services included')}>{x.features.length ? <ul style={{ margin: 0, paddingLeft: 18 }}>{x.features.map((f) => <li key={f}>{t(f)}</li>)}</ul> : <span className="muted">-</span>}</Block>
+        : <Block label={t('Description')}>{x.desc ? t(x.desc) : <span className="muted">-</span>}</Block>}
+      <Block label={t('Pre-service care instructions')}>{x.care ? t(x.care) : <span className="muted">{t('None added')}</span>}</Block>
 
       <div style={{ display: 'flex', gap: 6, marginTop: 'auto', paddingTop: 12, borderTop: '1px solid rgba(0,0,0,.08)', alignItems: 'center' }}>
         {!isPkg && <button className="btn btn-ghost small" onClick={onToggle}>{x.active ? <EyeOff size={15} /> : <Eye size={15} />}{x.active ? t('Hide') : t('Show')}</button>}
@@ -91,7 +91,7 @@ function ItemCard({ x, isPkg, t, onEdit, onDelete, onToggle }) {
 
 export default function ServicesPricing() {
   const { notify, user } = useStore();
-  const { t } = useT();
+  const { t, lang } = useT();
   const cfg = useSiteConfig();
   const [form, setForm] = useState(null); // { kind: 'service' | 'package', isNew, data, errors }
   const [toDelete, setToDelete] = useState(null);
@@ -205,7 +205,7 @@ export default function ServicesPricing() {
       <div className="card">
         <div className="card-head">
           <h3>{t('Bridal Makeup packages')}</h3>
-          <span className="muted">Edit the name, price, promotion, care instructions and what is included.</span>
+          <span className="muted">{t("Edit the name, price, promotion, care instructions and what is included.")}</span>
         </div>
         <div style={cardGrid}>
           {cfg.bridalPackages.map((b) => <ItemCard key={b.id} x={b} isPkg t={t} onEdit={() => openPackage(b)} />)}

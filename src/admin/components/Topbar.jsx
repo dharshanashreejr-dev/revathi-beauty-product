@@ -60,7 +60,6 @@ export default function Topbar({ user, page, onNavigate, onMenu, onLogout }) {
       </div>
 
       <div className="topbar-actions">
-        <LangSelect />
         <div className="pop-anchor">
           <button className="icon-btn" onClick={() => setMenu(menu === 'notif' ? null : 'notif')} aria-label={t('Notifications')}>
             <Bell size={19} />
@@ -79,6 +78,7 @@ export default function Topbar({ user, page, onNavigate, onMenu, onLogout }) {
           )}
         </div>
 
+        <LangSelect />
         <div className="pop-anchor">
           <button className="profile-btn" onClick={() => setMenu(menu === 'profile' ? null : 'profile')} aria-label={t('Profile menu')}>
             <Avatar name={user.name} size={34} />

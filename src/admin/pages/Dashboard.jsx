@@ -16,6 +16,7 @@ import { AreaChart, Donut, HBars } from '../components/Charts.jsx';
 import DitherVeil from '../reactbits/DitherVeil.jsx';
 import SafeEffect from '../components/SafeEffect.jsx';
 import { useT } from '../i18n.js';
+import { pname } from '../../products/i18n-names';
 
 const PERIODS = [
   { id: '3', label: 'Last 3 months', n: 3 },
@@ -26,6 +27,22 @@ const PERIODS = [
 export default function Dashboard({ user, onNavigate }) {
   const { products, orders, appointments, customers, staff, activity, lowStockThreshold = 10 } = useStore();
   const { t, lang } = useT();
+  const pName = (n) => pname(n, lang === 'ta' ? 'ta' : 'en');
+  const personName = (n) => {
+    if (lang !== 'ta' || !n) return n;
+    const map = { Ananya: 'அனன்யா', Meera: 'மீரா', Isha: 'இஷா', Nisha: 'நிஷா', Anika: 'அனிகா', Priya: 'பிரியா', Latha: 'லதா', Karthik: 'கார்த்திக்', Divya: 'திவ்யா', ann: 'அன்', anu: 'அனு' };
+    const parts = n.split(' ');
+    return [map[parts[0]] || parts[0], ...parts.slice(1)].join(' ');
+  };
+  const whenLabel = (w) => {
+    const m = /^(\d+) days ago$/.exec(w || '');
+    if (m) return t('{n} days ago', { n: m[1] });
+    const h = /^(\d+) hr ago$/.exec(w || '');
+    if (h) return t('{n} hr ago', { n: h[1] });
+    const mi = /^(\d+) min ago$/.exec(w || '');
+    if (mi) return t('{n} min ago', { n: mi[1] });
+    return t(w);
+  };
   const [period, setPeriod] = useState('6');
   const isAdmin = user.role === 'Admin';
 
@@ -48,7 +65,7 @@ export default function Dashboard({ user, onNavigate }) {
       <section className="banner">
         <div className="banner-copy">
           <span className="eyebrow">{fmtDate(TODAY, lang)}</span>
-          <h2>{t('Good morning, {name}', { name: user.name.split(' ')[0] })}</h2>
+          <h2>{t('Good morning, {name}', { name: personName(user.name.split(' ')[0]) })}</h2>
           <p>
             {isAdmin
               ? t('{n} appointments are scheduled today and {m} orders are waiting to be processed.', { n: todays.length, m: orders.filter((o) => o.status === 'Order placed' || o.status === 'Order confirmed').length })
@@ -112,12 +129,12 @@ export default function Dashboard({ user, onNavigate }) {
         )}
         <div className="card">
           <div className="card-head"><h3>{t('Appointment statistics')}</h3><span className="muted">{t('By status')}</span></div>
-          <Donut data={countBy(appointments, 'status', APPOINTMENT_STATUSES)} centerLabel="Bookings" centerValue={appointments.length} />
+          <Donut data={countBy(appointments, 'status', APPOINTMENT_STATUSES)} centerLabel={t("Bookings")} centerValue={appointments.length} />
         </div>
         {isAdmin && (
           <div className="card">
             <div className="card-head"><h3>{t('Order status distribution')}</h3><span className="muted">{t('All orders')}</span></div>
-            <Donut data={countBy(orders, 'status', ORDER_STATUSES)} centerLabel="Orders" centerValue={orders.length} />
+            <Donut data={countBy(orders, 'status', ORDER_STATUSES)} centerLabel={t("Orders")} centerValue={orders.length} />
           </div>
         )}
       </div>
@@ -134,7 +151,7 @@ export default function Dashboard({ user, onNavigate }) {
               <li key={a.id}>
                 <span className="time">{a.time}</span>
                 <div><strong>{a.customer}</strong><span className="muted">{t('{service} with {name}', { service: t(a.service), name: staffName(a.specialistId) })}</span></div>
-                <Badge>{a.status}</Badge>
+                <Badge>{t(a.status)}</Badge>
               </li>
             ))}
           </ul>
@@ -150,7 +167,7 @@ export default function Dashboard({ user, onNavigate }) {
               {recentOrders.map((o) => (
                 <li key={o.id}>
                   <div><strong>{o.id}</strong><span className="muted">{o.customer}</span></div>
-                  <div className="right"><strong>{inr(orderTotal(o, products))}</strong><Badge>{o.status}</Badge></div>
+                  <div className="right"><strong>{inr(orderTotal(o, products))}</strong><Badge>{t(o.status)}</Badge></div>
                 </li>
               ))}
             </ul>
@@ -161,7 +178,7 @@ export default function Dashboard({ user, onNavigate }) {
             <ul className="list">
               {activity.length === 0 && <li className="muted">{t('No activity yet.')}</li>}
               {activity.map((a, i) => (
-                <li key={i}><div><strong>{a.who}</strong><span className="muted">{actText(a)}</span></div><span className="muted">{t(a.when)}</span></li>
+                <li key={i}><div><strong>{personName(a.who)}</strong><span className="muted">{actText(a)}</span></div><span className="muted">{whenLabel(a.when)}</span></li>
               ))}
             </ul>
           </div>
@@ -179,7 +196,7 @@ export default function Dashboard({ user, onNavigate }) {
               {lowStock.length === 0 && <li className="muted">{t('All products are well stocked.')}</li>}
               {lowStock.map((p) => (
                 <li key={p.id}>
-                  <div><strong>{p.name}</strong><span className="muted">{p.id}</span></div>
+                  <div><strong>{pName(p.name)}</strong><span className="muted">{p.id}</span></div>
                   <Badge tone={p.stock === 0 ? 'red' : 'amber'}>{p.stock === 0 ? t('Out of stock') : t('{n} left', { n: p.stock })}</Badge>
                 </li>
               ))}
@@ -191,8 +208,8 @@ export default function Dashboard({ user, onNavigate }) {
               {activity.length === 0 && <li className="muted">{t('No activity yet.')}</li>}
               {activity.map((a, i) => (
                 <li key={i}>
-                  <div className="row-gap"><Avatar name={a.who} size={34} index={i} /><div><strong>{a.who}</strong><span className="muted">{actText(a)}</span></div></div>
-                  <span className="muted">{t(a.when)}</span>
+                  <div className="row-gap"><Avatar name={a.who} size={34} index={i} /><div><strong>{personName(a.who)}</strong><span className="muted">{actText(a)}</span></div></div>
+                  <span className="muted">{whenLabel(a.when)}</span>
                 </li>
               ))}
             </ul>

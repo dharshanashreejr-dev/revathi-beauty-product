@@ -9,6 +9,7 @@ import Badge from '../components/Badge.jsx';
 import Modal from '../components/Modal.jsx';
 import Field from '../components/Field.jsx';
 import { useT } from '../i18n.js';
+import { pname } from '../../products/i18n-names';
 
 const REASONS = api.stock.REASONS;
 
@@ -18,7 +19,8 @@ const CAT_LABEL = { face: 'Face', 'wellness products': 'Wellness', body: 'Body' 
 
 export default function Inventory() {
   const { notify, user, sendMessage, addAudit, lowStockThreshold, setLowStockThreshold } = useStore();
-  const { t } = useT();
+  const { t, lang } = useT();
+  const pName = (name) => pname(name, lang === 'ta' ? 'ta' : 'en');
   const [, tick] = useState(0);
   const re = () => tick((n) => n + 1);
   useEffect(() => { const a = api.stock.subscribe(re), b = api.catalogue.subscribe(re); return () => { a(); b(); }; }, []);
@@ -119,7 +121,7 @@ export default function Inventory() {
           <ul className="list">
             {needRestock.slice(0, 8).map((p) => (
               <li key={p.id}>
-                <div className="row-gap"><AlertTriangle size={17} className={p.stock === 0 ? 'ic-red' : 'ic-amber'} /><div><strong>{p.name}</strong><span className="muted">{p.stock === 0 ? 'Out of stock, restock now' : `Only ${p.stock} left`}{p.waiting > 0 ? ` · ${t('{n} waiting for Notify Me', { n: p.waiting })}` : ''}</span></div></div>
+                <div className="row-gap"><AlertTriangle size={17} className={p.stock === 0 ? 'ic-red' : 'ic-amber'} /><div><strong>{pName(p.name)}</strong><span className="muted">{p.stock === 0 ? 'Out of stock, restock now' : `Only ${p.stock} left`}{p.waiting > 0 ? ` · ${t('{n} waiting for Notify Me', { n: p.waiting })}` : ''}</span></div></div>
                 <button className="btn btn-soft" onClick={() => restock(p)}><PackagePlus size={16} />{t('Restock to {n}', { n: Math.max(p.cap, p.stock) })}</button>
               </li>
             ))}
@@ -130,7 +132,7 @@ export default function Inventory() {
       <div className="filters">
         <div className="search-box"><Search size={17} /><input value={q} onChange={(e) => setQ(e.target.value)} placeholder={t('Search inventory')} aria-label={t('Search inventory')} /></div>
         <select value={cat} onChange={(e) => setCat(e.target.value)} aria-label={t('Filter by category')}><option value="All">{t('All categories')}</option>{Object.keys(PRODUCTS).map((c) => <option key={c} value={c}>{CAT_LABEL[c]}</option>)}</select>
-        <select value={state} onChange={(e) => setState(e.target.value)} aria-label={t('Filter by stock status')}><option value="All">{t('All stock levels')}</option><option>In Stock</option><option>Low Stock</option><option>Out of Stock</option></select>
+        <select value={state} onChange={(e) => setState(e.target.value)} aria-label={t('Filter by stock status')}><option value="All">{t('All stock levels')}</option><option value="In Stock">{t('In Stock')}</option><option value="Low Stock">{t('Low Stock')}</option><option value="Out of Stock">{t('Out of Stock')}</option></select>
       </div>
 
       <div className="inv-grid">
@@ -140,12 +142,12 @@ export default function Inventory() {
           const pct = Math.min(100, Math.round((p.stock / p.cap) * 100));
           return (
             <article key={p.id} className={`inv-card ${st === 'Out of Stock' ? 'is-out' : st === 'Low Stock' ? 'is-low' : ''}`}>
-              <div className="row-gap"><div className="grow"><strong>{p.name}</strong><span className="muted block">{p.sku} - {p.subcategory}</span></div><Badge>{st}</Badge></div>
+              <div className="row-gap"><div className="grow"><strong>{pName(p.name)}</strong><span className="muted block">{p.sku} - {p.subcategory}</span></div><Badge>{t(st)}</Badge></div>
               <div className="between"><span className="muted">{t('Stock level')}</span><strong>{p.stock} / {p.cap}</strong></div>
               <div className="progress"><div className={`progress-fill ${st === 'Out of Stock' ? 'red' : st === 'Low Stock' ? 'amber' : 'green'}`} style={{ width: `${pct}%` }} /></div>
               {p.waiting > 0 && <p className="warn amber"><BellRing size={14} /> {t('{n} waiting for Notify Me', { n: p.waiting })}</p>}
-              {st === 'Out of Stock' && <p className="warn red">Out of Stock. Customers cannot order this product.</p>}
-              {st === 'Low Stock' && <p className="warn amber">Low stock warning. Consider restocking soon.</p>}
+              {st === 'Out of Stock' && <p className="warn red">{t('Out of Stock. Customers cannot order this product.')}</p>}
+              {st === 'Low Stock' && <p className="warn amber">{t('Low stock warning. Consider restocking soon.')}</p>}
               <div className="stock-controls">
                 <button className="icon-btn" onClick={() => bump(p, -1)} aria-label={`Decrease ${p.name}`}><Minus size={16} /></button>
                 <button className="icon-btn" onClick={() => bump(p, 1)} aria-label={`Increase ${p.name}`}><Plus size={16} /></button>

@@ -35,6 +35,8 @@ const bridalServices = (): Service[] => getSiteConfig().bridalPackages.map((b) =
   img: BRIDAL_IMG[b.id] ?? 'bridal-saree', popular: b.popular, desc: b.features.join(' · '),
 }))
 export const services: Service[] = [...baseServices(), ...bridalServices()]
+/** Always-fresh list (includes services the admin added after the page loaded). */
+export const liveServices = (): Service[] => [...baseServices(), ...bridalServices()]
 
 /** Admin switch: service prices are hidden on the public site unless the admin turns them on. */
 export const servicePricesVisible = () => getSiteConfig().showServicePrices

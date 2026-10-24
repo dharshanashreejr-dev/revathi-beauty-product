@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useT } from '../i18n.js';
 
-const COLORS = ['#4c1d95', '#c4b5fd', '#7c4dd6', '#a78bfa', '#2e1065', '#8b6cf0'];
+const COLORS = ['#4c1d95', '#c9a24b', '#7c4dd6', '#e6cf8f', '#2e1065', '#a8812f'];
 export const chartColor = (i) => COLORS[i % COLORS.length];
 const compact = (n) => (n >= 100000 ? (n / 100000).toFixed(1) + 'L' : n >= 1000 ? (n / 1000).toFixed(0) + 'k' : String(n));
 

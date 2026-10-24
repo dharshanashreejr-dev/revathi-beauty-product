@@ -87,12 +87,14 @@ export default function Login({ onSuccess }) {
           <div className="hero-copy">
             <DepthText
               text="Revathi Herbal Beauty Care"
-              layers={22}
-              depth={1.6}
+              layers={12}
+              depth={0.8}
               faceColor="#f3eefc"
               depthColor="#d1bcf2"
-              tilt={6}
-              fontSize="clamp(2.6rem, 5.2vw, 4.6rem)"
+              tilt={0}
+              autoOrbit={false}
+              pointerTracking={false}
+              fontSize="clamp(1.6rem, 3.2vw, 2.8rem)"
               fontWeight={800}
             />
             <p>

@@ -19,7 +19,7 @@ const RANGES = [
 
 export default function Reports() {
   const { orders, appointments, products, notify } = useStore();
-  const { t } = useT();
+  const { t, lang } = useT();
   const [range, setRange] = useState('7');
 
   const all = useMemo(() => revenueSeries(orders, appointments, products), [orders, appointments, products]);
@@ -41,8 +41,8 @@ export default function Reports() {
     return Object.entries(map).map(([label, value]) => ({ label, value })).sort((a, b) => b.value - a.value).slice(0, 6);
   }, [paidOrders, products]);
 
-  const byService = SERVICES.map((s, i) => ({ label: s.name, value: appointments.filter((a) => a.service === s.name && a.status !== 'Cancelled').length, color: chartColor(i) }));
-  const byOrderStatus = ORDER_STATUSES.map((s) => ({ label: s, value: orders.filter((o) => o.status === s).length }));
+  const byService = SERVICES.map((s, i) => ({ label: t(s.name) !== s.name ? t(s.name) : s.name, value: appointments.filter((a) => a.service === s.name && a.status !== 'Cancelled').length, color: chartColor(i) }));
+  const byOrderStatus = ORDER_STATUSES.map((s) => ({ label: t(s), value: orders.filter((o) => o.status === s).length }));
   const posSummary = api.pos.posRevenueSummary();
 
   const exportCsv = () => {
@@ -96,7 +96,7 @@ export default function Reports() {
       <div className="grid-2">
         <div className="card">
           <div className="card-head"><h3>{t('Revenue by month')}</h3><span className="muted">{t('INR, sample data')}</span></div>
-          <BarChart data={series} xKey="month" stacked series={[{ key: 'products', label: 'Product sales', color: '#d1bcf2' }, { key: 'appointments', label: 'Appointments', color: '#4a1c8f' }]} />
+          <BarChart data={series} xKey="month" stacked series={[{ key: 'products', label: t('Product sales'), color: '#c9a24b' }, { key: 'appointments', label: t('Appointments'), color: '#4a1c8f' }]} />
         </div>
         <div className="card">
           <div className="card-head"><h3>{t('Product sales chart')}</h3><span className="muted">{t('Revenue by product')}</span></div>

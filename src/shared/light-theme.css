@@ -374,7 +374,7 @@ div:has(> .marquee) i { background: var(--lt-deep) !important; }
 .vt-header .vt-admin,
 .vt-header .vt-profile { border-color: rgba(154, 116, 36, .55) !important; }
 .vt-header .vt-bag svg, .vt-header .vt-profile svg, .vt-header .vt-lang { stroke: currentColor; }
-.vt-header .vt-nav a:hover { color: #7a5a1c !important; }
+.vt-header .vt-nav a:hover { color: #4f1e99 !important; }
 
 
 /* ═══════════ Round 3: landing navbar (gold, no overlap, same spacing in every language), strips, no gap under navbar ═══════════ */
@@ -391,7 +391,7 @@ html:not(#a) body .header .nav-profile-name,
 html:not(#a) body .header .bag-button { color: #9a7424 !important; }
 html:not(#a) body .header .nav-tools select,
 html:not(#a) body .header .nav-profile { border-color: rgba(154, 116, 36, .55) !important; }
-html:not(#a) body .header nav a:hover { color: #7a5a1c !important; }
+html:not(#a) body .header nav a:hover { color: #4f1e99 !important; }
 .bag-button span, .vt-bag span { color: #6b4e12 !important; }
 
 /* 2) Running strips: gold band with dark gold-brown text (no violet) */

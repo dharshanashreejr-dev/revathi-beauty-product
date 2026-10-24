@@ -16,7 +16,7 @@ const blank = { name: '', email: '', phone: '', role: STAFF_ROLES[1], availabili
 
 export default function Staff({ intent, onIntentHandled }) {
   const { staff, setStaff, appointments, setAppointments, notify, user, addAudit } = useStore();
-  const { t } = useT();
+  const { t, lang } = useT();
   const [q, setQ] = useState('');
   const [role, setRole] = useState('All');
   const [avail, setAvail] = useState('All');
@@ -114,8 +114,8 @@ export default function Staff({ intent, onIntentHandled }) {
 
       <div className="filters">
         <div className="search-box"><Search size={17} /><input value={q} onChange={(e) => setQ(e.target.value)} placeholder={t('Search name, email or bay')} /></div>
-        <select value={role} onChange={(e) => setRole(e.target.value)}><option value="All">{t('All roles')}</option>{STAFF_ROLES.map((r) => <option key={r}>{r}</option>)}</select>
-        <select value={avail} onChange={(e) => setAvail(e.target.value)}><option value="All">{t('All availability')}</option>{AVAILABILITY.map((a) => <option key={a}>{a}</option>)}</select>
+        <select value={role} onChange={(e) => setRole(e.target.value)}><option value="All">{t('All roles')}</option>{STAFF_ROLES.map((r) => <option key={r} value={r}>{t(r)}</option>)}</select>
+        <select value={avail} onChange={(e) => setAvail(e.target.value)}><option value="All">{t('All availability')}</option>{AVAILABILITY.map((a) => <option key={a} value={a}>{t(a)}</option>)}</select>
         {user?.role === 'Staff' && (
           <label style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
             <input type="checkbox" checked={myShiftOnly} onChange={(e) => setMyShiftOnly(e.target.checked)} />
@@ -149,10 +149,10 @@ export default function Staff({ intent, onIntentHandled }) {
                     </div>
                   </div>
                 </td>
-                <td>{s.role}</td>
+                <td>{t(s.role)}</td>
                 <td><MapPin size={13} style={{ verticalAlign: 'middle' }} /> {s.workstationBay || '—'}</td>
                 <td><Clock size={13} style={{ verticalAlign: 'middle' }} /> {s.shiftHours || '—'}</td>
-                <td><Badge>{s.availability}</Badge></td>
+                <td><Badge>{t(s.availability)}</Badge></td>
                 <td style={{ fontSize: 12 }}>{(s.permissions || []).join(', ') || '—'}</td>
                 <td>
                   <button className="icon-btn" onClick={() => setViewId(s.id)} title={t('View')}><Eye size={16} /></button>
@@ -178,12 +178,12 @@ export default function Staff({ intent, onIntentHandled }) {
                 <dt>{t('Experience')}</dt><dd>{viewing.experience}</dd>
                 <dt>{t('Bay')}</dt><dd>{viewing.workstationBay || '—'}</dd>
                 <dt>{t('Shift')}</dt><dd>{viewing.shiftHours || '—'}</dd>
-                <dt>{t('Permissions')}</dt><dd>{(viewing.permissions || []).join(', ') || '—'}</dd>
+                <dt>{t('Permissions')}</dt><dd>{(viewing.permissions || []).map((p) => t(p)).join(', ') || '—'}</dd>
                 <dt>{t('Bio')}</dt><dd>{viewing.bio || '—'}</dd>
               </dl>
               <Field label={t('Availability')}>
                 <select value={viewing.availability} onChange={(e) => setAvailability(viewing, e.target.value)}>
-                  {AVAILABILITY.map((a) => <option key={a}>{a}</option>)}
+                  {AVAILABILITY.map((a) => <option key={a} value={a}>{t(a)}</option>)}
                 </select>
               </Field>
             </div>
@@ -220,11 +220,11 @@ export default function Staff({ intent, onIntentHandled }) {
             <Field label={t('Full name')} error={errors.name}><input value={form.data.name} onChange={(e) => set('name', e.target.value)} /></Field>
             <Field label={t('Email')} error={errors.email}><input value={form.data.email} onChange={(e) => set('email', e.target.value)} /></Field>
             <Field label={t('Phone')} error={errors.phone}><input value={form.data.phone} onChange={(e) => set('phone', e.target.value)} /></Field>
-            <Field label={t('Role')}><select value={form.data.role} onChange={(e) => set('role', e.target.value)}>{STAFF_ROLES.map((r) => <option key={r}>{r}</option>)}</select></Field>
+            <Field label={t('Role')}><select value={form.data.role} onChange={(e) => set('role', e.target.value)}>{STAFF_ROLES.map((r) => <option key={r} value={r}>{t(r)}</option>)}</select></Field>
             <Field label={t('Workstation bay')}><input value={form.data.workstationBay || ''} onChange={(e) => set('workstationBay', e.target.value)} placeholder="Bay-A1 / Front-Desk" /></Field>
             <Field label={t('Shift hours')}><input value={form.data.shiftHours || ''} onChange={(e) => set('shiftHours', e.target.value)} placeholder="09:00-18:00" /></Field>
             <Field label={t('Experience')}><input value={form.data.experience} onChange={(e) => set('experience', e.target.value)} /></Field>
-            <Field label={t('Availability')}><select value={form.data.availability} onChange={(e) => set('availability', e.target.value)}>{AVAILABILITY.map((a) => <option key={a}>{a}</option>)}</select></Field>
+            <Field label={t('Availability')}><select value={form.data.availability} onChange={(e) => set('availability', e.target.value)}>{AVAILABILITY.map((a) => <option key={a} value={a}>{t(a)}</option>)}</select></Field>
           </div>
           <div className="form-grid">
             <Field label={t('Login username')} error={errors.username}><input autoComplete="off" value={form.data.username || ''} onChange={(e) => set('username', e.target.value)} placeholder="e.g. priya.staff" /></Field>
