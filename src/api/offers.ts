@@ -18,14 +18,14 @@ export interface Campaign { id: string; name: string; pct: number; code: string;
 export type CouponRule = 'first-order' | 'first-service' | 'booked-no-order'
 export interface Coupon { id: string; code: string; type: 'percent' | 'freeship'; value: number; rule: CouponRule; title: string; desc: string; minOrder: number; maxUses: number; used: number; scope: Scope; start: string; end: string; active: boolean }
 export interface Bundle { id: string; name: string; service: string; product: string; price: number; start: string; end: string; active: boolean }
-interface Data { campaigns: Campaign[]; coupons: Coupon[]; bundles: Bundle[] }
+interface Data { campaigns: Campaign[]; coupons: Coupon[]; bundles: Bundle[]; removedCampaigns?: string[] }
 
-const OK = 'rhbc:offers'
+const OK = 'rhbc:offers-v3'
 const seed: Data = {
   // Each campaign has its own banner, title, description and discount (all editable in Admin > Festival & Offers).
   campaigns: [
-    { id: 'cmp-1', name: 'Deepavali Glow Offer', title: 'Festive season sale on herbal care', description: 'Hair oils, soaps, face creams and gift sets at festival prices. Free delivery above ₹1,999.', banner: '/assets/hero/hb-festive.jpg', pct: 15, code: 'DEEPAVALI15', scope: 'both', start: '2026-11-01', end: '2026-11-14', active: true, used: 0, smsSent: 0 },
-    { id: 'cmp-2', name: 'Pongal Special', title: 'Herbal lipstick gift boxes for the season', description: 'Six herbal shades in one box. A lovely gift for family and friends.', banner: '/assets/hero/hb-seasonal.jpg', pct: 20, code: 'PONGAL20', scope: 'both', start: '2027-01-12', end: '2027-01-18', active: true, used: 0, smsSent: 0 },
+    { id: 'cmp-1', name: 'Deepavali Glow Offer', title: 'Festive season sale on herbal care', description: 'Hair oils, soaps, face creams and gift sets at festival prices. Free delivery above ₹1,999.', banner: '/assets/hero/hb-festive.jpg', pct: 15, code: 'DEEPAVALI15', scope: 'both', start: '2026-10-01', end: '2026-11-14', active: true, used: 0, smsSent: 0 },
+    { id: 'cmp-2', name: 'Pongal Special', title: 'Herbal lipstick gift boxes for the season', description: 'Six herbal shades in one box. A lovely gift for family and friends.', banner: '/assets/hero/hb-seasonal.jpg', pct: 20, code: 'PONGAL20', scope: 'both', start: '2026-10-01', end: '2027-01-18', active: true, used: 0, smsSent: 0 },
     { id: 'cmp-3', name: 'Spa & Facial Packages', title: 'Facials, bridal and spa packages', description: 'Pick a package from our service brochure and book your slot online. Weekday spa offers.', banner: '/assets/hero/hb-service.jpg', pct: 10, code: 'SPA10', scope: 'services', start: '2026-10-01', end: '2026-12-31', active: true, used: 0, smsSent: 0 },
     { id: 'cmp-4', name: 'Daily Combo Deals', title: 'New offers every day', description: 'First order discount, combo deals and free delivery. Buy 2 and save 10%.', banner: '/assets/hero/hb-combo.jpg', pct: 10, code: 'COMBO10', scope: 'products', start: '2026-10-01', end: '2026-12-31', active: true, used: 0, smsSent: 0 },
   ],
@@ -48,12 +48,36 @@ const load = (): Data => {
     const o = st.coupons?.find((x) => x.id === c.id)
     return o ? { ...c, code: o.code, value: c.type === 'percent' ? o.value : c.value, maxUses: o.maxUses, used: o.used, start: o.start, end: o.end, active: o.active } : c
   })
-  // Campaigns saved by older versions had no banner / title / description: fill them in from the built-in offers.
-  const campaigns = (st.campaigns ?? seed.campaigns).map((c) => {
-    const d = seed.campaigns.find((x) => x.id === c.id)
-    return d ? { ...c, title: c.title ?? d.title, description: c.description ?? d.description, banner: c.banner ?? d.banner } : c
+  // Always keep all 4 built-in campaigns (merge saved overrides). Older storage often had only 2.
+  const byId = new Map((st.campaigns || []).map((c) => [c.id, c]))
+  const removedCampaigns = st.removedCampaigns || []
+  const campaigns = seed.campaigns.filter((d) => !removedCampaigns.includes(d.id)).map((d) => {
+    const c = byId.get(d.id)
+    if (!c) return { ...d }
+    return {
+      ...d,
+      ...c,
+      title: c.title || d.title,
+      description: c.description || d.description,
+      // banner === '' means the admin removed it: keep it empty (only a never-saved banner falls back to the default)
+      banner: c.banner !== undefined ? c.banner : d.banner,
+      name: c.name || d.name,
+      code: c.code || d.code,
+      pct: c.pct ?? d.pct,
+      scope: c.scope || d.scope,
+      start: c.start || d.start,
+      end: c.end || d.end,
+      active: c.active !== undefined ? c.active : d.active,
+      used: c.used ?? d.used,
+      smsSent: c.smsSent ?? d.smsSent,
+    }
   })
-  return { campaigns, coupons, bundles: st.bundles ?? seed.bundles }
+  // Keep any extra custom campaigns admin created (not in seed)
+  const seedIds = new Set(seed.campaigns.map((x) => x.id))
+  for (const c of st.campaigns || []) {
+    if (!seedIds.has(c.id)) campaigns.push(c)
+  }
+  return { campaigns, coupons, bundles: st.bundles ?? seed.bundles, removedCampaigns }
 }
 /** Returns false when the browser storage is full (big banner images), so the admin page can warn. */
 const setItem = (k: string, v: unknown): boolean => { try { localStorage.setItem(k, JSON.stringify(v)); return true } catch { return false } }
@@ -77,7 +101,7 @@ export const saveCoupon = (c: Coupon) => { const d = load(); save({ ...d, coupon
 export const saveBundle = (b: Bundle) => { const d = load(); save({ ...d, bundles: upsert(d.bundles, b) }) }
 export const removeOffer = (kind: 'campaign' | 'coupon' | 'bundle', id: string) => {
   const d = load()
-  save(kind === 'campaign' ? { ...d, campaigns: d.campaigns.filter((x) => x.id !== id) } : kind === 'coupon' ? { ...d, coupons: d.coupons.filter((x) => x.id !== id) } : { ...d, bundles: d.bundles.filter((x) => x.id !== id) })
+  save(kind === 'campaign' ? { ...d, campaigns: d.campaigns.filter((x) => x.id !== id), removedCampaigns: [...(d.removedCampaigns || []), id] } : kind === 'coupon' ? { ...d, coupons: d.coupons.filter((x) => x.id !== id) } : { ...d, bundles: d.bundles.filter((x) => x.id !== id) })
 }
 export const markSmsSent = (id: string, n: number) => { const d = load(); save({ ...d, campaigns: d.campaigns.map((c) => (c.id === id ? { ...c, smsSent: c.smsSent + n } : c)) }) }
 
@@ -175,7 +199,10 @@ export function galleryItems(): GalleryItem[] {
   const g = loadG(), d = load()
   const items: GalleryItem[] = []
   d.campaigns.forEach((c) => {
-    if (c.banner) items.push({ id: CAMP_PREFIX + c.id, kind: 'festive', title: c.title || c.name, image: c.banner, badge: `${c.pct}% OFF`, source: 'campaign' })
+    // Paused / expired / scheduled campaigns must not appear on the website (or hover previews)
+    if (c.banner && statusOf(c) === 'Active') {
+      items.push({ id: CAMP_PREFIX + c.id, kind: 'festive', title: c.title || c.name, image: c.banner, badge: `${c.pct}% OFF`, source: 'campaign' })
+    }
   })
   heroSlides.forEach((s) => {
     if (!g.removed.includes(s.id)) items.push({ id: s.id, kind: s.id, title: s.title.en, image: g.replaced[s.id] || s.image, badge: s.badge.en, source: 'default' })
@@ -225,7 +252,10 @@ export function liveHeroSlides(): HeroSlide[] {
   const camps = d.campaigns
     .filter((c) => c.banner && statusOf(c) === 'Active')
     .map((c) => mk(CAMP_PREFIX + c.id, c.banner as string, c.title || c.name, `${c.pct}% OFF`, c.description || '', 'Festive offer'))
-  const base = camps.length ? [] : heroSlides.filter((s) => !g.removed.includes(s.id)).map((s) => (g.replaced[s.id] ? { ...s, image: g.replaced[s.id] } : s))
+  // The built-in slides are the same pictures as the 4 campaigns, so campaigns (Active only) replace them.
+  // Paused / scheduled / expired / deleted campaigns must never come back through the defaults (and their hover text).
+  const fallback: HeroSlide[] = camps.length || g.added.length ? [] : [mk('default-banner', '/assets/banners/pb-best-sellers.webp', 'Revathi Herbal Beauty Care', '', '', 'daily')]
+  const base = fallback
   const extra = g.added.map((a) => mk(a.id, a.image, a.title, '', '', a.kind))
   return [...camps, ...base, ...extra]
 }

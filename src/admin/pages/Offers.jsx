@@ -18,6 +18,20 @@ import { useT } from '../i18n.js';
 //  - Promotional Engines: coupon rules, Service + Product bundles, start and expiry dates (status follows the dates)
 // The customer shop already accepts these codes at the payment step (src/products/components/Payment.tsx).
 // BACKEND: api/offers.ts becomes REST endpoints; dates drive a scheduler that activates / expires each offer.
+
+const HERO_BANNER = {
+  'cmp-1': '/assets/hero/hb-festive.jpg',
+  'cmp-2': '/assets/hero/hb-seasonal.jpg',
+  'cmp-3': '/assets/hero/hb-service.jpg',
+  'cmp-4': '/assets/hero/hb-combo.jpg',
+  DEEPAVALI15: '/assets/hero/hb-festive.jpg',
+  PONGAL20: '/assets/hero/hb-seasonal.jpg',
+  SPA10: '/assets/hero/hb-service.jpg',
+  COMBO10: '/assets/hero/hb-combo.jpg',
+};
+// banner === '' means the admin removed it, so show nothing (only a campaign that never had a banner field gets the default).
+const campaignBanner = (o) => (o.banner === '' ? '' : (o.banner && String(o.banner).trim()) || HERO_BANNER[o.id] || HERO_BANNER[o.code] || '');
+
 const PRESETS = ['Pongal Special', 'Deepavali Glow Offer', 'New Year Bundles', 'Custom festival'];
 const SCOPES = [['both', 'Products and services'], ['products', 'Products only'], ['services', 'Services only']];
 const TONE = { Active: 'green', Scheduled: 'blue', Expired: 'red', Paused: 'sand' };
@@ -45,13 +59,17 @@ export default function Offers() {
   const actor = user?.name || 'Admin';
   const audit = (summary) => api.audit.log(actor, user?.role || 'Admin', 'offer.updated', summary);
 
-  const open = (type, row) => setForm({
-    type,
-    errors: {},
-    data: row
+  const open = (type, row) => {
+    let data = row
       ? { ...row, pct: String(row.pct ?? ''), value: String(row.value ?? ''), minOrder: String(row.minOrder ?? ''), maxUses: row.maxUses ? String(row.maxUses) : '', price: String(row.price ?? '') }
-      : blank[type]()
-  });
+      : blank[type]();
+    // Only prefill hero banner when this campaign never had a banner field (first-time default).
+    // If admin removed it (banner === ''), keep it empty.
+    if (type === 'campaign') {
+      data = { ...data, banner: campaignBanner(data) };
+    }
+    setForm({ type, errors: {}, data });
+  };
   const set = (k, v) => setForm((f) => ({ ...f, errors: { ...f.errors, [k]: undefined }, data: { ...f.data, [k]: v } }));
 
   const validate = (type, d) => {
@@ -148,7 +166,12 @@ export default function Offers() {
     campaigns: [
       { key: 'name', label: t('Campaign'), render: (o) => (
         <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
-          {o.banner ? <img src={o.banner} alt="" style={{ width: 64, height: 36, objectFit: 'cover', borderRadius: 6, flex: 'none' }} /> : null}
+          {api.offers.statusOf(o) === 'Paused'
+            ? <span style={{ width: 72, height: 48, borderRadius: 8, flex: 'none', background: '#f0eef5', border: '1px dashed #d0c8e0', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontSize: 10, color: '#8a7aa8' }} title={t('Paused — banner hidden on website')}>{t('Paused')}</span>
+            : !campaignBanner(o)
+              ? <span style={{ width: 72, height: 48, borderRadius: 8, flex: 'none', background: '#f0eef5', border: '1px dashed #d0c8e0', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontSize: 10, color: '#8a7aa8' }}>{t('No banner')}</span>
+              : <img src={campaignBanner(o)} alt="" title={o.title || o.name} style={{ width: 72, height: 48, objectFit: 'cover', borderRadius: 8, flex: 'none', background: '#ddd2fb', border: '1px solid #e8dff8' }} onError={(e) => { e.currentTarget.style.display = 'none'; }} />
+          }
           <div><strong>{o.title || o.name}</strong>{o.title && o.title !== o.name ? <span className="muted block">{o.name}</span> : null}{o.description ? <span className="muted block" style={{ whiteSpace: 'normal', maxWidth: 320 }}>{o.description}</span> : null}<span className="muted block">{t('Code')}: {o.code}</span></div>
         </div>
       ) },
@@ -223,7 +246,14 @@ export default function Offers() {
                 </Field>
               </div>
               <div style={{ gridColumn: '1 / -1' }}>
-                <BannerPicker t={t} value={d.banner} onChange={(img) => set('banner', img)} notify={notify} />
+                <BannerPicker t={t} value={d.banner} onChange={(img) => {
+                  set('banner', img);
+                  // Persist remove/replace immediately for existing campaigns so list updates without confusion
+                  if (d.id && form.type === 'campaign') {
+                    const ok = api.offers.saveCampaign({ ...d, banner: img || '', pct: Number(d.pct) || 0, name: d.name, code: d.code, scope: d.scope, start: d.start, end: d.end, active: d.active, title: d.title, description: d.description, used: d.used || 0, smsSent: d.smsSent || 0, id: d.id });
+                    if (ok) re();
+                  }
+                }} notify={notify} />
               </div>
             </>)}
             {form.type === 'coupon' && (<>
@@ -286,18 +316,19 @@ function BannerPicker({ t, value, onChange, notify }) {
     if (!f) return;
     try { onChange(await readImage(f)); } catch { notify('Please choose a valid image file.', 'error'); }
   };
+  const has = !!(value && String(value).trim());
   return (
     <div className="field">
       <span className="field-label">{t('Offer banner')}</span>
-      {value
-        ? <img src={value} alt="" style={{ width: '100%', maxHeight: 180, objectFit: 'cover', borderRadius: 10, background: '#ddd2fb' }} />
-        : <div className="muted" style={{ padding: 18, border: '1px dashed #ddd2fb', borderRadius: 10, textAlign: 'center' }}>{t('No banner yet. Upload one to show this offer on the website home banner.')}</div>}
+      {has
+        ? <img src={value} alt="" style={{ width: '100%', maxHeight: 220, objectFit: 'cover', borderRadius: 12, background: '#ddd2fb', border: '1px solid #e0d4f5', display: 'block' }} onError={(e) => { e.currentTarget.style.display = 'none'; }} />
+        : <div className="muted" style={{ padding: 28, border: '1px dashed #ddd2fb', borderRadius: 12, textAlign: 'center', background: '#faf8ff' }}>{t('No banner. Upload one to show this offer on the website home banner.')}</div>}
       <div style={{ display: 'flex', gap: 8, marginTop: 8, flexWrap: 'wrap' }}>
         <label className="btn btn-ghost" style={{ cursor: 'pointer' }}>
-          {value ? <RefreshCw size={16} /> : <ImagePlus size={16} />}{value ? t('Replace banner') : t('Upload banner')}
+          {has ? <RefreshCw size={16} /> : <ImagePlus size={16} />}{has ? t('Replace banner') : t('Upload banner')}
           <input type="file" accept="image/*" onChange={choose} style={{ display: 'none' }} />
         </label>
-        {value && <button type="button" className="btn btn-ghost" onClick={() => onChange('')}><Trash2 size={16} />{t('Remove banner')}</button>}
+        {has && <button type="button" className="btn btn-ghost" onClick={() => onChange('')}><Trash2 size={16} />{t('Remove banner')}</button>}
       </div>
       <span className="field-hint">{t('Best size 1920 x 823 pixels. The banner shows on the website only while the campaign is Active.')}</span>
     </div>

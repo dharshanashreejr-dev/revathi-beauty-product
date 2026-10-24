@@ -1,3 +1,4 @@
+
 import { CheckCircle2, AlertTriangle, Info } from 'lucide-react';
 import { useStore } from '../store.jsx';
 import { useT } from '../i18n.js';
