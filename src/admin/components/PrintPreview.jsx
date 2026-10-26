@@ -17,7 +17,7 @@ export default function PrintPreview({ title, subtitle, html, onPrint, onClose }
   return (
     <Modal wide title={title} subtitle={subtitle} onClose={onClose}
       footer={<><button className="btn btn-ghost" onClick={onClose}>{t('Close')}</button><button className="btn btn-primary" onClick={print}><Printer size={16} />{t('Print')}</button></>}>
-      <iframe ref={ref} title={title} srcDoc={html} style={{ width: '100%', height: '60vh', border: '1px solid var(--line)', borderRadius: 10, background: '#ddd2fb' }} />
+      <iframe ref={ref} title={title} srcDoc={html} style={{ width: '100%', height: '60vh', border: '1px solid var(--line)', borderRadius: 10, background: '#eadde0' }} />
       <p className="muted" style={{ fontSize: 12.5, marginTop: 8 }}>{t('In the print window choose your printer. For the cleanest slip turn off "Headers and footers" and set Margins to None.')}</p>
     </Modal>
   );

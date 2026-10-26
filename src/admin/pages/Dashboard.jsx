@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import {
-  ShoppingBag, CalendarDays, Users, IndianRupee, AlertTriangle, UserCheck, Plus, CalendarPlus, PackageSearch, ArrowRight
+  LayoutDashboard, ShoppingBag, CalendarDays, Users, IndianRupee, AlertTriangle, UserCheck, Plus, CalendarPlus, PackageSearch, ArrowRight
 } from 'lucide-react';
 import { useStore } from '../store.jsx';
 import {
@@ -13,8 +13,6 @@ import StatCard from '../components/StatCard.jsx';
 import Badge from '../components/Badge.jsx';
 import Avatar from '../components/Avatar.jsx';
 import { AreaChart, Donut, HBars } from '../components/Charts.jsx';
-import DitherVeil from '../reactbits/DitherVeil.jsx';
-import SafeEffect from '../components/SafeEffect.jsx';
 import { useT } from '../i18n.js';
 import * as att from '../../api/attendance';
 import { pname } from '../../products/i18n-names';
@@ -81,20 +79,23 @@ export default function Dashboard({ user, onNavigate }) {
           </div>
         </div>
         <div className="banner-art" aria-hidden="true">
-          <SafeEffect fallback={<img className="banner-fallback" src="/hero.svg" alt="" />}>
-          <DitherVeil
-            src="/hero.svg"
-            fit="cover"
-            pattern="floyd"
-            pixelSize={2}
-            inkColor="#4a1c8f"
-            paperColor="#f3eefc"
-            revealRadius={150}
-            softness={0.7}
-            linger={1.2}
-            wander
-          />
-          </SafeEffect>
+          <div className="mini-dash">
+            <div className="mini-side">
+              <LayoutDashboard size={22} />
+              <i /><i /><i />
+            </div>
+            <div className="mini-main">
+              <div className="mini-card">
+                <span>{lang === 'ta' ? 'இன்றைய முன்பதிவுகள்' : "Today's bookings"}</span>
+                <strong>{todays.length}</strong>
+              </div>
+              <div className="mini-tiles">
+                <div className="t1"><span>{t('Customers')}</span><b>{customers.length}</b></div>
+                <div className="t2"><span>{t('Present today')}</span><b>{presentToday}</b></div>
+                <div className="t3"><span>{t('Appointments')}</span><b>{appointments.length}</b></div>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 

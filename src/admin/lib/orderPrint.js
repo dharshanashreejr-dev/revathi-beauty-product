@@ -115,9 +115,9 @@ const CSS = `
 @page bill { size: A5; margin: 0 }
 *{box-sizing:border-box}
 body{margin:0;font-family:Arial,Helvetica,sans-serif;color:#000;background:#e9e9e9}
-.pg{background:#f7f4fd;margin:12px auto;overflow:hidden;page-break-after:always;break-after:page}
+.pg{background:#ffffff;margin:12px auto;overflow:hidden;page-break-after:always;break-after:page}
 .pg:last-child{page-break-after:auto;break-after:auto}
-@media print{body{background:#f7f4fd}.pg{margin:0}}
+@media print{body{background:#ffffff}.pg{margin:0}}
 .sm{font-size:7.5pt;color:#333}
 .lb{font-size:6.5pt;font-weight:700;letter-spacing:1px;color:#444;margin-bottom:.8mm}
 .row{display:flex;justify-content:space-between;align-items:center;gap:3mm}

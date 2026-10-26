@@ -251,7 +251,7 @@ export default function Appointments({ intent, onIntentHandled }) {
             <div className="week-grid" style={{ display: 'grid', gridTemplateColumns: '80px repeat(7, 1fr)', gap: 4, overflowX: 'auto' }}>
               <div />
               {weekDays.map((d) => (
-                <div key={d} style={{ textAlign: 'center', fontWeight: 600, padding: 6, background: d === TODAY ? 'var(--primary-soft, #f5f1fc)' : 'transparent', borderRadius: 6 }}>
+                <div key={d} style={{ textAlign: 'center', fontWeight: 600, padding: 6, background: d === TODAY ? 'var(--cream)' : 'transparent', borderRadius: 6 }}>
                   {dayLabel(d, lang)}
                   <div className="muted" style={{ fontSize: 12 }}>{appointments.filter((a) => a.date === d && a.status !== 'Cancelled').length} appts</div>
                 </div>
@@ -262,8 +262,8 @@ export default function Appointments({ intent, onIntentHandled }) {
                   {weekDays.map((d) => {
                     const items = appointments.filter((a) => a.date === d && a.time === slot && a.status !== 'Cancelled' && a.status !== 'No-Show');
                     return (
-                      <div key={`${d}-${slot}`} style={{ minHeight: 36, border: '1px solid var(--border, #eee)', borderRadius: 4, padding: 2, cursor: 'pointer' }} onClick={() => items.length ? setOpenId(items[0].id) : openAdd(slot, d)}>
-                        {items.map((a) => <div key={a.id} style={{ fontSize: 11, background: 'var(--primary-soft, #f5f1fc)', borderRadius: 3, padding: '1px 4px', marginBottom: 1 }}>{a.customer.split(' ')[0]}</div>)}
+                      <div key={`${d}-${slot}`} style={{ minHeight: 36, border: '1px solid var(--line)', borderRadius: 4, padding: 2, cursor: 'pointer' }} onClick={() => items.length ? setOpenId(items[0].id) : openAdd(slot, d)}>
+                        {items.map((a) => <div key={a.id} style={{ fontSize: 11, background: 'var(--cream)', borderRadius: 3, padding: '1px 4px', marginBottom: 1 }}>{a.customer.split(' ')[0]}</div>)}
                       </div>
                     );
                   })}
@@ -280,7 +280,7 @@ export default function Appointments({ intent, onIntentHandled }) {
                 const count = appointments.filter((a) => a.date === iso && a.status !== 'Cancelled').length;
                 return (
                   <button key={iso} type="button" onClick={() => { setDate(iso); setViewMode('daily'); }}
-                    style={{ minHeight: 64, border: '1px solid var(--border, #eee)', borderRadius: 6, padding: 6, textAlign: 'left', background: iso === TODAY ? 'var(--primary-soft, #ddd2fb)' : iso === date ? '#ddd2fb' : 'white' }}>
+                    style={{ minHeight: 64, border: '1px solid var(--line)', borderRadius: 6, padding: 6, textAlign: 'left', background: iso === TODAY ? 'var(--cream)' : iso === date ? '#f0cdd4' : '#fff' }}>
                     <strong>{Number(iso.slice(8))}</strong>
                     {count > 0 && <div className="muted" style={{ fontSize: 12 }}>{count} booking{count > 1 ? 's' : ''}</div>}
                   </button>

@@ -9,12 +9,12 @@ export const PRODUCT_STATUSES = ['Active', 'Draft', 'Out of Stock'];
 export const LOW_STOCK = 10;
 
 const palette = [
-  ['#e8c9c1', '#c98f84'],
-  ['#f0e9fb', '#b694eb'],
-  ['#efe2cf', '#c9a24a'],
-  ['#e2d6e0', '#9a7a95'],
-  ['#d6e4e3', '#6f9694'],
-  ['#f1d9cf', '#c27a63']
+  ['#f5e2e6', '#b76e79'],
+  ['#f8ebee', '#963f55'],
+  ['#f0cdd4', '#96545f'],
+  ['#eadde0', '#75666b'],
+  ['#fbe3e5', '#c98f98'],
+  ['#f3d5da', '#a8586a']
 ];
 
 export const swatch = (i) => palette[i % palette.length];

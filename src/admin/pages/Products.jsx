@@ -28,7 +28,7 @@ const realStock = (p) => api.stock.stockOverride(p.id) ?? p.baseStock ?? p.stock
 const isUpload = (art) => typeof art === 'string' && art.startsWith('data:');
 
 function Thumb({ p, size = 48 }) {
-  return <img src={photoFor(p.art, p.colours?.[0]?.name, p.colours?.[0]?.photo)} alt={p.name} width={size} height={size} loading="lazy" style={{ width: size, height: size, borderRadius: 12, objectFit: 'cover', background: '#ddd2fb', flex: 'none' }} onError={(e) => { e.currentTarget.style.visibility = 'hidden'; }} />;
+  return <img src={photoFor(p.art, p.colours?.[0]?.name, p.colours?.[0]?.photo)} alt={p.name} width={size} height={size} loading="lazy" style={{ width: size, height: size, borderRadius: 12, objectFit: 'cover', background: '#eadde0', flex: 'none' }} onError={(e) => { e.currentTarget.style.visibility = 'hidden'; }} />;
 }
 
 export default function Products({ intent, onIntentHandled }) {

@@ -191,7 +191,7 @@ export default function Staff({ intent, onIntentHandled }) {
               <h4 className="mini-title">{t('Assigned appointments')}</h4>
               <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
                 {assigned(viewing.id).slice(0, 8).map((a) => (
-                  <li key={a.id} style={{ padding: '6px 0', borderBottom: '1px solid var(--border,#eee)' }}>
+                  <li key={a.id} style={{ padding: '6px 0', borderBottom: '1px solid var(--line)' }}>
                     <strong>{a.service}</strong> · {fmtDate(a.date)} {a.time} · <Badge>{a.status}</Badge>
                   </li>
                 ))}

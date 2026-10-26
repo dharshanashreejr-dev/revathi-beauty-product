@@ -37,7 +37,7 @@ function validate(x, isPkg, services) {
 }
 
 const Stat = ({ label, value, strong }) => (
-  <div style={{ background: 'rgba(0,0,0,.035)', borderRadius: 10, padding: '8px 10px', minWidth: 0 }}>
+  <div style={{ background: 'rgba(150,63,85,.06)', borderRadius: 10, padding: '8px 10px', minWidth: 0 }}>
     <span className="muted" style={{ display: 'block', fontSize: 11.5, marginBottom: 2 }}>{label}</span>
     <span style={{ fontSize: 14.5, fontWeight: strong ? 700 : 600, overflowWrap: 'anywhere' }}>{value}</span>
   </div>
@@ -79,7 +79,7 @@ function ItemCard({ x, isPkg, t, onEdit, onDelete, onToggle }) {
         : <Block label={t('Description')}>{x.desc ? t(x.desc) : <span className="muted">-</span>}</Block>}
       <Block label={t('Pre-service care instructions')}>{x.care ? t(x.care) : <span className="muted">{t('None added')}</span>}</Block>
 
-      <div style={{ display: 'flex', gap: 6, marginTop: 'auto', paddingTop: 12, borderTop: '1px solid rgba(0,0,0,.08)', alignItems: 'center' }}>
+      <div style={{ display: 'flex', gap: 6, marginTop: 'auto', paddingTop: 12, borderTop: '1px solid var(--line)', alignItems: 'center' }}>
         {!isPkg && <button className="btn btn-ghost small" onClick={onToggle}>{x.active ? <EyeOff size={15} /> : <Eye size={15} />}{x.active ? t('Hide') : t('Show')}</button>}
         <span style={{ flex: 1 }} />
         <button className="icon-btn" onClick={onEdit} aria-label={`${t('Edit')} ${x.name}`} title={t('Edit')}><Pencil size={16} /></button>
@@ -196,7 +196,7 @@ export default function ServicesPricing() {
           {cfg.services.map((s) => (
             <ItemCard key={s.id} x={s} t={t} onEdit={() => openService(s)} onDelete={() => setToDelete(s)} onToggle={() => toggleActive(s)} />
           ))}
-          <button type="button" onClick={() => openService()} className="card" style={{ boxShadow: 'none', border: '2px dashed rgba(0,0,0,.18)', background: 'transparent', cursor: 'pointer', minHeight: 160, display: 'flex', flexDirection: 'column', gap: 8, alignItems: 'center', justifyContent: 'center' }}>
+          <button type="button" onClick={() => openService()} className="card" style={{ boxShadow: 'none', border: '2px dashed var(--rose)', background: 'transparent', cursor: 'pointer', minHeight: 160, display: 'flex', flexDirection: 'column', gap: 8, alignItems: 'center', justifyContent: 'center' }}>
             <Sparkles size={22} /><strong>{t('Add service')}</strong>
           </button>
         </div>
