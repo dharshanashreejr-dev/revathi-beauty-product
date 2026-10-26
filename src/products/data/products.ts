@@ -1,22 +1,19 @@
 import type { ArtType, CategoryKey, Colour, Product } from '../types';
 import { stockOverride, getThreshold, adjustStock } from '../../api/stock';
 
-export const CATEGORIES: { name: CategoryKey; video: string; blurb: string; subs: string[] }[] = [
+export const CATEGORIES: { name: CategoryKey; blurb: string; subs: string[] }[] = [
   {
     name: 'face',
-    video: 'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260518_203023_87a26602-2898-4acc-a396-c7a2b5ad84fd.mp4',
     blurb: 'A complete face edit, from everyday cleansing and SPF to treatment serums, eye care and lip colour.',
     subs: ['Cleansers', 'Toners & Essences', 'Serums', 'Moisturisers', 'Sunscreen', 'Exfoliators', 'Masks', 'Eye Care', 'Lip Care', 'Lipstick', 'Lip Gloss', 'Makeup', 'Mascara', 'Acne Care'],
   },
   {
     name: 'wellness products',
-    video: 'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260518_203415_b86e3f19-2aec-46cd-9a86-b64c40118e38.mp4',
     blurb: 'Wellness rituals for slower mornings, deeper rest and everyday balance—without the old beauty-tool collection.',
     subs: ['Aromatherapy', 'Bath Rituals', 'Candles', 'Sleep & Relaxation', 'Body Recovery', 'Hydration', 'Mindfulness', 'Supplements'],
   },
   {
     name: 'body',
-    video: 'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260518_203051_85fee398-ea01-4aa0-972b-137a74213be5.mp4',
     blurb: 'Complete body care from shower and exfoliation to moisturising, hand and foot care, deodorants and bath.',
     subs: ['Body Wash', 'Lotions & Creams', 'Body Oils', 'Scrubs', 'Bath & Soaks', 'Hand & Foot Care', 'Deodorants', 'Body Mists', 'Self Tan', 'Hair Care'],
   },

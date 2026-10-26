@@ -52,6 +52,28 @@ const THEMES = {
     '--stepper-hover-fill': 'rgba(24, 24, 27, 0.035)',
     '--stepper-solid-hover': 'brightness(1.3)',
     '--stepper-press': 'brightness(0.92)'
+  },
+  violetgold: {
+    '--stepper-frame': 'rgba(244, 240, 252, 0.92)',
+    '--stepper-frame-edge': 'rgba(201, 162, 75, 0.55)',
+    '--stepper-frame-highlight': 'rgba(255, 255, 255, 0.95)',
+    '--stepper-frame-shadow': '0 22px 44px -22px rgba(76, 29, 146, 0.35), 0 6px 16px -10px rgba(201, 162, 75, 0.45)',
+    '--stepper-tile': 'linear-gradient(180deg, #ffffff 0%, #f7f3fd 100%)',
+    '--stepper-tile-edge': 'rgba(201, 162, 75, 0.38)',
+    '--stepper-tile-highlight': 'rgba(255, 255, 255, 1)',
+    '--stepper-tile-shadow': '0 4px 10px -5px rgba(76, 29, 146, 0.3)',
+    '--stepper-well': 'rgba(76, 29, 146, 0.06)',
+    '--stepper-track': 'rgba(201, 162, 75, 0.28)',
+    '--stepper-ink': '#4c1d92',
+    '--stepper-muted': 'rgba(76, 29, 146, 0.55)',
+    '--stepper-faint': 'rgba(201, 162, 75, 0.35)',
+    '--stepper-ring': 'rgba(201, 162, 75, 0.65)',
+    '--stepper-solid': '#4c1d92',
+    '--stepper-solid-ink': '#ffffff',
+    '--stepper-hover': 'brightness(0.97)',
+    '--stepper-hover-fill': 'rgba(76, 29, 146, 0.04)',
+    '--stepper-solid-hover': 'brightness(1.25)',
+    '--stepper-press': 'brightness(0.92)'
   }
 };
 

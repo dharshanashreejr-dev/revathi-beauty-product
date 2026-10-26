@@ -1063,17 +1063,33 @@ export default function Home() {
         </section>
         <section id="notes" className="notes-section collection-band">
           <div className="collection-hero">
-            <video
-              className="collection-video"
-              muted
-              loop
-              playsInline
-              autoPlay
-              preload="metadata"
-              poster="/assets/video/herbal-film.jpg"
-            >
-              <source src="/assets/video/herbal-film.mp4" type="video/mp4" />
-            </video>
+            <div className="collection-video fav-anim" role="img" aria-label="Woman enjoying a herbal oil with fresh lavender">
+              <img
+                src="/assets/herbal/our-favourites.webp"
+                alt=""
+                className="fav-anim-img"
+                loading="lazy"
+                decoding="async"
+                draggable={false}
+              />
+              <span className="fav-anim-glow" aria-hidden="true" />
+              <span className="fav-anim-dust" aria-hidden="true">
+                {Array.from({ length: 9 }).map((_, i) => (
+                  <i key={i} style={{ left: `${8 + i * 10}%`, animationDelay: `${(i * 1.3) % 7}s`, animationDuration: `${9 + (i % 4) * 2}s` }} />
+                ))}
+              </span>
+              <style>{`
+                .fav-anim{position:relative;overflow:hidden;background:#2b3a22;isolation:isolate}
+                .fav-anim-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:56% 30%;display:block;transform-origin:62% 38%;will-change:transform;animation:favZoom 22s ease-in-out infinite alternate}
+                .fav-anim-glow{position:absolute;inset:-20%;pointer-events:none;z-index:1;mix-blend-mode:soft-light;background:linear-gradient(115deg,transparent 35%,rgba(255,236,190,.55) 50%,transparent 65%);transform:translateX(-60%);animation:favSweep 9s ease-in-out infinite}
+                .fav-anim-dust{position:absolute;inset:0;pointer-events:none;z-index:2;overflow:hidden}
+                .fav-anim-dust i{position:absolute;bottom:-12px;width:6px;height:6px;border-radius:50%;background:radial-gradient(circle,rgba(255,240,200,.95),rgba(255,240,200,0) 70%);opacity:0;animation:favFloat 11s linear infinite}
+                @keyframes favZoom{0%{transform:scale(1.04) translate3d(0,0,0)}50%{transform:scale(1.12) translate3d(-1.2%,-1%,0)}100%{transform:scale(1.18) translate3d(-2%,-1.8%,0)}}
+                @keyframes favSweep{0%,15%{transform:translateX(-60%)}60%,100%{transform:translateX(60%)}}
+                @keyframes favFloat{0%{transform:translate3d(0,0,0) scale(.6);opacity:0}15%{opacity:.9}100%{transform:translate3d(18px,-480px,0) scale(1.2);opacity:0}}
+                @media (prefers-reduced-motion:reduce){.fav-anim-img,.fav-anim-glow,.fav-anim-dust i{animation:none!important}.fav-anim-dust{display:none}}
+              `}</style>
+            </div>
             <div className="collection-hero-shade" />
             <div className="collection-hero-copy">
               <span className="eyebrow">{t.label}</span>

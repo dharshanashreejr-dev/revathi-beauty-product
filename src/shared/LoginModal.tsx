@@ -20,8 +20,8 @@ export function requireLogin(then: () => void) { if (api.auth.currentUser()) the
 const mmss = (ms: number) => { const s = Math.max(0, Math.ceil(ms / 1000)); return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}` }
 const ERR = { expired: 'OTP expired. Please resend.', wrong: 'Wrong OTP. Please try again.', locked: 'Too many wrong attempts. Please resend the OTP.', none: 'OTP expired. Please resend.' } as const
 
-const input: React.CSSProperties = { width: '100%', padding: '13px 14px', borderRadius: 12, border: '1px solid #ddd2fb', background: '#ddd2fb', color: 'inherit', fontSize: 16, outline: 'none', boxSizing: 'border-box' }
-const btn: React.CSSProperties = { width: '100%', padding: 13, borderRadius: 999, border: 0, cursor: 'pointer', background: '#4c1d92', color: '#ddd2fb', fontSize: 15, letterSpacing: '.08em' }
+const input: React.CSSProperties = { width: '100%', padding: '13px 14px', borderRadius: 12, border: '1px solid #cfae5c', background: '#ddd2fb', color: 'inherit', fontSize: 16, outline: 'none', boxSizing: 'border-box' }
+const btn: React.CSSProperties = { width: '100%', padding: 13, borderRadius: 999, cursor: 'pointer', background: '#4c1d92', color: '#f3dfa0', border: '1px solid #c9a24b', fontSize: 15, letterSpacing: '.08em' }
 const link: React.CSSProperties = { background: 'none', border: 0, cursor: 'pointer', color: '#511f9c', textDecoration: 'underline', fontSize: 13, padding: 4 }
 
 function Modal({ onClose, onDone, gate }: { onClose: () => void; onDone: (u: User) => void; gate: boolean }) {
@@ -69,7 +69,7 @@ function Modal({ onClose, onDone, gate }: { onClose: () => void; onDone: (u: Use
   const otpStep = (
     <>
       <p style={{ margin: '0 0 14px', fontSize: 14, opacity: .75 }}>{t('Enter the 6-digit OTP sent to +91 {phone}', { phone })}</p>
-      {demo && <p style={{ margin: '0 0 12px', padding: '8px 10px', borderRadius: 10, background: '#ddd2fb', fontSize: 13 }}>{t('Demo mode: your OTP is {otp}', { otp: demo })}</p>}
+      {demo && <p style={{ margin: '0 0 12px', padding: '8px 10px', borderRadius: 10, background: '#ddd2fb', border: '1px solid #cfae5c', fontSize: 13 }}>{t('Demo mode: your OTP is {otp}', { otp: demo })}</p>}
       <input style={{ ...input, textAlign: 'center', letterSpacing: '.5em', fontSize: 22 }} inputMode="numeric" autoFocus maxLength={6} aria-label="OTP" value={code}
         onChange={(e) => { setCode(e.target.value.replace(/\D/g, '')); setErr('') }} onKeyDown={(e) => e.key === 'Enter' && code.length === 6 && goNext()} />
       <p style={{ fontSize: 12, opacity: .7, margin: '10px 0 0' }}>{left > 0 ? t('OTP valid for {time}', { time: mmss(left) }) : t(ERR.expired)}</p>
@@ -107,7 +107,7 @@ function Modal({ onClose, onDone, gate }: { onClose: () => void; onDone: (u: Use
         <button type="button" onClick={onClose} aria-label="Close" style={{ position: 'absolute', top: 10, right: 14, zIndex: 5, background: 'none', border: 0, fontSize: 20, cursor: 'pointer', color: 'inherit', opacity: .6 }}>✕</button>
         <Stepper
           step={at}
-          theme="light"
+          theme="violetgold"
           accentColor="#4c1d92"
           width={460}
           radius={22}
@@ -123,12 +123,12 @@ function Modal({ onClose, onDone, gate }: { onClose: () => void; onDone: (u: Use
             if (at === base + 1) { setStep('phone'); setOtpOk(false) } else setOtpOk(false)
             setErr('')
           } }}
-          nextButtonProps={{ disabled: (at === base + 1 && code.length !== 6) || (at === base && phone.length < 10), onClick: (e: React.MouseEvent) => { e.preventDefault(); goNext() } }}
+          nextButtonProps={{ style: { boxShadow: '0 0 0 1px #c9a24b, 0 6px 14px -6px rgba(201,162,75,.8)' }, disabled: (at === base + 1 && code.length !== 6) || (at === base && phone.length < 10), onClick: (e: React.MouseEvent) => { e.preventDefault(); goNext() } }}
           style={{ textAlign: 'center' }}
         >
           {gate && <Step title={shown('Language', 'Language')}><div style={{ padding: 8 }} /></Step>}
           <Step title={shown('Mobile', 'Mobile')}>
-            <div style={{ fontSize: 11, letterSpacing: '.3em', textTransform: 'uppercase', opacity: .7 }}>REVATHI HERBAL BEAUTY CARE</div>
+            <div style={{ fontSize: 11, letterSpacing: '.3em', textTransform: 'uppercase', color: '#a8812f', fontWeight: 500 }}>REVATHI HERBAL BEAUTY CARE</div>
             <h2 style={{ margin: '10px 0 8px', fontSize: 22, fontWeight: 600 }}>{t('Login to continue')}</h2>
             {phoneStep}
           </Step>

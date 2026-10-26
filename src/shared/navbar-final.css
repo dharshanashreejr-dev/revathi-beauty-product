@@ -632,3 +632,41 @@ html:not(#a):not(#b):not(#c):not(#d):not(#e):not(#f) body :is(.header, .vt-heade
   color: #6b4a12 !important;
   opacity: 1 !important;
 }
+
+/* =====================================================================
+   MALAYALAM + TAMIL NAVBAR FIT (landing .header and every other page .vt-header)
+   These two scripts are much wider than English and were being given the English
+   letter-spacing (.24em tagline, .03em links) and big paddings, so the bar ran past
+   the screen edge (cart / language / profile were cut off). Here, for ml + ta only:
+   no letter-spacing (it also breaks the joined letters), type that scales with the
+   screen width, and tighter paddings / gaps. English and other languages are untouched.
+   ===================================================================== */
+@media (min-width: 1200px) {
+  html:is([lang="ml"], [lang="ta"]):not(#a):not(#b):not(#c):not(#d):not(#e):not(#f):not(#g) body :is(.header, .vt-header) { padding-left: clamp(16px, 2vw, 40px) !important; padding-right: clamp(16px, 2vw, 40px) !important; }
+  /* logo: tagline without letter-spacing, smaller side lines */
+  html:is([lang="ml"], [lang="ta"]):not(#a):not(#b):not(#c):not(#d):not(#e):not(#f):not(#g) body :is(.header, .vt-header) :is(.header-brand, .vt-brand) { margin-right: clamp(10px, 1.6vw, 36px) !important; max-width: 34vw !important; }
+  html:is([lang="ml"], [lang="ta"]):not(#a):not(#b):not(#c):not(#d):not(#e):not(#f):not(#g) body :is(.header, .vt-header) :is(.header-brand, .vt-brand) :is(.brand-word, .vt-word) { font-size: clamp(15px, 1.2vw, 24px) !important; letter-spacing: .1em !important; }
+  html:is([lang="ml"], [lang="ta"]):not(#a):not(#b):not(#c):not(#d):not(#e):not(#f):not(#g) body :is(.header, .vt-header) :is(.header-brand, .vt-brand) :is(.brand-tagline, .vt-tagline) { font-size: clamp(10.5px, .84vw, 16px) !important; letter-spacing: 0 !important; text-indent: 0 !important; gap: 6px !important; margin-top: 4px !important; white-space: nowrap !important; line-height: 1.35 !important; }
+  html:is([lang="ml"], [lang="ta"]):not(#a):not(#b):not(#c):not(#d):not(#e):not(#f):not(#g) body :is(.header, .vt-header) :is(.header-brand, .vt-brand) :is(.brand-tagline, .vt-tagline)::before,
+  html:is([lang="ml"], [lang="ta"]):not(#a):not(#b):not(#c):not(#d):not(#e):not(#f):not(#g) body :is(.header, .vt-header) :is(.header-brand, .vt-brand) :is(.brand-tagline, .vt-tagline)::after { width: clamp(6px, .8vw, 14px) !important; }
+  /* links */
+  html:is([lang="ml"], [lang="ta"]):not(#a):not(#b):not(#c):not(#d):not(#e):not(#f):not(#g) body :is(.header, .vt-header) nav { font-size: clamp(11.5px, .98vw, 17px) !important; letter-spacing: 0 !important; gap: clamp(0px, .3vw, 8px) !important; }
+  html:is([lang="ml"], [lang="ta"]):not(#a):not(#b):not(#c):not(#d):not(#e):not(#f):not(#g) body :is(.header, .vt-header) nav a { padding: 10px clamp(5px, .6vw, 12px) !important; letter-spacing: 0 !important; line-height: 1.4 !important; }
+  html:is([lang="ml"], [lang="ta"]):not(#a):not(#b):not(#c):not(#d):not(#e):not(#f):not(#g) body :is(.header, .vt-header) :is(.nav-left, .vt-left) { margin-right: 0 !important; }
+  /* tools */
+  html:is([lang="ml"], [lang="ta"]):not(#a):not(#b):not(#c):not(#d):not(#e):not(#f):not(#g) body :is(.header, .vt-header) :is(.nav-tools, .vt-tools) { gap: clamp(6px, .7vw, 14px) !important; padding-left: clamp(8px, 1.2vw, 28px) !important; }
+  html:is([lang="ml"], [lang="ta"]):not(#a):not(#b):not(#c):not(#d):not(#e):not(#f):not(#g) body :is(.header, .vt-header) :is(.nav-end, .vt-end) { gap: clamp(6px, .7vw, 14px) !important; }
+  html:is([lang="ml"], [lang="ta"]):not(#a):not(#b):not(#c):not(#d):not(#e):not(#f):not(#g) body :is(.header, .vt-header) :is(.bag-button, .vt-bag) { letter-spacing: 0 !important; }
+  html:is([lang="ml"], [lang="ta"]):not(#a):not(#b):not(#c):not(#d):not(#e):not(#f):not(#g) body :is(.header, .vt-header) :is(.nav-profile-name, .vt-profile-name) { letter-spacing: 0 !important; }
+}
+/* small laptops (1200-1365px): a little tighter again so everything stays on the bar */
+@media (min-width: 1200px) and (max-width: 1365px) {
+  html:is([lang="ml"], [lang="ta"]):not(#a):not(#b):not(#c):not(#d):not(#e):not(#f):not(#g) body :is(.header, .vt-header) :is(.header-brand, .vt-brand) :is(.brand-tagline, .vt-tagline)::before,
+  html:is([lang="ml"], [lang="ta"]):not(#a):not(#b):not(#c):not(#d):not(#e):not(#f):not(#g) body :is(.header, .vt-header) :is(.header-brand, .vt-brand) :is(.brand-tagline, .vt-tagline)::after { display: none !important; }
+  html:is([lang="ml"], [lang="ta"]):not(#a):not(#b):not(#c):not(#d):not(#e):not(#f):not(#g) body :is(.header, .vt-header) nav a { padding-left: 5px !important; padding-right: 5px !important; }
+  html:is([lang="ml"], [lang="ta"]):not(#a):not(#b):not(#c):not(#d):not(#e):not(#f):not(#g) body :is(.header, .vt-header) :is(.nav-tools, .vt-tools) { padding-left: 6px !important; }
+}
+/* narrow burger layout (below 1200px): no letter-spacing on the logo tagline either */
+@media (max-width: 1199px) {
+  html:is([lang="ml"], [lang="ta"]):not(#a):not(#b):not(#c):not(#d):not(#e):not(#f):not(#g) body :is(.header, .vt-header) :is(.header-brand, .vt-brand) :is(.brand-tagline, .vt-tagline) { letter-spacing: 0 !important; }
+}

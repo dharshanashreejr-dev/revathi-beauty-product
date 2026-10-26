@@ -340,31 +340,6 @@ export function HerbalShowcase({ onOpen, onAdd, lang = "en" }: { onOpen: (id: st
   );
 }
 
-/* ───────── video components ───────── */
-
-function AutoVideo({ src, poster, className }: { src: string; poster?: string; className?: string }) {
-  const ref = useRef<HTMLVideoElement>(null);
-  useEffect(() => {
-    const v = ref.current;
-    if (!v) return;
-    const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const io = new IntersectionObserver(
-      ([e]) => {
-        if (e.isIntersecting && !reduce) v.play().catch(() => {});
-        else v.pause();
-      },
-      { threshold: 0.35 },
-    );
-    io.observe(v);
-    return () => io.disconnect();
-  }, []);
-  return (
-    <video ref={ref} className={className} muted loop playsInline preload="metadata" poster={poster}>
-      <source src={src} type="video/mp4" />
-    </video>
-  );
-}
-
 /** Main "services in action" slider. Replace these images (or add more) - same folder: public/assets/film/ */
 const FILM_SLIDES = ["/assets/film/slide-1.webp", "/assets/film/slide-2.webp", "/assets/film/slide-3.webp"];
 
