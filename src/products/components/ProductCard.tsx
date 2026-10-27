@@ -38,7 +38,7 @@ const SELLING_FAST = {
   sa: 'शीघ्रं विक्रीयते',
 };
 
-const PIXEL_COLORS = ['#c9a227', '#5e18f0', '#ddd2fb', '#f8fafc'];
+const PIXEL_COLORS = ['#B8924F', '#7A2E4D', '#FBEDEB', '#f8fafc'];
 
 /** Product card: white = normal, yellow = selling fast (low stock), red rubber stamp = out of stock. */
 export default function ProductCard({ product, index, onOpen, onQuick }: Props) {
@@ -61,7 +61,7 @@ export default function ProductCard({ product, index, onOpen, onQuick }: Props) 
         theme="light"
         surface="transparent"
         colors={PIXEL_COLORS}
-        glowColor="#c9a227"
+        glowColor="#B8924F"
         opacity={0.22}
         fade={0.55}
         gap={8}
@@ -75,7 +75,7 @@ export default function ProductCard({ product, index, onOpen, onQuick }: Props) 
       >
       <div
         onClick={() => onOpen(product, colour)}
-        className={`group relative flex h-full cursor-pointer flex-col overflow-hidden rounded-xl border p-3 transition duration-300 hover:bg-[#eee7fc]/60 ${tone}`}
+        className={`group relative flex h-full cursor-pointer flex-col overflow-hidden rounded-xl border p-3 transition duration-300 hover:bg-[#FBEDEB]/60 ${tone}`}
       >
         {out && <OutStamp />}
 
@@ -141,7 +141,7 @@ export default function ProductCard({ product, index, onOpen, onQuick }: Props) 
 
             {/* actions */}
             <div className="mt-auto flex items-center gap-2 pt-1">
-              <ClickSpark sparkColor={['#5e18f0', '#c9a227']} sparkCount={7} sparkSize={11} sparkRadius={26} duration={420} style={{ flex: 1 }}>
+              <ClickSpark sparkColor={['#7A2E4D', '#B8924F']} sparkCount={7} sparkSize={11} sparkRadius={26} duration={420} style={{ flex: 1 }}>
                 <button
                   disabled={out}
                   onClick={e => { e.stopPropagation(); if (!out) onQuick(product, colour); }}
@@ -156,7 +156,7 @@ export default function ProductCard({ product, index, onOpen, onQuick }: Props) 
                 onClick={e => { e.stopPropagation(); toggle(product.id); }}
                 className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full transition hover:bg-black/5"
               >
-                <svg viewBox="0 0 24 24" className="h-6 w-6" fill={liked ? '#be123c' : 'none'} stroke={liked ? '#be123c' : '#5e18f0'} strokeWidth={1.6}>
+                <svg viewBox="0 0 24 24" className="h-6 w-6" fill={liked ? '#be123c' : 'none'} stroke={liked ? '#be123c' : '#7A2E4D'} strokeWidth={1.6}>
                   <path d="M12 21s-7.5-4.6-9.3-9.2C1.5 8.5 3.4 5 6.9 5c2 0 3.5 1.1 5.1 3 1.6-1.9 3.1-3 5.1-3 3.5 0 5.4 3.5 4.2 6.8C19.5 16.4 12 21 12 21z" />
                 </svg>
               </button>

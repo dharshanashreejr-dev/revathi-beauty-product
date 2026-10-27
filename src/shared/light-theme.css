@@ -1,15 +1,18 @@
-/* Light premium theme — Lavender #C4B5FD + Deep Purple #4C1D95.
+/* Champagne Blush theme — Deep Wine #7A2E4D, Blush #F2C6C2, Champagne #E8D3A9, Antique Gold #B8924F, Espresso #3A2A2E on white.
    Replaces the old dark silk background. Loaded last by every entry (landing, site, products). */
 :root {
-  --lt-lavender: #c4b5fd;
-  --lt-deep: #4c1d95;
-  --lt-bg: #f8f5ff;
-  --lt-bg-2: #f1ebff;
+  --lt-lavender: #F2C6C2;
+  --lt-deep: #7A2E4D;
+  --lt-bg: #FFFFFF;
+  --lt-bg-2: #FFFFFF;
   --lt-card: #ffffff;
-  --lt-line: rgba(76, 29, 149, .14);
+  --lt-line: rgba(122,46,77, .14);
+  --lt-gold: #B8924F;
+  --lt-champagne: #E8D3A9;
+  --lt-text: #3A2A2E;
 }
 html { background: var(--lt-bg); color-scheme: light; }
-body { background: var(--lt-bg) !important; color: var(--lt-deep); }
+body { background: var(--lt-bg) !important; color: var(--lt-text); }
 
 /* every band / section sits on the soft light lavender — alternate bands get a slightly deeper tint */
 .collection-band, .closing, .testimonials, .herbal, .hb, .film, .spa, .salon, .shop,
@@ -29,17 +32,17 @@ section.bg-sand, footer.bg-sand, section.bg-paper, main.bg-sand {
   transform: none !important;
   transition: background .3s !important;
 }
-.shop .product-card:hover { background: rgba(238, 231, 252, .6) !important; transform: none !important; box-shadow: none !important; border-color: transparent !important; }
+.shop .product-card:hover { background: rgba(251,237,235, .6) !important; transform: none !important; box-shadow: none !important; border-color: transparent !important; }
 .shop .product-picture { position: relative; background: transparent !important; aspect-ratio: 1 / 1 !important; border-radius: 8px !important; box-shadow: none !important; }
 .shop .product-art, .shop .product-picture img { width: 94% !important; height: 94% !important; object-fit: contain; filter: none !important; }
 .shop .product-badge {
   position: absolute; right: -4px !important; left: auto !important; top: 12px !important; z-index: 2;
-  background: #4c1d95 !important; color: #fff !important; border-radius: 0 !important; box-shadow: 0 2px 6px rgba(0,0,0,.18) !important;
+  background: #7A2E4D !important; color: #fff !important; border-radius: 0 !important; box-shadow: 0 2px 6px rgba(0,0,0,.18) !important;
   transform: skewX(-12deg); font-style: italic; font-weight: 700; font-size: 10px !important; letter-spacing: .08em; text-transform: uppercase; padding: 4px 12px !important;
 }
 .shop .product-card-info { display: flex !important; flex-direction: column !important; align-items: flex-start !important; gap: 8px !important; margin: 14px 0 0 !important; }
 .shop .product-card-info h3 { font-family: inherit !important; font-size: 15px !important; font-weight: 500; line-height: 1.35; color: var(--lt-deep); }
-.shop .product-card-info span { font-size: 12.5px; color: #6b4bb8; }
+.shop .product-card-info span { font-size: 12.5px; color: #8E4A66; }
 .shop .product-card-info strong { font-size: 18px; font-weight: 600; color: var(--lt-deep); }
 .shop .product-add {
   align-self: stretch; justify-content: center !important; gap: 8px; height: 44px; margin: 14px 0 0 !important; padding: 0 16px !important;
@@ -48,11 +51,11 @@ section.bg-sand, footer.bg-sand, section.bg-paper, main.bg-sand {
 .shop .product-add:hover { background: var(--lt-deep) !important; color: #fff !important; }
 .pick, .spa-card {
   background: var(--lt-card) !important; border: 1px solid var(--lt-line) !important;
-  box-shadow: 0 6px 24px -14px rgba(76, 29, 149, .25) !important; border-radius: 18px;
+  box-shadow: 0 6px 24px -14px rgba(122,46,77, .25) !important; border-radius: 18px;
 }
 /* sticky filter bars → frosted light glass */
 [class*="bg-sand/95"], [class*="bg-sand/85"], [class*="bg-sand/90"] {
-  background: rgba(248, 245, 255, .88) !important;
+  background: rgba(255,255,255, .88) !important;
   -webkit-backdrop-filter: blur(14px);
   backdrop-filter: blur(14px);
 }
@@ -60,9 +63,9 @@ section.bg-sand, footer.bg-sand, section.bg-paper, main.bg-sand {
 /* ONE light navbar on every page */
 .header, .header.is-scrolled, .header:not(.is-scrolled),
 .vt-header, .vt-header.is-solid {
-  background: rgba(248, 245, 255, .92) !important;
+  background: rgba(255,255,255, .92) !important;
   color: var(--lt-deep) !important;
-  box-shadow: 0 1px 0 var(--lt-line), 0 10px 30px -18px rgba(76, 29, 149, .35) !important;
+  box-shadow: 0 1px 0 var(--lt-line), 0 10px 30px -18px rgba(122,46,77, .35) !important;
   -webkit-backdrop-filter: blur(16px);
   backdrop-filter: blur(16px);
   text-shadow: none !important;
@@ -72,63 +75,63 @@ section.bg-sand, footer.bg-sand, section.bg-paper, main.bg-sand {
 .vt-header a, .vt-header button, .vt-header .vt-word, .vt-header .vt-sub, .vt-header .vt-tagline {
   color: var(--lt-deep) !important;
 }
-.header .nav-tools select, .vt-header .vt-lang { border-color: rgba(76, 29, 149, .35) !important; color: var(--lt-deep) !important; background: transparent; }
+.header .nav-tools select, .vt-header .vt-lang { border-color: rgba(122,46,77, .35) !important; color: var(--lt-deep) !important; background: transparent; }
 .header select option, .vt-header .vt-lang option { background: #fff; color: var(--lt-deep); }
 
 /* deep-purple accent panels keep light text */
-.bg-ink { background-color: var(--lt-deep) !important; color: #f3efff; }
-.bg-ink .text-sand, .bg-ink .text-white { color: #f3efff !important; }
+.bg-ink { background-color: var(--lt-deep) !important; color: #FFFFFF; }
+.bg-ink .text-sand, .bg-ink .text-white { color: #FFFFFF !important; }
 /* lavender buttons keep deep text */
 .bg-gold { background-color: var(--lt-lavender) !important; color: var(--lt-deep) !important; }
 .bg-gold .text-ink { color: var(--lt-deep) !important; }
 
 /* gold accent text: deeper violet on light surfaces, lavender on deep-purple panels */
-.text-gold { color: #6d3fd0; }
+.text-gold { color: #7A2E4D; }
 .bg-ink .text-gold, .bg-night .text-gold, .bg-ink .text-clay, .bg-night .text-clay { color: var(--lt-lavender) !important; }
 /* focus + selection in the palette */
 ::selection { background: var(--lt-lavender); color: var(--lt-deep); }
 
 /* light panels nested inside a deep panel keep deep text */
 .bg-ink .bg-sand, .bg-ink .bg-paper, .bg-night .bg-sand { color: var(--lt-deep); }
-.bg-ink .bg-sand .text-gold, .bg-ink .bg-paper .text-gold { color: #6d3fd0 !important; }
-.spot-light { background: #f8f5ff; border: 1px solid rgba(196,181,253,.6); box-shadow: 0 10px 30px -18px rgba(0,0,0,.45); }
+.bg-ink .bg-sand .text-gold, .bg-ink .bg-paper .text-gold { color: #7A2E4D !important; }
+.spot-light { background: #FFFFFF; border: 1px solid rgba(242,198,194,.6); box-shadow: 0 10px 30px -18px rgba(0,0,0,.45); }
 .spot-light .opacity-40 { opacity: .55; }
 
 /* promo cards — one uniform deep-purple style, every word readable */
-.promo-card { background: linear-gradient(170deg, #5b2bb0 0%, #4c1d95 100%) !important; color: #fff !important; }
+.promo-card { background: linear-gradient(170deg, #7A2E4D 0%, #7A2E4D 100%) !important; color: #fff !important; }
 .promo-card h4 { color: #fff !important; }
-.promo-brand { background: #c4b5fd !important; color: #4c1d95 !important; }
-.promo-chips i { color: #ede9fe !important; border-color: rgba(255,255,255,.45) !important; }
+.promo-brand { background: #F2C6C2 !important; color: #7A2E4D !important; }
+.promo-chips i { color: #FBEDEB !important; border-color: rgba(255,255,255,.45) !important; }
 .promo-foot strong, .promo-foot span { color: #fff !important; }
-.promo-foot button { background: #fff !important; color: #4c1d95 !important; }
-.promo-foot button:hover { background: #c4b5fd !important; }
+.promo-foot button { background: #fff !important; color: #7A2E4D !important; }
+.promo-foot button:hover { background: #F2C6C2 !important; }
 
 /* spotlight card — soft glow follows the cursor */
 .spot {
   position: relative; overflow: hidden; border-radius: 16px;
   background: linear-gradient(160deg, rgba(255,255,255,.12), rgba(255,255,255,.04));
-  border: 1px solid rgba(196,181,253,.28);
+  border: 1px solid rgba(242,198,194,.28);
   box-shadow: 0 14px 34px -20px rgba(0,0,0,.55);
   transition: border-color .3s, transform .3s, box-shadow .3s;
 }
 .spot::before {
   content: ''; position: absolute; inset: 0; pointer-events: none; opacity: 0; transition: opacity .3s;
-  background: radial-gradient(280px circle at var(--mx, 50%) var(--my, 50%), rgba(196,181,253,.38), transparent 65%);
+  background: radial-gradient(280px circle at var(--mx, 50%) var(--my, 50%), rgba(242,198,194,.38), transparent 65%);
 }
 .spot:hover::before { opacity: 1; }
-.spot:hover { border-color: rgba(196,181,253,.7); box-shadow: 0 20px 40px -18px rgba(0,0,0,.6); }
+.spot:hover { border-color: rgba(242,198,194,.7); box-shadow: 0 20px 40px -18px rgba(0,0,0,.6); }
 .spot > * { position: relative; }
 
 /* animated deep-purple aurora background for dark sections */
 .aurora {
   position: relative; overflow: hidden;
-  background-image: linear-gradient(125deg, #4c1d95 0%, #3b1478 35%, #5b2bb0 65%, #4c1d95 100%);
+  background-image: linear-gradient(125deg, #7A2E4D 0%, #3A2A2E 35%, #7A2E4D 65%, #7A2E4D 100%);
   background-size: 300% 300%;
   animation: auroraShift 16s ease-in-out infinite;
 }
 .aurora::before, .aurora::after { content: ''; position: absolute; border-radius: 50%; filter: blur(90px); pointer-events: none; z-index: 0; }
-.aurora::before { width: 520px; height: 520px; left: -120px; top: -100px; background: #c4b5fd; opacity: .3; animation: auroraA 14s ease-in-out infinite; }
-.aurora::after { width: 460px; height: 460px; right: -100px; bottom: -120px; background: #8b5cf6; opacity: .45; animation: auroraB 18s ease-in-out infinite; }
+.aurora::before { width: 520px; height: 520px; left: -120px; top: -100px; background: #F2C6C2; opacity: .3; animation: auroraA 14s ease-in-out infinite; }
+.aurora::after { width: 460px; height: 460px; right: -100px; bottom: -120px; background: #C98A9B; opacity: .45; animation: auroraB 18s ease-in-out infinite; }
 .aurora > * { position: relative; z-index: 1; }
 @keyframes auroraShift { 0%, 100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
 @keyframes auroraA { 0%, 100% { transform: translate(0, 0) scale(1); } 50% { transform: translate(260px, 140px) scale(1.2); } }
@@ -142,15 +145,15 @@ section.bg-sand, footer.bg-sand, section.bg-paper, main.bg-sand {
   outline: 2px solid var(--lt-deep); outline-offset: 3px; border-radius: 6px;
 }
 /* secondary text: readable but clearly below headings */
-.text-muted, .muted { color: #6b4bb8; }
+.text-muted, .muted { color: #8E4A66; }
 /* one consistent card + input feel */
 input, select, textarea { accent-color: var(--lt-deep); }
-input::placeholder, textarea::placeholder { color: #8b6fd0; opacity: 1; }
+input::placeholder, textarea::placeholder { color: #C98A9B; opacity: 1; }
 /* crisp type rendering */
 body { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
 /* gentle, consistent motion on interactive cards */
 .pick, .spa-card, .rv-card { transition: transform .3s ease, box-shadow .3s ease; }
-.pick:hover, .spa-card:hover { transform: translateY(-3px); box-shadow: 0 14px 34px -16px rgba(76, 29, 149, .35) !important; }
+.pick:hover, .spa-card:hover { transform: translateY(-3px); box-shadow: 0 14px 34px -16px rgba(122,46,77, .35) !important; }
 @media (prefers-reduced-motion: reduce) { .pick:hover, .spa-card:hover { transform: none; } }
 
 
@@ -205,25 +208,25 @@ article.animate-rise { min-width: 0; }
 /* 5) "Meet the specialists" — cards were stuck invisible (waiting for a scroll trigger); always visible now */
 .specialist-card { opacity: 1 !important; transform: none; }
 .specialists.is-in .specialist-card { transform: none; }
-.specialist-media { background: #e6dafc; min-height: 200px; }
+.specialist-media { background: #FBEDEB; min-height: 200px; }
 
 
 /* ═══════════ Accent colours: Champagne Gold + Blush Rose ═══════════
    Additive only: backgrounds, main text, header and buttons keep the Lavender / Deep Purple look.
    Change a colour here once and it updates everywhere below. */
 :root {
-  --ac-gold: #c9a35b;        /* champagne gold (fills, lines, rings) */
-  --ac-gold-deep: #94702b;   /* darker gold, readable as small text on light bands */
-  --ac-gold-soft: #f3e7cb;
+  --ac-gold: #B8924F;        /* champagne gold (fills, lines, rings) */
+  --ac-gold-deep: #8F6E36;   /* darker gold, readable as small text on light bands */
+  --ac-gold-soft: #F4E8CF;
   --ac-blush: #ebc4c0;       /* blush rose (soft glows, highlights) */
   --ac-blush-soft: #f9e9e7;
 }
 
 /* Product badges (Bestseller / New): gold with deep purple text */
 [data-product-img] > span.absolute:not(.rounded-full) {
-  background: linear-gradient(135deg, #e3c887 0%, var(--ac-gold) 55%, #b88f45 100%) !important;
+  background: linear-gradient(135deg, #E8D3A9 0%, var(--ac-gold) 55%, #B8924F 100%) !important;
   color: var(--lt-deep) !important;
-  box-shadow: 0 4px 12px rgba(201, 163, 91, .38);
+  box-shadow: 0 4px 12px rgba(184,146,79, .38);
 }
 
 /* Selected shade swatch ring */
@@ -255,7 +258,7 @@ article.animate-rise:hover,
 /* ═══════════ Accent touches 1-9 (gold + blush) ═══════════ */
 
 /* 1) Rating box: stays green (meaning), star + number in champagne gold */
-article .bg-emerald-700 { color: #f6e2ae !important; }
+article .bg-emerald-700 { color: #E8D3A9 !important; }
 
 /* 2) Offer chips + "16% off" */
 .of-pill b, .of-badge { background: var(--ac-blush) !important; color: var(--lt-deep) !important; }
@@ -271,7 +274,7 @@ article .text-emerald-700 {
 }
 
 /* 4) Old price strike-through in a soft gold-grey */
-article .line-through { color: #b6a37c !important; text-decoration-color: var(--ac-gold); }
+article .line-through { color: #B8924F !important; text-decoration-color: var(--ac-gold); }
 
 /* 5) Wishlist heart: rose outline, blush fill when liked */
 article button[aria-pressed] svg { stroke: #c9788a !important; }
@@ -299,7 +302,7 @@ footer { border-top: 2px solid var(--ac-gold); }
 
 /* ═══════════ Gold pass 2: stars, running strips, cards/numbers, "care." + username ═══════════ */
 
-/* The project's Tailwind "gold" was really lavender (#c4b5fd): make every gold utility true champagne gold */
+/* The project's Tailwind "gold" was really lavender (#F2C6C2): make every gold utility true champagne gold */
 .text-gold { color: var(--ac-gold) !important; }
 .bg-gold { background-color: var(--ac-gold) !important; }
 .border-gold { border-color: var(--ac-gold) !important; }
@@ -310,54 +313,54 @@ footer { border-top: 2px solid var(--ac-gold); }
 
 /* 2) Running strips */
 div:has(> .marquee) {                                   /* About page: Body Massage • Facial • ... */
-  background: linear-gradient(90deg, #b8903f, #e3c887 50%, #b8903f) !important;
+  background: linear-gradient(90deg, #B8924F, #E8D3A9 50%, #B8924F) !important;
   color: var(--lt-deep) !important; border-color: transparent !important;
 }
 div:has(> .marquee) i { background: var(--lt-deep) !important; }
 .hb-ticker {                                            /* Landing: offers ticker under the hero */
-  background: linear-gradient(90deg, #d9b76d, #f0dca6 50%, #d9b76d) !important;
+  background: linear-gradient(90deg, #B8924F, #E8D3A9 50%, #B8924F) !important;
   color: var(--lt-deep) !important; border-top: 0 !important;
 }
 .rv-marquee { border-top: 2px solid var(--ac-gold); border-bottom: 2px solid var(--ac-gold); }
 
 /* 3) Cards + words: stats cards, journey cards, flip cards */
-.spot { border-color: rgba(201, 163, 91, .7) !important; }
-.spot .label { color: #f3e1b0 !important; }
-.group.bg-ink { border: 1px solid rgba(201, 163, 91, .65); }
-.group.bg-ink h3 { color: #f3e1b0; }
-.flip-face { border: 1px solid rgba(201, 163, 91, .55); }
-.flip-back h3, .flip-back .label { color: #f3e1b0; }
+.spot { border-color: rgba(184,146,79, .7) !important; }
+.spot .label { color: #E8D3A9 !important; }
+.group.bg-ink { border: 1px solid rgba(184,146,79, .65); }
+.group.bg-ink h3 { color: #E8D3A9; }
+.flip-face { border: 1px solid rgba(184,146,79, .55); }
+.flip-back h3, .flip-back .label { color: #E8D3A9; }
 
 /* 4) "care." and the user's name: gold shimmer (also the years 2018-2024 and 01-04 numbers) */
 .gold-text {
-  background-image: linear-gradient(100deg, #a67c2e 10%, #f4e0a4 35%, #c9a35b 50%, #f4e0a4 65%, #a67c2e 90%) !important;
+  background-image: linear-gradient(100deg, #8F6E36 10%, #E8D3A9 35%, #B8924F 50%, #E8D3A9 65%, #8F6E36 90%) !important;
 }
 
 
 /* ═══════════ Gold round: strip, offer cards, collection cards, header brand ═══════════ */
 
 /* 1) Running strip: gold band, deep-purple text */
-.herbal-strip { background: linear-gradient(90deg, #d9b872 0%, var(--ac-gold) 50%, #d9b872 100%) !important; color: var(--lt-deep) !important; font-weight: 600; }
+.herbal-strip { background: linear-gradient(90deg, #B8924F 0%, var(--ac-gold) 50%, #B8924F 100%) !important; color: var(--lt-deep) !important; font-weight: 600; }
 
 /* 1b) Gap between the tags line ("... WARM") and the herbal-infused pill */
 .herbal-info .eyebrow { display: inline-block; margin-right: 26px; margin-bottom: 6px; }
 
 /* 2) "Current offers" cards: light gold with deep-purple text */
-.promo-card { background: linear-gradient(170deg, #f8eccb 0%, #ecd599 100%) !important; color: var(--lt-deep) !important; border: 1px solid rgba(201, 163, 91, .6); }
+.promo-card { background: linear-gradient(170deg, #FBEDEB 0%, #F2C6C2 100%) !important; color: var(--lt-deep) !important; border: 1px solid rgba(122,46,77, .25); }
 .promo-card h4 { color: var(--lt-deep) !important; text-shadow: none !important; }
-.promo-brand { background: var(--ac-gold) !important; color: var(--lt-deep) !important; }
-.promo-chips i { color: var(--lt-deep) !important; background: rgba(148, 112, 43, .14) !important; border: 1px solid rgba(148, 112, 43, .45) !important; }
-.promo-foot { background: linear-gradient(to top, rgba(236, 213, 153, .98) 0%, rgba(236, 213, 153, .75) 55%, transparent 100%) !important; }
+.promo-brand { background: #7A2E4D !important; color: #FFFFFF !important; }
+.promo-chips i { color: var(--lt-deep) !important; background: rgba(255,255,255, .55) !important; border: 1px solid rgba(122,46,77, .4) !important; }
+.promo-foot { background: linear-gradient(to top, rgba(242,198,194, .98) 0%, rgba(242,198,194, .75) 55%, transparent 100%) !important; }
 .promo-foot strong, .promo-foot span { color: var(--lt-deep) !important; text-shadow: none !important; }
-.promo-foot button { background: var(--lt-deep) !important; color: #f3e1b0 !important; }
-.promo-foot button:hover { background: #5b2bb0 !important; color: #fff !important; }
+.promo-foot button { background: var(--lt-deep) !important; color: #FFFFFF !important; }
+.promo-foot button:hover { background: #3A2A2E !important; color: #fff !important; }
 
 /* 3) Collection cards (Bestseller / New / lipstick / powder / cleanser): gold name + line */
 .collection-card-copy h3 { color: var(--ac-gold-deep) !important; }
-.collection-card-copy span { color: #a8812f !important; }
+.collection-card-copy span { color: #8F6E36 !important; }
 
 /* 4) Header brand name + tagline in gold */
-.vt-header .vt-brand .vt-word { color: #9a7424 !important; }
+.vt-header .vt-brand .vt-word { color: #8F6E36 !important; }
 .vt-header .vt-brand .vt-tagline { color: var(--ac-gold-deep) !important; opacity: 1; }
 
 
@@ -369,34 +372,34 @@ div:has(> .marquee) i { background: var(--lt-deep) !important; }
 .vt-header .vt-tools button,
 .vt-header .vt-lang,
 .vt-header .vt-profile,
-.vt-header .vt-profile-name { color: #9a7424 !important; }
+.vt-header .vt-profile-name { color: #8F6E36 !important; }
 .vt-header .vt-lang,
 .vt-header .vt-admin,
-.vt-header .vt-profile { border-color: rgba(154, 116, 36, .55) !important; }
+.vt-header .vt-profile { border-color: rgba(143,110,54, .55) !important; }
 .vt-header .vt-bag svg, .vt-header .vt-profile svg, .vt-header .vt-lang { stroke: currentColor; }
-.vt-header .vt-nav a:hover { color: #4f1e99 !important; }
+.vt-header .vt-nav a:hover { color: #7A2E4D !important; }
 
 
 /* ═══════════ Round 3: landing navbar (gold, no overlap, same spacing in every language), strips, no gap under navbar ═══════════ */
 .nav-rightwrap { display: contents; }
 
 /* 1) Remaining violet in the navbar -> gold */
-html:not(#a) body .header .header-brand .brand-word { color: #9a7424 !important; }
+html:not(#a) body .header .header-brand .brand-word { color: #8F6E36 !important; }
 html:not(#a) body .header .header-brand .brand-tagline,
 html:not(#a) body .header .header-brand .brand-sub { color: var(--ac-gold-deep) !important; opacity: 1; }
 html:not(#a) body .header nav a,
 html:not(#a) body .header .nav-tools button,
 html:not(#a) body .header .nav-tools select,
 html:not(#a) body .header .nav-profile-name,
-html:not(#a) body .header .bag-button { color: #9a7424 !important; }
+html:not(#a) body .header .bag-button { color: #8F6E36 !important; }
 html:not(#a) body .header .nav-tools select,
-html:not(#a) body .header .nav-profile { border-color: rgba(154, 116, 36, .55) !important; }
-html:not(#a) body .header nav a:hover { color: #4f1e99 !important; }
-.bag-button span, .vt-bag span { color: #6b4e12 !important; }
+html:not(#a) body .header .nav-profile { border-color: rgba(143,110,54, .55) !important; }
+html:not(#a) body .header nav a:hover { color: #7A2E4D !important; }
+.bag-button span, .vt-bag span { color: #3A2A2E !important; }
 
 /* 2) Running strips: gold band with dark gold-brown text (no violet) */
-.herbal-strip, .hb-ticker, div:has(> .marquee) { color: #3d2a08 !important; }
-div:has(> .marquee) i { background: #3d2a08 !important; }
+.herbal-strip, .hb-ticker, div:has(> .marquee) { color: #3A2A2E !important; }
+div:has(> .marquee) i { background: #3A2A2E !important; }
 
 /* 3) Landing navbar: one flex row, fixed gaps, nothing can overlap (same spacing in every language) */
 @media (min-width: 1051px) {

@@ -105,7 +105,7 @@ export default function WishlistDrawer({ open, onClose, onOpen, onQuick }: Props
                       <p className="font-serif text-lg leading-tight text-ink">{pname(p.name, lang)}</p>
                       <p className="mt-1 text-sm font-semibold">{formatPrice(p.price)}</p>
                       <div className="mt-3 flex flex-wrap gap-2">
-                        <ClickSpark sparkColor={['#5e18f0', '#c9a227']} sparkCount={5} sparkSize={9} sparkRadius={20} duration={380}>
+                        <ClickSpark sparkColor={['#7A2E4D', '#B8924F']} sparkCount={5} sparkSize={9} sparkRadius={20} duration={380}>
                           <button
                             type="button"
                             disabled={p.stock === 0}

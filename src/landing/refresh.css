@@ -32,7 +32,7 @@
 }
 .header-brand .brand-mark {
   color: var(--cream);
-  filter: drop-shadow(0 1px 10px #491c8d60);
+  filter: drop-shadow(0 1px 10px #7A2E4D60);
 }
 .footer-top .brand-mark {
   align-items: flex-start;
@@ -144,7 +144,7 @@
   font-family: var(--serif);
   font-style: italic;
   font-size: clamp(20px, 2.2vw, 30px);
-  color: #5320a0;
+  color: #7A2E4D;
 }
 .intro-inner .eyebrow {
   color: var(--muted);
@@ -165,7 +165,7 @@
   height: 6px;
   margin: -3px 0 0 -3px;
   border-radius: 50%;
-  background: #4f1e99;
+  background: #7A2E4D;
   mix-blend-mode: normal;
   pointer-events: none;
   display: none;
@@ -186,16 +186,16 @@
   width: 14px;
   height: 14px;
   margin: -7px 0 0 -7px;
-  background: #5c2aad;
+  background: #7A2E4D;
 }
 .cursor.has-label {
   width: 44px;
   height: 44px;
   margin: -22px 0 0 -22px;
   mix-blend-mode: normal;
-  background: rgba(229, 220, 249, .62);
+  background: rgba(251,237,235, .62);
   backdrop-filter: blur(6px);
-  box-shadow: 0 10px 40px #4c1d9530;
+  box-shadow: 0 10px 40px #7A2E4D30;
 }
 .cursor span {
   font-size: 8px;
@@ -218,7 +218,7 @@
   will-change: transform;
 }
 .scent-card:hover {
-  box-shadow: 0 30px 60px -25px #4c1d954d;
+  box-shadow: 0 30px 60px -25px #7A2E4D4d;
 }
 .card-media {
   position: absolute;
@@ -244,7 +244,7 @@
   filter: brightness(0.75) saturate(1.15);
 }
 .jasmine-card {
-  background: #4c1d92;
+  background: #7A2E4D;
   color: var(--cream);
 }
 .jasmine-card:after {
@@ -256,7 +256,7 @@
 }
 .jasmine-card .card-tag,
 .peach-card .card-tag {
-  background: rgba(229, 220, 249, .62);
+  background: rgba(251,237,235, .62);
 }
 .jasmine-card .card-plus {
   border-color: #fff7;
@@ -269,7 +269,7 @@
   opacity: 0;
   background: radial-gradient(
     circle at var(--gx, 50%) var(--gy, 50%),
-    #4c1d9555,
+    #7A2E4D55,
     transparent 55%
   );
   transition: opacity 0.4s;
@@ -292,17 +292,17 @@
   color: var(--cream);
 }
 .mood-dusk .signature-ghost {
-  color: #f2ecfc2e;
+  color: #FFFFFF2e;
 }
 .mood-dusk .pill.dark .pill-dot {
-  border-color: #4c1d9555;
+  border-color: #7A2E4D55;
 }
 .mood-dusk .pill.dark:hover {
   background: var(--cream);
   color: var(--ink);
 }
 .mood-dusk .product-size {
-  color: #f1ecfc;
+  color: #FFFFFF;
 }
 .bottle-stage {
   position: relative;
@@ -321,7 +321,7 @@
   position: absolute;
   inset: 12% 8%;
   border-radius: 50%;
-  background: radial-gradient(closest-side, #4c1d9590, transparent);
+  background: radial-gradient(closest-side, #7A2E4D90, transparent);
   filter: blur(20px);
   animation: halo 6s ease-in-out infinite;
   z-index: -1;
@@ -351,21 +351,21 @@
   height: 14px;
   border-radius: 50%;
   background: var(--cream);
-  box-shadow: 0 0 0 0 #4c1d95aa;
+  box-shadow: 0 0 0 0 #7A2E4Daa;
   animation: pulse 2.2s infinite;
   transition: transform 0.3s;
 }
 .hotspot:hover .hotspot-dot,
 .hotspot.is-active .hotspot-dot {
   transform: scale(1.35);
-  background: #f7f4fd;
+  background: #FFFFFF;
 }
 @keyframes pulse {
   70% {
-    box-shadow: 0 0 0 16px #4c1d9500;
+    box-shadow: 0 0 0 16px #7A2E4D00;
   }
   100% {
-    box-shadow: 0 0 0 0 #4c1d9500;
+    box-shadow: 0 0 0 0 #7A2E4D00;
   }
 }
 .hotspot-label {
@@ -376,12 +376,12 @@
   white-space: nowrap;
   padding: 10px 14px;
   border-radius: 10px;
-  background: rgba(229, 220, 249, .62);
+  background: rgba(251,237,235, .62);
   color: var(--ink);
   font-family: var(--serif);
   font-size: 18px;
   text-align: left;
-  box-shadow: 0 14px 40px -12px #4a1c8e5a;
+  box-shadow: 0 14px 40px -12px #7A2E4D5a;
   opacity: 0;
   pointer-events: none;
   transition:
@@ -469,11 +469,11 @@
 }
 .marquee-set > span:nth-child(even) {
   font-style: italic;
-  color: #ddcef6;
+  color: #FBEDEB;
 }
 .marquee .brand-lotus {
   width: 0.62em;
-  color: #ddcef6;
+  color: #FBEDEB;
 }
 @keyframes marquee {
   to {
@@ -532,7 +532,7 @@
 
 /* Moments: a pinned horizontal gallery on desktop, swipeable on touch. */
 .moments {
-  background: #4b1d91;
+  background: #7A2E4D;
   color: var(--cream);
   position: relative;
   overflow: hidden;
@@ -561,7 +561,7 @@
 }
 .moments-intro p {
   max-width: 330px;
-  color: #e3d7f9;
+  color: #FBEDEB;
   font-size: 16px;
 }
 .moments-arrows {
@@ -572,7 +572,7 @@
 .moments-arrows .icon-button {
   width: 54px;
   height: 54px;
-  border: 1px solid #4c1d9555;
+  border: 1px solid #7A2E4D55;
   border-radius: 50%;
   transition:
     background 0.3s,
@@ -630,12 +630,12 @@
   font-family: var(--sans);
   font-size: 11px;
   letter-spacing: 0.14em;
-  color: #ddcef6;
+  color: #FBEDEB;
 }
 .moment figcaption small {
   font-family: var(--sans);
   font-size: 11px;
-  color: #5a22ae;
+  color: #7A2E4D;
 }
 .moments-progress {
   position: absolute;
@@ -700,7 +700,7 @@
   gap: 10px;
   padding: 7px;
   border-radius: 100px;
-  background: rgba(229, 220, 249, .62);
+  background: rgba(251,237,235, .62);
   backdrop-filter: blur(10px);
   z-index: 2;
 }

@@ -1,5 +1,5 @@
 .pixel-card {
-  --pixel-card-surface: linear-gradient(180deg, #17151c 0%, #0f0e13 100%);
+  --pixel-card-surface: linear-gradient(180deg, #3A2A2E 0%, #3A2A2E 100%);
   --pixel-card-edge: rgba(255, 255, 255, 0.08);
   --pixel-card-edge-active: rgba(255, 255, 255, 0.16);
   --pixel-card-highlight: rgba(255, 255, 255, 0.06);
@@ -21,10 +21,10 @@
 
 .pixel-card[data-theme='light'] {
   --pixel-card-surface: linear-gradient(180deg, #ffffff 0%, #f6f6f8 100%);
-  --pixel-card-edge: rgba(24, 24, 27, 0.08);
-  --pixel-card-edge-active: rgba(24, 24, 27, 0.16);
+  --pixel-card-edge: rgba(58,42,46, 0.08);
+  --pixel-card-edge-active: rgba(58,42,46, 0.16);
   --pixel-card-highlight: rgba(255, 255, 255, 1);
-  --pixel-card-shadow: 0 24px 48px -26px rgba(24, 24, 27, 0.32), 0 8px 18px -12px rgba(24, 24, 27, 0.18);
+  --pixel-card-shadow: 0 24px 48px -26px rgba(58,42,46, 0.32), 0 8px 18px -12px rgba(58,42,46, 0.18);
 }
 
 .pixel-card::after {

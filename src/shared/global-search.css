@@ -5,31 +5,31 @@ html:not(#a):not(#b):not(#c) body :is(.header, .vt-header) nav a {
 }
 html:not(#a):not(#b):not(#c) body :is(.header, .vt-header) nav a::after { display: none !important; }
 html:not(#a):not(#b):not(#c) body :is(.header, .vt-header) nav a:is(:hover, :focus-visible, .is-current) {
-  background: linear-gradient(135deg, #6d28d9, #a855f7) !important; color: #fff !important; text-shadow: none !important;
-  box-shadow: 0 4px 14px rgba(109, 40, 217, .4);
+  background: linear-gradient(135deg, #7A2E4D, #C98A9B) !important; color: #fff !important; text-shadow: none !important;
+  box-shadow: 0 4px 14px rgba(122,46,77, .4);
 }
 
 /* ===== Global search ===== */
 .gs { position: relative; font-family: inherit; text-transform: none; letter-spacing: normal; text-shadow: none; }
-.gs-box { display: flex; align-items: center; gap: 8px; background: #fffbf0; color: #4a3610; border: 1.5px solid #c9a24a; border-radius: 999px; padding: 0 14px; }
-.gs-box:focus-within { border-color: #9a7424; box-shadow: 0 0 0 3px rgba(201, 162, 74, .3); }
-.gs-ico { display: grid; place-items: center; color: #9a7424; flex: none; }
-.gs input { flex: 1; min-width: 0; border: 0; outline: 0; background: transparent; color: #4a3610; font: inherit; font-size: 14px; }
-.gs input::placeholder { color: #a88a45; }
+.gs-box { display: flex; align-items: center; gap: 8px; background: #FFFFFF; color: #3A2A2E; border: 1.5px solid #B8924F; border-radius: 999px; padding: 0 14px; }
+.gs-box:focus-within { border-color: #8F6E36; box-shadow: 0 0 0 3px rgba(184,146,79, .3); }
+.gs-ico { display: grid; place-items: center; color: #8F6E36; flex: none; }
+.gs input { flex: 1; min-width: 0; border: 0; outline: 0; background: transparent; color: #3A2A2E; font: inherit; font-size: 14px; }
+.gs input::placeholder { color: #B8924F; }
 .gs input::-webkit-search-cancel-button { cursor: pointer; }
-.gs-list { position: absolute; z-index: 80; top: calc(100% + 8px); left: 0; right: 0; min-width: 300px; margin: 0; padding: 6px; list-style: none; background: #fff; color: #4a3610; border: 1px solid #e8d7a6; border-radius: 16px; box-shadow: 0 18px 40px rgba(122, 90, 28, .25); max-height: 70vh; overflow: auto; }
+.gs-list { position: absolute; z-index: 80; top: calc(100% + 8px); left: 0; right: 0; min-width: 300px; margin: 0; padding: 6px; list-style: none; background: #fff; color: #3A2A2E; border: 1px solid #E8D3A9; border-radius: 16px; box-shadow: 0 18px 40px rgba(143,110,54, .25); max-height: 70vh; overflow: auto; }
 .gs-list button { width: 100%; display: grid; grid-template-columns: 1fr auto; gap: 2px 12px; text-align: left; padding: 10px 12px; border: 0; border-radius: 10px; background: transparent; color: inherit; cursor: pointer; font: inherit; }
-.gs-list button.is-cur { background: #f8efd6; }
+.gs-list button.is-cur { background: #F4E8CF; }
 .gs-title { font-weight: 600; font-size: 14px; }
-.gs-price { grid-row: 1 / 3; grid-column: 2; align-self: center; font-weight: 600; color: #8a641a; font-size: 13px; }
-.gs-meta { font-size: 12px; color: #7a6a99; display: flex; gap: 8px; align-items: center; }
-.gs-tag { font-style: normal; font-size: 10px; text-transform: uppercase; letter-spacing: .08em; padding: 2px 8px; border-radius: 999px; background: #f6e9c2; color: #7a5a1c; }
+.gs-price { grid-row: 1 / 3; grid-column: 2; align-self: center; font-weight: 600; color: #8F6E36; font-size: 13px; }
+.gs-meta { font-size: 12px; color: #8E4A66; display: flex; gap: 8px; align-items: center; }
+.gs-tag { font-style: normal; font-size: 10px; text-transform: uppercase; letter-spacing: .08em; padding: 2px 8px; border-radius: 999px; background: #F4E8CF; color: #8F6E36; }
 .gs-tag.gs-service { background: #fde8f4; color: #a21c6e; }
-.gs-tag.gs-page { background: #ece5f9; color: #4c1d92; }
-.gs-empty { padding: 14px; font-size: 13px; color: #7a6a99; }
+.gs-tag.gs-page { background: #FBEDEB; color: #7A2E4D; }
+.gs-empty { padding: 14px; font-size: 13px; color: #8E4A66; }
 
 
-.gs-go { flex: none; border: 0; cursor: pointer; font: inherit; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: #3b2a07; background: linear-gradient(135deg, #b8892b, #f0d684 50%, #c9a24a); }
+.gs-go { flex: none; border: 0; cursor: pointer; font: inherit; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: #3A2A2E; background: linear-gradient(135deg, #8F6E36, #E8D3A9 50%, #B8924F); }
 
 /* navbar version: clean 38px circle icon (matches lang-ico); expands on focus */
 .gs-nav {
@@ -93,7 +93,7 @@ html:not(#a):not(#b):not(#c) body :is(.header, .vt-header) nav a:is(:hover, :foc
   justify-content: flex-start;
   cursor: text;
   background: color-mix(in srgb, #fff 92%, transparent);
-  border-color: #c9a24a;
+  border-color: #B8924F;
 }
 .gs-nav .gs-box:focus-within input,
 .gs-nav.is-expanded .gs-box input,
@@ -123,15 +123,15 @@ html:not(#a):not(#b):not(#c) body :is(.header, .vt-header) nav a:is(:hover, :foc
 }
 @media (max-width: 599px) { .gs-nav { display: none; } }
 /* expanded search sits above the nav links and has a solid background so it is readable */
-.gs-nav.is-expanded .gs-box { background: #fff !important; color: #4a3610 !important; border-color: #c9a24a !important; box-shadow: 0 8px 24px rgba(122, 90, 28, .22); }
-.gs-nav.is-expanded input { color: #4a3610; }
-.gs-nav.is-expanded .gs-ico { color: #9a7424; }
+.gs-nav.is-expanded .gs-box { background: #fff !important; color: #3A2A2E !important; border-color: #B8924F !important; box-shadow: 0 8px 24px rgba(143,110,54, .22); }
+.gs-nav.is-expanded input { color: #3A2A2E; }
+.gs-nav.is-expanded .gs-ico { color: #8F6E36; }
 @media (max-width: 1199px) { .gs-nav.is-expanded .gs-box, .gs-nav .gs-box:focus-within { width: min(240px, 60vw); } }
 
 /* hero version: big golden bar laid over the hero image */
 .gs-hero-wrap { position: absolute; z-index: 20; left: 0; right: 0; top: 116px; display: flex; justify-content: center; padding: 0 20px; pointer-events: none; }
 .gs-hero { width: min(760px, 100%); pointer-events: auto; }
-.gs-hero .gs-box { height: 56px; padding: 0 6px 0 20px; gap: 12px; border: 2px solid #c9a24a; background: rgba(255, 251, 240, .96); box-shadow: 0 10px 30px rgba(60, 40, 5, .35); }
+.gs-hero .gs-box { height: 56px; padding: 0 6px 0 20px; gap: 12px; border: 2px solid #B8924F; background: rgba(255,255,255, .96); box-shadow: 0 10px 30px rgba(58,42,46, .35); }
 .gs-hero input { font-size: 16px; }
 .gs-hero .gs-go { height: 44px; padding: 0 24px; border-radius: 999px; font-size: 12px; }
 .gs-hero .gs-list { top: calc(100% + 10px); }

@@ -8,7 +8,7 @@ const VARIANTS = {
   default: {
     gap: 5,
     speed: 35,
-    colors: { dark: ['#f8fafc', '#f1f5f9', '#cbd5e1'], light: ['#18181b', '#52525b', '#a1a1aa'] },
+    colors: { dark: ['#f8fafc', '#f1f5f9', '#cbd5e1'], light: ['#3A2A2E', '#52525b', '#a1a1aa'] },
     glow: { dark: '#cbd5e1', light: '#71717a' },
     noFocus: false
   },
@@ -22,8 +22,8 @@ const VARIANTS = {
   yellow: {
     gap: 3,
     speed: 20,
-    colors: { dark: ['#fef08a', '#fde047', '#eab308'], light: ['#713f12', '#a16207', '#ca8a04'] },
-    glow: { dark: '#eab308', light: '#ca8a04' },
+    colors: { dark: ['#E8D3A9', '#B8924F', '#B8924F'], light: ['#8F6E36', '#8F6E36', '#8F6E36'] },
+    glow: { dark: '#B8924F', light: '#8F6E36' },
     noFocus: false
   },
   pink: {

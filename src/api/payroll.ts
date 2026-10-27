@@ -84,8 +84,8 @@ export function lockRun(month: string) {
 /** Simple printable payslip HTML (browser print → PDF). BACKEND: server-side PDF. */
 export function payslipHtml(line: PayslipLine, month: string, salon = 'Revathi Herbal Beauty Care') {
   return `<!doctype html><html><head><meta charset="utf-8"/><title>Payslip ${month} — ${line.staffName}</title>
-  <style>body{font-family:system-ui,sans-serif;padding:32px;color:#2e0f5c}h1{font-size:20px;margin:0 0 4px}.muted{color:#6b5b8c;font-size:13px}
-  table{width:100%;border-collapse:collapse;margin-top:24px}td,th{padding:10px 8px;border-bottom:1px solid #e8e0f5;text-align:left}
+  <style>body{font-family:system-ui,sans-serif;padding:32px;color:#3A2A2E}h1{font-size:20px;margin:0 0 4px}.muted{color:#8E4A66;font-size:13px}
+  table{width:100%;border-collapse:collapse;margin-top:24px}td,th{padding:10px 8px;border-bottom:1px solid #FBEDEB;text-align:left}
   .net{font-size:18px;font-weight:700}</style></head><body>
   <h1>${salon}</h1><p class="muted">Payslip · ${month}</p>
   <p><strong>${line.staffName}</strong><br/><span class="muted">Staff ID: ${line.staffId}</span></p>

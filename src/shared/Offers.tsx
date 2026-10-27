@@ -24,12 +24,11 @@ export function useOffers(scope: Scope, subtotal: number): { o: OfferView; r: Co
   useEffect(() => {
     const on = () => tick((n) => n + 1)
     window.addEventListener('storage', on)
-    return () => window.removeEventListener('storage', on)
+    window.addEventListener('focus', on)
+    return () => { window.removeEventListener('storage', on); window.removeEventListener('focus', on) }
   }, [])
   return liveOffers(scope).map((o) => ({ o, r: validateCoupon(o.code, subtotal, scope) }))
 }
-/** Cards only show offers the customer can actually use (or could after logging in). */
-const usable = (r: CouponResult) => r.ok || r.reason === 'login' || r.reason === 'min'
 
 const head = (o: OfferView, ui: UiLang) => (o.type === 'percent' ? `${o.value}% OFF` : authT('Free delivery', ui).toUpperCase())
 const dateText = (iso: string, ui: UiLang) => new Date(`${iso}T00:00:00`).toLocaleDateString(ui === 'en' ? 'en-IN' : `${ui}-IN`, { day: 'numeric', month: 'short', year: 'numeric' })
@@ -58,11 +57,15 @@ function OfferPopup({ list, scope, cta, onClose }: { list: { o: OfferView; r: Co
         {list.map(({ o, r }) => (
           <div className="of-card" key={o.id}>
             <span className="of-badge">{head(o, ui)}</span>
-            <h4>{o.title}</h4>
-            {o.desc && <p>{o.desc}</p>}
+            <h4>{authT(o.title, ui)}</h4>
+            {o.desc && <p>{authT(o.desc, ui)}</p>}
             <span className="of-valid">{authT('Valid till {date}', ui, { date: dateText(o.end, ui) })}</span>
             <div className="of-code"><code>{o.code}</code><button type="button" className="of-copy" onClick={() => copy(o.code)}>{copied === o.code ? authT('Copied', ui) : authT('Copy code', ui)}</button></div>
             {!r.ok && r.reason === 'login' && <p className="of-note">{authT('Login to use this offer', ui)}</p>}
+            {!r.ok && r.reason === 'not-first-order' && <p className="of-note">{authT('This coupon is only for your first product order.', ui)}</p>}
+            {!r.ok && r.reason === 'not-first-service' && <p className="of-note">{authT('This coupon is only for your first service booking.', ui)}</p>}
+            {!r.ok && r.reason === 'need-booking' && <p className="of-note">{authT('Book a service first to use this coupon.', ui)}</p>}
+            {!r.ok && r.reason === 'has-order' && <p className="of-note">{authT('This coupon is only for customers who have not bought products yet.', ui)}</p>}
             {cta
               ? <Link {...(cta.Link ? { to: cta.to(o) } : { href: cta.to(o) })} className="of-cta" onClick={onClose}>{cta.label}</Link>
               : scope === 'products' && <p className="of-note" style={{ color: 'inherit', opacity: .7 }}>{authT('Use at checkout', ui)}</p>}
@@ -78,7 +81,7 @@ function OfferPopup({ list, scope, cta, onClose }: { list: { o: OfferView; r: Co
 export function OfferStrip({ scope, subtotal, verb = 'Offer till', cta, dark = false }: { scope: Scope; subtotal: number; verb?: 'Book by' | 'Offer till'; cta?: OfferCta; dark?: boolean }) {
   const [ui] = useUiLang()
   const [open, setOpen] = useState(false)
-  const list = useOffers(scope, subtotal).filter((x) => usable(x.r))
+  const list = useOffers(scope, subtotal)
   if (!list.length) return null
   const top = list[0].o
   return (
@@ -107,7 +110,7 @@ export function CouponPicker({ scope, subtotal, applied, onApply, reasonText, fm
         const on = applied === o.code
         return (
           <button type="button" key={o.id} className={`of-row ${on ? 'is-applied' : ''}`} disabled={!can || on} onClick={() => onApply(o.code)}>
-            <span><span className="of-rc">{o.code}</span><span className="of-rt">{o.title}</span></span>
+            <span><span className="of-rc">{o.code}</span><span className="of-rt">{authT(o.title, ui)}</span></span>
             <span className="of-ra">
               {on ? authT('Applied', ui) : r.ok ? (r.freeShip ? authT('Tap to apply', ui) : authT('Save {amount}', ui, { amount: fmt(r.discount) })) : r.reason === 'login' ? authT('Login to use this offer', ui) : reasonText(r.reason)}
             </span>

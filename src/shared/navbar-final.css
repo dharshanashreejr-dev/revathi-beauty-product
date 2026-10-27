@@ -304,9 +304,9 @@ html:not(#a):not(#b):not(#c) body :is(.header, .vt-header) .lang-ico select { po
 
 /* ═════════ Language globe: gold, sits right next to the profile button at the far right ═════════ */
 html:not(#a):not(#b):not(#c):not(#d) body :is(.header, .vt-header) :is(.nav-end, .vt-end) { display: flex !important; align-items: center !important; gap: 12px !important; flex: 0 0 auto; }
-html:not(#a):not(#b):not(#c):not(#d) body :is(.header, .vt-header) .lang-ico { color: #9a7424 !important; border-color: rgba(154, 116, 36, .55) !important; }
-html:not(#a):not(#b):not(#c):not(#d) body :is(.header, .vt-header) .lang-ico:hover { background: rgba(154, 116, 36, .12) !important; border-color: #9a7424 !important; }
-html:not(#a):not(#b):not(#c):not(#d) body :is(.header, .vt-header) .lang-ico svg { stroke: #9a7424 !important; }
+html:not(#a):not(#b):not(#c):not(#d) body :is(.header, .vt-header) .lang-ico { color: #8F6E36 !important; border-color: rgba(143,110,54, .55) !important; }
+html:not(#a):not(#b):not(#c):not(#d) body :is(.header, .vt-header) .lang-ico:hover { background: rgba(143,110,54, .12) !important; border-color: #8F6E36 !important; }
+html:not(#a):not(#b):not(#c):not(#d) body :is(.header, .vt-header) .lang-ico svg { stroke: #8F6E36 !important; }
 @media (min-width: 1200px) {
   html:not(#a):not(#b):not(#c):not(#d) body :is(.header, .vt-header) :is(.nav-end, .vt-end) {
     position: absolute !important;
@@ -362,8 +362,8 @@ html:not(#a):not(#b) body :is(.header, .vt-header) .gs-nav .gs-box {
   color: inherit !important;
 }
 html:not(#a):not(#b):not(#c) body :is(.header, .vt-header) .gs-nav .gs-box {
-  color: #9a7424 !important;
-  border-color: rgba(154, 116, 36, .55) !important;
+  color: #8F6E36 !important;
+  border-color: rgba(143,110,54, .55) !important;
 }
 
 
@@ -383,8 +383,8 @@ html:not(#a):not(#b) body .header .nav-tools > .icon-button {
   position: relative !important;
 }
 html:not(#a):not(#b):not(#c) body .header .nav-tools > .icon-button {
-  color: #9a7424 !important;
-  border-color: rgba(154, 116, 36, .55) !important;
+  color: #8F6E36 !important;
+  border-color: rgba(143,110,54, .55) !important;
 }
 html:not(#a):not(#b) body .header .nav-tools {
   display: flex !important;
@@ -570,7 +570,7 @@ html:not(#a):not(#b):not(#c):not(#d):not(#e):not(#f) body :is(.header, .vt-heade
     font-weight: 600 !important;
     letter-spacing: .16em !important;
     margin: 0 !important;
-    background: linear-gradient(100deg, #8a6420 0%, #c9a24a 50%, #8a6420 100%);
+    background: linear-gradient(100deg, #8F6E36 0%, #B8924F 50%, #8F6E36 100%);
     -webkit-background-clip: text; background-clip: text;
     -webkit-text-fill-color: transparent; color: transparent !important;
   }
@@ -596,7 +596,7 @@ html:not(#a):not(#b):not(#c):not(#d):not(#e):not(#f) body :is(.header, .vt-heade
   html:not(#a):not(#b):not(#c):not(#d):not(#e):not(#f) body :is(.header, .vt-header) :is(.nav-left, .vt-left) { margin-right: 4px !important; }
 }
 html:not(#a):not(#b):not(#c):not(#d):not(#e):not(#f) body :is(.header, .vt-header) {
-  box-shadow: 0 1px 0 rgba(154, 116, 36, .28), 0 10px 28px -14px rgba(76, 29, 149, .18) !important;
+  box-shadow: 0 1px 0 rgba(143,110,54, .28), 0 10px 28px -14px rgba(122,46,77, .18) !important;
 }
 
 /* ═════════ SAME logo text on EVERY page: Cormorant Garamond, medium weight (not bold), italic tagline ═════════ */
@@ -623,13 +623,13 @@ html:not(#a):not(#b):not(#c):not(#d):not(#e):not(#f) body :is(.header, .vt-heade
 /* ═════════ Logo text: darker + bolder, identical on every page ═════════ */
 html:not(#a):not(#b):not(#c):not(#d):not(#e):not(#f) body :is(.header, .vt-header) :is(.header-brand, .vt-brand) :is(.brand-word, .vt-word) {
   font-weight: 700 !important;
-  background: linear-gradient(100deg, #5e4010 0%, #8f6516 50%, #5e4010 100%) !important;
+  background: linear-gradient(100deg, #3A2A2E 0%, #8F6E36 50%, #3A2A2E 100%) !important;
   -webkit-background-clip: text !important; background-clip: text !important;
   -webkit-text-fill-color: transparent !important; color: transparent !important;
 }
 html:not(#a):not(#b):not(#c):not(#d):not(#e):not(#f) body :is(.header, .vt-header) :is(.header-brand, .vt-brand) :is(.brand-tagline, .vt-tagline) {
   font-weight: 600 !important;
-  color: #6b4a12 !important;
+  color: #3A2A2E !important;
   opacity: 1 !important;
 }
 

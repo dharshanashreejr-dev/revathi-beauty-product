@@ -36,35 +36,35 @@ const defaults = (): SearchHit[] => {
 }
 
 const CSS = `
-.gsp-overlay{position:fixed;inset:0;z-index:100000;display:flex;align-items:flex-start;justify-content:center;padding:28px 86px;background:rgba(76,29,149,.28);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);animation:gspFade .2s ease}
-.gsp-panel{position:relative;width:100%;max-width:1230px;max-height:calc(100vh - 56px);overflow:auto;background:#f6f1ff;color:#4c1d95;border-radius:28px;padding:65px 65px 55px;box-sizing:border-box;box-shadow:0 30px 80px rgba(76,29,149,.28);font-family:'Jost',system-ui,sans-serif;text-transform:none;letter-spacing:normal;text-shadow:none;animation:gspRise .25s ease}
-.gsp-close{position:absolute;top:20px;right:20px;width:46px;height:46px;border-radius:50%;border:0;background:#fff;color:#4c1d95;display:grid;place-items:center;cursor:pointer;box-shadow:0 4px 14px rgba(76,29,149,.15)}
-.gsp-close:hover{background:#ece3ff}
-.gsp-eyebrow{display:block;font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:#4c1d95}
-.gsp-panel h2{font-family:var(--serif,'Cormorant Garamond',Georgia,serif);font-weight:400;font-size:48px;letter-spacing:-.035em;line-height:1;margin:23px 0 30px;color:#4c1d95}
-.gsp-input{display:flex;align-items:center;gap:14px;padding:10px 22px;border:2px solid #c9a24a;border-radius:999px;background:linear-gradient(135deg,#fffbf0,#fbf1d4);box-shadow:0 8px 24px rgba(154,116,36,.18);transition:box-shadow .2s,border-color .2s}
-.gsp-input:focus-within{border-color:#9a7424;box-shadow:0 0 0 4px rgba(201,162,74,.3),0 10px 28px rgba(154,116,36,.25)}
-.gsp-input>svg{color:#9a7424;flex:none}
-.gsp-input input{min-width:0;width:100%;border:0;outline:0;background:none;font:inherit;font-size:24px;padding:8px;color:#4a3610}
-.gsp-input input::placeholder{color:#a88a45}
+.gsp-overlay{position:fixed;inset:0;z-index:100000;display:flex;align-items:flex-start;justify-content:center;padding:28px 86px;background:rgba(122,46,77,.28);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);animation:gspFade .2s ease}
+.gsp-panel{position:relative;width:100%;max-width:1230px;max-height:calc(100vh - 56px);overflow:auto;background:#FFFFFF;color:#7A2E4D;border-radius:28px;padding:65px 65px 55px;box-sizing:border-box;box-shadow:0 30px 80px rgba(122,46,77,.28);font-family:'Jost',system-ui,sans-serif;text-transform:none;letter-spacing:normal;text-shadow:none;animation:gspRise .25s ease}
+.gsp-close{position:absolute;top:20px;right:20px;width:46px;height:46px;border-radius:50%;border:0;background:#fff;color:#7A2E4D;display:grid;place-items:center;cursor:pointer;box-shadow:0 4px 14px rgba(122,46,77,.15)}
+.gsp-close:hover{background:#FBEDEB}
+.gsp-eyebrow{display:block;font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:#7A2E4D}
+.gsp-panel h2{font-family:var(--serif,'Cormorant Garamond',Georgia,serif);font-weight:400;font-size:48px;letter-spacing:-.035em;line-height:1;margin:23px 0 30px;color:#7A2E4D}
+.gsp-input{display:flex;align-items:center;gap:14px;padding:10px 22px;border:2px solid #B8924F;border-radius:999px;background:linear-gradient(135deg,#FFFFFF,#F4E8CF);box-shadow:0 8px 24px rgba(143,110,54,.18);transition:box-shadow .2s,border-color .2s}
+.gsp-input:focus-within{border-color:#8F6E36;box-shadow:0 0 0 4px rgba(184,146,79,.3),0 10px 28px rgba(143,110,54,.25)}
+.gsp-input>svg{color:#8F6E36;flex:none}
+.gsp-input input{min-width:0;width:100%;border:0;outline:0;background:none;font:inherit;font-size:24px;padding:8px;color:#3A2A2E}
+.gsp-input input::placeholder{color:#B8924F}
 .gsp-results{padding-top:25px}
-.gsp-results>button.is-cur strong{color:#8a641a}
-.gsp-results>button{display:flex;gap:25px;width:100%;padding:18px 0;text-align:left;border:0;border-bottom:1px solid #4c1d951c;background:transparent;color:inherit;font:inherit;cursor:pointer;align-items:center}
-.gsp-results>button.is-cur{background:linear-gradient(90deg,#f8efd6,transparent)}
+.gsp-results>button.is-cur strong{color:#8F6E36}
+.gsp-results>button{display:flex;gap:25px;width:100%;padding:18px 0;text-align:left;border:0;border-bottom:1px solid #7A2E4D1c;background:transparent;color:inherit;font:inherit;cursor:pointer;align-items:center}
+.gsp-results>button.is-cur{background:linear-gradient(90deg,#F4E8CF,transparent)}
 .gsp-results>button>span{flex:1;min-width:0}
-.gsp-results strong{display:block;font-family:var(--serif,'Cormorant Garamond',Georgia,serif);font-size:26px;font-weight:400;color:#4c1d95}
-.gsp-results small{display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-size:13px;margin-top:7px;color:#6b55a3}
-.gsp-tag{font-style:normal;font-size:10px;text-transform:uppercase;letter-spacing:.08em;padding:2px 9px;border-radius:999px;background:#e3d8fb;color:#4c1d95}
+.gsp-results strong{display:block;font-family:var(--serif,'Cormorant Garamond',Georgia,serif);font-size:26px;font-weight:400;color:#7A2E4D}
+.gsp-results small{display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-size:13px;margin-top:7px;color:#8E4A66}
+.gsp-tag{font-style:normal;font-size:10px;text-transform:uppercase;letter-spacing:.08em;padding:2px 9px;border-radius:999px;background:#FBEDEB;color:#7A2E4D}
 .gsp-tag.gsp-service{background:#fde8f4;color:#a21c6e}
-.gsp-tag.gsp-product{background:#f6e9c2;color:#7a5a1c}
-.gsp-results>button svg{flex:none;color:#4c1d95}
-.gsp-empty{padding:18px 0;font-size:15px;color:#6b55a3}
+.gsp-tag.gsp-product{background:#F4E8CF;color:#8F6E36}
+.gsp-results>button svg{flex:none;color:#7A2E4D}
+.gsp-empty{padding:18px 0;font-size:15px;color:#8E4A66}
 @keyframes gspFade{from{opacity:0}to{opacity:1}}
 @keyframes gspRise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
 @media(max-width:900px){.gsp-overlay{padding:12px}.gsp-panel{padding:56px 24px 32px;border-radius:22px;max-height:calc(100vh - 24px)}.gsp-panel h2{font-size:34px}.gsp-input input{font-size:18px}.gsp-results strong{font-size:21px}.gsp-close{top:12px;right:12px;width:40px;height:40px}}
 /* mobile-menu trigger bar */
 .gs-hero .gs-box{cursor:pointer}
-.gs-hero .gs-fake{flex:1;text-align:left;font-size:15px;color:#a88a45;background:none;border:0;font-family:inherit;padding:12px 0;cursor:pointer}
+.gs-hero .gs-fake{flex:1;text-align:left;font-size:15px;color:#B8924F;background:none;border:0;font-family:inherit;padding:12px 0;cursor:pointer}
 `
 
 export default function GlobalSearch({ variant = 'nav' }: { variant?: 'nav' | 'hero' }) {

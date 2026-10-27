@@ -1,6 +1,6 @@
 /* One navbar for the whole site — mirrors the landing page header. */
 .vt-header {
-  --vt-cream: #f5f2fd;
+  --vt-cream: #FFFFFF;
   position: fixed;
   z-index: 50;
   top: 0;
@@ -12,15 +12,15 @@
   align-items: start;
   color: var(--vt-cream);
   background: transparent;
-  text-shadow: 0 1px 12px #491c8d65;
+  text-shadow: 0 1px 12px #7A2E4D65;
   font-family: 'Jost', 'DM Sans', Arial, sans-serif;
   transition: background .5s, height .5s, box-shadow .5s;
   overflow: visible;
 }
 .vt-header.is-solid {
   height: 80px;
-  background: #491c8de0;
-  box-shadow: 0 1px 0 #4c1d951a;
+  background: #7A2E4De0;
+  box-shadow: 0 1px 0 #7A2E4D1a;
   backdrop-filter: blur(16px);
   text-shadow: none;
 }
@@ -166,7 +166,7 @@
 }
 .vt-admin:hover {
   background: var(--vt-cream);
-  color: #4c1d92 !important;
+  color: #7A2E4D !important;
   text-shadow: none;
 }
 
@@ -189,8 +189,8 @@
   position: fixed;
   inset: 0;
   z-index: 70;
-  background: #4c1d92;
-  color: #f5f2fd;
+  background: #7A2E4D;
+  color: #FFFFFF;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -233,7 +233,7 @@
   max-width: 100px;
   flex-shrink: 0;
 }
-.vt-lang option { color: #7a5a1c; background: #fbf7ec; }
+.vt-lang option { color: #8F6E36; background: #FFFFFF; }
 .vt-lang-menu { margin: 24px auto 0; display: block; }
 
 /* Profile / Login — always last, never clipped */

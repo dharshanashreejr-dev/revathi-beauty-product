@@ -13,9 +13,9 @@
 }
 
 .folder-root[data-theme='light'] {
-  --folder-ground: rgba(24, 22, 40, 0.16);
-  --folder-ground-soft: rgba(24, 22, 40, 0.1);
-  --folder-focus: #18181b;
+  --folder-ground: rgba(58,42,46, 0.16);
+  --folder-ground-soft: rgba(58,42,46, 0.1);
+  --folder-focus: #3A2A2E;
 }
 
 .folder-stage {

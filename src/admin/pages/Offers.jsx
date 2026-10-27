@@ -314,6 +314,7 @@ export default function Offers() {
               <Field label={t('Coupon code')} error={er.code && t(er.code)}><input value={d.code} onChange={(e) => set('code', e.target.value.toUpperCase())} placeholder="FIRSTORDER" maxLength={15} /></Field>
               {d.type === 'percent' && <Field label={t('Discount (%)')} error={er.value && t(er.value)}><input inputMode="numeric" value={d.value} onChange={(e) => set('value', e.target.value)} /></Field>}
               <Field label={t('Maximum uses')} error={er.maxUses && t(er.maxUses)} hint={t('Leave empty for unlimited.')}><input inputMode="numeric" value={d.maxUses} onChange={(e) => set('maxUses', e.target.value)} /></Field>
+              <Field label={t('Applies to')}><select value={d.scope} onChange={(e) => set('scope', e.target.value)}>{SCOPES.map(([v, l]) => <option key={v} value={v}>{t(l)}</option>)}</select></Field>
             </>)}
             {form.type === 'coupon' && !isSystemCoupon(d.id) && (<>
               <Field label={t('Coupon title')} error={er.title && t(er.title)} hint={t('Shown to customers. Leave empty to use the benefit, for example "10% off".')}><input value={d.title || ''} onChange={(e) => set('title', e.target.value)} placeholder="Welcome gift" maxLength={60} /></Field>

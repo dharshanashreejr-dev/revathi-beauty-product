@@ -6,8 +6,8 @@ export default function SilkBackground() {
   return (
     <div className="silk-bg" aria-hidden="true">
       <Silk
-        color="#8b6cf0"
-        sheenColor="#C4B5FD"
+        color="#C98A9B"
+        sheenColor="#F2C6C2"
         speed={3}
         scale={1.1}
         rotation={0.35}

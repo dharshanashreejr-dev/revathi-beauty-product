@@ -67,7 +67,7 @@ export default function ProductModal({ product, initialColour, onClose, onAdd }:
   return (
     <div className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-black/50 p-0 backdrop-blur-sm animate-fade sm:p-6" onClick={onClose} role="dialog" aria-modal="true" aria-label={pname(product.name, lang)}>
       <div className="relative my-auto w-full max-w-6xl animate-pop overflow-hidden bg-sand sm:rounded-[2rem] ring-1 ring-gold/30" onClick={e => e.stopPropagation()}>
-        <button onClick={onClose} aria-label={mt('m_close', lang)} className="absolute right-4 top-4 z-20 flex h-10 w-10 items-center justify-center rounded-full bg-[#eee7fc]/90 text-xl shadow transition hover:bg-paper">×</button>
+        <button onClick={onClose} aria-label={mt('m_close', lang)} className="absolute right-4 top-4 z-20 flex h-10 w-10 items-center justify-center rounded-full bg-[#FBEDEB]/90 text-xl shadow transition hover:bg-paper">×</button>
 
         <div className="grid md:grid-cols-2">
           {/* Photo viewer: cursor zoom */}

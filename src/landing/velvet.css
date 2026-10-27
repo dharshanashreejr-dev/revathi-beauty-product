@@ -5,8 +5,8 @@
 :root {
   --serif: Editorial, "Cormorant Garamond", Georgia, serif;
   --sans: Maison, "Jost", Arial, sans-serif;
-  --plum: #4a1c8f;
-  --plum-soft: #f0e9fb;
+  --plum: #7A2E4D;
+  --plum-soft: #FBEDEB;
 }
 
 /* ── Brand lock-up: REVATHI HERBAL BEAUTY CARE ── */
@@ -60,7 +60,7 @@
 .hero-slides {
   position: relative;
   overflow: hidden;
-  background: #4c1d92;
+  background: #7A2E4D;
 }
 .hero-slide {
   position: absolute;
@@ -180,7 +180,7 @@
   width: 100%;
   height: 85%;
   padding: 40px 28px 36px;
-  filter: drop-shadow(10px 18px 10px #4c1d954d);
+  filter: drop-shadow(10px 18px 10px #7A2E4D4d);
   transform: rotate(-9deg);
   transition: transform 1s cubic-bezier(0.2, 0.65, 0.2, 1);
 }
@@ -193,7 +193,7 @@
   height: 80%;
   max-height: 480px;
   transform: rotate(-7deg);
-  filter: drop-shadow(16px 22px 14px #4c1d9533);
+  filter: drop-shadow(16px 22px 14px #7A2E4D33);
 }
 .bag-image svg {
   width: 100%;
@@ -268,7 +268,7 @@
 }
 .shop-filters button,
 .salon-tabs button {
-  border: 1px solid #4c1d9530;
+  border: 1px solid #7A2E4D30;
   border-radius: 100px;
   padding: 11px 20px;
   font-size: 13px;
@@ -303,22 +303,22 @@
   overflow: hidden;
   display: grid;
   place-items: center;
-  background: linear-gradient(160deg, #ffffff, #f4f0fc 60%, #f1ebfb);
+  background: linear-gradient(160deg, #ffffff, #FFFFFF 60%, #FBEDEB);
   transition: box-shadow 0.4s;
 }
 .product-card:nth-child(3n + 2) .product-picture {
-  background: linear-gradient(160deg, #f1ebfb, #dfd2f7 60%, #d2bef2);
+  background: linear-gradient(160deg, #FBEDEB, #FBEDEB 60%, #F2C6C2);
 }
 .product-card:nth-child(3n) .product-picture {
-  background: linear-gradient(160deg, #f1ecfb, #e3d7f9 60%, #d1bcf2);
+  background: linear-gradient(160deg, #FBEDEB, #FBEDEB 60%, #F2C6C2);
 }
 .product-picture:hover {
-  box-shadow: 0 30px 60px -25px #4c1d954d;
+  box-shadow: 0 30px 60px -25px #7A2E4D4d;
 }
 .product-art {
   width: 62%;
   height: 82%;
-  filter: drop-shadow(8px 14px 10px #4c1d952b);
+  filter: drop-shadow(8px 14px 10px #7A2E4D2b);
   transition: transform 1s cubic-bezier(0.2, 0.65, 0.2, 1);
 }
 .product-picture:hover .product-art {
@@ -331,7 +331,7 @@
   z-index: 2;
   padding: 7px 12px;
   border-radius: 100px;
-  background: rgba(229, 220, 249, .62);
+  background: rgba(251,237,235, .62);
   font-size: 11px;
   line-height: 1;
 }
@@ -376,7 +376,7 @@
 /* ── Rituals: luxury in daily use ── */
 .rituals {
   padding: 125px 6% 140px;
-  background: #f4f0fc;
+  background: #FFFFFF;
 }
 .ritual-grid {
   display: grid;
@@ -393,19 +393,19 @@
   border-radius: 10px;
 }
 .ritual-0 {
-  background: linear-gradient(160deg, rgba(229, 220, 249, .62), #f4f0fc 60%, #eee8fb);
+  background: linear-gradient(160deg, rgba(251,237,235, .62), #FFFFFF 60%, #FBEDEB);
 }
 .ritual-1 {
   margin-top: 50px;
-  background: linear-gradient(160deg, #f1ebfb, #dfd2f7 55%, #a981e8);
+  background: linear-gradient(160deg, #FBEDEB, #FBEDEB 55%, #C98A9B);
 }
 .ritual-2 {
-  background: linear-gradient(160deg, #c4a8ef, #460bda 50%, #4a1c8f);
+  background: linear-gradient(160deg, #F2C6C2, #7A2E4D 50%, #7A2E4D);
   color: var(--cream);
 }
 .ritual-3 {
   margin-top: 50px;
-  background: linear-gradient(160deg, #cab2f1, #8b52eb 55%, #4e1e96);
+  background: linear-gradient(160deg, #F2C6C2, #C98A9B 55%, #7A2E4D);
   color: var(--cream);
 }
 .ritual-when {
@@ -441,7 +441,7 @@
 .ritual-items svg {
   width: 100%;
   height: 100%;
-  filter: drop-shadow(5px 9px 6px #4c1d9540);
+  filter: drop-shadow(5px 9px 6px #7A2E4D40);
 }
 .ritual-card small {
   font-size: 11px;
@@ -454,7 +454,7 @@
 }
 .ritual-2 .pill.dark .pill-dot,
 .ritual-3 .pill.dark .pill-dot {
-  border-color: #4c1d9555;
+  border-color: #7A2E4D55;
 }
 .ritual-2 .pill.dark:hover,
 .ritual-3 .pill.dark:hover {
@@ -519,7 +519,7 @@
 }
 .salon-tabs {
   padding-bottom: 18px;
-  border-bottom: 1px solid #4c1d9530;
+  border-bottom: 1px solid #7A2E4D30;
 }
 .salon-intro {
   font-family: var(--serif);
@@ -539,7 +539,7 @@
   justify-content: space-between;
   gap: 30px;
   padding: 24px 0;
-  border-bottom: 1px solid #4c1d9525;
+  border-bottom: 1px solid #7A2E4D25;
 }
 .service-row h3 {
   font-size: 28px;
@@ -630,7 +630,7 @@
   width: 100%;
   padding: 10px 0;
   border: 0;
-  border-bottom: 1px solid #4c1d9540;
+  border-bottom: 1px solid #7A2E4D40;
   border-radius: 0;
   background: transparent;
   outline: none;
@@ -655,7 +655,7 @@
 }
 .slot-grid button {
   padding: 10px 0;
-  border: 1px solid #4c1d9530;
+  border: 1px solid #7A2E4D30;
   border-radius: 6px;
   font-size: 13px;
   letter-spacing: 0;
@@ -677,14 +677,14 @@
 }
 .booking-summary {
   margin: 26px 0;
-  border-top: 1px solid #4c1d9525;
+  border-top: 1px solid #7A2E4D25;
 }
 .booking-summary > div {
   display: flex;
   justify-content: space-between;
   gap: 20px;
   padding: 14px 0;
-  border-bottom: 1px solid #4c1d9525;
+  border-bottom: 1px solid #7A2E4D25;
   font-size: 14px;
 }
 .booking-summary dt {
@@ -722,7 +722,7 @@
 .bag-totals .bag-total {
   margin-top: 6px;
   padding-top: 14px;
-  border-top: 1px solid #4c1d9525;
+  border-top: 1px solid #7A2E4D25;
   font-family: var(--serif);
   font-size: 24px;
 }

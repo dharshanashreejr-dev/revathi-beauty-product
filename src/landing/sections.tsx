@@ -109,11 +109,11 @@ function Arrows({ prev, next, label, lang = "en" }: { prev: () => void; next: ()
 
 /** Colour options for the bottle in the "Golden glow" showcase. The page background stays fixed; only the product colour changes. */
 const bottleColours: Record<string, [string, string][]> = {
-  eclat: [["#eaa56a", "#c68a4d"], ["#e8a0b4", "#c46a86"], ["#9fd0b3", "#5f9c7a"]],
-  "night-cream": [["#c9aed3", "#7f5b93"], ["#f0c6a8", "#c98a62"], ["#a9c4e0", "#5f86b0"]],
-  "body-butter": [["#f4c1b2", "#cc7b6b"], ["#f6dd9a", "#c9a23f"], ["#b8d8b0", "#6f9c63"]],
-  "hair-oil": [["#aebf9c", "#5f7d4d"], ["#d8b27a", "#8a5f2b"], ["#9cc3d6", "#4f86a3"]],
-  perfume: [["#d4b6a6", "#8b6753"], ["#e6b8d4", "#a8689a"], ["#f0d58a", "#b08a2a"]],
+  eclat: [["#eaa56a", "#B8924F"], ["#e8a0b4", "#c46a86"], ["#9fd0b3", "#5f9c7a"]],
+  "night-cream": [["#C98A9B", "#8E4A66"], ["#f0c6a8", "#c98a62"], ["#a9c4e0", "#5f86b0"]],
+  "body-butter": [["#f4c1b2", "#cc7b6b"], ["#E8D3A9", "#B8924F"], ["#b8d8b0", "#6f9c63"]],
+  "hair-oil": [["#aebf9c", "#5f7d4d"], ["#B8924F", "#8F6E36"], ["#9cc3d6", "#4f86a3"]],
+  perfume: [["#d4b6a6", "#8b6753"], ["#e6b8d4", "#a8689a"], ["#E8D3A9", "#8F6E36"]],
 };
 
 /** Product photo that zooms in under the cursor (no extra angle views). */
@@ -133,7 +133,13 @@ function ZoomPhoto({ src, alt }: { src: string; alt: string }) {
   );
 }
 
-export function HerbalShowcase({ onOpen, onAdd, lang = "en" }: { onOpen: (id: string) => void; onAdd: (id: string) => void; lang?: Lang }) {
+const DISCOVER_NAME: Record<string, Record<string, string>> = {
+  "body-butter": { en: "Body Butter", ta: "பாடி பட்டர்", hi: "बॉडी बटर", ml: "ബോഡി ബട്ടർ", te: "బాడీ బటర్", kn: "ಬಾಡಿ ಬಟರ್", mr: "बॉडी बटर", bn: "বডি বাটার", sa: "देहनवनीतम्" },
+  "hair-oil": { en: "Hair Oil", ta: "ஹேர் ஆயில்", hi: "हेयर ऑयल", ml: "ഹെയർ ഓയിൽ", te: "హెయిర్ ఆయిల్", kn: "ಹೇರ್ ಆಯಿಲ್", mr: "हेअर ऑइल", bn: "হেয়ার অয়েল", sa: "केशतैलम्" },
+  perfume: { en: "Eau de Parfum", ta: "ஓ டி பர்ஃபம்", hi: "ओ डी परफ्यूम", ml: "ഓ ഡി പർഫ്യൂം", te: "ఓ డి పర్ఫ్యూమ్", kn: "ಓ ಡಿ ಪರ್ಫ್ಯೂಮ್", mr: "ओ दे परफ्यूम", bn: "ও দ্য পারফিউম", sa: "सुगन्धजलम्" },
+};
+
+export function HerbalShowcase({ onOpen, onAdd, lang = "en" }: { onOpen: (id: string, shade?: number) => void; onAdd: (id: string) => void; lang?: Lang }) {
   const main = useSwipe({ loop: true, align: "center", containScroll: false });
   const promo = useSwipe({ dragFree: true });
   const [herb, setHerb] = useState(0);
@@ -252,8 +258,8 @@ export function HerbalShowcase({ onOpen, onAdd, lang = "en" }: { onOpen: (id: st
                       </div>
                     </div>
                     <div className="herbal-cta">
-                      <button className="pill dark herbal-pill" onClick={() => onOpen(s.id)}>
-                        {st("discover", lang)} {(p.name[lang] ?? p.name.en).split(" ")[0]}
+                      <button className="pill dark herbal-pill" onClick={() => onOpen(s.id, tint % (s.photos?.length || 1))}>
+                        {st("discover", lang)} {DISCOVER_NAME[s.id]?.[lang] ?? (p.name[lang] ?? p.name.en).split(" ")[0]}
                         <span className="pill-dot">
                           <Plus size={20} />
                         </span>

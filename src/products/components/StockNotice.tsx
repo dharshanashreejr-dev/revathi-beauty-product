@@ -43,7 +43,7 @@ export function OutStamp() {
   return (
     <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-20 flex items-center justify-center">
       <div
-        className="select-none whitespace-nowrap rounded-md border-[3px] border-double border-red-600 bg-[#eee7fc]/60 px-4 py-1.5 text-center text-[clamp(14px,2.2vw,22px)] font-extrabold uppercase tracking-[0.18em] text-red-600 shadow-[inset_0_0_0_2px_rgba(220,38,38,0.15)]"
+        className="select-none whitespace-nowrap rounded-md border-[3px] border-double border-red-600 bg-[#FBEDEB]/60 px-4 py-1.5 text-center text-[clamp(14px,2.2vw,22px)] font-extrabold uppercase tracking-[0.18em] text-red-600 shadow-[inset_0_0_0_2px_rgba(220,38,38,0.15)]"
         style={{ transform: 'rotate(-18deg)', opacity: 0.88, textShadow: '0 0 1px rgba(220,38,38,.6)', mixBlendMode: 'multiply' }}
       >
         {authT('Out of stock', ui)}

@@ -20,9 +20,9 @@ export function requireLogin(then: () => void) { if (api.auth.currentUser()) the
 const mmss = (ms: number) => { const s = Math.max(0, Math.ceil(ms / 1000)); return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}` }
 const ERR = { expired: 'OTP expired. Please resend.', wrong: 'Wrong OTP. Please try again.', locked: 'Too many wrong attempts. Please resend the OTP.', none: 'OTP expired. Please resend.' } as const
 
-const input: React.CSSProperties = { width: '100%', padding: '13px 14px', borderRadius: 12, border: '1px solid #cfae5c', background: '#ddd2fb', color: 'inherit', fontSize: 16, outline: 'none', boxSizing: 'border-box' }
-const btn: React.CSSProperties = { width: '100%', padding: 13, borderRadius: 999, cursor: 'pointer', background: '#4c1d92', color: '#f3dfa0', border: '1px solid #c9a24b', fontSize: 15, letterSpacing: '.08em' }
-const link: React.CSSProperties = { background: 'none', border: 0, cursor: 'pointer', color: '#511f9c', textDecoration: 'underline', fontSize: 13, padding: 4 }
+const input: React.CSSProperties = { width: '100%', padding: '13px 14px', borderRadius: 12, border: '1px solid #B8924F', background: '#FBEDEB', color: 'inherit', fontSize: 16, outline: 'none', boxSizing: 'border-box' }
+const btn: React.CSSProperties = { width: '100%', padding: 13, borderRadius: 999, cursor: 'pointer', background: '#7A2E4D', color: '#E8D3A9', border: '1px solid #B8924F', fontSize: 15, letterSpacing: '.08em' }
+const link: React.CSSProperties = { background: 'none', border: 0, cursor: 'pointer', color: '#7A2E4D', textDecoration: 'underline', fontSize: 13, padding: 4 }
 
 function Modal({ onClose, onDone, gate }: { onClose: () => void; onDone: (u: User) => void; gate: boolean }) {
   const [lang, setL] = useState<UiLang>(getUiLang())
@@ -69,7 +69,7 @@ function Modal({ onClose, onDone, gate }: { onClose: () => void; onDone: (u: Use
   const otpStep = (
     <>
       <p style={{ margin: '0 0 14px', fontSize: 14, opacity: .75 }}>{t('Enter the 6-digit OTP sent to +91 {phone}', { phone })}</p>
-      {demo && <p style={{ margin: '0 0 12px', padding: '8px 10px', borderRadius: 10, background: '#ddd2fb', border: '1px solid #cfae5c', fontSize: 13 }}>{t('Demo mode: your OTP is {otp}', { otp: demo })}</p>}
+      {demo && <p style={{ margin: '0 0 12px', padding: '8px 10px', borderRadius: 10, background: '#FBEDEB', border: '1px solid #B8924F', fontSize: 13 }}>{t('Demo mode: your OTP is {otp}', { otp: demo })}</p>}
       <input style={{ ...input, textAlign: 'center', letterSpacing: '.5em', fontSize: 22 }} inputMode="numeric" autoFocus maxLength={6} aria-label="OTP" value={code}
         onChange={(e) => { setCode(e.target.value.replace(/\D/g, '')); setErr('') }} onKeyDown={(e) => e.key === 'Enter' && code.length === 6 && goNext()} />
       <p style={{ fontSize: 12, opacity: .7, margin: '10px 0 0' }}>{left > 0 ? t('OTP valid for {time}', { time: mmss(left) }) : t(ERR.expired)}</p>
@@ -102,13 +102,13 @@ function Modal({ onClose, onDone, gate }: { onClose: () => void; onDone: (u: Use
 
   return (
     <div role="dialog" aria-modal="true" aria-label={t('Login to continue')} onMouseDown={(e) => e.target === e.currentTarget && onClose()}
-      style={{ position: 'fixed', inset: 0, zIndex: 2147482000, display: 'grid', placeItems: 'center', background: gate ? 'linear-gradient(160deg,#f4f0fc 0%,#f0e9fb 100%)' : 'rgba(72, 27, 139, .62)', backdropFilter: gate ? undefined : 'blur(6px)', padding: 16, overflowY: 'auto' }}>
-      <div style={{ position: 'relative', width: 'min(460px,100%)', color: '#4c1d92', textAlign: 'center', fontFamily: 'inherit' }}>
+      style={{ position: 'fixed', inset: 0, zIndex: 2147482000, display: 'grid', placeItems: 'center', background: gate ? 'linear-gradient(160deg,#FFFFFF 0%,#FBEDEB 100%)' : 'rgba(122,46,77, .62)', backdropFilter: gate ? undefined : 'blur(6px)', padding: 16, overflowY: 'auto' }}>
+      <div style={{ position: 'relative', width: 'min(460px,100%)', color: '#7A2E4D', textAlign: 'center', fontFamily: 'inherit' }}>
         <button type="button" onClick={onClose} aria-label="Close" style={{ position: 'absolute', top: 10, right: 14, zIndex: 5, background: 'none', border: 0, fontSize: 20, cursor: 'pointer', color: 'inherit', opacity: .6 }}>✕</button>
         <Stepper
           step={at}
           theme="violetgold"
-          accentColor="#4c1d92"
+          accentColor="#7A2E4D"
           width={460}
           radius={22}
           indicator="numbers"
@@ -123,12 +123,12 @@ function Modal({ onClose, onDone, gate }: { onClose: () => void; onDone: (u: Use
             if (at === base + 1) { setStep('phone'); setOtpOk(false) } else setOtpOk(false)
             setErr('')
           } }}
-          nextButtonProps={{ style: { boxShadow: '0 0 0 1px #c9a24b, 0 6px 14px -6px rgba(201,162,75,.8)' }, disabled: (at === base + 1 && code.length !== 6) || (at === base && phone.length < 10), onClick: (e: React.MouseEvent) => { e.preventDefault(); goNext() } }}
+          nextButtonProps={{ style: { boxShadow: '0 0 0 1px #B8924F, 0 6px 14px -6px rgba(184,146,79,.8)' }, disabled: (at === base + 1 && code.length !== 6) || (at === base && phone.length < 10), onClick: (e: React.MouseEvent) => { e.preventDefault(); goNext() } }}
           style={{ textAlign: 'center' }}
         >
           {gate && <Step title={shown('Language', 'Language')}><div style={{ padding: 8 }} /></Step>}
           <Step title={shown('Mobile', 'Mobile')}>
-            <div style={{ fontSize: 11, letterSpacing: '.3em', textTransform: 'uppercase', color: '#a8812f', fontWeight: 500 }}>REVATHI HERBAL BEAUTY CARE</div>
+            <div style={{ fontSize: 11, letterSpacing: '.3em', textTransform: 'uppercase', color: '#8F6E36', fontWeight: 500 }}>REVATHI HERBAL BEAUTY CARE</div>
             <h2 style={{ margin: '10px 0 8px', fontSize: 22, fontWeight: 600 }}>{t('Login to continue')}</h2>
             {phoneStep}
           </Step>

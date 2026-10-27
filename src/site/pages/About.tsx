@@ -32,7 +32,7 @@ function Hero() {
   const { t, lang } = useI18n()
   const sub = lang === 'en' ? spa.sub.toLowerCase().replace(/^./, (c) => c.toUpperCase()) : t(spa.sub)
   return (
-    <section className="relative min-h-[88svh] pt-20 grid md:grid-cols-2 bg-[#f1ecfb] text-ink overflow-hidden">
+    <section className="relative min-h-[88svh] pt-20 grid md:grid-cols-2 bg-[#FBEDEB] text-ink overflow-hidden">
       <div className="relative order-2 md:order-1 flex flex-col justify-center px-5 md:px-10 pt-10 pb-20 md:pt-12 md:pb-28">
         <span className="label block fade-up !tracking-[.28em] opacity-80">{t('About · {name}', { name: spa.name })}</span>
         <h1 className="mt-8 fade-up text-[clamp(2.8rem,6.2vw,6.5rem)] leading-[1.02] tracking-tight" style={{ fontFamily: 'Georgia, "Times New Roman", serif' }}>{rich(t('Where beauty\nmeets *care.*'))}</h1>
@@ -104,7 +104,7 @@ function Values() {
   const { t } = useI18n()
   const [on, setOn] = useState<number | null>(null)
   return (
-    <section id="values" className="py-28 bg-[#f2ecfc] px-5 md:px-10">
+    <section id="values" className="py-28 bg-[#FFFFFF] px-5 md:px-10">
       <Reveal><span className="label block mb-4">{t('What we stand for')}</span><h2 className="h text-[clamp(2.2rem,5vw,4.6rem)]">{rich(t('Four promises.\nHover to flip.'))}</h2></Reveal>
       <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-12">
         {values.map(([ti, d, k, n], i) => (
@@ -146,8 +146,8 @@ function Team() {
       <div className="flex justify-center items-center py-10 min-h-[420px]">
         <Folder
           label={t('The people')}
-          color="#6d3bc4"
-          paperColor="#fbf8ff"
+          color="#8E4A66"
+          paperColor="#FFFFFF"
           size={1.5}
           mode="flap"
           variant="solid"
@@ -162,14 +162,14 @@ function Team() {
                 <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(0,0,0,.78), transparent 55%)' }} />
                 <div style={{ position: 'absolute', left: 8, bottom: 8, right: 8, color: '#fff' }}>
                   <div style={{ fontSize: 13, fontWeight: 600, lineHeight: 1.1 }}>{m.name}</div>
-                  <div style={{ fontSize: 9, letterSpacing: '.12em', textTransform: 'uppercase', color: '#d8c2ff', marginTop: 3 }}>{t(m.role)}</div>
+                  <div style={{ fontSize: 9, letterSpacing: '.12em', textTransform: 'uppercase', color: '#FBEDEB', marginTop: 3 }}>{t(m.role)}</div>
                 </div>
               </div>
             ),
           }))}
         />
       </div>
-      <div className="px-5 md:px-10 mt-14 grid grid-cols-2 md:grid-cols-4 gap-4">{team.slice(0, 4).map((m, i) => <PixelCard key={m.name} variant="pink" colors="#e9d8ff,#c4a1f5,#8a52e0" glowColor="#8a52e0" gap={8} pixelSize={3} speed={40} opacity={0.55} fade={0.6} introDelay={i * 150} radius={16} theme="dark" style={{ width: '100%', height: 'auto', minHeight: 150 }}><div className="p-5 text-white w-full"><p className="h text-xl">{m.name}</p><p className="label !font-medium text-gold mt-1">{t(m.role)}</p><p className="text-xs mt-2 opacity-75">{t(m.skill)}</p></div></PixelCard>)}</div>
+      <div className="px-5 md:px-10 mt-14 grid grid-cols-2 md:grid-cols-4 gap-4">{team.slice(0, 4).map((m, i) => <PixelCard key={m.name} variant="pink" colors="#FBEDEB,#F2C6C2,#7A2E4D" glowColor="#7A2E4D" gap={8} pixelSize={3} speed={40} opacity={0.55} fade={0.6} introDelay={i * 150} radius={16} theme="dark" style={{ width: '100%', height: 'auto', minHeight: 150 }}><div className="p-5 text-white w-full"><p className="h text-xl">{m.name}</p><p className="label !font-medium text-gold mt-1">{t(m.role)}</p><p className="text-xs mt-2 opacity-75">{t(m.skill)}</p></div></PixelCard>)}</div>
     </section>
   )
 }

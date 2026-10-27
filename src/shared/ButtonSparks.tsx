@@ -19,7 +19,7 @@ function Sparks() {
     return () => document.removeEventListener('pointerdown', on, true)
   }, [])
   return (
-    <ClickSpark ref={ref} sparkColor={['#ad87e9', '#f5f2fd', '#c9a24a']} shape="star" sparkCount={9} sparkSize={12} sparkRadius={34} duration={650} randomness={0.35} glow={0.4}
+    <ClickSpark ref={ref} sparkColor={['#C98A9B', '#FFFFFF', '#B8924F']} shape="star" sparkCount={9} sparkSize={12} sparkRadius={34} duration={650} randomness={0.35} glow={0.4}
       style={{ position: 'fixed', inset: 0, width: '100vw', height: '100vh', pointerEvents: 'none', zIndex: 2147483600 }} />
   )
 }

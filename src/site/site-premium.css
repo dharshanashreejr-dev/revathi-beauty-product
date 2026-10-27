@@ -15,53 +15,53 @@ h3.h { transition: letter-spacing .5s ease, color .4s ease; }
 
 /* 2) Buttons: text always clearly visible (cream on deep violet) */
 a.bg-ink, button.bg-ink, .bg-ink a.label, a.bg-ink.label, a.bg-ink .label {
-  color: #fbf1d6 !important;
+  color: #F4E8CF !important;
 }
 a.bg-ink:hover, button.bg-ink:hover { color: #fff !important; }
 
 /* 3) Gold + violet mix on Services and About */
-.svc-page, .about-page { --g: #a67c2e; --g-soft: rgba(201, 163, 91, .55); }
+.svc-page, .about-page { --g: #8F6E36; --g-soft: rgba(184,146,79, .55); }
 
 :is(.svc-page, .about-page) .label { color: var(--g) !important; letter-spacing: .14em; }
 :is(.svc-page, .about-page) :is(.bg-ink, .aurora) .label,
-:is(.svc-page, .about-page) :is(.bg-ink, .aurora) .label.text-gold { color: #ead29a !important; }
-:is(.svc-page, .about-page) a.bg-ink.label, :is(.svc-page, .about-page) a.bg-ink .label { color: #fbf1d6 !important; }
-:is(.svc-page, .about-page) .label[class*="bg-gold"] { color: #6b4a12 !important; background: #f3e7cb !important; border: 1px solid var(--g-soft); }
+:is(.svc-page, .about-page) :is(.bg-ink, .aurora) .label.text-gold { color: #E8D3A9 !important; }
+:is(.svc-page, .about-page) a.bg-ink.label, :is(.svc-page, .about-page) a.bg-ink .label { color: #F4E8CF !important; }
+:is(.svc-page, .about-page) .label[class*="bg-gold"] { color: #3A2A2E !important; background: #F4E8CF !important; border: 1px solid var(--g-soft); }
 
 /* headings: deep violet with an animated gold rule underneath */
 :is(.svc-page, .about-page) section:not(.bg-ink):not(.aurora) h2.h::after {
   content: ''; display: block; width: 72px; height: 2px; margin-top: 22px;
-  background: linear-gradient(90deg, #b8893a, #f0dca2, #b8893a, transparent);
+  background: linear-gradient(90deg, #B8924F, #E8D3A9, #B8924F, transparent);
   background-size: 200% 100%; animation: spShine 5s linear infinite;
 }
 :is(.svc-page, .about-page) :is(.bg-ink, .aurora) h2.h::after {
   content: ''; display: block; width: 72px; height: 2px; margin-top: 22px;
-  background: linear-gradient(90deg, #e9cf91, #fff3cf, #e9cf91, transparent);
+  background: linear-gradient(90deg, #E8D3A9, #F4E8CF, #E8D3A9, transparent);
   background-size: 200% 100%; animation: spShine 5s linear infinite;
 }
 .svc-page section h2.h { text-align: left; }
 
 /* cards: fine gold frame, title turns gold on hover */
 :is(.svc-page, .about-page) .group, :is(.svc-page, .about-page) article { border-color: var(--g-soft) !important; }
-:is(.svc-page, .about-page) .group:hover { border-color: #c9a35b !important; box-shadow: 0 22px 44px -22px rgba(148, 112, 43, .45); }
-:is(.svc-page, .about-page) .group:not(.bg-ink):hover h3, :is(.svc-page, .about-page) article:not(.bg-ink):hover h3 { color: #94702b; }
-.svc-page .group .p-6 { border-top: 1px solid rgba(201, 163, 91, .4); }
+:is(.svc-page, .about-page) .group:hover { border-color: #B8924F !important; box-shadow: 0 22px 44px -22px rgba(143,110,54, .45); }
+:is(.svc-page, .about-page) .group:not(.bg-ink):hover h3, :is(.svc-page, .about-page) article:not(.bg-ink):hover h3 { color: #8F6E36; }
+.svc-page .group .p-6 { border-top: 1px solid rgba(184,146,79, .4); }
 .svc-page article h3 + p.label { color: var(--g) !important; }
-.svc-page .text-sm.font-medium, .svc-page .text-sm.font-medium * { color: #94702b; }
+.svc-page .text-sm.font-medium, .svc-page .text-sm.font-medium * { color: #8F6E36; }
 .svc-page select { border-color: var(--g-soft) !important; }
-.svc-page footer a.label { background: #4b1d91; color: #fbf1d6 !important; border: 1px solid #c9a35b; }
+.svc-page footer a.label { background: #7A2E4D; color: #F4E8CF !important; border: 1px solid #B8924F; }
 
 /* About: big numbers / years and rules in gold */
 .about-page .gold-text { filter: saturate(1.1); }
 .about-page section:not(.bg-ink):not(.aurora) h4.label { border-bottom: 1px solid var(--g-soft); padding-bottom: 8px; }
-.about-page .border-b { border-color: rgba(201, 163, 91, .4) !important; }
+.about-page .border-b { border-color: rgba(184,146,79, .4) !important; }
 
 @media (prefers-reduced-motion: reduce) { h1, h2, h3, .label { animation: none !important; } :is(.svc-page, .about-page) h2.h::after { animation: none !important; } }
 
 /* ===== Reviews page: golden text accents (like the "ann." on the Tracking page) ===== */
 .rv-gold {
-  background: linear-gradient(135deg, #b8892b 0%, #f6e6a8 48%, #c9a24a 100%);
+  background: linear-gradient(135deg, #8F6E36 0%, #E8D3A9 48%, #B8924F 100%);
   -webkit-background-clip: text; background-clip: text;
   -webkit-text-fill-color: transparent; color: transparent;
 }
-.rv-gold-label { color: #e8c872 !important; letter-spacing: .22em; }
+.rv-gold-label { color: #B8924F !important; letter-spacing: .22em; }

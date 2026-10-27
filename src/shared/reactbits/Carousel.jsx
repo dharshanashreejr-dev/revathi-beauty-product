@@ -51,11 +51,11 @@ const DEFAULT_ITEMS = [
 
 const THEMES = {
   dark: {
-    '--carousel-frame': 'rgba(38, 35, 46, 0.66)',
+    '--carousel-frame': 'rgba(58,42,46, 0.66)',
     '--carousel-frame-edge': 'rgba(255, 255, 255, 0.08)',
     '--carousel-frame-highlight': 'rgba(255, 255, 255, 0.07)',
     '--carousel-frame-shadow': '0 22px 44px -20px rgba(0, 0, 0, 0.8), 0 6px 16px -8px rgba(0, 0, 0, 0.5)',
-    '--carousel-tile': 'linear-gradient(180deg, #3a3644 0%, #27242f 100%)',
+    '--carousel-tile': 'linear-gradient(180deg, #3A2A2E 0%, #3A2A2E 100%)',
     '--carousel-tile-edge': 'rgba(255, 255, 255, 0.07)',
     '--carousel-tile-highlight': 'rgba(255, 255, 255, 0.12)',
     '--carousel-tile-shadow': '0 4px 10px -4px rgba(0, 0, 0, 0.7)',
@@ -69,18 +69,18 @@ const THEMES = {
   },
   light: {
     '--carousel-frame': 'rgba(240, 240, 243, 0.8)',
-    '--carousel-frame-edge': 'rgba(24, 24, 27, 0.07)',
+    '--carousel-frame-edge': 'rgba(58,42,46, 0.07)',
     '--carousel-frame-highlight': 'rgba(255, 255, 255, 0.95)',
-    '--carousel-frame-shadow': '0 22px 44px -22px rgba(24, 24, 27, 0.3), 0 6px 16px -10px rgba(24, 24, 27, 0.16)',
+    '--carousel-frame-shadow': '0 22px 44px -22px rgba(58,42,46, 0.3), 0 6px 16px -10px rgba(58,42,46, 0.16)',
     '--carousel-tile': 'linear-gradient(180deg, #ffffff 0%, #f6f6f8 100%)',
-    '--carousel-tile-edge': 'rgba(24, 24, 27, 0.08)',
+    '--carousel-tile-edge': 'rgba(58,42,46, 0.08)',
     '--carousel-tile-highlight': 'rgba(255, 255, 255, 1)',
-    '--carousel-tile-shadow': '0 4px 10px -5px rgba(24, 24, 27, 0.25)',
-    '--carousel-ink': '#27272a',
-    '--carousel-muted': 'rgba(39, 39, 42, 0.6)',
-    '--carousel-faint': 'rgba(24, 24, 27, 0.16)',
-    '--carousel-soft': 'rgba(24, 24, 27, 0.34)',
-    '--carousel-badge': 'rgba(24, 24, 27, 0.05)',
+    '--carousel-tile-shadow': '0 4px 10px -5px rgba(58,42,46, 0.25)',
+    '--carousel-ink': '#3A2A2E',
+    '--carousel-muted': 'rgba(58,42,46, 0.6)',
+    '--carousel-faint': 'rgba(58,42,46, 0.16)',
+    '--carousel-soft': 'rgba(58,42,46, 0.34)',
+    '--carousel-badge': 'rgba(58,42,46, 0.05)',
     '--carousel-hover': 'brightness(0.97)',
     '--carousel-press': 'brightness(0.92)'
   }

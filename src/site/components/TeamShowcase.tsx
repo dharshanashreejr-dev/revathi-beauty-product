@@ -41,25 +41,25 @@ export default function TeamShowcase({ members }: { members: Member[] }) {
         .ts-wrap{display:grid;gap:2.5rem;align-items:center;justify-items:center;padding:1rem 1.25rem 0}
         @media(min-width:900px){.ts-wrap{grid-template-columns:auto minmax(0,420px);justify-content:center;gap:5rem}}
         .ts-stage{position:relative;width:min(78vw,340px);aspect-ratio:3/4}
-        .ts-glow{position:absolute;inset:-14%;border-radius:50%;background:radial-gradient(circle,rgba(196,181,253,.55),transparent 65%);filter:blur(30px);animation:tsPulse 5s ease-in-out infinite}
-        .ts-ring{position:absolute;inset:-22px;border-radius:999px 999px 40px 40px;border:1px dashed rgba(196,181,253,.55);animation:tsSpin 28s linear infinite}
-        .ts-ring2{position:absolute;inset:-10px;border-radius:999px 999px 30px 30px;border:1px solid rgba(196,181,253,.25)}
+        .ts-glow{position:absolute;inset:-14%;border-radius:50%;background:radial-gradient(circle,rgba(242,198,194,.55),transparent 65%);filter:blur(30px);animation:tsPulse 5s ease-in-out infinite}
+        .ts-ring{position:absolute;inset:-22px;border-radius:999px 999px 40px 40px;border:1px dashed rgba(242,198,194,.55);animation:tsSpin 28s linear infinite}
+        .ts-ring2{position:absolute;inset:-10px;border-radius:999px 999px 30px 30px;border:1px solid rgba(242,198,194,.25)}
         .ts-orbit{position:absolute;inset:-22px;animation:tsSpin 12s linear infinite}
-        .ts-orbit i{position:absolute;top:-4px;left:50%;width:8px;height:8px;border-radius:50%;background:#c4b5fd;box-shadow:0 0 14px 3px #c4b5fd}
-        .ts-arch{position:absolute;inset:0;border-radius:999px 999px 28px 28px;overflow:hidden;background:#3a1578;box-shadow:0 30px 60px -20px rgba(0,0,0,.55)}
+        .ts-orbit i{position:absolute;top:-4px;left:50%;width:8px;height:8px;border-radius:50%;background:#F2C6C2;box-shadow:0 0 14px 3px #F2C6C2}
+        .ts-arch{position:absolute;inset:0;border-radius:999px 999px 28px 28px;overflow:hidden;background:#3A2A2E;box-shadow:0 30px 60px -20px rgba(0,0,0,.55)}
         .ts-img{position:absolute;inset:0;clip-path:circle(0% at 50% 100%);transition:clip-path 1.15s cubic-bezier(.77,0,.18,1);z-index:1}
         .ts-img.prev{clip-path:circle(150% at 50% 100%);z-index:2}
         .ts-img.on{clip-path:circle(150% at 50% 100%);z-index:3}
         .ts-img img{width:100%;height:100%;object-fit:cover;transform:scale(1.15)}
         .ts-img.on img{animation:tsZoom 7s ease-out forwards}
         .ts-shine{position:absolute;inset:0;z-index:4;pointer-events:none;background:linear-gradient(115deg,transparent 40%,rgba(255,255,255,.22) 50%,transparent 60%);transform:translateX(-120%);animation:tsShine 4.8s ease-in-out infinite}
-        .ts-badge{position:absolute;z-index:5;right:-14px;bottom:18%;background:#f4f0fc;color:#4b1d91;border-radius:999px;padding:.55rem .9rem;font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;font-weight:700;box-shadow:0 10px 25px -8px rgba(0,0,0,.4);animation:tsFloat 4s ease-in-out infinite}
+        .ts-badge{position:absolute;z-index:5;right:-14px;bottom:18%;background:#FFFFFF;color:#7A2E4D;border-radius:999px;padding:.55rem .9rem;font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;font-weight:700;box-shadow:0 10px 25px -8px rgba(0,0,0,.4);animation:tsFloat 4s ease-in-out infinite}
         .ts-info{width:100%;max-width:420px;text-align:center}
         @media(min-width:900px){.ts-info{text-align:left}}
         .ts-count{font-size:.62rem;letter-spacing:.2em;opacity:.6;font-weight:600}
         .ts-name{overflow:hidden;margin-top:.6rem}
         .ts-name h3{font-family:'Outfit',sans-serif;text-transform:uppercase;letter-spacing:-.045em;line-height:.95;font-size:clamp(2.8rem,8vw,5rem);animation:tsUp .9s cubic-bezier(.2,.8,.2,1) both}
-        .ts-role{color:#c4b5fd;margin-top:.9rem;animation:tsUp .9s .08s cubic-bezier(.2,.8,.2,1) both}
+        .ts-role{color:#F2C6C2;margin-top:.9rem;animation:tsUp .9s .08s cubic-bezier(.2,.8,.2,1) both}
         .ts-skill{opacity:.8;font-size:.8rem;margin-top:.5rem;animation:tsUp .9s .16s cubic-bezier(.2,.8,.2,1) both}
         .ts-thumbs{display:flex;gap:1rem;margin-top:2rem;justify-content:center}
         @media(min-width:900px){.ts-thumbs{justify-content:flex-start}}
@@ -69,8 +69,8 @@ export default function TeamShowcase({ members }: { members: Member[] }) {
         .ts-th.on img{opacity:1}
         .ts-th svg{position:absolute;inset:0;transform:rotate(-90deg)}
         .ts-th circle{fill:none;stroke-width:2}
-        .ts-th .bg{stroke:rgba(196,181,253,.25)}
-        .ts-th .fg{stroke:#c4b5fd;stroke-linecap:round;stroke-dasharray:${C};stroke-dashoffset:${C}}
+        .ts-th .bg{stroke:rgba(242,198,194,.25)}
+        .ts-th .fg{stroke:#F2C6C2;stroke-linecap:round;stroke-dasharray:${C};stroke-dashoffset:${C}}
         .ts-th.on .fg{animation:tsFill ${DELAY}ms linear forwards}
         .ts-wrap.paused .ts-th.on .fg{animation-play-state:paused}
         @keyframes tsFill{to{stroke-dashoffset:0}}

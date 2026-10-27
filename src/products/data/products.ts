@@ -20,10 +20,10 @@ export const CATEGORIES: { name: CategoryKey; blurb: string; subs: string[] }[] 
 ];
 
 const c = (name: string, hex: string): Colour => ({ name, hex });
-const AMBER = c('Amber', '#b8844f'), SAGE = c('Sage', '#9CAF88'), BLUSH = c('Blush', '#e0aa98');
-const CLAY = c('Clay', '#a9714f'), STONE = c('Stone', '#A9A39B'), INK = c('Onyx', '#3a3532');
-const ROSE = c('Rose', '#e8b4b8'), JADE = c('Jade', '#4FB287'), OAT = c('Oat', '#E3D5BA');
-const SAND = c('Sand', '#d8b98f'), COCOA = c('Cocoa', '#6d4a3a'), SKY = c('Mist', '#a9bfcb');
+const AMBER = c('Amber', '#B8924F'), SAGE = c('Sage', '#9CAF88'), BLUSH = c('Blush', '#e0aa98');
+const CLAY = c('Clay', '#a9714f'), STONE = c('Stone', '#A9A39B'), INK = c('Onyx', '#3A2A2E');
+const ROSE = c('Rose', '#e8b4b8'), JADE = c('Jade', '#4FB287'), OAT = c('Oat', '#E8D3A9');
+const SAND = c('Sand', '#E8D3A9'), COCOA = c('Cocoa', '#6d4a3a'), SKY = c('Mist', '#a9bfcb');
 const PLUM = c('Plum', '#8a5a6e'), NUDE = c('Nude', '#c68f79'), BERRY = c('Berry', '#7c304d');
 const RED = c('Rouge', '#a52c3b'), PEACH = c('Peach', '#e8a486'), CLEAR = c('Clear', '#DCE8EE');
 
@@ -59,25 +59,25 @@ const mk = (category: CategoryKey, id: string, sku: string, x: Seed): Product =>
 // Lipstick shade families: one card per family, each card carries its 4 serial-numbered shades (photo + hex change live).
 const sh = (code: string, nm: string, hex: string): Colour => ({ name: `${code} · ${nm}`, hex, code, photo: `/assets/products/lipstick/${code.toLowerCase()}.webp` });
 const LIP_RED = [sh('R1', 'Classic Red', '#B22222'), sh('R2', 'Cherry Red', '#DC143C'), sh('R3', 'Wine Red', '#722F37'), sh('R4', 'Brick Red', '#A0522D')];
-const LIP_NUDE = [sh('N1', 'Light Nude', '#E6C9A8'), sh('N2', 'Peach Nude', '#F4A460'), sh('N3', 'Caramel Nude', '#C68642'), sh('N4', 'Mocha Nude', '#8B5E3C')];
-const LIP_GREEN = [sh('G1', 'Mint Green', '#98D8B5'), sh('G2', 'Olive Green', '#6B7B2E'), sh('G3', 'Forest Green', '#2E6B3F'), sh('G4', 'Khaki Green', '#B5AD6B')];
-const LIP_PINK = [sh('P1', 'Baby Pink', '#FFC0CB'), sh('P2', 'Rose Pink', '#FF6F91'), sh('P3', 'Fuchsia Pink', '#E75480'), sh('P4', 'Mauve Pink', '#B56576')];
+const LIP_NUDE = [sh('N1', 'Light Nude', '#E8D3A9'), sh('N2', 'Peach Nude', '#F4A460'), sh('N3', 'Caramel Nude', '#B8924F'), sh('N4', 'Mocha Nude', '#8B5E3C')];
+const LIP_GREEN = [sh('G1', 'Mint Green', '#98D8B5'), sh('G2', 'Olive Green', '#6B7B2E'), sh('G3', 'Forest Green', '#2E6B3F'), sh('G4', 'Khaki Green', '#B8924F')];
+const LIP_PINK = [sh('P1', 'Baby Pink', '#F2C6C2'), sh('P2', 'Rose Pink', '#FF6F91'), sh('P3', 'Fuchsia Pink', '#E75480'), sh('P4', 'Mauve Pink', '#B56576')];
 // Serum + Compact Powder flavours: each flavour has its own photo (same pattern as the lipstick shades).
 const fl = (name: string, hex: string, dir: string, file: string): Colour => ({ name, hex, photo: `/assets/products/${dir}/${file}.webp` });
-const SERUM_FL = [fl('Lavender', '#B79CE3', 'serum', 'lavender'), fl('Rose', '#F3B9C0', 'serum', 'rose'), fl('Matcha', '#9DBF7B', 'serum', 'matcha'), fl('Citrus', '#E9A23B', 'serum', 'citrus')];
-const POWDER_FL = [fl('Lavender', '#B79CE3', 'compact', 'lavender'), fl('Rose', '#F2C4C9', 'compact', 'rose'), fl('Matcha', '#9DBF7B', 'compact', 'matcha'), fl('Citrus', '#EDB48F', 'compact', 'citrus')];
-const MOIST_FL = [fl('Lavender', '#B79CE3', 'moisturiser', 'lavender'), fl('Rose', '#F4C6CB', 'moisturiser', 'rose'), fl('Matcha', '#9DBF7B', 'moisturiser', 'matcha'), fl('Citrus', '#F0B27A', 'moisturiser', 'citrus')];
-const CLEANSER_FL = [fl('Lavender', '#B79CE3', 'cleanser', 'lavender'), fl('Rose', '#F2C0C8', 'cleanser', 'rose'), fl('Matcha', '#9DBF7B', 'cleanser', 'matcha'), fl('Citrus', '#F2B84B', 'cleanser', 'citrus')];
-const GEL_FL = [fl('Lavender', '#B79CE3', 'pimple-gel', 'lavender'), fl('Rose', '#F4C9D0', 'pimple-gel', 'rose'), fl('Matcha', '#9DBF7B', 'pimple-gel', 'matcha'), fl('Citrus', '#F6B58E', 'pimple-gel', 'citrus')];
-const SHOWER_FL = [fl('Lavender', '#B79CE3', 'shower-gel', 'lavender'), fl('Rose', '#F5BDC9', 'shower-gel', 'rose'), fl('Matcha', '#9DBF7B', 'shower-gel', 'matcha'), fl('Citrus', '#F7B26B', 'shower-gel', 'citrus')];
+const SERUM_FL = [fl('Lavender', '#C98A9B', 'serum', 'lavender'), fl('Rose', '#F3B9C0', 'serum', 'rose'), fl('Matcha', '#9DBF7B', 'serum', 'matcha'), fl('Citrus', '#B8924F', 'serum', 'citrus')];
+const POWDER_FL = [fl('Lavender', '#C98A9B', 'compact', 'lavender'), fl('Rose', '#F2C4C9', 'compact', 'rose'), fl('Matcha', '#9DBF7B', 'compact', 'matcha'), fl('Citrus', '#EDB48F', 'compact', 'citrus')];
+const MOIST_FL = [fl('Lavender', '#C98A9B', 'moisturiser', 'lavender'), fl('Rose', '#F4C6CB', 'moisturiser', 'rose'), fl('Matcha', '#9DBF7B', 'moisturiser', 'matcha'), fl('Citrus', '#E8D3A9', 'moisturiser', 'citrus')];
+const CLEANSER_FL = [fl('Lavender', '#C98A9B', 'cleanser', 'lavender'), fl('Rose', '#F2C0C8', 'cleanser', 'rose'), fl('Matcha', '#9DBF7B', 'cleanser', 'matcha'), fl('Citrus', '#B8924F', 'cleanser', 'citrus')];
+const GEL_FL = [fl('Lavender', '#C98A9B', 'pimple-gel', 'lavender'), fl('Rose', '#F4C9D0', 'pimple-gel', 'rose'), fl('Matcha', '#9DBF7B', 'pimple-gel', 'matcha'), fl('Citrus', '#F6B58E', 'pimple-gel', 'citrus')];
+const SHOWER_FL = [fl('Lavender', '#C98A9B', 'shower-gel', 'lavender'), fl('Rose', '#F2C6C2', 'shower-gel', 'rose'), fl('Matcha', '#9DBF7B', 'shower-gel', 'matcha'), fl('Citrus', '#B8924F', 'shower-gel', 'citrus')];
 // Mascara + Eucalyptus Oil families: each shade / blend has its own product photo (same pattern as the serum flavours).
 const ph = (name: string, hex: string, dir: string, file: string): Colour => ({ name, hex, photo: `/assets/products/${dir}/${file}.webp` });
-const SOAK_FL = [ph('Sandalwood & Saffron', '#E3B86A', 'bath-soak', 'sandalwood-saffron'), ph('Rose & Himalayan Salt', '#EBC9C4', 'bath-soak', 'rose-himalayan-salt'), ph('Eucalyptus & Mint', '#8FBFA8', 'bath-soak', 'eucalyptus-mint'), ph('Lavender & Coconut', '#DACBEA', 'bath-soak', 'lavender-coconut')];
-const MIST_FL = [ph('Eucalyptus & Mint', '#8FBFA8', 'body-mist', 'eucalyptus-mint'), ph('Rose & Cucumber', '#EFE3D3', 'body-mist', 'rose-cucumber'), ph('Sandalwood & Saffron', '#E8CFA0', 'body-mist', 'sandalwood-saffron'), ph('Lavender & Aloe', '#C6D5C2', 'body-mist', 'lavender-aloe')];
-const GLOSS_FL = [ph('Peach Glow', '#E8A58E', 'lipgloss', 'peach-glow'), ph('Honey Shine', '#E0A94A', 'lipgloss', 'honey-shine'), ph('Rose Nude', '#D99A9C', 'lipgloss', 'rose-nude'), ph('Berry Blush', '#C4506A', 'lipgloss', 'berry-blush')];
-const MASCARA_FL = [ph('Volume Black', '#1F1F1F', 'mascara', 'volume-black'), ph('Waterproof Brown', '#6B4A36', 'mascara', 'waterproof-brown'), ph('Green Tea', '#A9C48A', 'mascara', 'green-tea'), ph('Curling Rose', '#E8B4B8', 'mascara', 'curling-rose')];
-const EUC_OIL_FL = [ph('Lavender', '#B79CE3', 'eucalyptus-oil', 'lavender'), ph('Mint', '#9FD8B8', 'eucalyptus-oil', 'mint'), ph('Lemongrass', '#C8D25F', 'eucalyptus-oil', 'lemongrass'), ph('Rosemary', '#6F8F5B', 'eucalyptus-oil', 'rosemary')];
-const BCREAM1 = ph('Variety 1 · Eucalyptus & Menthol', '#4f8a4a', 'body-cream', 'eucalyptus-menthol'), BCREAM2 = ph('Variety 2 · Turmeric & Sandalwood', '#e27a1f', 'body-cream', 'turmeric-sandalwood');
+const SOAK_FL = [ph('Sandalwood & Saffron', '#B8924F', 'bath-soak', 'sandalwood-saffron'), ph('Rose & Himalayan Salt', '#EBC9C4', 'bath-soak', 'rose-himalayan-salt'), ph('Eucalyptus & Mint', '#8FBFA8', 'bath-soak', 'eucalyptus-mint'), ph('Lavender & Coconut', '#F2C6C2', 'bath-soak', 'lavender-coconut')];
+const MIST_FL = [ph('Eucalyptus & Mint', '#8FBFA8', 'body-mist', 'eucalyptus-mint'), ph('Rose & Cucumber', '#F4E8CF', 'body-mist', 'rose-cucumber'), ph('Sandalwood & Saffron', '#E8D3A9', 'body-mist', 'sandalwood-saffron'), ph('Lavender & Aloe', '#C6D5C2', 'body-mist', 'lavender-aloe')];
+const GLOSS_FL = [ph('Peach Glow', '#E8A58E', 'lipgloss', 'peach-glow'), ph('Honey Shine', '#B8924F', 'lipgloss', 'honey-shine'), ph('Rose Nude', '#D99A9C', 'lipgloss', 'rose-nude'), ph('Berry Blush', '#C4506A', 'lipgloss', 'berry-blush')];
+const MASCARA_FL = [ph('Volume Black', '#3A2A2E', 'mascara', 'volume-black'), ph('Waterproof Brown', '#6B4A36', 'mascara', 'waterproof-brown'), ph('Green Tea', '#A9C48A', 'mascara', 'green-tea'), ph('Curling Rose', '#E8B4B8', 'mascara', 'curling-rose')];
+const EUC_OIL_FL = [ph('Lavender', '#C98A9B', 'eucalyptus-oil', 'lavender'), ph('Mint', '#9FD8B8', 'eucalyptus-oil', 'mint'), ph('Lemongrass', '#C8D25F', 'eucalyptus-oil', 'lemongrass'), ph('Rosemary', '#6F8F5B', 'eucalyptus-oil', 'rosemary')];
+const BCREAM1 = ph('Variety 1 · Eucalyptus & Menthol', '#4f8a4a', 'body-cream', 'eucalyptus-menthol'), BCREAM2 = ph('Variety 2 · Turmeric & Sandalwood', '#B8924F', 'body-cream', 'turmeric-sandalwood');
 const lipSeed = (fam: string, cols: Colour[], blurb: string, badge?: string) =>
   s('Lipstick', 'lipstick', `Revathi ${fam} Lipstick`, 1599, 1899, 60, cols, ['3.5 g'], 4.8, 210, badge, blurb, ['4 serial-numbered shades', 'Vitamin E', 'One-swipe colour'], 'Metallic lipstick case', '38 g');
 const build = (category: CategoryKey, code: string, seeds: Seed[]): Product[] =>
@@ -199,17 +199,17 @@ const wellness = build('wellness products', 'WL', [
     const at = wellness.findIndex(y => y.subcategory === sub);
     wellness.splice(at < 0 ? wellness.length : at, 0, p);
   };
-  add('WLSU', 'Supplements', s('Supplements', 'box', 'Glow Collagen Capsules', 1799, 2199, 60, [ph('Oat', '#E3D5BA', 'individual', 'glow-collagen-capsules')], ['30 capsules'], 4.6, 41, 'New', 'A daily beauty-support capsule in a 30 capsule bottle. Use as directed on the pack.', ['30 capsules', 'Daily use', 'Gold-tone cap bottle'], 'White bottle with gold-tone cap', '90 g'));
-  add('WLTE', 'Sleep & Relaxation', s('Sleep & Relaxation', 'box', 'Calm & Sleep Wellness Tea', 799, 999, 60, [ph('Oat', '#E3D5BA', 'individual', 'calm-sleep-wellness-tea')], ['50 g'], 4.7, 63, 'New', 'A loose-leaf herbal blend of chamomile, lavender and lemon peel for calm evenings.', ['Caffeine free', 'Loose-leaf herbal blend', '50 g glass jar'], 'Glass jar with gold-tone lid', '160 g'));
-  add('WLBD', 'Body Recovery', s('Body Recovery', 'dropper', 'Body Detox Wellness Oil', 1999, 2399, 60, [ph('Oat', '#E3D5BA', 'individual', 'body-detox-wellness-oil')], ['100 ml'], 4.7, 47, 'New', 'A botanical body wellness oil in a 100 ml amber glass dropper bottle.', ['Amber glass bottle', 'Dropper included', 'For body massage'], 'Amber glass dropper bottle', '210 g'));
+  add('WLSU', 'Supplements', s('Supplements', 'box', 'Glow Collagen Capsules', 1799, 2199, 60, [ph('Oat', '#E8D3A9', 'individual', 'glow-collagen-capsules')], ['30 capsules'], 4.6, 41, 'New', 'A daily beauty-support capsule in a 30 capsule bottle. Use as directed on the pack.', ['30 capsules', 'Daily use', 'Gold-tone cap bottle'], 'White bottle with gold-tone cap', '90 g'));
+  add('WLTE', 'Sleep & Relaxation', s('Sleep & Relaxation', 'box', 'Calm & Sleep Wellness Tea', 799, 999, 60, [ph('Oat', '#E8D3A9', 'individual', 'calm-sleep-wellness-tea')], ['50 g'], 4.7, 63, 'New', 'A loose-leaf herbal blend of chamomile, lavender and lemon peel for calm evenings.', ['Caffeine free', 'Loose-leaf herbal blend', '50 g glass jar'], 'Glass jar with gold-tone lid', '160 g'));
+  add('WLBD', 'Body Recovery', s('Body Recovery', 'dropper', 'Body Detox Wellness Oil', 1999, 2399, 60, [ph('Oat', '#E8D3A9', 'individual', 'body-detox-wellness-oil')], ['100 ml'], 4.7, 47, 'New', 'A botanical body wellness oil in a 100 ml amber glass dropper bottle.', ['Amber glass bottle', 'Dropper included', 'For body massage'], 'Amber glass dropper bottle', '210 g'));
   add('WLAR', 'Aromatherapy', s('Aromatherapy', 'bottle', 'Stress Relief Aroma Roller', 699, 899, 60, [ph('Mist', '#A9BFCB', 'individual', 'stress-relief-aroma-roller')], ['10 ml'], 4.6, 55, 'New', 'A pocket-size aroma roller for calming moments through the day.', ['10 ml glass roller', 'Easy to carry', 'Roll on pulse points'], 'Glass roller bottle', '45 g'));
 }
 
 const body = build('body', 'BD', [
   s('Body Wash', 'pump', 'Satin Cloud Body Wash', 1399, 1699, 104, [OAT, BLUSH, SAGE], ['250 ml', '500 ml'], 4.7, 512, 'Bestseller', 'A creamy body wash that leaves skin clean, soft and comfortable.', ['Glycerin rich', 'Sulfate free', 'Daily use'], 'Recyclable pump bottle', '310 g'),
   s('Body Wash', 'pump', 'Cèdre Green Tea Shower Gel', 1499, 1799, 72, [SAGE, CLEAR], ['250 ml', '500 ml'], 4.5, 228, undefined, 'A refreshing green tea and cedar shower gel with a clean lather.', ['pH balanced', 'Fresh botanical scent', 'Vegan'], 'Pump bottle', '320 g'),
-  s('Lotions & Creams', 'pump', 'Shea Soie Body Lotion', 1399, 1699, 110, [ph('Oat', '#E3D5BA', 'individual', 'shea-soie-lotion')], ['250 ml', '500 ml'], 4.4, 633, undefined, 'An everyday shea and glycerin lotion that absorbs quickly without stickiness.', ['24-hour moisture', 'Dermatologically tested', 'Soft neutral scent'], 'Recyclable pump bottle', '300 g'),
-  s('Lotions & Creams', 'jar', 'Nuage Whipped Body Butter', 1999, 2399, 60, [ph('Oat', '#E3D5BA', 'individual', 'nuage-body-butter')], ['150 ml', '300 ml'], 4.7, 512, 'Bestseller', 'A whipped shea body butter for deeply nourished, satin-soft skin.', ['Shea and mango butter', 'Vegan', 'Rich texture'], 'Glass jar', '380 g'),
+  s('Lotions & Creams', 'pump', 'Shea Soie Body Lotion', 1399, 1699, 110, [ph('Oat', '#E8D3A9', 'individual', 'shea-soie-lotion')], ['250 ml', '500 ml'], 4.4, 633, undefined, 'An everyday shea and glycerin lotion that absorbs quickly without stickiness.', ['24-hour moisture', 'Dermatologically tested', 'Soft neutral scent'], 'Recyclable pump bottle', '300 g'),
+  s('Lotions & Creams', 'jar', 'Nuage Whipped Body Butter', 1999, 2399, 60, [ph('Oat', '#E8D3A9', 'individual', 'nuage-body-butter')], ['150 ml', '300 ml'], 4.7, 512, 'Bestseller', 'A whipped shea body butter for deeply nourished, satin-soft skin.', ['Shea and mango butter', 'Vegan', 'Rich texture'], 'Glass jar', '380 g'),
   s('Lotions & Creams', 'tube', 'Lait de Coco Body Milk', 1599, 1899, 52, [OAT, SAND], ['250 ml'], 4.5, 203, undefined, 'A silky coconut body milk with a soft tropical scent.', ['Lightweight', 'Non-sticky', 'Vegan'], 'Recyclable tube', '280 g'),
   s('Body Oils', 'bottle', 'Satin Dry Body Oil', 2299, 2749, 47, [AMBER, SAND], ['100 ml', '200 ml'], 4.8, 390, 'Bestseller', 'A fast-absorbing jojoba and almond body oil for a luminous finish.', ['Never greasy', 'Use on damp skin', 'Warm cedar scent'], 'Glass bottle with pump', '260 g'),
   s('Body Oils', 'bottle', 'Chaleur Ginger Massage Oil', 2499, 2999, 15, [AMBER, COCOA], ['150 ml', '250 ml'], 4.9, 121, undefined, 'A warming grapeseed and ginger oil for long, slow body massages.', ['Excellent slip', 'Warm ginger scent', 'Easy-pour bottle'], 'Glass bottle', '280 g'),
@@ -217,7 +217,7 @@ const body = build('body', 'BD', [
   s('Scrubs', 'jar', 'Sucre Vanilla Sugar Scrub', 1599, 1899, 41, [SAND, BLUSH], ['200 g', '400 g'], 4.6, 118, undefined, 'Raw cane sugar and vanilla oil polish skin to a creamy finish.', ['Moisturising oils', 'Gentle exfoliation', 'Vegan'], 'Glass jar', '410 g'),
   s('Bath & Soaks', 'jar', 'Sel de Mer Mineral Bath Soak', 1699, 1999, 38, [SKY, SAGE], ['300 g', '600 g'], 4.5, 142, undefined, 'Epsom and mineral salts with lavender for a restorative bath.', ['Dissolves in warm water', 'Lavender and eucalyptus', 'Resealable jar'], 'Glass jar', '700 g'),
   s('Bath & Soaks', 'bottle', 'Ambre Luxe Bath Oil', 2399, 2899, 17, [AMBER, PLUM], ['150 ml'], 4.8, 79, 'New', 'A decadent amber bath oil that leaves skin silky after a warm soak.', ['Sandalwood aroma', 'A little goes a long way', 'Glass bottle'], 'Glass bottle', '240 g'),
-  s('Hand & Foot Care', 'tube', 'Mains Repair Hand Cream', 899, 1099, 86, [ph('Oat', '#E3D5BA', 'individual', 'mains-repair-hand-cream')], ['50 ml', '100 ml'], 4.7, 351, 'Bestseller', 'A rich but quick-absorbing hand cream for dry hands and cuticles.', ['Shea butter', 'Vitamin E', 'Non-greasy'], 'Aluminium-style tube', '72 g'),
+  s('Hand & Foot Care', 'tube', 'Mains Repair Hand Cream', 899, 1099, 86, [ph('Oat', '#E8D3A9', 'individual', 'mains-repair-hand-cream')], ['50 ml', '100 ml'], 4.7, 351, 'Bestseller', 'A rich but quick-absorbing hand cream for dry hands and cuticles.', ['Shea butter', 'Vitamin E', 'Non-greasy'], 'Aluminium-style tube', '72 g'),
   s('Hand & Foot Care', 'jar', 'Velours Heel Rescue Balm', 1099, 1299, 44, [OAT, COCOA], ['60 g'], 4.5, 149, undefined, 'A concentrated balm for rough heels and dry feet.', ['Urea and shea', 'Overnight treatment', 'Cotton-sock friendly'], 'Glass jar', '82 g'),
   s('Deodorants', 'stick', 'Pure Linen Deodorant Balm', 899, 1099, 63, [OAT, CLEAR], ['50 g'], 4.4, 207, undefined, 'A smooth everyday deodorant balm with a clean linen scent.', ['Aluminium free', 'Baking soda free', 'Easy glide'], 'Twist-up balm case', '68 g'),
   s('Deodorants', 'spray', 'Rose Neroli Body Deodorant Mist', 1099, 1299, 39, [ROSE, BLUSH], ['100 ml'], 4.5, 165, 'New', 'A light rose and neroli mist for a fresh, clean feel.', ['Alcohol light', 'Fine mist', 'Travel friendly'], 'Glass spray bottle', '165 g'),
@@ -252,9 +252,9 @@ const body = build('body', 'BD', [
 
 // Tint Powder (3 shades), Jasmine Cleansing Oil and Herbal Shampoo (4 flavours), each with its own photo. Fresh ids.
 {
-  const TINT_FL = [ph('Beetroot Pink', '#C4607A', 'tint-powder', 'beetroot-pink'), ph('Turmeric Gold', '#D19A1E', 'tint-powder', 'turmeric-gold'), ph('Charcoal Black', '#2B2B2B', 'tint-powder', 'charcoal-black')];
-  const OIL_FL = [ph('Jasmine', '#F1E6B5', 'cleansing-oil', 'jasmine')];
-  const SHAMPOO_FL = [ph('Hibiscus & Aloe Vera', '#D97A95', 'herbal-shampoo', 'hibiscus-aloe'), ph('Neem & Tea Tree', '#6B9A55', 'herbal-shampoo', 'neem-tea-tree'), ph('Coconut Milk & Fenugreek', '#C9964F', 'herbal-shampoo', 'coconut-fenugreek'), ph('Amla & Reetha', '#8A9A4B', 'herbal-shampoo', 'amla-reetha')];
+  const TINT_FL = [ph('Beetroot Pink', '#C4607A', 'tint-powder', 'beetroot-pink'), ph('Turmeric Gold', '#B8924F', 'tint-powder', 'turmeric-gold'), ph('Charcoal Black', '#3A2A2E', 'tint-powder', 'charcoal-black')];
+  const OIL_FL = [ph('Jasmine', '#E8D3A9', 'cleansing-oil', 'jasmine')];
+  const SHAMPOO_FL = [ph('Hibiscus & Aloe Vera', '#D97A95', 'herbal-shampoo', 'hibiscus-aloe'), ph('Neem & Tea Tree', '#6B9A55', 'herbal-shampoo', 'neem-tea-tree'), ph('Coconut Milk & Fenugreek', '#B8924F', 'herbal-shampoo', 'coconut-fenugreek'), ph('Amla & Reetha', '#8A9A4B', 'herbal-shampoo', 'amla-reetha')];
   const nid = (arr: Product[]) => arr.reduce((m, x) => Math.max(m, Number(x.id.split('-').pop()) || 0), 0) + 1;
   let n = nid(face);
   const tint = mk('face', `LUM-FC-${String(n).padStart(3, '0')}`, `FCTP${1000 + n * 37}`, s('Makeup', 'jar', 'Herbal Tint Powder', 1199, 1499, 60, TINT_FL, ['10 g'], 4.7, 58, 'New', 'A natural tint powder in three plant-based shades: beetroot pink for cheeks and lips, turmeric gold for a warm glow and charcoal black as a natural eyeliner tint.', ['3 plant-based shades', 'Beetroot, turmeric and charcoal', 'Wooden-lid glass jar'], 'Glass jar with wooden lid', '60 g'));

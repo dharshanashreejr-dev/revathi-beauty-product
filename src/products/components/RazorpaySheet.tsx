@@ -37,7 +37,7 @@ export default function RazorpaySheet({ amount, onClose, onSuccess }: { amount: 
   return (
     <div role="dialog" aria-modal="true" aria-label="Razorpay" onMouseDown={e => e.target === e.currentTarget && !busy && onClose()}
       className="fixed inset-0 z-[70] grid place-items-center bg-black/60 p-4 backdrop-blur-sm">
-      <div className="w-full max-w-md overflow-hidden rounded-2xl bg-[#eee7fc] text-stone-800 shadow-2xl">
+      <div className="w-full max-w-md overflow-hidden rounded-2xl bg-[#FBEDEB] text-stone-800 shadow-2xl">
         <div className="flex items-center justify-between bg-[#0b2a4a] px-5 py-4 text-white">
           <div><p className="text-xs uppercase tracking-widest opacity-70">Razorpay · Test mode</p><p className="font-medium">Revathi Herbal Beauty Care</p></div>
           <p className="text-xl font-medium">{formatPrice(amount)}</p>

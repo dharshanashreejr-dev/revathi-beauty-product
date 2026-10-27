@@ -1,10 +1,10 @@
 /* Profile dropdown in the navbar (View profile / Logout) */
 .pm { position: relative; display: inline-flex; order: 99; flex-shrink: 0; }
 .pm > button { cursor: pointer; font: inherit; }
-.pm-menu { position: absolute; right: 0; top: calc(100% + 10px); z-index: 500; min-width: 200px; background: #f5f2fd; color: #4b1d91; border: 1px solid rgba(76, 29, 149, .15); border-radius: 14px; box-shadow: 0 18px 40px rgba(0,0,0,.28); padding: 6px; text-shadow: none; text-transform: none; letter-spacing: normal; animation: pm-in .16s ease-out; }
+.pm-menu { position: absolute; right: 0; top: calc(100% + 10px); z-index: 500; min-width: 200px; background: #FFFFFF; color: #7A2E4D; border: 1px solid rgba(122,46,77, .15); border-radius: 14px; box-shadow: 0 18px 40px rgba(0,0,0,.28); padding: 6px; text-shadow: none; text-transform: none; letter-spacing: normal; animation: pm-in .16s ease-out; }
 @keyframes pm-in { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
-.pm-head { display: flex; flex-direction: column; gap: 2px; padding: 10px 12px 10px; border-bottom: 1px solid rgba(76, 29, 149, .12); margin-bottom: 4px; font-size: 14px; }
+.pm-head { display: flex; flex-direction: column; gap: 2px; padding: 10px 12px 10px; border-bottom: 1px solid rgba(122,46,77, .12); margin-bottom: 4px; font-size: 14px; }
 .pm-head small { font-size: 12px; opacity: .6; }
-.pm-item { display: block; width: 100%; padding: 10px 12px; border: 0; border-radius: 10px; background: transparent; color: #4b1d91 !important; font: inherit; font-size: 14px; text-align: left; text-decoration: none; cursor: pointer; }
-.pm-item:hover, .pm-item:focus-visible { background: rgba(236, 229, 249, .12); outline: none; }
+.pm-item { display: block; width: 100%; padding: 10px 12px; border: 0; border-radius: 10px; background: transparent; color: #7A2E4D !important; font: inherit; font-size: 14px; text-align: left; text-decoration: none; cursor: pointer; }
+.pm-item:hover, .pm-item:focus-visible { background: rgba(251,237,235, .12); outline: none; }
 .pm-logout { color: #8a2a1a !important; }

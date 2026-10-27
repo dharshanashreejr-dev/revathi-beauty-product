@@ -60,11 +60,11 @@ export default function ProductsFooter() {
   const [lang] = useLang();
   const ft = FOOT_TX[lang] ?? FOOT_TX.en
   return (
-    <footer className="overflow-hidden bg-[#f4f0fc] px-[5%] pb-6 pt-16 text-ink">
+    <footer className="overflow-hidden bg-[#FFFFFF] px-[5%] pb-6 pt-16 text-ink">
       <div className="grid gap-12 md:grid-cols-[1.4fr_1fr_1fr] md:gap-16">
         <div>
           <p className="font-serif text-3xl italic text-clay">REVATHI HERBAL</p>
-          <p className="mt-4 max-w-[16rem] text-sm text-[#5b23b0]">{trx(LINE, lang)}</p>
+          <p className="mt-4 max-w-[16rem] text-sm text-[#7A2E4D]">{trx(LINE, lang)}</p>
         </div>
         <nav className="flex flex-col items-start gap-4 pt-1 text-sm">
           {NAV.map(n => <a key={n.href} href={n.href} className="transition hover:text-clay">{trx(n.label, lang)}</a>)}
@@ -78,7 +78,7 @@ export default function ProductsFooter() {
         <span className="block">revathi</span>
         <span className="block text-[5vw] tracking-normal">herbal beauty products</span>
       </div>
-      <div className="flex flex-col justify-between gap-3 border-t border-[#f0ecf930] pt-5 text-[10px] tracking-[0.08em] sm:flex-row">
+      <div className="flex flex-col justify-between gap-3 border-t border-[#FBEDEB30] pt-5 text-[10px] tracking-[0.08em] sm:flex-row">
         <span>&copy; {new Date().getFullYear()} REVATHI HERBAL BEAUTY CARE</span>
         <span>{ft.essence}</span>
         <span>{ft.shop}</span>

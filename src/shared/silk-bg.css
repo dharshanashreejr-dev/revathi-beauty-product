@@ -1,6 +1,6 @@
 /* Lavender silk background — the animated <Silk /> (React Bits) is fixed behind the whole page.
    Mounted by <SilkBackground /> in each entry's main file. Mild + pale so text stays premium & readable. */
-html { background: #1b0b3d; }
+html { background: #3A2A2E; }
 body { background: transparent !important; }
 
 .silk-bg {
@@ -11,9 +11,9 @@ body { background: transparent !important; }
   opacity: 1;
   /* deep violet fallback (shows if WebGL is unavailable) */
   background:
-    radial-gradient(900px 600px at 15% 10%, rgba(139, 92, 246, .45), transparent 60%),
-    radial-gradient(1000px 700px at 90% 85%, rgba(76, 29, 149, .85), transparent 60%),
-    linear-gradient(135deg, #2e1065, #1b0b3d 55%, #3b1580);
+    radial-gradient(900px 600px at 15% 10%, rgba(201,138,155, .45), transparent 60%),
+    radial-gradient(1000px 700px at 90% 85%, rgba(122,46,77, .85), transparent 60%),
+    linear-gradient(135deg, #3A2A2E, #3A2A2E 55%, #7A2E4D);
 }
 .silk-bg::after {
   content: '';
@@ -21,8 +21,8 @@ body { background: transparent !important; }
   inset: 0;
   /* keeps the folds visible but the page deep enough for light text */
   background:
-    radial-gradient(1100px 700px at 0% 0%, rgba(76, 29, 149, .18), transparent 62%),
-    linear-gradient(180deg, rgba(20, 8, 48, .40), rgba(20, 8, 48, .50));
+    radial-gradient(1100px 700px at 0% 0%, rgba(122,46,77, .18), transparent 62%),
+    linear-gradient(180deg, rgba(58,42,46, .40), rgba(58,42,46, .50));
 }
 
 /* Landing page sections that painted a flat colour now let the silk show through */
@@ -61,12 +61,12 @@ body { background: transparent !important; }
 .collection-band, .closing, .testimonials, .herbal, .hb, .film, .spa, .salon, .shop,
 .picks, .arrivals, .rituals, .notes-section,
 section.bg-sand, footer.bg-sand, section.bg-paper, main.bg-sand,
-[class*="bg-[#1b0a3b]"], [class*="bg-[#170932]"], [class*="bg-[#1c0b3c]"], [class*="bg-[#180a34]"] {
+[class*="bg-[#3A2A2E]"], [class*="bg-[#3A2A2E]"], [class*="bg-[#3A2A2E]"], [class*="bg-[#3A2A2E]"] {
   background: transparent !important;
 }
 /* sticky filter / header bars become soft frosted glass over the silk */
 [class*="bg-sand/95"], [class*="bg-sand/85"] {
-  background: rgba(30, 10, 70, .55) !important;
+  background: rgba(58,42,46, .55) !important;
   -webkit-backdrop-filter: blur(14px);
   backdrop-filter: blur(14px);
 }
@@ -77,9 +77,9 @@ section.bg-sand, footer.bg-sand, section.bg-paper, main.bg-sand,
 /* ── ONE violet navbar on every page (landing + all inner pages) ── */
 .header, .header.is-scrolled, .header:not(.is-scrolled),
 .vt-header, .vt-header.is-solid {
-  background: linear-gradient(180deg, rgba(76, 29, 149, .97), rgba(60, 22, 125, .93)) !important;
-  color: #ede9fe !important;
-  box-shadow: 0 1px 0 rgba(196, 181, 253, .28), 0 10px 30px -12px rgba(20, 8, 48, .6) !important;
+  background: linear-gradient(180deg, rgba(122,46,77, .97), rgba(122,46,77, .93)) !important;
+  color: #FBEDEB !important;
+  box-shadow: 0 1px 0 rgba(242,198,194, .28), 0 10px 30px -12px rgba(58,42,46, .6) !important;
   -webkit-backdrop-filter: blur(16px);
   backdrop-filter: blur(16px);
   text-shadow: none !important;
@@ -87,17 +87,17 @@ section.bg-sand, footer.bg-sand, section.bg-paper, main.bg-sand,
 .header .header-shape { display: none !important; }
 .header a, .header button, .header nav, .header .nav-tools, .header .header-brand, .header .brand-mark,
 .vt-header a, .vt-header button, .vt-header .vt-word, .vt-header .vt-sub, .vt-header .vt-tagline {
-  color: #ede9fe !important;
+  color: #FBEDEB !important;
 }
-.header .nav-tools select, .vt-header .vt-lang { border-color: rgba(196, 181, 253, .5) !important; color: #ede9fe !important; }
-.header select option, .vt-header .vt-lang option { background: #3b1680; color: #ede9fe; }
+.header .nav-tools select, .vt-header .vt-lang { border-color: rgba(242,198,194, .5) !important; color: #FBEDEB !important; }
+.header select option, .vt-header .vt-lang option { background: #7A2E4D; color: #FBEDEB; }
 
 /* ── Deep-violet panels with light text (replaces the old near-black ink panels) ── */
-.bg-ink { background-color: #2e1065 !important; color: #ede9fe; }
-.text-sand { color: #ede9fe !important; }
-.from-ink { --tw-gradient-from: #2e1065 var(--tw-gradient-from-position) !important; --tw-gradient-to: rgb(46 16 101 / 0) var(--tw-gradient-to-position) !important; }
-.via-ink  { --tw-gradient-stops: var(--tw-gradient-from), #2e1065 var(--tw-gradient-via-position), var(--tw-gradient-to) !important; }
-.to-ink   { --tw-gradient-to: #2e1065 var(--tw-gradient-to-position) !important; }
+.bg-ink { background-color: #3A2A2E !important; color: #FBEDEB; }
+.text-sand { color: #FBEDEB !important; }
+.from-ink { --tw-gradient-from: #3A2A2E var(--tw-gradient-from-position) !important; --tw-gradient-to: rgb(46 16 101 / 0) var(--tw-gradient-to-position) !important; }
+.via-ink  { --tw-gradient-stops: var(--tw-gradient-from), #3A2A2E var(--tw-gradient-via-position), var(--tw-gradient-to) !important; }
+.to-ink   { --tw-gradient-to: #3A2A2E var(--tw-gradient-to-position) !important; }
 /* light-lavender buttons keep dark text */
-.bg-gold, .bg-gold .text-ink { color: #1b0b3d !important; }
-.bg-sand\/95 { background-color: rgba(30, 10, 70, .55) !important; }
+.bg-gold, .bg-gold .text-ink { color: #3A2A2E !important; }
+.bg-sand\/95 { background-color: rgba(58,42,46, .55) !important; }
