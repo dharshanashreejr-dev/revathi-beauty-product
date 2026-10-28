@@ -3,6 +3,7 @@ import { useT } from '../i18n.js';
 import { useStore } from '../store.jsx';
 import Badge from '../components/Badge.jsx';
 import * as pay from '../../api/payroll';
+const { HRA_ENABLED } = pay;
 import { monthKey } from '../../api/attendance';
 
 export default function PayrollHub({ user }) {
@@ -92,13 +93,13 @@ export default function PayrollHub({ user }) {
           </div>
           {run && <p><Badge>{t(run.status)}</Badge></p>}
           <table className="table">
-            <thead><tr><th>{t('Staff')}</th><th>{t('Base')}</th><th>{t('HRA')}</th><th>{t('Incentive')}</th><th>{t('Adv / Ded')}</th><th>{t('Net')}</th></tr></thead>
+            <thead><tr><th>{t('Staff')}</th><th>{t('Base')}</th>{HRA_ENABLED && <th>{t('HRA')}</th>}<th>{t('Incentive')}</th><th>{t('Adv / Ded')}</th><th>{t('Net')}</th></tr></thead>
             <tbody>
               {(run?.lines || []).map((l) => (
                 <tr key={l.staffId}>
                   <td>{l.staffName}</td>
                   <td>₹{l.base.toLocaleString('en-IN')}</td>
-                  <td>₹{l.hra.toLocaleString('en-IN')}</td>
+                  {HRA_ENABLED && <td>₹{l.hra.toLocaleString('en-IN')}</td>}
                   <td>₹{l.incentive.toLocaleString('en-IN')}</td>
                   <td>-₹{(l.advances + l.deductions).toLocaleString('en-IN')}</td>
                   <td><strong>₹{l.net.toLocaleString('en-IN')}</strong></td>
@@ -112,7 +113,7 @@ export default function PayrollHub({ user }) {
       {tab === 'Structure' && (
         <div className="card">
           <table className="table">
-            <thead><tr><th>{t('Staff')}</th><th>{t('Base')}</th><th>{t('HRA')}</th><th>{t('Incentive %')}</th><th>{t('Bank')}</th><th /></tr></thead>
+            <thead><tr><th>{t('Staff')}</th><th>{t('Base')}</th>{HRA_ENABLED && <th>{t('HRA')}</th>}<th>{t('Incentive %')}</th><th>{t('Bank')}</th><th /></tr></thead>
             <tbody>
               {(staff || []).map((s) => {
                 const sal = pay.getSalary(s.id);
@@ -120,7 +121,7 @@ export default function PayrollHub({ user }) {
                   <tr key={s.id}>
                     <td>{s.name}</td>
                     <td>₹{sal.base.toLocaleString('en-IN')}</td>
-                    <td>₹{sal.hra.toLocaleString('en-IN')}</td>
+                    {HRA_ENABLED && <td>₹{sal.hra.toLocaleString('en-IN')}</td>}
                     <td>{sal.incentivePct}%</td>
                     <td className="muted">{sal.bankName || '—'} {sal.accountNo ? `··${String(sal.accountNo).slice(-4)}` : ''}</td>
                     <td><button type="button" className="btn btn-light" onClick={() => setSalEdit({ ...sal, staffId: s.id, name: s.name })}>{t('Edit')}</button></td>
@@ -132,12 +133,12 @@ export default function PayrollHub({ user }) {
           {salEdit && (
             <form className="card" style={{ marginTop: 12, maxWidth: 420 }} onSubmit={(e) => {
               e.preventDefault();
-              pay.setSalary({ staffId: salEdit.staffId, base: Number(salEdit.base), hra: Number(salEdit.hra), incentivePct: Number(salEdit.incentivePct), bankName: salEdit.bankName, accountNo: salEdit.accountNo, ifsc: salEdit.ifsc });
+              pay.setSalary({ staffId: salEdit.staffId, base: Number(salEdit.base), hra: HRA_ENABLED ? Number(salEdit.hra) : 0, incentivePct: Number(salEdit.incentivePct), bankName: salEdit.bankName, accountNo: salEdit.accountNo, ifsc: salEdit.ifsc });
               setSalEdit(null); refresh();
             }}>
               <h3>{salEdit.name}</h3>
               <label>{t('Base')}<input type="number" value={salEdit.base} onChange={(e) => setSalEdit({ ...salEdit, base: e.target.value })} /></label>
-              <label>{t('HRA')}<input type="number" value={salEdit.hra} onChange={(e) => setSalEdit({ ...salEdit, hra: e.target.value })} /></label>
+              {HRA_ENABLED && <label>{t('HRA')}<input type="number" value={salEdit.hra} onChange={(e) => setSalEdit({ ...salEdit, hra: e.target.value })} /></label>}
               <label>{t('Incentive %')}<input type="number" value={salEdit.incentivePct} onChange={(e) => setSalEdit({ ...salEdit, incentivePct: e.target.value })} /></label>
               <label>{t('Bank')}<input value={salEdit.bankName || ''} onChange={(e) => setSalEdit({ ...salEdit, bankName: e.target.value })} /></label>
               <label>{t('Account')}<input value={salEdit.accountNo || ''} onChange={(e) => setSalEdit({ ...salEdit, accountNo: e.target.value })} /></label>

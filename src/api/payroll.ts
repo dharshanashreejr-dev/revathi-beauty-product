@@ -23,12 +23,15 @@ export interface PayrollRun {
   id: string; month: string; status: 'Draft' | 'Approved' | 'Locked'; lines: PayslipLine[]; createdAt: string; approvedBy?: string
 }
 
+// MD instruction: HRA is locked (not used) for now. Set to true to bring it back.
+export const HRA_ENABLED = false
+
 const K = { sal: 'rhb-hr-salary', adv: 'rhb-hr-advances', ded: 'rhb-hr-deductions', runs: 'rhb-hr-payroll-runs' }
 
 export const getSalary = (staffId: string): SalaryStructure => {
   const all = r<SalaryStructure[]>(K.sal, [])
   let s = all.find((x) => x.staffId === staffId)
-  if (!s) { s = { staffId, base: 18000, hra: 3000, incentivePct: 5 }; w(K.sal, [...all, s]) }
+  if (!s) { s = { staffId, base: 18000, hra: 0, incentivePct: 5 }; w(K.sal, [...all, s]) }
   return s
 }
 export const setSalary = (s: SalaryStructure) => {
@@ -58,7 +61,7 @@ export function previewRun(month: string, staff: { id: string; name: string }[],
     const paidDays = Math.min(30, presentDays)
     const factor = paidDays / 30
     const base = Math.round(sal.base * factor)
-    const hra = Math.round(sal.hra * factor)
+    const hra = HRA_ENABLED ? Math.round(sal.hra * factor) : 0
     const incentive = Math.round((base + hra) * (sal.incentivePct / 100))
     const advances = listAdvances().filter((a) => a.staffId === s.id && a.month === month && !a.recovered).reduce((n, a) => n + a.amount, 0)
     const deductions = listDeductions().filter((d) => d.staffId === s.id && d.month === month).reduce((n, d) => n + d.amount, 0)
@@ -91,7 +94,7 @@ export function payslipHtml(line: PayslipLine, month: string, salon = 'Revathi H
   <p><strong>${line.staffName}</strong><br/><span class="muted">Staff ID: ${line.staffId}</span></p>
   <table><tr><th>Component</th><th>Amount (₹)</th></tr>
   <tr><td>Basic</td><td>${line.base.toLocaleString('en-IN')}</td></tr>
-  <tr><td>HRA</td><td>${line.hra.toLocaleString('en-IN')}</td></tr>
+  ${HRA_ENABLED ? `<tr><td>HRA</td><td>${line.hra.toLocaleString('en-IN')}</td></tr>` : ''}
   <tr><td>Incentive</td><td>${line.incentive.toLocaleString('en-IN')}</td></tr>
   <tr><td>Advances recovered</td><td>- ${line.advances.toLocaleString('en-IN')}</td></tr>
   <tr><td>Deductions</td><td>- ${line.deductions.toLocaleString('en-IN')}</td></tr>
