@@ -35,6 +35,7 @@ const SPLASH_CSS = `
 .rv-splash.is-out{opacity:0;visibility:hidden;pointer-events:none}
 .rv-splash-in{display:flex;flex-direction:column;align-items:center}
 .rv-splash .rv-up{opacity:0;transform:translateY(14px);animation:rvUp .9s cubic-bezier(.2,.7,.2,1) forwards;animation-delay:var(--d,0s)}
+.rv-splash .rv-splash-logo{display:block;width:clamp(120px,15vw,168px);height:auto;margin:0 auto 14px;border-radius:50%;box-shadow:0 8px 34px rgba(143,110,54,.28);animation:rvLogoIn 1.3s cubic-bezier(.2,.75,.2,1) both}@keyframes rvLogoIn{0%{opacity:0;transform:scale(.55) rotate(-14deg);filter:blur(8px)}60%{opacity:1;filter:blur(0)}100%{opacity:1;transform:none;filter:blur(0)}}
 .rv-splash .rv-lotus{width:64px;height:auto;overflow:visible}
 .rv-splash .rv-lotus path{stroke-dasharray:140;stroke-dashoffset:140;animation:rvDraw 1.6s ease forwards}
 .rv-splash .rv-lotus path:nth-child(2){animation-delay:.15s}.rv-splash .rv-lotus path:nth-child(3){animation-delay:.3s}
@@ -64,16 +65,7 @@ function Splash({ onDone }: { onDone: () => void }) {
     <div className={`rv-splash ${out ? 'is-out' : ''}`} onClick={finish} role="presentation">
       <style>{SPLASH_CSS}</style>
       <div className="rv-splash-in">
-        <svg className="rv-lotus" viewBox="0 0 64 40" aria-hidden="true">
-          <g fill="none" stroke="#7A2E4D" strokeWidth="1.15" strokeLinejoin="round" strokeLinecap="round">
-            <path d="M32 3.5C25.6 11.5 25.6 23.5 32 32.5C38.4 23.5 38.4 11.5 32 3.5Z" stroke="#B8924F" strokeWidth="1.5" />
-            <path d="M32 32.5C24.6 30.6 19.4 22.8 19.8 12.6C25.2 15.4 29.6 21.6 32 32.5Z" />
-            <path d="M32 32.5C39.4 30.6 44.6 22.8 44.2 12.6C38.8 15.4 34.4 21.6 32 32.5Z" />
-            <path d="M32 32.5C22.6 33.6 13.4 29 9 20.6C17.6 19.8 26.6 24.4 32 32.5Z" />
-            <path d="M32 32.5C41.4 33.6 50.6 29 55 20.6C46.4 19.8 37.4 24.4 32 32.5Z" />
-            <path d="M21.5 36.2Q32 39.4 42.5 36.2" stroke="#B8924F" strokeWidth="1.5" />
-          </g>
-        </svg>
+        <img className="rv-splash-logo" src="/revathi-logo.png" alt="Revathi Herbal Care" width={150} height={150} />
         <h1 className="rv-name rv-up" style={up(0.7)}>REVATHI HERBAL BEAUTY CARE</h1>
         <div className="rv-sub rv-up" style={up(1.2)}>BEAUTY &amp; SALON</div>
         <div className="rv-tag rv-up" style={up(1.6)}>Where Nature meets beauty</div>

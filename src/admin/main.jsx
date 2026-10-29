@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client';
 import App from './App.jsx';
 import { StoreProvider } from './store.jsx';
 import './styles.css';
+import '../shared/rv-logo.css';
 
 // Typing /admin//#/x (double slash) loads a blank page. Fix the address before the app starts.
 if (/\/{2,}/.test(window.location.pathname)) {

@@ -208,16 +208,10 @@ function ServiceReviews() {
 }
 
 export default function Home() {
-  const { t } = useI18n()
   return (
     <main className="svc-page">
       <Hero /><Menu />
       <Team /><ServiceReviews />
-      <footer className="bg-sand px-5 md:px-10 py-16 flex flex-col md:flex-row md:justify-end gap-8 items-start md:items-end">
-        <Reveal>
-        <div className="text-xs space-y-1"><Link to="/booking" className="inline-block bg-ink text-sand rounded-full px-7 py-4 label mb-4">{t('Book appointment ↗')}</Link><p>{t(spa.address)}</p><Link to="/manager" className="underline opacity-60">{t('Manager view')}</Link><p>© {new Date().getFullYear()} {spa.name} {t(spa.sub)}</p></div>
-        </Reveal>
-      </footer>
     </main>
   )
 }

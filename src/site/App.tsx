@@ -9,6 +9,7 @@ import Track from './pages/Track'
 import { SITE } from '../site-links'
 import Reviews from './pages/Reviews'
 import { useI18n } from './i18n-site'
+import SiteFooter from '../shared/SiteFooter'
 
 // The old demo "Manager" screen had its own sample data. Managers now use the real admin panel.
 function ToAdmin() { useEffect(() => { window.location.replace(SITE.admin) }, []); return null }
@@ -46,6 +47,7 @@ export default function App() {
         <Route path="/reviews" element={<Reviews />} />
         <Route path="*" element={<Navigate to="/services" replace />} />
       </Routes>
+      <SiteFooter />
     </>
   )
 }

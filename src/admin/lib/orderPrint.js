@@ -1,6 +1,7 @@
 import qrcode from './qrcode.js';
 import { spa } from '../../site/data';
 import { gstSplit } from '../../api/pricing';
+import { LOGO_DATA } from './logoData.js';
 
 // Printing helpers for the admin: dispatch slips (From / To + QR), order bills and POS invoices.
 //  - The QR on every order holds a short link to that order's details page (Admin > Orders > order).
@@ -148,6 +149,7 @@ body{margin:0;font-family:Arial,Helvetica,sans-serif;color:#000;background:#e9e9
 .bill .foot{margin-top:auto;font-size:8pt;color:#333;border-top:.3mm dashed #000;padding-top:2mm}
 `;
 
+const LOGO = LOGO_DATA;
 const wrap = (title, body) => `<!doctype html><html><head><meta charset="utf-8"><title>${esc(title)}</title><style>${CSS}</style></head><body>${body}</body></html>`;
 
 function slipPage(o) {
@@ -155,7 +157,7 @@ function slipPage(o) {
   const items = o.items.slice(0, 5).map((i) => `<li>${esc(clip(i.name, 34))}${i.size ? ` (${esc(i.size)})` : ''} <b>x${i.qty}</b></li>`).join('');
   const more = o.items.length > 5 ? `<li>+ ${o.items.length - 5} more</li>` : '';
   return `<section class="pg slip">
-<div class="hd"><b>${esc(FROM.name)}</b><span>DISPATCH SLIP</span></div>
+<div class="hd"><div style="display:flex;align-items:center;gap:2mm"><img src="${LOGO}" alt="" style="width:11mm;height:11mm;border-radius:50%"><b>${esc(FROM.name)}</b></div><span>DISPATCH SLIP</span></div>
 <div class="row"><div><div class="oid">${esc(o.id)}</div><div class="sm">${esc(fmtDate(o.placed))} &middot; ${esc(o.payment || '')}</div></div>${o.cancelled ? '<div class="stamp">CANCELLED</div>' : ''}</div>
 <div class="box"><div class="lb">FROM</div><b>${esc(FROM.name)}</b><div class="sm">${esc(FROM.address)}<br>Ph: ${esc(FROM.phone)}</div></div>
 <div class="box to"><div class="lb">TO</div><div class="nm">${esc(o.customer || 'Customer')}</div><div class="ad">${esc(o.address || '')}</div><div class="ph">Ph: ${esc(o.phone || '-')}</div></div>
@@ -172,7 +174,7 @@ function billPage(o) {
   const rows = o.items.map((i, n) => `<tr><td>${n + 1}</td><td>${esc(i.name)}${i.size ? ` (${esc(i.size)})` : ''}</td><td class="r">${i.qty}</td><td class="r">${rs(i.price)}</td><td class="r">${rs(i.price * i.qty)}</td></tr>`).join('');
   const adjRow = Math.abs(adj) >= 1 ? `<tr><td></td><td>${adj > 0 ? 'Delivery / other charges' : 'Discount / offer'}</td><td></td><td></td><td class="r">${adj > 0 ? '' : '-'}${rs(Math.abs(adj))}</td></tr>` : '';
   return `<section class="pg bill">
-<div class="row"><div><h1>${esc(FROM.name)}</h1><div class="sm">${esc(FROM.address)}<br>Ph: ${esc(FROM.phone)}</div></div>
+<div class="row"><div style="display:flex;align-items:center;gap:3mm"><img src="${LOGO}" alt="" style="width:15mm;height:15mm;border-radius:50%"><div><h1>${esc(FROM.name)}</h1><div class="sm">${esc(FROM.address)}<br>Ph: ${esc(FROM.phone)}</div></div></div>
 <div style="text-align:right"><div class="title">BILL</div><div class="sm">${esc(o.id)}<br>${esc(fmtDate(o.placed))}</div>${o.cancelled ? '<div class="stamp" style="display:inline-block;margin-top:1mm">CANCELLED</div>' : ''}</div></div>
 <div class="row" style="align-items:flex-start"><div><div class="lb">BILL TO</div><b>${esc(o.customer || 'Customer')}</b><div class="sm" style="font-size:9pt">${esc(o.address || '')}<br>Ph: ${esc(o.phone || '-')}</div></div>
 <div class="qr">${qrSvg(orderQrText(o))}</div></div>
@@ -188,7 +190,7 @@ function invoicePage(inv) {
   const rows = inv.lines.map((l, n) => `<tr><td>${n + 1}</td><td>${esc(l.name)}</td><td class="r">${l.qty}</td><td class="r">${rs(l.unitPrice)}</td><td class="r">${rs(l.unitPrice * l.qty)}</td></tr>`).join('');
   const qrText = `RHBC ${inv.id}\n${clip(inv.customerName, 30)} ${inv.customerPhone || ''}\nTotal Rs ${inv.total} ${inv.payment}`.trim();
   return `<section class="pg bill">
-<div class="row"><div><h1>${esc(FROM.name)}</h1><div class="sm">${esc(FROM.address)}<br>Ph: ${esc(FROM.phone)}</div></div>
+<div class="row"><div style="display:flex;align-items:center;gap:3mm"><img src="${LOGO}" alt="" style="width:15mm;height:15mm;border-radius:50%"><div><h1>${esc(FROM.name)}</h1><div class="sm">${esc(FROM.address)}<br>Ph: ${esc(FROM.phone)}</div></div></div>
 <div style="text-align:right"><div class="title">${withGst ? 'INVOICE' : 'BILL'}</div><div class="sm">${esc(inv.id)}<br>${esc(fmtDate(inv.at))}</div></div></div>
 <div class="row" style="align-items:flex-start"><div><div class="lb">BILL TO</div><b>${esc(inv.customerName || 'Walk-in')}</b><div class="sm" style="font-size:9pt">${inv.customerPhone ? `Ph: ${esc(inv.customerPhone)}` : ''}${inv.gstin ? `<br>GSTIN: ${esc(inv.gstin)}` : ''}</div></div>
 <div class="qr">${qrSvg(qrText)}</div></div>

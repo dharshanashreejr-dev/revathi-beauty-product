@@ -7,7 +7,7 @@ export const NAV = [
   { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard, roles: ['Admin', 'Staff'] },
   { id: 'pos', label: 'POS Billing', icon: Receipt, roles: ['Admin'] },
   { id: 'products', label: 'Products', icon: Package, roles: ['Admin'] },
-  { id: 'orders', label: 'Orders', icon: ShoppingBag, roles: ['Admin'] },
+  { id: 'orders', label: 'Orders', icon: ShoppingBag, roles: ['Admin', 'Staff'] },
   { id: 'appointments', label: 'Appointments', icon: CalendarDays, roles: ['Admin', 'Staff'] },
   { id: 'customers', label: 'Customers & CRM', icon: Users, roles: ['Admin'] },
   { id: 'inventory', label: 'Inventory', icon: Boxes, roles: ['Admin', 'Staff'] },

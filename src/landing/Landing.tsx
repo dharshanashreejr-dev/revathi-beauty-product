@@ -112,6 +112,8 @@ function magnet(e: React.PointerEvent<HTMLElement>) {
 function unmagnet(e: React.PointerEvent<HTMLElement>) {
   gsap.to(e.currentTarget, { x: 0, y: 0, duration: 0.8, ease: "elastic.out(1, 0.4)" });
 }
+/** Revathi Herbal Care logo (public/revathi-logo.png). */
+const RV_LOGO = "/revathi-logo.png";
 /** The lotus mark, redrawn as a vector so it stays sharp at any size. */
 function Lotus() {
   return (
@@ -167,13 +169,18 @@ function Brand({ rise = false, lang, compact = false }: { rise?: boolean; lang: 
   if (compact)
     return (
       <span className="brand-mark brand-compact" role="img" aria-label={BRAND}>
-        <span className="brand-word" aria-hidden="true">REVATHI HERBAL CARE</span>
-        <span className="brand-tagline">{TAGLINE[lang]}</span>
+        <span className="rv-brand-row">
+          <img className="rv-logo rv-logo-nav" src={RV_LOGO} alt="" width={56} height={56} decoding="async" />
+          <span className="rv-brand-text">
+            <span className="brand-word" aria-hidden="true">REVATHI HERBAL CARE</span>
+            <span className="brand-tagline">{TAGLINE[lang]}</span>
+          </span>
+        </span>
       </span>
     );
   return (
     <span className="brand-mark" role="img" aria-label={BRAND}>
-      {part("brand-icon", <Lotus />, 0)}
+      {part("brand-icon", <img className="rv-logo" src={RV_LOGO} alt="" width={160} height={160} decoding="async" />, 0)}
       {rise ? (
         <span className="rise-mask brand-word-mask">
           <span className="brand-word" aria-hidden="true">

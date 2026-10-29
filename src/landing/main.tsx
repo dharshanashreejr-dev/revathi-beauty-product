@@ -16,6 +16,7 @@ import './navbar-neat.css'
 import '../shared/light-theme.css'
 import '../shared/navbar-final.css'
 import './landing-premium.css'
+import '../shared/rv-logo.css'
 import '../shared/spotlight'
 import '../shared/blendWhite'
 
