@@ -28,51 +28,79 @@ const NAMES: Record<UiLang, string> = { en: 'English', ta: 'தமிழ்', hi
 
 // Step 1 of the first visit: a short brand animation, then the language page, then login (OTP), then the site.
 const SPLASH_CSS = `
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Jost:wght@300;400;500&display=swap');
-.rv-splash{position:fixed;inset:0;z-index:2147483100;display:grid;place-items:center;background:#FFFFFF;color:#7A2E4D;text-align:center;padding:24px;cursor:pointer;transition:opacity .7s ease,visibility 0s .7s}
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Jost:wght@400;500&display=swap');
+.rv-splash{position:fixed;inset:0;z-index:2147483100;display:grid;place-items:center;overflow:hidden;background:radial-gradient(ellipse at 50% 42%,#FFFFFF 0%,#FFFBF3 55%,#F7EEDC 100%);color:#7A2E4D;text-align:center;padding:24px;cursor:pointer;transition:opacity .7s ease,visibility 0s .7s}
 .rv-splash::before{content:'';position:absolute;inset:18px;border:1px solid rgba(184,146,79,.6);pointer-events:none}
 .rv-splash::after{content:'';position:absolute;inset:27px;border:1px solid rgba(184,146,79,.28);pointer-events:none}
 .rv-splash.is-out{opacity:0;visibility:hidden;pointer-events:none}
-.rv-splash-in{display:flex;flex-direction:column;align-items:center}
-.rv-splash .rv-up{opacity:0;transform:translateY(14px);animation:rvUp .9s cubic-bezier(.2,.7,.2,1) forwards;animation-delay:var(--d,0s)}
-.rv-splash .rv-splash-logo{display:block;width:clamp(120px,15vw,168px);height:auto;margin:0 auto 14px;border-radius:50%;box-shadow:0 8px 34px rgba(143,110,54,.28);animation:rvLogoIn 1.3s cubic-bezier(.2,.75,.2,1) both}@keyframes rvLogoIn{0%{opacity:0;transform:scale(.55) rotate(-14deg);filter:blur(8px)}60%{opacity:1;filter:blur(0)}100%{opacity:1;transform:none;filter:blur(0)}}
-.rv-splash .rv-lotus{width:64px;height:auto;overflow:visible}
-.rv-splash .rv-lotus path{stroke-dasharray:140;stroke-dashoffset:140;animation:rvDraw 1.6s ease forwards}
-.rv-splash .rv-lotus path:nth-child(2){animation-delay:.15s}.rv-splash .rv-lotus path:nth-child(3){animation-delay:.3s}
-.rv-splash .rv-lotus path:nth-child(4){animation-delay:.45s}.rv-splash .rv-lotus path:nth-child(5){animation-delay:.6s}
-.rv-splash .rv-lotus path:nth-child(6){animation-delay:.75s}
-.rv-name{font-family:'Cormorant Garamond',Georgia,serif;font-weight:400;font-size:clamp(24px,4.6vw,56px);letter-spacing:.2em;margin:26px 0 0 .2em;line-height:1.1}
-.rv-sub{font-family:'Jost',system-ui,sans-serif;font-size:clamp(11px,1.2vw,14px);letter-spacing:.24em;margin:18px 0 0 .24em}
-.rv-tag{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:clamp(15px,2vw,24px);letter-spacing:.2em;color:#7A2E4D;margin-top:14px}
-.rv-rule{width:0;height:1px;background:linear-gradient(90deg,transparent,#B8924F,transparent);margin:26px auto 0;animation:rvRule 1.2s .5s ease forwards}
-.rv-velvet{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:clamp(22px,3vw,38px);margin-top:26px;background:linear-gradient(100deg,#8F6E36 0%,#B8924F 25%,#E8D3A9 45%,#B8924F 62%,#8F6E36 100%);background-size:220% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;animation:rvUp .9s cubic-bezier(.2,.7,.2,1) forwards,rvShine 5s linear 2.6s infinite}
-.rv-women{font-family:'Jost',system-ui,sans-serif;font-weight:500;font-size:clamp(11px,1.3vw,15px);letter-spacing:.42em;margin:30px 0 0 .42em;color:#7A2E4D;padding:9px 20px;border-top:1px solid #B8924F;border-bottom:1px solid #B8924F}
-.rv-cats{font-family:'Jost',system-ui,sans-serif;font-size:clamp(10px,1vw,12px);letter-spacing:.3em;color:#8F6E36;margin-top:26px}
+.rv-splash-in{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center}
+.rv-glow{position:absolute;left:50%;top:44%;width:min(80vw,760px);height:min(80vw,760px);transform:translate(-50%,-50%) scale(.6);border-radius:50%;background:radial-gradient(circle,rgba(201,138,20,.22) 0%,rgba(201,138,20,.08) 40%,transparent 68%);opacity:0;animation:rvGlow 2.4s .2s ease-out forwards,rvBreath 4.5s 2.6s ease-in-out infinite}
+.rv-dust{position:absolute;inset:0;z-index:1;pointer-events:none}
+.rv-dust i{position:absolute;bottom:-12px;width:6px;height:6px;border-radius:50%;background:radial-gradient(circle,#E8C77A,#B8924F);opacity:0;animation:rvRise var(--t,7s) var(--d,0s) ease-in infinite}
+.rv-logo-wrap{position:relative;width:clamp(200px,min(40vw,43vh),440px);aspect-ratio:1/1;display:grid;place-items:center}
+.rv-logo-clip{position:relative;width:100%;height:100%;border-radius:50%;overflow:hidden;box-shadow:0 18px 60px rgba(143,110,54,.30);clip-path:circle(0% at 50% 50%);animation:rvReveal 1.5s .15s cubic-bezier(.2,.75,.2,1) forwards,rvFloat 6s 2s ease-in-out infinite}
+.rv-splash-logo{display:block;width:100%;height:100%;object-fit:cover;transform:scale(.85);animation:rvZoom 1.7s .15s cubic-bezier(.2,.75,.2,1) forwards}
+.rv-logo-clip::after{content:'';position:absolute;inset:0;background:linear-gradient(115deg,transparent 38%,rgba(255,255,255,.75) 50%,transparent 62%);transform:translateX(-120%);animation:rvSheen 3.4s 1.9s ease-in-out infinite}
+.rv-ring{position:absolute;inset:-14px;width:calc(100% + 28px);height:calc(100% + 28px);transform:rotate(-90deg);pointer-events:none}
+.rv-ring circle{fill:none;stroke:#B8924F;stroke-width:.5;stroke-linecap:round;stroke-dasharray:308;stroke-dashoffset:308;animation:rvDraw 2.2s .5s ease forwards}
+.rv-ring circle+circle{stroke:rgba(184,146,79,.35);stroke-dasharray:3 5;stroke-dashoffset:0;animation:rvSpin 40s linear infinite;transform-origin:50% 50%}
+.rv-quote{margin-top:clamp(22px,4vh,40px);font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-weight:500;font-size:clamp(22px,3.6vw,44px);letter-spacing:.14em;line-height:1.2;display:flex;flex-wrap:wrap;justify-content:center;gap:0 .4em}
+.rv-word{display:inline-block;overflow:hidden;padding:.12em .02em .18em;margin:-.12em 0 -.18em}
+.rv-word span{display:inline-block;transform:translateY(115%);opacity:0;background:linear-gradient(100deg,#7A2E4D 0%,#8F6E36 30%,#C98A14 48%,#8F6E36 66%,#7A2E4D 100%);background-size:240% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;animation:rvWord .9s var(--d,0s) cubic-bezier(.2,.7,.2,1) forwards,rvShine 5s 3.2s linear infinite}
+.rv-orn{display:flex;align-items:center;gap:12px;margin-top:clamp(16px,3vh,28px);opacity:0;animation:rvFade 1s 3s ease forwards}
+.rv-orn b{display:block;width:0;height:1px;background:linear-gradient(90deg,transparent,#B8924F);animation:rvLine 1.2s 3s ease forwards}
+.rv-orn b+i+b{background:linear-gradient(90deg,#B8924F,transparent)}
+.rv-orn i{width:7px;height:7px;background:#B8924F;transform:rotate(45deg)}
+.rv-women{margin-top:clamp(14px,2.6vh,24px);padding:9px 22px;border-top:1px solid #B8924F;border-bottom:1px solid #B8924F;font-family:'Jost',system-ui,sans-serif;font-weight:500;font-size:clamp(11px,1.3vw,15px);letter-spacing:.42em;text-indent:.42em;color:#7A2E4D;opacity:0;transform:translateY(12px);animation:rvUp .9s 3.3s cubic-bezier(.2,.7,.2,1) forwards}
+.rv-start{margin-top:clamp(18px,3.4vh,32px);padding:15px 40px;border:0;border-radius:999px;cursor:pointer;background:linear-gradient(135deg,#7A2E4D,#963f55);color:#fff;font-family:'Jost',system-ui,sans-serif;font-weight:500;font-size:clamp(12px,1.2vw,14px);letter-spacing:.28em;text-indent:.28em;text-transform:uppercase;box-shadow:0 10px 28px -8px rgba(122,46,77,.65);opacity:0;transform:translateY(12px);animation:rvUp .9s 3.9s cubic-bezier(.2,.7,.2,1) forwards;transition:transform .25s,box-shadow .25s}
+.rv-start:hover{transform:translateY(-2px);box-shadow:0 14px 34px -8px rgba(122,46,77,.8)}
 @keyframes rvUp{to{opacity:1;transform:none}}
-@keyframes rvShine{to{background-position:-220% 0}}
+.rv-bar{position:absolute;left:50%;bottom:44px;width:min(220px,50vw);height:2px;transform:translateX(-50%);background:rgba(184,146,79,.25);overflow:hidden;z-index:2}
+.rv-bar i{display:block;height:100%;width:100%;transform:scaleX(0);transform-origin:left;background:linear-gradient(90deg,#B8924F,#E8C77A);animation:rvBar var(--ms,4.8s) linear forwards}
+@keyframes rvReveal{to{clip-path:circle(75% at 50% 50%)}}
+@keyframes rvZoom{to{transform:scale(1)}}
+@keyframes rvFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+@keyframes rvSheen{0%{transform:translateX(-120%)}55%,100%{transform:translateX(120%)}}
 @keyframes rvDraw{to{stroke-dashoffset:0}}
-@keyframes rvRule{to{width:min(216px,50vw)}}
-@media (prefers-reduced-motion:reduce){.rv-velvet{animation:none;opacity:1;transform:none}.rv-splash .rv-up{animation-duration:.01s;animation-delay:0s}.rv-splash .rv-lotus path{animation:none;stroke-dashoffset:0}.rv-rule{animation-duration:.01s;animation-delay:0s}}
+@keyframes rvSpin{to{transform:rotate(360deg)}}
+@keyframes rvGlow{to{opacity:1;transform:translate(-50%,-50%) scale(1)}}
+@keyframes rvBreath{0%,100%{transform:translate(-50%,-50%) scale(1)}50%{transform:translate(-50%,-50%) scale(1.08)}}
+@keyframes rvRise{0%{opacity:0;transform:translateY(0) scale(.6)}15%{opacity:.9}100%{opacity:0;transform:translateY(-105vh) translateX(var(--x,0px)) scale(1.1)}}
+@keyframes rvWord{to{transform:none;opacity:1}}
+@keyframes rvShine{to{background-position:-240% 0}}
+@keyframes rvFade{to{opacity:1}}
+@keyframes rvLine{to{width:clamp(50px,9vw,110px)}}
+@keyframes rvBar{to{transform:scaleX(1)}}
+@media (prefers-reduced-motion:reduce){.rv-logo-clip,.rv-splash-logo,.rv-glow,.rv-ring circle,.rv-orn,.rv-orn b,.rv-word span,.rv-logo-clip::after,.rv-women,.rv-start,.rv-dust i{animation-duration:.01s!important;animation-delay:0s!important;animation-iteration-count:1!important}.rv-dust{display:none}}
 `
-const SPLASH_MS = 5600
 
+const QUOTE = 'Where Nature meets beauty'.split(' ')
+const DUST = [8, 17, 26, 35, 44, 53, 62, 71, 80, 89, 13, 48, 76, 92]
+
+/** First page: the Revathi logo at full size, the quote below it, gold glow, ring, sheen and floating dust. */
 function Splash({ onDone }: { onDone: () => void }) {
   const [out, setOut] = useState(false)
   const finish = () => { if (out) return; setOut(true); setTimeout(onDone, 600) }
-  useEffect(() => { const id = setTimeout(finish, SPLASH_MS); return () => clearTimeout(id) }, [])
-  const up = (d: number) => ({ ['--d' as never]: `${d}s` }) as CSSProperties
   return (
     <div className={`rv-splash ${out ? 'is-out' : ''}`} onClick={finish} role="presentation">
       <style>{SPLASH_CSS}</style>
+      <div className="rv-glow" />
+      <div className="rv-dust" aria-hidden="true">
+        {DUST.map((x, i) => <i key={i} style={{ left: `${x}%`, ['--d' as never]: `${(i * 0.55) % 5}s`, ['--t' as never]: `${6 + (i % 4)}s`, ['--x' as never]: `${(i % 2 ? 1 : -1) * (12 + (i % 5) * 7)}px` } as CSSProperties} />)}
+      </div>
       <div className="rv-splash-in">
-        <img className="rv-splash-logo" src="/revathi-logo.png" alt="Revathi Herbal Care" width={150} height={150} />
-        <h1 className="rv-name rv-up" style={up(0.7)}>REVATHI HERBAL BEAUTY CARE</h1>
-        <div className="rv-sub rv-up" style={up(1.2)}>BEAUTY &amp; SALON</div>
-        <div className="rv-tag rv-up" style={up(1.6)}>Where Nature meets beauty</div>
-        <div className="rv-rule" />
-        <div className="rv-velvet rv-up" style={up(2.2)}>Beauty that feels like velvet</div>
-        <div className="rv-women rv-up" style={up(3)}>EXCLUSIVELY FOR WOMEN</div>
-        <div className="rv-cats rv-up" style={up(3.6)}>BEAUTY · SALON · BOUTIQUE</div>
+        <div className="rv-logo-wrap">
+          <svg className="rv-ring" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="49" /><circle cx="50" cy="50" r="49.6" /></svg>
+          <div className="rv-logo-clip">
+            <img className="rv-splash-logo" src="/revathi-logo.svg" alt="Revathi Herbal Care" />
+          </div>
+        </div>
+        <div className="rv-quote" aria-label="Where Nature meets beauty">
+          {QUOTE.map((w, i) => <span className="rv-word" key={i} aria-hidden="true"><span style={{ ['--d' as never]: `${1.7 + i * 0.28}s` } as CSSProperties}>{w}</span></span>)}
+        </div>
+        <div className="rv-orn" aria-hidden="true"><b /><i /><b /></div>
+        <div className="rv-women">EXCLUSIVELY FOR WOMEN</div>
+        <button type="button" className="rv-start" onClick={(e) => { e.stopPropagation(); finish() }}>Get started</button>
       </div>
     </div>
   )

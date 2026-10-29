@@ -32,7 +32,7 @@ export default function SiteFooter() {
     <footer className="rv-sitefoot">
       <div className="rv-sitefoot-in">
         <div className="rv-sitefoot-brand">
-          <img className="rv-logo rv-logo-foot" src="/revathi-logo.png" alt="Revathi Herbal Care" width={96} height={96} loading="lazy" decoding="async" />
+          <img className="rv-logo rv-logo-foot" src="/revathi-logo.svg" alt="Revathi Herbal Care" width={96} height={96} loading="lazy" decoding="async" />
           <strong>REVATHI HERBAL CARE</strong>
           <span>{FOOT_TAGLINE[ui] ?? FOOT_TAGLINE.en}</span>
         </div>

@@ -63,7 +63,7 @@ export default function ProductsFooter() {
     <footer className="overflow-hidden bg-[#FFFFFF] px-[5%] pb-6 pt-16 text-ink">
       <div className="grid gap-12 md:grid-cols-[1.4fr_1fr_1fr] md:gap-16">
         <div>
-          <img className="rv-logo rv-logo-foot" src="/revathi-logo.png" alt="Revathi Herbal Care" width={96} height={96} loading="lazy" decoding="async" />
+          <img className="rv-logo rv-logo-foot" src="/revathi-logo.svg" alt="Revathi Herbal Care" width={96} height={96} loading="lazy" decoding="async" />
           <p className="font-serif text-3xl italic text-clay">REVATHI HERBAL</p>
           <p className="mt-4 max-w-[16rem] text-sm text-[#7A2E4D]">{trx(LINE, lang)}</p>
         </div>

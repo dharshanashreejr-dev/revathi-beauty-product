@@ -32,7 +32,7 @@ html:not(#a):not(#b) body .rv-brand-text :is(.brand-tagline, .vt-tagline) { marg
 /* ---------- Opening (intro) animation on the landing page ---------- */
 .intro-inner .brand-icon-mask { padding: 10px; overflow: visible; }
 .intro-inner .rv-logo {
-  width: clamp(150px, 20vw, 230px); height: clamp(150px, 20vw, 230px);
+  width: clamp(240px, min(36vw, 46vh), 430px); height: clamp(240px, min(36vw, 46vh), 430px);
   box-shadow: 0 10px 40px rgba(143, 110, 54, .28);
   animation: rvLogoIn 1.5s cubic-bezier(.2, .75, .2, 1) .1s both, rvLogoGlow 2.4s ease-in-out 1.6s infinite;
 }

@@ -1,7 +1,6 @@
 import qrcode from './qrcode.js';
 import { spa } from '../../site/data';
 import { gstSplit } from '../../api/pricing';
-import { LOGO_DATA } from './logoData.js';
 
 // Printing helpers for the admin: dispatch slips (From / To + QR), order bills and POS invoices.
 //  - The QR on every order holds a short link to that order's details page (Admin > Orders > order).
@@ -149,7 +148,7 @@ body{margin:0;font-family:Arial,Helvetica,sans-serif;color:#000;background:#e9e9
 .bill .foot{margin-top:auto;font-size:8pt;color:#333;border-top:.3mm dashed #000;padding-top:2mm}
 `;
 
-const LOGO = LOGO_DATA;
+const LOGO = `${typeof location !== 'undefined' ? location.origin : ''}/revathi-logo.svg`;
 const wrap = (title, body) => `<!doctype html><html><head><meta charset="utf-8"><title>${esc(title)}</title><style>${CSS}</style></head><body>${body}</body></html>`;
 
 function slipPage(o) {

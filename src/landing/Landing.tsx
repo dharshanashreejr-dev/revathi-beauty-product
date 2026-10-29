@@ -113,7 +113,7 @@ function unmagnet(e: React.PointerEvent<HTMLElement>) {
   gsap.to(e.currentTarget, { x: 0, y: 0, duration: 0.8, ease: "elastic.out(1, 0.4)" });
 }
 /** Revathi Herbal Care logo (public/revathi-logo.png). */
-const RV_LOGO = "/revathi-logo.png";
+const RV_LOGO = "/revathi-logo.svg";
 /** The lotus mark, redrawn as a vector so it stays sharp at any size. */
 function Lotus() {
   return (
@@ -856,16 +856,11 @@ export default function Home() {
       <Cursor />
       {!introSeen && <div className="intro-curtain" aria-hidden="true">
         <div className="intro-inner">
-          <Brand rise lang={lang} />
+          <img className="rv-logo rv-intro-logo" src={RV_LOGO} alt="" width={420} height={420} />
           <span className="intro-line" />
           <span className="rise-mask">
-            <span className="rise intro-tag" style={{ "--d": "1.7s" } as React.CSSProperties}>
-              {t.introTag}
-            </span>
-          </span>
-          <span className="rise-mask">
-            <span className="rise eyebrow" style={{ "--d": "2s" } as React.CSSProperties}>
-              {st("introEyebrow", lang)}
+            <span className="rise intro-tag" style={{ "--d": "1.2s" } as React.CSSProperties}>
+              {TAGLINE[lang]}
             </span>
           </span>
         </div>

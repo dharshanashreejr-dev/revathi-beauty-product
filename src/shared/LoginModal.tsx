@@ -128,7 +128,7 @@ function Modal({ onClose, onDone, gate }: { onClose: () => void; onDone: (u: Use
         >
           {gate && <Step title={shown('Language', 'Language')}><div style={{ padding: 8 }} /></Step>}
           <Step title={shown('Mobile', 'Mobile')}>
-            <img src="/revathi-logo.png" alt="Revathi Herbal Care" width={84} height={84} style={{ display: 'block', margin: '0 auto 10px', borderRadius: '50%' }} />
+            <img src="/revathi-logo.svg" alt="Revathi Herbal Care" width={84} height={84} style={{ display: 'block', margin: '0 auto 10px', borderRadius: '50%' }} />
             <div style={{ fontSize: 11, letterSpacing: '.3em', textTransform: 'uppercase', color: '#8F6E36', fontWeight: 500 }}>REVATHI HERBAL BEAUTY CARE</div>
             <h2 style={{ margin: '10px 0 8px', fontSize: 22, fontWeight: 600 }}>{t('Login to continue')}</h2>
             {phoneStep}
